@@ -1,0 +1,82 @@
+@use 'sass:math';
+
+// Define variables for your breakpoints,
+// values must be the same as in your theme
+$mantine-breakpoint-xs: '36em';
+$mantine-breakpoint-sm: '48em';
+$mantine-breakpoint-md: '62em';
+$mantine-breakpoint-lg: '75em';
+$mantine-breakpoint-xl: '88em';
+$mantine-breakpoint-2xl: '100em';
+
+@function rem($value) {
+  @return #{math.div(math.div($value, $value * 0 + 1), 16)}rem;
+}
+
+@function light-dark($light, $dark) {
+  @return #{light-dark }(#{$light}, #{$dark});
+}
+
+@function alpha($color, $alpha) {
+  // 确保颜色是有效的
+  @if type-of($color) == 'color' {
+    // 获取颜色的 RGBA 值
+    $rgba: rgba(red($color), green($color), blue($color), $alpha);
+    @return $rgba;
+  }
+
+  // 如果颜色无效，返回原颜色
+  @warn 'Invalid color';
+  @return $color;
+}
+
+@mixin light {
+  [data-mantine-color-scheme='light'] & {
+    @content;
+  }
+}
+
+@mixin dark {
+  [data-mantine-color-scheme='dark'] & {
+    @content;
+  }
+}
+
+@mixin hover {
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      @content;
+    }
+  }
+}
+
+@mixin smaller-than($breakpoint) {
+  @media (max-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin larger-than($breakpoint) {
+  @media (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+// Add direction mixins if you need rtl support
+@mixin rtl {
+  [dir='rtl'] & {
+    @content;
+  }
+}
+
+@mixin ltr {
+  [dir='ltr'] & {
+    @content;
+  }
+}

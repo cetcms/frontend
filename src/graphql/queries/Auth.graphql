@@ -1,0 +1,57 @@
+fragment LoginResult on Login {
+	target
+	accessType
+	accessToken
+	accessTimeout
+}
+
+query Logout {
+	logout
+}
+
+query Refresh {
+	refresh {
+		...LoginResult
+	}
+}
+
+mutation Login($input: LoginInput!) {
+	login(input: $input) {
+		...LoginResult
+	}
+}
+
+mutation SwitchAuthCompany($companyId: String!) {
+	switchAuthCompany(companyId: $companyId) {
+		...LoginResult
+	}
+}
+
+query ListAuthCompanies($name: String) {
+	listAuthCompanies(name: $name) {
+		id
+		createdAt
+		updatedAt
+		status
+		name
+		alias
+		code
+		description
+	}
+}
+
+
+query AuthInfo {
+	authInfo {
+		id
+		createdAt
+		updatedAt
+		expiredAt
+		adminId
+		userId
+		companyId
+		device
+		location
+		target
+	}
+}
