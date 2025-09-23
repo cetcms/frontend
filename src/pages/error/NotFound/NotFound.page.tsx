@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 import { NotFoundImage } from './NotFound.image';
 import classes from './NotFound.module.scss';
 
-export const NotFoundPage: React.FC = () => {
+export function NotFoundPage() {
   const navigate = useNavigate();
 
   return (
@@ -30,4 +30,4 @@ export const NotFoundPage: React.FC = () => {
       </SimpleGrid>
     </Container>
   );
-};
+}

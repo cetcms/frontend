@@ -14,7 +14,7 @@ interface LoginFormValues {
   };
 }
 
-export const LoginWithCodeForm: React.FC = () => {
+export function LoginWithCodeForm() {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
@@ -153,4 +153,4 @@ export const LoginWithCodeForm: React.FC = () => {
       </Group>
     </form>
   );
-};
+}

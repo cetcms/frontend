@@ -2,9 +2,9 @@ import { Box, Button, Container, Text, Title } from '@mantine/core';
 import React from 'react';
 import { useNavigate } from 'react-router';
 
-import classes from './style.module.scss';
+import classes from './Develop.module.scss';
 
-export const DevelopPage: React.FC = () => {
+export function DevelopPage() {
   const navigate = useNavigate();
 
   return (
@@ -21,4 +21,4 @@ export const DevelopPage: React.FC = () => {
       </Container>
     </Box>
   );
-};
+}

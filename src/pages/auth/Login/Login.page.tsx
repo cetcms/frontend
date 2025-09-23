@@ -12,7 +12,7 @@ import {
   LoginWithWechatButton,
 } from './includes';
 
-export const LoginPage: React.FC = () => {
+export function LoginPage() {
   const { t } = useTranslation();
   const [loginWith] = useState<'wechat' | 'google'>('wechat');
   const [searchParams, setSearchParams] = useSearchParams({
@@ -43,4 +43,4 @@ export const LoginPage: React.FC = () => {
       </Card>
     </Container>
   );
-};
+}

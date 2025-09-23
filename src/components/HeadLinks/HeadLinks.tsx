@@ -8,7 +8,7 @@ export interface HeadLinksProps {
   links?: MenuLinkItem[];
 }
 
-export const HeadLinks: React.FC<HeadLinksProps> = ({ links }) => {
+export function HeadLinks({ links }: HeadLinksProps) {
   const { t } = useTranslation();
   const location = useLocation();
   const [active, setActive] = React.useState(() => {
@@ -24,7 +24,17 @@ export const HeadLinks: React.FC<HeadLinksProps> = ({ links }) => {
   }, [location.pathname, links]);
   return (
     <>
-      <Card p="xs" radius={0} withBorder style={{ borderTop: 0, borderRight: 0, borderLeft: 0, boxShadow: 'none' }}>
+      <Card
+        p="xs"
+        radius={0}
+        withBorder
+        style={{
+          borderTop: 0,
+          borderRight: 0,
+          borderLeft: 0,
+          boxShadow: 'none',
+        }}
+      >
         <Group gap="xs">
           {links?.map((link) => {
             if (link.type === 'divider') {
@@ -48,4 +58,4 @@ export const HeadLinks: React.FC<HeadLinksProps> = ({ links }) => {
       </Card>
     </>
   );
-};
+}

@@ -2,6 +2,7 @@ import js from "@eslint/js";
 import eslintConfigPrettier from "eslint-config-prettier";
 import importPlugin from 'eslint-plugin-import';
 import prettierPlugin from 'eslint-plugin-prettier';
+import reactPlugin from 'eslint-plugin-react';
 import tsEslint from "typescript-eslint";
 import mantine from "eslint-config-mantine";
 
@@ -19,6 +20,7 @@ export default [
     plugins: {
       import: importPlugin,
       prettier: prettierPlugin,
+      react: reactPlugin,
     },
     rules: {
       '@typescript-eslint/explicit-function-return-type': 'off',
@@ -49,6 +51,13 @@ export default [
       'import/no-duplicates': 'error',
       'import/no-unused-modules': 'warn',
 
+      // React 相关规则
+      'react/function-component-definition': [2, {
+        namedComponents: 'function-declaration',
+        unnamedComponents: 'arrow-function'
+      }],
+
+
       // Prettier 相关 - 只保留与格式化相关的配置
       'prettier/prettier': [
         'error',
@@ -60,6 +69,11 @@ export default [
           printWidth: 120,
         },
       ],
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
     },
   },
   { ignores: ['**/*.{mjs,cjs,js,d.ts,d.mts}'] },

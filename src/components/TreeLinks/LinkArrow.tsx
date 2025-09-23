@@ -24,45 +24,56 @@ export interface NavArrowProps {
 }
 
 // SVG子组件
-const ArrowHead: React.FC<{ isActive?: boolean }> = ({ isActive }) => (
-  <path
-    d={SVG_PATHS.ARROW_HEAD}
-    className="arrow-head"
-    strokeWidth="2"
-    stroke={isActive ? COLORS.ACTIVE : COLORS.INACTIVE}
-  />
-);
+function ArrowHead({ isActive }: { isActive?: boolean }) {
+  return (
+    <path
+      d={SVG_PATHS.ARROW_HEAD}
+      className="arrow-head"
+      strokeWidth="2"
+      stroke={isActive ? COLORS.ACTIVE : COLORS.INACTIVE}
+    />
+  );
+}
 
-const Connector: React.FC<{ isActive?: boolean }> = ({ isActive }) => (
-  <path
-    d={SVG_PATHS.CONNECTOR}
-    className="connector"
-    strokeWidth="2"
-    stroke={isActive ? COLORS.ACTIVE : COLORS.INACTIVE}
-  />
-);
+function Connector({ isActive }: { isActive?: boolean }) {
+  return (
+    <path
+      d={SVG_PATHS.CONNECTOR}
+      className="connector"
+      strokeWidth="2"
+      stroke={isActive ? COLORS.ACTIVE : COLORS.INACTIVE}
+    />
+  );
+}
 
-const VerticalLine: React.FC<{
+function VerticalLine({
+  type,
+  isActive,
+  isBefore,
+  isAfter,
+}: {
   type: 'top' | 'bottom';
   isActive?: boolean;
   isBefore?: boolean;
   isAfter?: boolean;
-}> = ({ type, isActive, isBefore, isAfter }) => (
-  <path
-    d={type === 'top' ? SVG_PATHS.VERTICAL_LINE_TOP : SVG_PATHS.VERTICAL_LINE_BOTTOM}
-    className={`vertical-line-${type}`}
-    strokeWidth="2"
-    stroke={
-      type === 'top'
-        ? isActive || (isBefore && !isAfter)
-          ? COLORS.HIGHLIGHT
-          : COLORS.INACTIVE
-        : !isActive && isBefore
-          ? COLORS.HIGHLIGHT
-          : COLORS.INACTIVE
-    }
-  />
-);
+}) {
+  return (
+    <path
+      d={type === 'top' ? SVG_PATHS.VERTICAL_LINE_TOP : SVG_PATHS.VERTICAL_LINE_BOTTOM}
+      className={`vertical-line-${type}`}
+      strokeWidth="2"
+      stroke={
+        type === 'top'
+          ? isActive || (isBefore && !isAfter)
+            ? COLORS.HIGHLIGHT
+            : COLORS.INACTIVE
+          : !isActive && isBefore
+            ? COLORS.HIGHLIGHT
+            : COLORS.INACTIVE
+      }
+    />
+  );
+}
 
 // 主组件
 export function LinkArrow({ isLast, isActive, isAfter, isBefore }: NavArrowProps) {

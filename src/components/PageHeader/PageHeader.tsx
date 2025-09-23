@@ -11,7 +11,7 @@ export interface PageHeaderProps {
   rightSection?: React.ReactNode;
 }
 
-export const PageHeader: React.FC<PageHeaderProps> = (props) => {
+export function PageHeader(props: PageHeaderProps) {
   const { t } = useTranslation();
   const { pageInfo } = useLayoutStore();
   const icon = pageInfo?.icon || props.icon;
@@ -52,4 +52,4 @@ export const PageHeader: React.FC<PageHeaderProps> = (props) => {
       </Group>
     </Group>
   );
-};
+}

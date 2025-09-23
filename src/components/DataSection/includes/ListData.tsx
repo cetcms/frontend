@@ -41,7 +41,7 @@ export interface ListDataProps<T = any> {
  * 垂直列表布局数据展示组件
  * 以列表卡片形式展示数据，适合展示详细信息
  */
-export const ListData = <T extends Record<string, any> = any>({
+export function ListData<T extends Record<string, any> = any>({
   data,
   columns,
   renderItem,
@@ -55,7 +55,7 @@ export const ListData = <T extends Record<string, any> = any>({
   secondaryField,
   avatarField,
   statusField,
-}: ListDataProps<T>) => {
+}: ListDataProps<T>) {
   /**
    * 获取字段值
    * 支持点号分隔的嵌套对象访问
@@ -242,6 +242,6 @@ export const ListData = <T extends Record<string, any> = any>({
       </Stack>
     </ScrollArea>
   );
-};
+}
 
 export default ListData;

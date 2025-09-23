@@ -18,11 +18,13 @@ export interface MainLayoutProps {
   children?: React.ReactNode;
 }
 
-const SectionBox: React.FC<{
+type SectionBoxProps = {
   children: React.ReactNode;
   shadow?: boolean;
   onResize?: (height: number, width: number) => void;
-}> = ({ children, onResize, shadow }) => {
+};
+
+function SectionBox({ children, onResize, shadow }: SectionBoxProps) {
   const { ref, height, width } = useElementSize();
   setTimeout(() => {
     onResize?.(height, width);
@@ -38,7 +40,7 @@ const SectionBox: React.FC<{
       {children}
     </Paper>
   );
-};
+}
 
 export function MainLayout({ children }: MainLayoutProps) {
   const [collapsed, setCollapsed] = useState(false);

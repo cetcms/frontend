@@ -127,7 +127,7 @@ export interface DataSectionProps<T = any> {
  * 通用分页数据处理组件
  * 支持多种布局模式、分页、筛选搜索等功能
  */
-export const DataSection = <T extends Record<string, any> = any>({
+export function DataSection<T extends Record<string, any> = any>({
   title,
   fetchData,
   defaultLayout = 'datatable',
@@ -149,7 +149,7 @@ export const DataSection = <T extends Record<string, any> = any>({
   loading: externalLoading = false,
   error: externalError,
   emptyText = '暂无数据',
-}: DataSectionProps<T>) => {
+}: DataSectionProps<T>) {
   // 状态管理
   const [layout, setLayout] = useState<LayoutMode>(defaultLayout);
   const [data, setData] = useState<T[]>([]);
@@ -534,6 +534,6 @@ export const DataSection = <T extends Record<string, any> = any>({
       {renderPagination()}
     </Box>
   );
-};
+}
 
 export default DataSection;

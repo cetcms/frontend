@@ -1,2 +1,2 @@
-export * from './NotFound/page';
-export * from './SomeError/page';
+export * from './NotFound/NotFound.page';
+export * from './SomeError/SomeError.page';

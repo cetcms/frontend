@@ -33,7 +33,7 @@ export interface GridDataProps<T = any> {
  * 网格布局数据展示组件
  * 以卡片形式展示数据，支持自定义渲染和响应式布局
  */
-export const GridData = <T extends Record<string, any> = any>({
+export function GridData<T extends Record<string, any> = any>({
   data,
   columns,
   renderItem,
@@ -43,7 +43,7 @@ export const GridData = <T extends Record<string, any> = any>({
   withBorder = true,
   withShadow = true,
   onItemClick,
-}: GridDataProps<T>) => {
+}: GridDataProps<T>) {
   /**
    * 获取字段值
    * 支持点号分隔的嵌套对象访问
@@ -140,6 +140,6 @@ export const GridData = <T extends Record<string, any> = any>({
       </SimpleGrid>
     </ScrollArea>
   );
-};
+}
 
 export default GridData;

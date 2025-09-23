@@ -1,6 +1,6 @@
 import { useMantineTheme } from '@mantine/core';
 
-export const NotFoundImage = () => {
+export function NotFoundImage() {
   const theme = useMantineTheme();
   const primary = theme.colors[theme.primaryColor];
   return (
@@ -372,4 +372,4 @@ export const NotFoundImage = () => {
       />
     </svg>
   );
-};
+}
