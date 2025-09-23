@@ -1,0 +1,29 @@
+.loaderBox {
+  align-items: center;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+}
+.loader {
+  width: 28px;
+  height: 28px;
+  border: 5px solid #e81f3d;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  animation: loaderRotation 1s linear infinite;
+  display: block;
+  box-sizing: content-box;
+}
+@keyframes loaderRotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

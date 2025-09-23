@@ -1,7 +1,21 @@
-export function Loading() {
-  return (
-    <div className="flex flex-col items-center justify-center h-full">
-      <div className="w-16 h-16 border-4 border-t-4 border-gray-200 rounded-full animate-spin">Loading...</div>
+import { Box, Loader } from '@mantine/core';
+import React from 'react';
+
+import classes from './Loading.module.scss';
+
+export interface LoadingProps {
+  native?: boolean;
+  style?: React.CSSProperties;
+}
+
+export function Loading({ native, style }: LoadingProps) {
+  return native ? (
+    <div className={classes.loaderBox} style={style}>
+      <span className={classes.loader} />
     </div>
+  ) : (
+    <Box className={classes.loaderBox} style={style}>
+      <Loader />
+    </Box>
   );
 }
