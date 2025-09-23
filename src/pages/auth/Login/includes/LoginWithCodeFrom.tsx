@@ -14,7 +14,7 @@ interface LoginFormValues {
   };
 }
 
-export function LoginWithCodeForm() {
+export const LoginWithCodeForm = () => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
@@ -153,4 +153,4 @@ export function LoginWithCodeForm() {
       </Group>
     </form>
   );
-}
+};

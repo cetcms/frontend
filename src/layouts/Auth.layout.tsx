@@ -8,7 +8,7 @@ export interface AuthLayoutProps {
   children?: React.ReactNode;
 }
 
-export function AuthLayout({ children }: AuthLayoutProps) {
+export const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
   return (
     <AppShell padding="md" header={{ height: 60 }}>
       <AppShell.Header>
@@ -41,4 +41,4 @@ export function AuthLayout({ children }: AuthLayoutProps) {
       </AppShell.Footer>
     </AppShell>
   );
-}
+};

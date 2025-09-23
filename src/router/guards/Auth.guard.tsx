@@ -7,7 +7,7 @@ import { useAuth } from './hook';
 export type AuthGuardProps = {
   children?: React.ReactNode;
 };
-export function AuthGuard({ children }: AuthGuardProps) {
+export const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
   const { loading, auth } = useAuth();
 
   if (loading) {
@@ -18,4 +18,4 @@ export function AuthGuard({ children }: AuthGuardProps) {
   }
 
   return <Navigate to="/auth/login" />;
-}
+};

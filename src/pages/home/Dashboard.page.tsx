@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Welcome } from 'src/components';
 import { useLayoutStore } from 'src/store';
 
-export function DashboardPage() {
+export const DashboardPage = () => {
   const { setSetting } = useLayoutStore();
   useEffect(() => {
     setSetting({
@@ -14,4 +14,4 @@ export function DashboardPage() {
       <Welcome />
     </>
   );
-}
+};

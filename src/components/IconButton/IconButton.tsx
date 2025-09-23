@@ -1,5 +1,6 @@
 import { ActionIcon, ActionIconProps, Tooltip } from '@mantine/core';
 import { Icon } from '@tabler/icons-react';
+import React from 'react';
 
 export interface IconButtonProps extends Omit<ActionIconProps, 'children'> {
   icon: Icon;
@@ -7,7 +8,7 @@ export interface IconButtonProps extends Omit<ActionIconProps, 'children'> {
   onClick?: () => void;
 }
 
-export function IconButton({ icon: Icon, tooltip, ...props }: IconButtonProps) {
+export const IconButton: React.FC<IconButtonProps> = ({ icon: Icon, tooltip, ...props }) => {
   const button = (
     <ActionIcon radius="xl" variant="default" {...props}>
       <Icon style={{ width: '70%', height: '70%' }} stroke={1.5} />
@@ -23,4 +24,4 @@ export function IconButton({ icon: Icon, tooltip, ...props }: IconButtonProps) {
   }
 
   return button;
-}
+};

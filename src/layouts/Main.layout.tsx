@@ -24,7 +24,7 @@ type SectionBoxProps = {
   onResize?: (height: number, width: number) => void;
 };
 
-function SectionBox({ children, onResize, shadow }: SectionBoxProps) {
+const SectionBox: React.FC<SectionBoxProps> = ({ children, onResize, shadow }) => {
   const { ref, height, width } = useElementSize();
   setTimeout(() => {
     onResize?.(height, width);
@@ -40,9 +40,9 @@ function SectionBox({ children, onResize, shadow }: SectionBoxProps) {
       {children}
     </Paper>
   );
-}
+};
 
-export function MainLayout({ children }: MainLayoutProps) {
+export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [topSectionHeight, setTopSectionHeight] = useState<number>(0);
   const [headSectionHeight, setHeadSectionHeight] = useState<number>(0);
@@ -133,4 +133,4 @@ export function MainLayout({ children }: MainLayoutProps) {
       </AppShell.Main>
     </AppShell>
   );
-}
+};

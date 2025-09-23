@@ -8,7 +8,7 @@ export interface HeadLinksProps {
   links?: MenuLinkItem[];
 }
 
-export function HeadLinks({ links }: HeadLinksProps) {
+export const HeadLinks: React.FC<HeadLinksProps> = ({ links }) => {
   const { t } = useTranslation();
   const location = useLocation();
   const [active, setActive] = React.useState(() => {
@@ -58,4 +58,4 @@ export function HeadLinks({ links }: HeadLinksProps) {
       </Card>
     </>
   );
-}
+};

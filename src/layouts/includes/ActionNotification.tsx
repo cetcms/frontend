@@ -36,10 +36,10 @@ const defaultNotifications: Notification[] = [
   },
 ];
 
-export function ActionNotification({
+export const ActionNotification = ({
   notifications = defaultNotifications,
   onNotificationClick,
-}: ActionNotificationProps) {
+}: ActionNotificationProps) => {
   const { t } = useTranslation();
   const [opened, { toggle }] = useDisclosure();
 
@@ -85,4 +85,4 @@ export function ActionNotification({
       </Menu.Dropdown>
     </Menu>
   );
-}
+};

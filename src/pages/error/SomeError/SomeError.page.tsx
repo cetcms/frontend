@@ -8,7 +8,7 @@ export interface SomeErrorPageProps extends MantineStyleProps {
   error?: Error;
 }
 
-export function SomeErrorPage({ error, ...props }: SomeErrorPageProps) {
+export const SomeErrorPage: React.FC<SomeErrorPageProps> = ({ error, ...props }) => {
   return (
     <Box {...props} className={classes.root}>
       <Container>
@@ -25,4 +25,4 @@ export function SomeErrorPage({ error, ...props }: SomeErrorPageProps) {
       </Container>
     </Box>
   );
-}
+};

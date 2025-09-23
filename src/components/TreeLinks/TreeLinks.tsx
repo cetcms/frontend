@@ -11,7 +11,7 @@ interface RenderLinkProps {
   link: MenuLinkItem;
 }
 
-function RenderLink({ link, pathname }: RenderLinkProps) {
+const RenderLink: React.FC<RenderLinkProps> = ({ link, pathname }) => {
   const { t } = useTranslation();
   const childrenCount = link.children?.length || 0;
 
@@ -74,13 +74,13 @@ function RenderLink({ link, pathname }: RenderLinkProps) {
       style={{ borderRadius: 'var(--mantine-radius-default)' }}
     />
   );
-}
+};
 
 export interface TreeLinksProps {
   links?: MenuLinkItem[];
 }
 
-export function TreeLinks({ links = [], ...props }: TreeLinksProps & ScrollAreaProps) {
+export const TreeLinks: React.FC<TreeLinksProps & ScrollAreaProps> = ({ links = [], ...props }) => {
   const location = useLocation();
   return (
     <ScrollArea {...props}>
@@ -91,4 +91,4 @@ export function TreeLinks({ links = [], ...props }: TreeLinksProps & ScrollAreaP
       </Stack>
     </ScrollArea>
   );
-}
+};

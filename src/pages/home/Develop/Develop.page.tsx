@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 
 import classes from './Develop.module.scss';
 
-export function DevelopPage() {
+export const DevelopPage = () => {
   const navigate = useNavigate();
 
   return (
@@ -21,4 +21,4 @@ export function DevelopPage() {
       </Container>
     </Box>
   );
-}
+};

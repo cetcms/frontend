@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router';
 import { ColorSchemeToggle, Welcome } from 'src/components';
 
-export function HomePage() {
+export const HomePage = () => {
   return (
     <>
       <h1>
@@ -11,4 +11,4 @@ export function HomePage() {
       <ColorSchemeToggle />
     </>
   );
-}
+};

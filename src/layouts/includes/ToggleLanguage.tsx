@@ -18,7 +18,7 @@ interface LanguageMenuItemProps {
   onChange: (code: string) => void;
 }
 
-function LanguageMenuItem({ option, onChange }: LanguageMenuItemProps) {
+const LanguageMenuItem = ({ option, onChange }: LanguageMenuItemProps) => {
   return (
     <Menu.Item
       onClick={() => onChange(option.code)}
@@ -29,9 +29,9 @@ function LanguageMenuItem({ option, onChange }: LanguageMenuItemProps) {
       {option.label}
     </Menu.Item>
   );
-}
+};
 
-export function ToggleLanguage() {
+export const ToggleLanguage = () => {
   const { i18n } = useTranslation();
 
   const handleChange = (lang: string) => {
@@ -55,4 +55,4 @@ export function ToggleLanguage() {
       </Menu.Dropdown>
     </Menu>
   );
-}
+};

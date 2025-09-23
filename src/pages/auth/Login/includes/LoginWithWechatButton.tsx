@@ -4,7 +4,7 @@ import { IconBrandWechat } from '@tabler/icons-react';
 import { QRCodeSVG } from 'qrcode.react';
 import React from 'react';
 
-export function LoginWithWechatButton() {
+export const LoginWithWechatButton = () => {
   const [opened, { open, close }] = useDisclosure(false);
   return (
     <>
@@ -23,4 +23,4 @@ export function LoginWithWechatButton() {
       </Button>
     </>
   );
-}
+};

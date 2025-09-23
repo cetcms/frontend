@@ -13,7 +13,7 @@ export interface NavbarLinkProps {
   collapsed?: boolean;
 }
 
-export function NavbarLink({ icon: Icon, label, active, onClick, path, type, collapsed }: NavbarLinkProps) {
+export const NavbarLink = ({ icon: Icon, label, active, onClick, path, type, collapsed }: NavbarLinkProps) => {
   if (type === 'divider') {
     return <Divider size="xs" w="calc(100% - 1rem)" />;
   }
@@ -51,4 +51,4 @@ export function NavbarLink({ icon: Icon, label, active, onClick, path, type, col
       <NavLink component={Link} to={path} active={active} onClick={onClick} variant="filled" {...navLinkAttrs} />
     </Tooltip>
   );
-}
+};

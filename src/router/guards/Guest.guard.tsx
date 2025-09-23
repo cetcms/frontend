@@ -7,7 +7,7 @@ import { useAuth } from './hook';
 export type GuestGuardProps = {
   children?: React.ReactNode;
 };
-export function GuestGuard({ children }: GuestGuardProps) {
+export const GuestGuard: React.FC<GuestGuardProps> = ({ children }) => {
   const { loading, auth } = useAuth();
 
   if (loading) {
@@ -18,4 +18,4 @@ export function GuestGuard({ children }: GuestGuardProps) {
   }
 
   return <Navigate to="/" />;
-}
+};

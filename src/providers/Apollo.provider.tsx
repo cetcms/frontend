@@ -36,7 +36,7 @@ const createClient = (options: CreateClientOptions) => {
 export type ApolloProviderProps = {
   children: React.ReactNode;
 };
-export function ApolloProvider({ children }: ApolloProviderProps) {
+export const ApolloProvider: React.FC<ApolloProviderProps> = ({ children }) => {
   const { login, initialized, initialize } = useAuthStore();
   const [client, setClient] = useState<ApolloClient>();
 
@@ -68,4 +68,4 @@ export function ApolloProvider({ children }: ApolloProviderProps) {
 
   // 渲染子组件
   return <ApolloClientProvider client={client}>{children}</ApolloClientProvider>;
-}
+};

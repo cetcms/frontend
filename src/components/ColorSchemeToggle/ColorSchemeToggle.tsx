@@ -3,7 +3,7 @@ import { IconDeviceDesktop, IconMoon, IconSun } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { IconButton } from 'src/components';
 
-export function ColorSchemeToggle() {
+export const ColorSchemeToggle = () => {
   const { colorScheme, setColorScheme } = useMantineColorScheme();
   const { t } = useTranslation();
 
@@ -30,4 +30,4 @@ export function ColorSchemeToggle() {
       aria-label="Toggle color scheme"
     />
   );
-}
+};

@@ -53,7 +53,7 @@ export default [
 
       // React 相关规则
       'react/function-component-definition': [2, {
-        namedComponents: 'function-declaration',
+        namedComponents: 'arrow-function',
         unnamedComponents: 'arrow-function'
       }],
 

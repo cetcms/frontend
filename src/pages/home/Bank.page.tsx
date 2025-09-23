@@ -5,7 +5,7 @@ import { HeadLinks, PageHeader, TreeLinks, Welcome } from 'src/components';
 import { menuLinks } from 'src/config/menuLinks';
 import { useLayoutStore } from 'src/store';
 
-export function BankPage() {
+export const BankPage = () => {
   const { setLeftSection, setHeadSection, setPageInfo, setSetting, unsetSections } = useLayoutStore();
 
   useEffect(() => {
@@ -51,4 +51,4 @@ export function BankPage() {
       </Card>
     </Box>
   );
-}
+};

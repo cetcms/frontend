@@ -24,7 +24,7 @@ export interface NavArrowProps {
 }
 
 // SVG子组件
-function ArrowHead({ isActive }: { isActive?: boolean }) {
+const ArrowHead: React.FC<{ isActive?: boolean }> = ({ isActive }) => {
   return (
     <path
       d={SVG_PATHS.ARROW_HEAD}
@@ -33,9 +33,9 @@ function ArrowHead({ isActive }: { isActive?: boolean }) {
       stroke={isActive ? COLORS.ACTIVE : COLORS.INACTIVE}
     />
   );
-}
+};
 
-function Connector({ isActive }: { isActive?: boolean }) {
+const Connector: React.FC<{ isActive?: boolean }> = ({ isActive }) => {
   return (
     <path
       d={SVG_PATHS.CONNECTOR}
@@ -44,19 +44,14 @@ function Connector({ isActive }: { isActive?: boolean }) {
       stroke={isActive ? COLORS.ACTIVE : COLORS.INACTIVE}
     />
   );
-}
+};
 
-function VerticalLine({
-  type,
-  isActive,
-  isBefore,
-  isAfter,
-}: {
+const VerticalLine: React.FC<{
   type: 'top' | 'bottom';
   isActive?: boolean;
   isBefore?: boolean;
   isAfter?: boolean;
-}) {
+}> = ({ type, isActive, isBefore, isAfter }) => {
   return (
     <path
       d={type === 'top' ? SVG_PATHS.VERTICAL_LINE_TOP : SVG_PATHS.VERTICAL_LINE_BOTTOM}
@@ -73,10 +68,10 @@ function VerticalLine({
       }
     />
   );
-}
+};
 
 // 主组件
-export function LinkArrow({ isLast, isActive, isAfter, isBefore }: NavArrowProps) {
+export const LinkArrow: React.FC<NavArrowProps> = ({ isLast, isActive, isAfter, isBefore }) => {
   return (
     <svg width="18" height="36" viewBox="0 0 16 36" fill="none" xmlns="http://www.w3.org/2000/svg">
       <ArrowHead isActive={isActive} />
@@ -86,4 +81,4 @@ export function LinkArrow({ isLast, isActive, isAfter, isBefore }: NavArrowProps
       <VerticalLine type="top" isActive={isActive} isBefore={isBefore} />
     </svg>
   );
-}
+};

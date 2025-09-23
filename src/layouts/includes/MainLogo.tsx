@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import logoColor from 'src/assets/images/logo-color.svg';
 import logoWhite from 'src/assets/images/logo-white.svg';
 
-export function MainLogo() {
+export const MainLogo = () => {
   return (
     <Link to="/">
       <Center className="main-logo" lightHidden>
@@ -14,4 +14,4 @@ export function MainLogo() {
       </Center>
     </Link>
   );
-}
+};

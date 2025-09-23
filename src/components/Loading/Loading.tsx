@@ -8,7 +8,7 @@ export interface LoadingProps {
   style?: React.CSSProperties;
 }
 
-export function Loading({ native, style }: LoadingProps) {
+export const Loading: React.FC<LoadingProps> = ({ native, style }) => {
   return native ? (
     <div className={classes.loaderBox} style={style}>
       <span className={classes.loader} />
@@ -18,4 +18,4 @@ export function Loading({ native, style }: LoadingProps) {
       <Loader />
     </Box>
   );
-}
+};

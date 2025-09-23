@@ -2,7 +2,7 @@ import { Anchor, Text, Title } from '@mantine/core';
 
 import classes from './Welcome.module.scss';
 
-export function Welcome() {
+export const Welcome = () => {
   return (
     <>
       <Title className={classes.title} ta="center" mt={100}>
@@ -21,4 +21,4 @@ export function Welcome() {
       </Text>
     </>
   );
-}
+};

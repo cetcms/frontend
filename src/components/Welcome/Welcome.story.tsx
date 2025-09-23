@@ -4,6 +4,6 @@ export default {
   title: 'Welcome',
 };
 
-export function Usage() {
+export const Usage = () => {
   return <Welcome />;
-}
+};

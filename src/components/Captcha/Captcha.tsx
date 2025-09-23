@@ -6,7 +6,7 @@ export type CaptchaProps = {
   onCompleted?: (token: string, eKey: string) => void;
 };
 
-export function Captcha({ onCompleted }: CaptchaProps) {
+export const Captcha: React.FC<CaptchaProps> = ({ onCompleted }) => {
   const themeMode = useThemeMode();
   const handleVerificationSuccess = (token: string, eKey: string) => {
     onCompleted?.(token, eKey);
@@ -19,4 +19,4 @@ export function Captcha({ onCompleted }: CaptchaProps) {
       onVerify={handleVerificationSuccess}
     />
   );
-}
+};

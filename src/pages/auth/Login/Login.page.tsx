@@ -12,12 +12,13 @@ import {
   LoginWithWechatButton,
 } from './includes';
 
-export function LoginPage() {
+export const LoginPage = () => {
   const { t } = useTranslation();
   const [loginWith] = useState<'wechat' | 'google'>('wechat');
   const [searchParams, setSearchParams] = useSearchParams({
     mode: 'password',
   });
+
   return (
     <Container size={400} py="xl">
       <Title ta="center">Welcome back!</Title>
@@ -43,4 +44,4 @@ export function LoginPage() {
       </Card>
     </Container>
   );
-}
+};

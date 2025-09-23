@@ -12,7 +12,7 @@ export interface MainNavbarProps {
   onCollapse?: (value: boolean) => void;
 }
 
-export function MainNavbar({ onCollapse, collapsed: defaultCollapsed }: MainNavbarProps) {
+export const MainNavbar = ({ onCollapse, collapsed: defaultCollapsed }: MainNavbarProps) => {
   const { t } = useTranslation();
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
@@ -99,4 +99,4 @@ export function MainNavbar({ onCollapse, collapsed: defaultCollapsed }: MainNavb
       </AppShell.Section>
     </>
   );
-}
+};

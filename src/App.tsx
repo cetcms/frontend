@@ -6,7 +6,7 @@ import { ApolloProvider } from 'src/providers';
 import { Router } from './router';
 import { theme } from './theme';
 
-export default function App() {
+export const App = () => {
   return (
     <MantineProvider theme={theme}>
       <ApolloProvider>
@@ -14,4 +14,4 @@ export default function App() {
       </ApolloProvider>
     </MantineProvider>
   );
-}
+};

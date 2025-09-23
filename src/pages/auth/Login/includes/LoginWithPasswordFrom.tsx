@@ -17,7 +17,7 @@ interface LoginFormValues {
   };
 }
 
-export function LoginWithPasswordForm() {
+export const LoginWithPasswordForm = () => {
   const { t } = useTranslation(['auth']);
   const [opened, { open, close }] = useDisclosure(false);
   const form = useForm<LoginFormValues>({
@@ -105,4 +105,4 @@ export function LoginWithPasswordForm() {
       </Group>
     </form>
   );
-}
+};
