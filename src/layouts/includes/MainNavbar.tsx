@@ -16,12 +16,16 @@ export const MainNavbar = ({ onCollapse, collapsed: defaultCollapsed }: MainNavb
   const { t } = useTranslation();
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
+
+  // 初始化选中的菜单项ID
   const [activeLinkId, setActiveLinkId] = useState(() => {
     const currentPath = location.pathname;
     const currentLink = menuLinks.find((link) => {
+      // 如果当前路径以链接路径开头，则匹配
       if (link.path && currentPath.startsWith(link.path)) {
         return true;
       }
+      // 如果有子菜单，检查子菜单路径是否匹配
       if (link.children?.length) {
         return link.children.some((child) => child.path === currentPath);
       }
@@ -37,6 +41,7 @@ export const MainNavbar = ({ onCollapse, collapsed: defaultCollapsed }: MainNavb
       if (link.path && currentPath.startsWith(link.path)) {
         return true;
       }
+      // 检查子菜单路径是否匹配
       if (link.children) {
         return link.children.some((child) => child.path === currentPath);
       }
@@ -45,14 +50,17 @@ export const MainNavbar = ({ onCollapse, collapsed: defaultCollapsed }: MainNavb
     setActiveLinkId(currentLink?.id || menuLinks[0].id);
   }, [location.pathname]);
 
+  // 当collapsed状态改变时，调用onCollapse回调函数
   useEffect(() => {
     onCollapse?.(collapsed);
   }, [collapsed, onCollapse]);
 
+  // 根据传入的defaultCollapsed属性更新collapsed状态
   useEffect(() => {
     setCollapsed(defaultCollapsed || false);
   }, [defaultCollapsed]);
 
+  // 渲染菜单链接
   const links = menuLinks.map((link) => (
     <NavbarLink
       {...link}
@@ -85,7 +93,7 @@ export const MainNavbar = ({ onCollapse, collapsed: defaultCollapsed }: MainNavb
         </Stack>
       </AppShell.Section>
 
-      {/* 用户信息区域 */}
+      {/* 底部按钮 */}
       <AppShell.Section>
         <Group justify="center" py="md" />
         <Button
