@@ -1,6 +1,4 @@
 export * from './Captcha/Captcha';
-export * from './ColorSchemeToggle/ColorSchemeToggle';
-export * from './DataSection/DataSection';
 export * from './HeadLinks/HeadLinks';
 export * from './IconButton/IconButton';
 export * from './PageHeader/PageHeader';

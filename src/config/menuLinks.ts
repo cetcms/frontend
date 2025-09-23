@@ -17,6 +17,18 @@ export const menuLinks: MenuLinkItem[] = [
     label: '仪表盘',
     icon: IconGps,
     path: '/dashboard',
+    children: [
+      {
+        id: 'dashboard-index',
+        label: '首页',
+        path: '/dashboard',
+      },
+      {
+        id: 'dashboard-develop',
+        label: '开发',
+        path: '/dashboard/develop',
+      },
+    ],
   },
   {
     id: 'finder',
