@@ -1,0 +1,10 @@
+{
+  "color-scheme": {
+    "auto": "Auto",
+    "dark": "Dark",
+    "light": "Light"
+  },
+  "notifications": {
+    "title": "Notifications"
+  }
+}

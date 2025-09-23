@@ -1,16 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
-    <meta
-      name="viewport"
-      content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
-    />
-    <title>Vite + Mantine App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <link href="https://cdn.jsdelivr.net/npm/flag-icons@7.3.2/css/flag-icons.min.css" rel="stylesheet">
+  <title>极客领航</title>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+    .loaderBox {
+      align-items: center;
+      position: fixed;
+      display: flex;
+      justify-content: center;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999;
+    }
+    .loader {
+      width: 28px;
+      height: 28px;
+      border: 5px solid #174297;
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      animation: loaderRotation 1s linear infinite;
+      display: block;
+      box-sizing: content-box;
+    }
+    @keyframes loaderRotation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+<div id="root">
+  <div class="loaderBox">
+    <div class="loader"></div>
+  </div>
+</div>
+<script>
+  (function() {
+    const loaderBox = document.querySelector('#root .loaderBox');
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      loaderBox.style.backgroundColor = '#111';
+    } else {
+      loaderBox.style.backgroundColor = '#fff';
+    }
+  })();
+</script>
+<script src="/src/main.tsx" type="module"></script>
+</body>
 </html>

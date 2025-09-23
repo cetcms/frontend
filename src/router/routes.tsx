@@ -2,6 +2,7 @@ import React from 'react';
 import { RouteObject } from 'react-router';
 import { AuthLayout, MainLayout } from 'src/layouts';
 import { HomePage, LoginPage } from 'src/pages';
+import { NotFoundPage } from 'src/pages/error';
 
 import { AuthGuard, GuestGuard } from './guards';
 
@@ -29,3 +30,8 @@ export const routes: RouteItem[] = [
     ],
   },
 ];
+
+routes.push({
+  path: '*',
+  element: <NotFoundPage />,
+});

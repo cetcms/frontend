@@ -15,13 +15,13 @@ const languageOptions: LanguageOption[] = [
 
 interface LanguageMenuItemProps {
   option: LanguageOption;
-  onClick: (code: string) => void;
+  onChange: (code: string) => void;
 }
 
-function LanguageMenuItem({ option, onClick }: LanguageMenuItemProps) {
+function LanguageMenuItem({ option, onChange }: LanguageMenuItemProps) {
   return (
     <Menu.Item
-      onClick={() => onClick(option.code)}
+      onClick={() => onChange(option.code)}
       leftSection={
         <span className={`fi fi-${option.flag}`} style={{ width: 20, height: 15, display: 'inline-block' }} />
       }
@@ -31,12 +31,13 @@ function LanguageMenuItem({ option, onClick }: LanguageMenuItemProps) {
   );
 }
 
-export function LanguageToggle() {
+export function ToggleLanguage() {
   const { i18n } = useTranslation();
 
-  const changeLanguage = (lang: string) => {
-    i18n.changeLanguage(lang);
-    localStorage.setItem('app-language', lang);
+  const handleChange = (lang: string) => {
+    i18n.changeLanguage(lang).then(() => {
+      localStorage.setItem('app-language', lang);
+    });
   };
 
   return (
@@ -49,7 +50,7 @@ export function LanguageToggle() {
 
       <Menu.Dropdown>
         {languageOptions.map((option) => (
-          <LanguageMenuItem key={option.code} option={option} onClick={changeLanguage} />
+          <LanguageMenuItem key={option.code} option={option} onChange={handleChange} />
         ))}
       </Menu.Dropdown>
     </Menu>

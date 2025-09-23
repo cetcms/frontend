@@ -1,8 +1,9 @@
-export { Loading } from './Loading/Loading';
-export { Welcome } from './Welcome/Welcome';
-export { ColorSchemeToggle } from './ColorSchemeToggle/ColorSchemeToggle';
-export { IconButton } from './IconButton/IconButton';
-export { MainLogo } from './MainLogo/MainLogo';
-export { LanguageToggle } from './LanguageToggle/LanguageToggle';
-export { NotificationButton } from './NotificationButton/NotificationButton';
-export { UserMenu } from './UserMenu/UserMenu';
+export * from './Captcha/Captcha';
+export * from './ColorSchemeToggle/ColorSchemeToggle';
+export * from './DataSection/DataSection';
+export * from './HeadLinks/HeadLinks';
+export * from './IconButton/IconButton';
+export * from './PageHeader/PageHeader';
+export * from './TreeLinks/TreeLinks';
+export * from './Welcome/Welcome';
+export * from './Loading/Loading';

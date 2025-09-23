@@ -12,7 +12,7 @@ interface Notification {
   avatar?: string;
 }
 
-interface NotificationListProps {
+interface ActionNotificationProps {
   notifications?: Notification[];
   onNotificationClick?: (notification: Notification) => void;
 }
@@ -36,10 +36,10 @@ const defaultNotifications: Notification[] = [
   },
 ];
 
-export function NotificationButton({
+export function ActionNotification({
   notifications = defaultNotifications,
   onNotificationClick,
-}: NotificationListProps) {
+}: ActionNotificationProps) {
   const { t } = useTranslation();
   const [opened, { toggle }] = useDisclosure();
 

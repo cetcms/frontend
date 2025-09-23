@@ -5,7 +5,7 @@ import React from 'react';
 import { LogoutDocument } from 'src/graphql/generated/graphql';
 import { useAuthStore } from 'src/store';
 
-export const UserMenu: React.FC = () => {
+export function ActionAccount() {
   // const theme = useMantineTheme();
   const { clearLogin, clearAuth, auth } = useAuthStore();
   const [logout, { loading }] = useLazyQuery(LogoutDocument);
@@ -59,4 +59,4 @@ export const UserMenu: React.FC = () => {
       </Menu>
     </Group>
   );
-};
+}

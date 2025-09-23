@@ -1,0 +1,44 @@
+ @use 'src/styles/base' as *;
+.root {
+  height: 100vh;
+  min-height: 600px;
+  width: 100hw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--mantine-color-primary-filled);
+}
+
+.label {
+  text-align: center;
+  font-weight: 900;
+  font-size: rem(220px);
+  line-height: 1;
+  margin-bottom: calc(var(--mantine-spacing-xl) * 1.5);
+  color: var(--mantine-color-primary-3);
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    font-size: rem(120px);
+  }
+}
+
+.title {
+  font-family:
+    Greycliff CF,
+    var(--mantine-font-family),
+    sans-serif;
+  text-align: center;
+  font-weight: 900;
+  font-size: rem(38px);
+  color: var(--mantine-color-white);
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    font-size: rem(32px);
+  }
+}
+
+.description {
+  max-width: rem(540px);
+  margin: var(--mantine-spacing-xl) auto calc(var(--mantine-spacing-xl) * 1.5);
+  color: var(--mantine-color-primary-1);
+}

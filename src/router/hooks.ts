@@ -15,13 +15,17 @@ export const useAuth = () => {
 
   useEffect(() => {
     if (login && initialized && !auth) {
-      getAuthInfo().then(({ data }) => {
-        if (!data?.authInfo) {
-          clearAuth();
-        } else {
-          setAuth(data.authInfo);
-        }
-      });
+      getAuthInfo()
+        .then(({ data }) => {
+          if (!data?.authInfo) {
+            clearAuth();
+          } else {
+            setAuth(data.authInfo);
+          }
+        })
+        .catch(() => {
+          // ignore
+        });
     }
   }, [getAuthInfo, initialized, auth, login]);
 

@@ -1,0 +1,10 @@
+{
+  "color-scheme": {
+    "auto": "自动",
+    "dark": "暗黑",
+    "light": "明亮"
+  },
+  "notifications": {
+    "title": "消息通知"
+  }
+}
