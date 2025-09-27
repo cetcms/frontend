@@ -59,7 +59,14 @@ const findMenuItemPath = (items: MenuItem[], id: string): MenuItem[] => {
 };
 
 export const useMenuStore = create<MenuStore>((set, get) => ({
-  menuItems: [],
+  menuItems: [
+    {
+      id: 'dashboard',
+      label: '仪表盘',
+      icon: 'solar:window-frame-line-duotone',
+      path: '/dashboard',
+    },
+  ],
   setMenuItems: (menuItems) => set({ menuItems }),
 
   activeItem: null,

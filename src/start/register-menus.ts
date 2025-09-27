@@ -2,27 +2,6 @@ import { MenuItem } from 'src/store';
 
 export default function registerMenus(menus: MenuItem[]) {
   menus.push({
-    id: 'dashboard',
-    label: '仪表盘',
-    icon: 'solar:window-frame-line-duotone',
-    path: '/dashboard',
-    children: [
-      {
-        id: 'dashboard-overview',
-        label: '总览',
-        icon: 'solar:chart-square-line-duotone',
-        path: '/dashboard/overview',
-      },
-      {
-        id: 'dashboard-develop',
-        label: '开发',
-        icon: 'solar:chart-square-line-duotone',
-        path: '/dashboard/overview',
-      },
-    ],
-  });
-
-  menus.push({
     id: 'company',
     label: '企业管理',
     icon: 'solar:medal-ribbons-star-line-duotone',
@@ -69,6 +48,4 @@ export default function registerMenus(menus: MenuItem[]) {
     icon: 'solar:settings-line-duotone',
     path: '/setting',
   });
-
-  return menus;
 }
