@@ -10,12 +10,26 @@ export default function registerMenus(menus: MenuItem[]) {
       {
         id: 'company-list',
         label: '公司列表',
-        path: '/company/list',
+        icon: 'solar:users-group-rounded-line-duotone',
+        path: '/test-level-2/list',
       },
       {
         id: 'company-add',
         label: '添加公司',
-        path: '/company/add',
+        path: '/test-level-2/add',
+        icon: 'solar:medal-ribbons-star-line-duotone',
+        children: [
+          {
+            id: 'company-3-list',
+            label: '公司列表',
+            path: '/test-level-3/list',
+          },
+          {
+            id: 'company-3-add',
+            label: '添加公司',
+            path: '/test-level-3/add',
+          },
+        ],
       },
     ],
   });

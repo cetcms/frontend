@@ -1,5 +1,5 @@
 import { Box, Divider, Group, ScrollArea, Stack } from '@mantine/core';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 import { useMenuStore } from 'src/store';
@@ -11,101 +11,107 @@ export interface SideNavbarProps {
   onCollapse?: (value: boolean) => void;
 }
 
+/**
+ * 侧边导航栏组件
+ * 负责渲染主菜单和子菜单，管理菜单的激活状态和展开/收起逻辑
+ */
 export const SideNavbar = ({ onCollapse }: SideNavbarProps) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const { menuItems, activeItem, setActiveItemById, setItemPathByActiveId } = useMenuStore();
+  
+  // 使用优化后的菜单状态管理
+  const {
+    menuItems,
+    activeItem,
+    activeMenuId,
+    setActiveMenuByPath,
+    setActiveMenuById,
+    isMenuActive,
+  } = useMenuStore();
 
-  // 初始化选中的菜单项ID
-  const [activeLinkId, setActiveLinkId] = useState(() => {
-    const currentPath = location.pathname;
-    const currentLink = menuItems.find((link) => {
-      // 如果当前路径以链接路径开头，则匹配
-      if (link.path && currentPath.startsWith(link.path)) {
-        return true;
-      }
-      // 如果有子菜单，检查子菜单路径是否匹配
-      if (link.children?.length) {
-        return link.children.some((child) => child.path === currentPath);
-      }
-      return false;
-    });
-    return currentLink?.id || menuItems[0].id;
-  });
-
-  // 只在组件挂载时设置初始activeLinkId，不再监听location.pathname的变化
+  /**
+   * 路径变化时自动更新激活菜单
+   * 使用统一的状态同步方法，确保所有相关状态保持一致
+   */
   useEffect(() => {
-    const currentPath = location.pathname;
-    const currentLink = menuItems.find((link) => {
-      if (link.path && currentPath.startsWith(link.path)) {
-        return true;
-      }
-      // 检查子菜单路径是否匹配
-      if (link.children) {
-        return link.children.some((child) => child.path === currentPath);
-      }
-      return false;
-    });
-    setActiveLinkId(currentLink?.id || menuItems[0].id);
-  }, [location.pathname]);
+    setActiveMenuByPath(location.pathname);
+  }, [location.pathname, setActiveMenuByPath]);
 
+  /**
+   * 根据激活菜单的子菜单数量控制侧边栏的展开/收起状态
+   * 有子菜单时展开，无子菜单时收起
+   */
   useEffect(() => {
-    setActiveItemById(activeLinkId);
-    setItemPathByActiveId(activeLinkId);
-  }, [activeLinkId]);
-
-  useEffect(() => {
-    onCollapse?.(!activeItem?.children?.length);
+    const hasChildren = Boolean(activeItem?.children?.length);
+    onCollapse?.(!hasChildren);
   }, [activeItem, onCollapse]);
 
-  // 渲染菜单链接
-  const links = menuItems.map((link) => (
-    <NavbarLink
-      {...link}
-      collapsed
-      key={link.id}
-      label={t(link.label)}
-      path={link.path || '#'}
-      active={activeLinkId === link.id}
-      onClick={() => {
-        // 防止路由变化时的useEffect重新设置activeLinkId
-        setActiveLinkId(link.id);
-      }}
-    />
-  ));
+  /**
+   * 处理主菜单项点击事件
+   * @param menuId 被点击的菜单项ID
+   */
+  const handleMenuClick = (menuId: string) => {
+    setActiveMenuById(menuId);
+  };
 
-  const ChildrenLinks = () => {
-    if (activeItem?.children?.length) {
-      return (
-        <>
-          <Divider orientation="vertical" h="100vh" />
-          <Box p="sm" w="calc(100% - 63px)">
-            <TreeLinks links={activeItem?.children || []} />
-          </Box>
-        </>
-      );
+  /**
+   * 渲染主菜单链接列表
+   */
+  const renderMainMenuLinks = () => {
+    return menuItems.map((link) => (
+      <NavbarLink
+        {...link}
+        collapsed
+        key={link.id}
+        label={t(link.label)}
+        path={link.path || '#'}
+        active={isMenuActive(link.id)}
+        onClick={() => handleMenuClick(link.id)}
+      />
+    ));
+  };
+
+  /**
+   * 渲染子菜单区域
+   * 只有当激活的菜单项有子菜单时才显示
+   */
+  const renderChildrenLinks = () => {
+    if (!activeItem?.children?.length) {
+      return null;
     }
-    return null;
+
+    return (
+      <>
+        <Divider orientation="vertical" h="100vh" />
+        <Box p="sm" w="calc(100% - 63px)">
+          <TreeLinks 
+            links={activeItem.children} 
+            parentMenuId={activeItem.id}
+          />
+        </Box>
+      </>
+    );
   };
 
   return (
-    <>
-      <Group align="start" gap="1">
-        <ScrollArea>
-          <Stack
-            gap="xs"
-            align="center"
-            p="sm"
-            style={{
-              boxSizing: 'border-box',
-              width: 60,
-            }}
-          >
-            {links}
-          </Stack>
-        </ScrollArea>
-        <ChildrenLinks />
-      </Group>
-    </>
+    <Group align="start" gap="1">
+      {/* 主菜单区域 */}
+      <ScrollArea>
+        <Stack
+          gap="xs"
+          align="center"
+          p="sm"
+          style={{
+            boxSizing: 'border-box',
+            width: 60,
+          }}
+        >
+          {renderMainMenuLinks()}
+        </Stack>
+      </ScrollArea>
+      
+      {/* 子菜单区域 */}
+      {renderChildrenLinks()}
+    </Group>
   );
 };
