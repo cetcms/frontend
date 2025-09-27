@@ -121,7 +121,7 @@ export interface TreeLinksProps {
 export const TreeLinks: React.FC<TreeLinksProps & ScrollAreaProps> = ({ links = [], parentMenuId, ...props }) => {
   return (
     <ScrollArea {...props}>
-      <Stack gap="xs">
+      <Stack gap="xs" p="xs">
         {links.map((link) => (
           <RenderLink key={link.id} link={link} parentMenuId={parentMenuId} />
         ))}

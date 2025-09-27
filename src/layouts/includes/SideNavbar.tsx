@@ -78,7 +78,7 @@ export const SideNavbar = ({ onCollapse, width }: SideNavbarProps) => {
     return (
       <>
         <Divider orientation="vertical" h="100vh" />
-        <Box p="sm" w={`calc(100% - ${width + 1}px)`}>
+        <Box w={`calc(100% - ${width + 1}px)`}>
           <TreeLinks links={activeItem.children} parentMenuId={activeItem.id} />
         </Box>
       </>
