@@ -28,6 +28,18 @@ export default function registerMenus(menus: MenuItem[]) {
             id: 'company-3-add',
             label: '添加公司',
             path: '/test-level-3/add',
+            children: [
+              {
+                id: 'company-4-list',
+                label: '公司列表',
+                path: '/test-level-3/list',
+              },
+              {
+                id: 'company-4-add',
+                label: '添加公司',
+                path: '/test-level-3/add',
+              },
+            ],
           },
         ],
       },

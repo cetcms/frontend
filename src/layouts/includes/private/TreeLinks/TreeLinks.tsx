@@ -19,16 +19,10 @@ interface RenderLinkProps {
  * 单个菜单链接渲染组件
  * 负责渲染单个菜单项，支持多级嵌套和状态管理
  */
-const RenderLink: React.FC<RenderLinkProps> = ({ link, parentMenuId }) => {
+const RenderLink: React.FC<RenderLinkProps> = ({ link }) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const {
-    isMenuActive,
-    isMenuExpanded,
-    hasActiveChild,
-    toggleMenuExpand,
-    setMenuExpanded,
-  } = useMenuStore();
+  const { isMenuActive, isMenuExpanded, hasActiveChild, setMenuExpanded } = useMenuStore();
 
   // 处理分割线类型
   if (link.type === 'divider') {
@@ -37,7 +31,7 @@ const RenderLink: React.FC<RenderLinkProps> = ({ link, parentMenuId }) => {
 
   const pathname = location.pathname;
   const childrenCount = link.children?.length || 0;
-  
+
   // 判断当前菜单项的激活状态
   const isCurrentActive = isMenuActive(link.id);
   const isCurrentExpanded = isMenuExpanded(link.id);
@@ -47,14 +41,11 @@ const RenderLink: React.FC<RenderLinkProps> = ({ link, parentMenuId }) => {
    * 处理有子菜单的菜单项
    */
   if (link.children && childrenCount > 0) {
-    const activeChildIndex = link.children.findIndex((child) => 
-      child.path === pathname
-    );
+    const activeChildIndex = link.children.findIndex((child) => child.path === pathname);
 
     // 当有激活的子项时，自动展开父菜单
     React.useEffect(() => {
       if (hasCurrentActiveChild && !isCurrentExpanded) {
-        console.log(`自动展开菜单: ${link.id} (${link.label})`);
         setMenuExpanded(link.id, true);
       }
     }, [hasCurrentActiveChild, isCurrentExpanded, link.id, setMenuExpanded, link.label]);
@@ -127,20 +118,12 @@ export interface TreeLinksProps {
  * 树形菜单链接组件
  * 负责渲染多级菜单结构，管理菜单的展开/收起状态
  */
-export const TreeLinks: React.FC<TreeLinksProps & ScrollAreaProps> = ({ 
-  links = [], 
-  parentMenuId,
-  ...props 
-}) => {
+export const TreeLinks: React.FC<TreeLinksProps & ScrollAreaProps> = ({ links = [], parentMenuId, ...props }) => {
   return (
     <ScrollArea {...props}>
       <Stack gap="xs">
         {links.map((link) => (
-          <RenderLink 
-            key={link.id} 
-            link={link} 
-            parentMenuId={parentMenuId}
-          />
+          <RenderLink key={link.id} link={link} parentMenuId={parentMenuId} />
         ))}
       </Stack>
     </ScrollArea>

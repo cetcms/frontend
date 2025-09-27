@@ -1,16 +1,19 @@
-import { Center } from '@mantine/core';
+import { Center, Image } from '@mantine/core';
 import { Link } from 'react-router';
 import logoColor from 'src/assets/images/logo-color.svg';
 import logoWhite from 'src/assets/images/logo-white.svg';
 
-export const MainLogo = () => {
+export interface MainLogoProps {
+  width: number;
+}
+export const MainLogo: React.FC<MainLogoProps> = ({ width }) => {
   return (
     <Link to="/">
       <Center className="main-logo" lightHidden>
-        <img src={logoWhite} alt="Logo" width="200px" />
+        <Image src={logoWhite} alt="Logo" w={width - 27} />
       </Center>
       <Center className="main-logo" darkHidden>
-        <img src={logoColor} alt="Logo" width="200px" />
+        <Image src={logoColor} alt="Logo" w={width - 27} />
       </Center>
     </Link>
   );

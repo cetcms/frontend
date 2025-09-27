@@ -11,9 +11,10 @@ export interface NavbarLinkProps {
   path: string;
   type?: 'divider';
   collapsed?: boolean;
+  width?: number;
 }
 
-export const NavbarLink = ({ icon, label, active, onClick, path, type, collapsed }: NavbarLinkProps) => {
+export const NavbarLink = ({ icon, label, active, onClick, path, type, collapsed, width = 60 }: NavbarLinkProps) => {
   if (type === 'divider') {
     return <Divider size="xs" w="calc(100% - 1rem)" />;
   }
@@ -22,9 +23,9 @@ export const NavbarLink = ({ icon, label, active, onClick, path, type, collapsed
     label: icon ? <Icon icon={icon} fontSize="1.8em" /> : label,
     styles: {
       root: {
-        width: 40,
-        height: 40,
         padding: 0,
+        width: width - 20,
+        height: width - 20,
         borderRadius: '0.5rem',
       },
       label: {

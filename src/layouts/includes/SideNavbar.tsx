@@ -9,25 +9,19 @@ import { TreeLinks } from './private/TreeLinks';
 
 export interface SideNavbarProps {
   onCollapse?: (value: boolean) => void;
+  width: number;
 }
 
 /**
  * 侧边导航栏组件
  * 负责渲染主菜单和子菜单，管理菜单的激活状态和展开/收起逻辑
  */
-export const SideNavbar = ({ onCollapse }: SideNavbarProps) => {
+export const SideNavbar = ({ onCollapse, width }: SideNavbarProps) => {
   const { t } = useTranslation();
   const location = useLocation();
-  
+
   // 使用优化后的菜单状态管理
-  const {
-    menuItems,
-    activeItem,
-    activeMenuId,
-    setActiveMenuByPath,
-    setActiveMenuById,
-    isMenuActive,
-  } = useMenuStore();
+  const { menuItems, activeItem, setActiveMenuByPath, setActiveMenuById, isMenuActive } = useMenuStore();
 
   /**
    * 路径变化时自动更新激活菜单
@@ -62,6 +56,7 @@ export const SideNavbar = ({ onCollapse }: SideNavbarProps) => {
       <NavbarLink
         {...link}
         collapsed
+        width={width - 2}
         key={link.id}
         label={t(link.label)}
         path={link.path || '#'}
@@ -83,11 +78,8 @@ export const SideNavbar = ({ onCollapse }: SideNavbarProps) => {
     return (
       <>
         <Divider orientation="vertical" h="100vh" />
-        <Box p="sm" w="calc(100% - 63px)">
-          <TreeLinks 
-            links={activeItem.children} 
-            parentMenuId={activeItem.id}
-          />
+        <Box p="sm" w={`calc(100% - ${width + 1}px)`}>
+          <TreeLinks links={activeItem.children} parentMenuId={activeItem.id} />
         </Box>
       </>
     );
@@ -98,18 +90,18 @@ export const SideNavbar = ({ onCollapse }: SideNavbarProps) => {
       {/* 主菜单区域 */}
       <ScrollArea>
         <Stack
+          p="sm"
           gap="xs"
           align="center"
-          p="sm"
           style={{
             boxSizing: 'border-box',
-            width: 60,
+            width: width - 2,
           }}
         >
           {renderMainMenuLinks()}
         </Stack>
       </ScrollArea>
-      
+
       {/* 子菜单区域 */}
       {renderChildrenLinks()}
     </Group>

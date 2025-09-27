@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { Outlet } from 'react-router';
 import {
   ActionAccount,
-  ActionNotification, Breadcrumb,
+  ActionNotification,
+  Breadcrumb,
   MainLogo,
   SideNavbar,
   ToggleLanguage,
@@ -16,18 +17,20 @@ export interface MainLayoutProps {
 
 export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
+  const fullWidth = 250;
+  const collapsedWidth = 70;
   return (
     <AppShell
       header={{ height: 60 }}
       navbar={{
-        width: collapsed ? 62 : 227,
+        width: collapsed ? collapsedWidth : fullWidth,
         breakpoint: 'false',
       }}
     >
       <AppShell.Header>
         <Group h="100%" px="md" justify="space-between">
           <Group gap="xs">
-            <MainLogo />
+            <MainLogo width={fullWidth} />
             <Divider orientation="vertical" />
             <Breadcrumb />
           </Group>
@@ -43,7 +46,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         </Group>
       </AppShell.Header>
       <AppShell.Navbar>
-        <SideNavbar onCollapse={setCollapsed} />
+        <SideNavbar onCollapse={setCollapsed} width={collapsedWidth} />
       </AppShell.Navbar>
       <AppShell.Main>
         <ScrollArea h="calc(100vh - 60px)">{children ?? <Outlet />}</ScrollArea>
