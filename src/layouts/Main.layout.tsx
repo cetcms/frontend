@@ -1,6 +1,7 @@
 import { AppShell, Divider, Group, ScrollArea, Text } from '@mantine/core';
 import React, { useState } from 'react';
 import { Outlet } from 'react-router';
+import { useThemeMode } from 'src/hooks';
 import {
   ActionAccount,
   ActionNotification,
@@ -15,10 +16,42 @@ export interface MainLayoutProps {
   children?: React.ReactNode;
 }
 
+const Background = () => {
+  const theme = useThemeMode();
+  return (
+    <>
+      <div
+        style={{
+          backgroundColor: 'var(--mantine-color-primary-9)',
+          position: 'fixed',
+          width: '100%',
+          height: '100%',
+          top: 0,
+          left: 0,
+          opacity: 0.02,
+          zIndex: -1,
+        }}
+      />
+      <div
+        style={{
+          backgroundColor: theme === 'dark' ? 'white' : 'black',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          opacity: 0.02,
+          zIndex: -1,
+        }}
+      />
+    </>
+  );
+};
+
 export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
-  const fullWidth = 250;
-  const collapsedWidth = 70;
+  const fullWidth = 260;
+  const collapsedWidth = 63;
   return (
     <AppShell
       header={{ height: 60 }}
@@ -31,7 +64,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         <Group h="100%" px="md" justify="space-between">
           <Group gap="xs">
             <MainLogo width={fullWidth} />
-            <Divider orientation="vertical" />
+            <Divider orientation="vertical" my="-4px" />
             <Breadcrumb />
           </Group>
           <Group gap="xs">
@@ -49,7 +82,10 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         <SideNavbar onCollapse={setCollapsed} width={collapsedWidth} />
       </AppShell.Navbar>
       <AppShell.Main>
-        <ScrollArea h="calc(100vh - 60px)">{children ?? <Outlet />}</ScrollArea>
+        <ScrollArea h="calc(100vh - 60px)">
+          <Background />
+          {children ?? <Outlet />}
+        </ScrollArea>
       </AppShell.Main>
     </AppShell>
   );

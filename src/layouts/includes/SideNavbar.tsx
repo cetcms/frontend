@@ -90,7 +90,7 @@ export const SideNavbar = ({ onCollapse, width }: SideNavbarProps) => {
       {/* 主菜单区域 */}
       <ScrollArea>
         <Stack
-          p="sm"
+          p="xs"
           gap="xs"
           align="center"
           style={{
