@@ -6,6 +6,18 @@ export default function registerMenus(menus: MenuItem[]) {
     label: '企业管理',
     icon: 'solar:medal-ribbons-star-line-duotone',
     path: '/company',
+    children: [
+      {
+        id: 'company-list',
+        label: '公司列表',
+        path: '/company/list',
+      },
+      {
+        id: 'company-add',
+        label: '添加公司',
+        path: '/company/add',
+      },
+    ],
   });
 
   menus.push({

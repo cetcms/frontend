@@ -24,6 +24,8 @@ const useRegisterMenus = (registerMenus: SetupAppOptions['registerMenus']) => {
         }
         setLoading(false);
       });
+    } else {
+      setLoading(false);
     }
   }, []);
 

@@ -1,16 +1,14 @@
-import { AppShell, Badge, Divider, Group, ScrollArea, Text } from '@mantine/core';
+import { AppShell, Divider, Group, ScrollArea, Text } from '@mantine/core';
 import React, { useState } from 'react';
 import { Outlet } from 'react-router';
 import {
   ActionAccount,
-  ActionNotification,
+  ActionNotification, Breadcrumb,
   MainLogo,
   SideNavbar,
   ToggleLanguage,
   ToggleThemeMode,
 } from 'src/layouts/includes';
-
-import { version } from '~/package.json';
 
 export interface MainLayoutProps {
   children?: React.ReactNode;
@@ -31,7 +29,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           <Group gap="xs">
             <MainLogo />
             <Divider orientation="vertical" />
-            <Badge>{version}</Badge>
+            <Breadcrumb />
           </Group>
           <Group gap="xs">
             <ToggleLanguage />
