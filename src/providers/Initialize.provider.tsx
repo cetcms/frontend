@@ -1,33 +1,31 @@
+import { MantineProvider } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
 import { Loading } from 'src/components';
-import { MenuItem, useMenuStore } from 'src/store';
-
-export interface SetupOptions {
-  registerMenus?: (defaultMenuItems: MenuItem[]) => MenuItem[] | void | Promise<MenuItem[] | void>;
-}
+import { SetupAppOptions } from 'src/setup';
+import { useMenuStore, useThemeStore } from 'src/store';
 
 export interface InitializeProviderProps {
   children: React.ReactNode;
-  setupOptions?: SetupOptions;
+  setupOptions?: SetupAppOptions;
 }
 
-const useRegisterMenus = (registerMenus: SetupOptions['registerMenus']) => {
+const useRegisterMenus = (registerMenus: SetupAppOptions['registerMenus']) => {
   // 注册菜单
   const { setMenuItems, menuItems } = useMenuStore();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     if (registerMenus) {
-      const initialMenuItems = JSON.parse(JSON.stringify(menuItems));
-      Promise.resolve(registerMenus(initialMenuItems)).then((registeredMenuItems) => {
-        if (registeredMenuItems) {
-          setMenuItems(registeredMenuItems);
+      const defaultMenuItems = JSON.parse(JSON.stringify(menuItems));
+      Promise.resolve(registerMenus(defaultMenuItems)).then((newMenuItems) => {
+        if (newMenuItems) {
+          setMenuItems(newMenuItems);
         } else {
-          setMenuItems(initialMenuItems);
+          setMenuItems(defaultMenuItems);
         }
         setLoading(false);
       });
     }
-  }, [setMenuItems, setLoading]);
+  }, []);
 
   return {
     menuItems,
@@ -35,11 +33,37 @@ const useRegisterMenus = (registerMenus: SetupOptions['registerMenus']) => {
   };
 };
 
+const useRegisterTheme = (registerTheme: SetupAppOptions['registerTheme']) => {
+  const { options, theme, setTheme } = useThemeStore();
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (registerTheme) {
+      const defaultOptions = JSON.parse(JSON.stringify(options));
+      Promise.resolve(registerTheme(defaultOptions)).then((newOptions) => {
+        if (newOptions) {
+          setTheme(newOptions);
+        } else {
+          setTheme(defaultOptions);
+        }
+        setLoading(false);
+      });
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  return {
+    theme,
+    loading,
+  };
+};
+
 export const InitializeProvider: React.FC<InitializeProviderProps> = ({ children, setupOptions }) => {
   const { registerMenus } = setupOptions || {};
-  const { loading } = useRegisterMenus(registerMenus);
-  if (loading) {
-    return <Loading />;
+  const { loading: menuLoading } = useRegisterMenus(registerMenus);
+  const { loading: themeLoading, theme } = useRegisterTheme(setupOptions?.registerTheme);
+  if (menuLoading || themeLoading) {
+    return <Loading native />;
   }
-  return <>{children}</>;
+  return <MantineProvider theme={theme}>{children}</MantineProvider>;
 };

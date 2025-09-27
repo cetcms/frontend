@@ -1,2 +1,2 @@
-export { ApolloProvider } from './Apollo.provider';
-export { InitializeProvider, type SetupOptions as InitializeSetupOptions } from './Initialize.provider';
+export { ApolloProvider, type ApolloProviderProps } from './Apollo.provider';
+export { InitializeProvider, type InitializeProviderProps } from './Initialize.provider';

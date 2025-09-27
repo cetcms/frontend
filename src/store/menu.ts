@@ -1,31 +1,5 @@
 import { create } from 'zustand';
 
-export type MenuItem = {
-  id: string;
-  label: string;
-  icon?: string;
-  path?: string;
-  active?: boolean;
-  children?: MenuItem[];
-  type?: 'divider';
-  description?: string;
-};
-
-export type MenuStore = {
-  menuItems: MenuItem[];
-  setMenuItems: (menu: MenuItem[]) => void;
-
-  idPath: string[];
-  setIdPathByActiveId: (activeId: string) => void;
-
-  activeItem: MenuItem | null;
-  setActiveItem: (item: MenuItem | null) => void;
-  setActiveItemById: (id: string) => void;
-
-  itemPath: MenuItem[];
-  setItemPathByActiveId: (activeId: string) => void;
-};
-
 // 添加辅助函数用于递归查找菜单项
 const findMenuItem = (items: MenuItem[], id: string): MenuItem | undefined => {
   for (const item of items) {
@@ -56,6 +30,32 @@ const findMenuItemPath = (items: MenuItem[], id: string): MenuItem[] => {
     }
   }
   return [];
+};
+
+export type MenuItem = {
+  id: string;
+  label: string;
+  icon?: string;
+  path?: string;
+  active?: boolean;
+  children?: MenuItem[];
+  type?: 'divider';
+  description?: string;
+};
+
+export type MenuStore = {
+  menuItems: MenuItem[];
+  setMenuItems: (menu: MenuItem[]) => void;
+
+  idPath: string[];
+  setIdPathByActiveId: (activeId: string) => void;
+
+  activeItem: MenuItem | null;
+  setActiveItem: (item: MenuItem | null) => void;
+  setActiveItemById: (id: string) => void;
+
+  itemPath: MenuItem[];
+  setItemPathByActiveId: (activeId: string) => void;
 };
 
 export const useMenuStore = create<MenuStore>((set, get) => ({
