@@ -37,7 +37,7 @@ i18n.use(initReactI18next);
 // 初始化函数
 export const initializeI18n = async () => {
   // 初始化翻译资源
-  const resources = await loadTranslations();
+  const resources = loadTranslations();
 
   // 获取本地存储的语言设置
   const storedLanguage = localStorage.getItem('app-language');

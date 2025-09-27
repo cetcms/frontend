@@ -1,10 +1,10 @@
+import { Icon } from '@iconify/react';
 import { Divider, NavLink, NavLinkProps, Tooltip } from '@mantine/core';
-import type { Icon } from '@tabler/icons-react';
 import React from 'react';
 import { Link } from 'react-router';
 
 export interface NavbarLinkProps {
-  icon?: Icon;
+  icon?: string;
   label: string;
   active?: boolean;
   onClick?: () => void;
@@ -13,13 +13,13 @@ export interface NavbarLinkProps {
   collapsed?: boolean;
 }
 
-export const NavbarLink = ({ icon: Icon, label, active, onClick, path, type, collapsed }: NavbarLinkProps) => {
+export const NavbarLink = ({ icon, label, active, onClick, path, type, collapsed }: NavbarLinkProps) => {
   if (type === 'divider') {
     return <Divider size="xs" w="calc(100% - 1rem)" />;
   }
 
   const navLinkAttrs: NavLinkProps = {
-    label: Icon ? <Icon size={24} stroke={1.5} /> : label,
+    label: icon ? <Icon icon={icon} fontSize="1.8em" /> : label,
     styles: {
       root: {
         width: 40,
@@ -38,12 +38,12 @@ export const NavbarLink = ({ icon: Icon, label, active, onClick, path, type, col
   };
   if (!collapsed) {
     navLinkAttrs.label = label;
+    navLinkAttrs.leftSection = icon && <Icon icon={icon} fontSize="1.2em" />;
     navLinkAttrs.styles = {
       root: {
         borderRadius: '0.5rem',
       },
     };
-    navLinkAttrs.leftSection = Icon && <Icon size={24} stroke={1.5} />;
   }
 
   return (

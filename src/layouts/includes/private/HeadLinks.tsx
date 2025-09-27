@@ -1,11 +1,12 @@
+import { Icon } from '@iconify/react';
 import { Button, Card, Divider, Group } from '@mantine/core';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router';
-import { MenuLinkItem } from 'src/config/menuLinks';
+import { MenuItem } from 'src/store';
 
 export interface HeadLinksProps {
-  links?: MenuLinkItem[];
+  links?: MenuItem[];
 }
 
 export const HeadLinks: React.FC<HeadLinksProps> = ({ links }) => {
@@ -40,6 +41,7 @@ export const HeadLinks: React.FC<HeadLinksProps> = ({ links }) => {
             if (link.type === 'divider') {
               return <Divider orientation="vertical" key={link.id} />;
             }
+
             return (
               <Button
                 key={link.id}
@@ -47,7 +49,7 @@ export const HeadLinks: React.FC<HeadLinksProps> = ({ links }) => {
                 radius="md"
                 component={Link}
                 to={link.path || '#'}
-                leftSection={link.icon ? <link.icon size={16} /> : null}
+                leftSection={link.icon ? <Icon icon={link.icon} fontSize={16} /> : undefined}
                 onClick={() => setActive(link.id)}
               >
                 {t(link.label)}

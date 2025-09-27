@@ -1,6 +1,7 @@
 import { Navigate, RouteObject } from 'react-router';
 import { AuthLayout, MainLayout } from 'src/layouts';
 import { LoginPage } from 'src/pages/auth';
+import { CompanyPage } from 'src/pages/company';
 import { NotFoundPage } from 'src/pages/error';
 import { DashboardPage, DevelopPage } from 'src/pages/home';
 
@@ -14,6 +15,10 @@ const mainRoutes: RouteObject[] = [
   {
     path: 'dashboard',
     Component: DashboardPage,
+  },
+  {
+    path: 'company',
+    Component: CompanyPage,
   },
   {
     path: 'develop',

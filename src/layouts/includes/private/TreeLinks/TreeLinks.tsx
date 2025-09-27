@@ -2,13 +2,14 @@ import { Divider, NavLink, ScrollArea, ScrollAreaProps, Stack } from '@mantine/c
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router';
-import { MenuLinkItem } from 'src/config/menuLinks';
+import { Iconify } from 'src/components';
+import { MenuItem } from 'src/store';
 
 import { LinkArrow } from './LinkArrow';
 
 interface RenderLinkProps {
   pathname: string;
-  link: MenuLinkItem;
+  link: MenuItem;
 }
 
 const RenderLink: React.FC<RenderLinkProps> = ({ link, pathname }) => {
@@ -28,7 +29,7 @@ const RenderLink: React.FC<RenderLinkProps> = ({ link, pathname }) => {
       <NavLink
         key={link.id}
         label={t(link.label) || link.label}
-        leftSection={link.icon ? <link.icon size={16} stroke={1.5} /> : undefined}
+        leftSection={link.icon ? <Iconify icon={link.icon} fontSize={16} /> : undefined}
         style={{
           borderRadius: 'var(--mantine-radius-default)',
           backgroundColor: isChildActive ? 'var(--mantine-color-primary-light)' : undefined,
@@ -69,7 +70,7 @@ const RenderLink: React.FC<RenderLinkProps> = ({ link, pathname }) => {
       component={Link}
       to={link.path || '#'}
       label={t(link.label) || link.label}
-      leftSection={link.icon ? <link.icon size={16} stroke={1.5} /> : undefined}
+      leftSection={link.icon ? <Iconify icon={link.icon} fontSize={16} /> : undefined}
       active={isActive}
       style={{ borderRadius: 'var(--mantine-radius-default)' }}
     />
@@ -77,7 +78,7 @@ const RenderLink: React.FC<RenderLinkProps> = ({ link, pathname }) => {
 };
 
 export interface TreeLinksProps {
-  links?: MenuLinkItem[];
+  links?: MenuItem[];
 }
 
 export const TreeLinks: React.FC<TreeLinksProps & ScrollAreaProps> = ({ links = [], ...props }) => {
@@ -85,8 +86,8 @@ export const TreeLinks: React.FC<TreeLinksProps & ScrollAreaProps> = ({ links = 
   return (
     <ScrollArea {...props}>
       <Stack gap="xs">
-        {links.map((link) => (
-          <RenderLink key={link.id} link={link} pathname={location.pathname} />
+        {links.map((link, index) => (
+          <RenderLink key={`${link.id}-${index}`} link={link} pathname={location.pathname} />
         ))}
       </Stack>
     </ScrollArea>
