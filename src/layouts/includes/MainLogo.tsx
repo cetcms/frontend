@@ -5,9 +5,9 @@ import logoColor from 'src/assets/images/logo-color.svg';
 import logoWhite from 'src/assets/images/logo-white.svg';
 
 export interface MainLogoProps {
-  width: number;
+  width?: number;
 }
-export const MainLogo: React.FC<MainLogoProps> = ({ width }) => {
+export const MainLogo: React.FC<MainLogoProps> = ({ width = 260 }) => {
   return (
     <Link to="/">
       <Center className="main-logo" lightHidden px="3">
