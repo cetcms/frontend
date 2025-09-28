@@ -1,4 +1,4 @@
-import { Button, Card, Grid, Group, Select, SegmentedControl, TextInput, Text } from '@mantine/core';
+import { Button, Card, Grid, Group, Select, SegmentedControl, TextInput, Text, Stack } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React, { useState } from 'react';
 
@@ -82,10 +82,27 @@ const getFieldConfig = (fields: FieldConfig[], fieldName: string) => {
   return fields.find((field) => field.name === fieldName);
 };
 
+// 获取指定字段类型的默认操作符
+const getDefaultOperator = (fieldType: FieldConfig['type']) => {
+  const operators = getOperatorsByFieldType(fieldType);
+  return operators.length > 0 ? operators[0].value : 'equals';
+};
+
+// 创建新的过滤条件项
+const createNewFilter = (fields: FieldConfig[]) => {
+  const firstField = fields[0];
+  if (!firstField) {
+    return { id: Date.now(), field: '', operator: 'equals', value: '' };
+  }
+
+  const defaultOperator = getDefaultOperator(firstField.type);
+  return { id: Date.now(), field: firstField.name, operator: defaultOperator, value: '' };
+};
+
 export const DataFilter: React.FC<DataFilterProps> = ({ fields = [], onFilterChange }) => {
-  const [filterFields, setFilterFields] = useState<Array<{ id: number; field: string; operator: string; value: any }>>([
-    { id: Date.now(), field: fields[0]?.name || '', operator: 'contains', value: '' },
-  ]);
+  const [filterFields, setFilterFields] = useState<Array<{ id: number; field: string; operator: string; value: any }>>(
+    []
+  );
 
   // 添加逻辑操作符状态 (AND/OR)
   const [logicOperator, setLogicOperator] = useState<'AND' | 'OR'>('AND');
@@ -93,22 +110,6 @@ export const DataFilter: React.FC<DataFilterProps> = ({ fields = [], onFilterCha
   const form = useForm({
     initialValues: {
       filters: filterFields,
-    },
-
-    // 添加表单验证规则
-    validate: {
-      filters: (value) => {
-        for (let i = 0; i < value.length; i++) {
-          const filter = value[i];
-          if (!filter.field) {
-            return `第${i + 1}行: 字段不能为空`;
-          }
-          if (!filter.operator) {
-            return `第${i + 1}行: 操作符不能为空`;
-          }
-        }
-        return null;
-      },
     },
   });
 
@@ -141,15 +142,11 @@ export const DataFilter: React.FC<DataFilterProps> = ({ fields = [], onFilterCha
 
   // 添加新的过滤条件
   const addFilter = () => {
-    setFilterFields([
-      ...filterFields,
-      { id: Date.now(), field: fields[0]?.name || '', operator: 'contains', value: '' },
-    ]);
+    setFilterFields([...filterFields, createNewFilter(fields)]);
   };
 
   // 删除过滤条件
   const removeFilter = (id: number) => {
-    if (filterFields.length <= 1) return;
     const newFilters = filterFields.filter((filter) => filter.id !== id);
     setFilterFields(newFilters);
   };
@@ -161,8 +158,7 @@ export const DataFilter: React.FC<DataFilterProps> = ({ fields = [], onFilterCha
         // 如果更改的是字段，则重置操作符为该字段类型的默认操作符
         if (property === 'field') {
           const fieldConfig = getFieldConfig(fields, value);
-          const operators = fieldConfig ? getOperatorsByFieldType(fieldConfig.type) : [];
-          const defaultOperator = operators.length > 0 ? operators[0].value : 'equals';
+          const defaultOperator = fieldConfig ? getDefaultOperator(fieldConfig.type) : 'equals';
           return { ...filter, [property]: value, operator: defaultOperator };
         }
         return { ...filter, [property]: value };
@@ -191,7 +187,7 @@ export const DataFilter: React.FC<DataFilterProps> = ({ fields = [], onFilterCha
 
   // 重置过滤器
   const resetFilter = () => {
-    setFilterFields([{ id: Date.now(), field: fields[0]?.name || '', operator: 'contains', value: '' }]);
+    setFilterFields([]);
     setLogicOperator('AND'); // 重置逻辑操作符为默认值
     form.clearErrors();
     if (onFilterChange) {
@@ -199,100 +195,93 @@ export const DataFilter: React.FC<DataFilterProps> = ({ fields = [], onFilterCha
     }
   };
 
+  // 判断是否有有效的过滤条件
+  const hasValidFilters = filterFields.length > 0 && filterFields.some((filter) => filter.field);
+
   return (
     <Card m="xs" withBorder>
       {/* 添加逻辑操作符选择器 */}
-      <Group mb="md">
+      <Group>
+        <Button variant="default" onClick={addFilter}>
+          添加条件
+        </Button>
         <SegmentedControl
+          size="sm"
           value={logicOperator}
+          disabled={!hasValidFilters}
+          style={{ outline: '1px solid var(--app-shell-border-color)', outlineOffset: '-1px' }}
           onChange={(value) => setLogicOperator(value as 'AND' | 'OR')}
           data={[
             { label: 'AND (且)', value: 'AND' },
             { label: 'OR (或)', value: 'OR' },
           ]}
         />
-      </Group>
-
-      <Grid>
-        {filterFields.map((filter, index) => (
-          <Grid.Col span={12} key={filter.id}>
-            <Group grow>
-              <Select
-                placeholder="选择字段"
-                data={fields.map((field) => ({ value: field.name, label: field.label }))}
-                value={filter.field}
-                onChange={(value) => updateFilter(filter.id, 'field', value)}
-                clearable
-                error={
-                  form.errors.filters &&
-                  form.errors.filters.toString().includes(`第${index + 1}行`) &&
-                  form.errors.filters.toString().includes('字段不能为空')
-                }
-              />
-              <Select
-                placeholder="操作符"
-                data={(() => {
-                  const fieldConfig = getFieldConfig(fields, filter.field);
-                  if (fieldConfig) {
-                    return getOperatorsByFieldType(fieldConfig.type);
-                  }
-                  return Object.entries(OPERATORS).map(([value, label]) => ({ value, label }));
-                })()}
-                value={filter.operator}
-                onChange={(value) => updateFilter(filter.id, 'operator', value)}
-                error={
-                  form.errors.filters &&
-                  form.errors.filters.toString().includes(`第${index + 1}行`) &&
-                  form.errors.filters.toString().includes('操作符不能为空')
-                }
-              />
-              {(() => {
-                const fieldConfig = fields.find((f) => f.name === filter.field);
-                if (fieldConfig?.type === 'select') {
-                  return (
-                    <Select
-                      placeholder="值"
-                      data={fieldConfig.options || []}
-                      value={filter.value}
-                      onChange={(value) => updateFilter(filter.id, 'value', value)}
-                      clearable
-                    />
-                  );
-                }
-                return (
-                  <TextInput
-                    placeholder="值"
-                    value={filter.value}
-                    onChange={(e) => updateFilter(filter.id, 'value', e.target.value)}
-                  />
-                );
-              })()}
-              <Button variant="light" color="red" onClick={() => removeFilter(filter.id)}>
-                删除
-              </Button>
-            </Group>
-            {form.errors.filters && form.errors.filters.toString().includes(`第${index + 1}行`) && (
-              <Text c="red" size="sm" mt={5}>
-                {form.errors.filters}
-              </Text>
-            )}
-          </Grid.Col>
-        ))}
-      </Grid>
-      <Group mt="md">
-        <Button onClick={addFilter}>添加条件</Button>
-        <Button onClick={applyFilter} color="blue">
+        <Button variant="filled" onClick={applyFilter} disabled={!hasValidFilters}>
           应用过滤
         </Button>
-        <Button onClick={resetFilter} variant="outline">
+        <Button variant="light" onClick={resetFilter} disabled={!hasValidFilters}>
           重置
         </Button>
       </Group>
-      {form.errors.filters && !form.errors.filters.toString().includes('第') && (
-        <Text c="red" size="sm" mt={10}>
-          {form.errors.filters}
-        </Text>
-      )}
+
+      {filterFields.map((filter) => (
+        <Group mt="md" key={filter.id}>
+          <Select
+            w={200}
+            allowDeselect={false}
+            placeholder="选择字段"
+            data={fields.map((field) => ({
+              value: field.name,
+              label: field.label,
+            }))}
+            value={filter.field}
+            onChange={(value) => updateFilter(filter.id, 'field', value)}
+          />
+          <Select
+            w={150}
+            allowDeselect={false}
+            placeholder="操作符"
+            data={(() => {
+              const fieldConfig = getFieldConfig(fields, filter.field);
+              if (fieldConfig) {
+                return getOperatorsByFieldType(fieldConfig.type);
+              }
+              return Object.entries(OPERATORS).map(([value, label]) => ({
+                value,
+                label,
+              }));
+            })()}
+            value={filter.operator}
+            onChange={(value) => updateFilter(filter.id, 'operator', value)}
+          />
+          {(() => {
+            const fieldConfig = fields.find((f) => f.name === filter.field);
+            if (fieldConfig?.type === 'select') {
+              return (
+                <Select
+                  w={200}
+                  placeholder="值"
+                  data={fieldConfig.options || []}
+                  value={filter.value}
+                  onChange={(value) => updateFilter(filter.id, 'value', value)}
+                  clearable
+                />
+              );
+            }
+            return (
+              <TextInput
+                w={200}
+                placeholder="值"
+                value={filter.value}
+                onChange={(e) => updateFilter(filter.id, 'value', e.target.value)}
+              />
+            );
+          })()}
+          <Button variant="light" color="red" onClick={() => removeFilter(filter.id)}>
+            删除
+          </Button>
+        </Group>
+      ))}
     </Card>
   );
 };

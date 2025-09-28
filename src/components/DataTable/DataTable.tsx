@@ -3,14 +3,31 @@ import { DataTableProps as MDataTableProps, DataTable as MDataTable } from 'mant
 import React from 'react';
 import { Pagination, PaginationFragment } from 'src/graphql';
 
-import { DataFilter } from './DataFilter';
+import { DataFilter, FieldConfig } from './DataFilter';
+
+export type RequestParams = {
+  page: number;
+  skip: number;
+  take: number;
+  where: any;
+};
 
 export type DataTableProps = MDataTableProps & {
   pagination?: Pagination | PaginationFragment;
   loading?: boolean;
+  filterFields?: FieldConfig[];
+  onChangeRequest?: (params: RequestParams) => void;
 };
 
-export const DataTable: React.FC<DataTableProps> = ({ pagination, loading, ...props }) => {
+export const DataTable: React.FC<DataTableProps> = ({
+  pagination,
+  loading,
+  filterFields,
+  onChangeRequest,
+  ...props
+}) => {
+  const [where, setWhere] = React.useState({});
+
   props.minHeight = 300;
   props.styles = {
     ...props.styles,
@@ -29,28 +46,35 @@ export const DataTable: React.FC<DataTableProps> = ({ pagination, loading, ...pr
     props.recordsPerPage = pagination?.take || 10;
     props.totalRecords = pagination?.totalCount || 0;
     props.onPageChange = (page) => {
-      console.log(page);
+      if (onChangeRequest) {
+        const take = props.recordsPerPage || 10;
+        onChangeRequest({
+          page,
+          take,
+          skip: (page - 1) * take,
+          where,
+        });
+      }
     };
   }
 
+  const handleFilterChange = (filter: any) => {
+    setWhere(filter);
+    if (onChangeRequest) {
+      const page = props.page || pagination?.page || 1;
+      const take = props.recordsPerPage || pagination?.take || 10;
+      onChangeRequest({
+        page,
+        take,
+        skip: (page - 1) * take,
+        where: filter,
+      });
+    }
+  };
+
   return (
     <>
-      <DataFilter
-        fields={[
-          { name: 'name', label: '姓名', type: 'text' },
-          { name: 'email', label: '邮箱', type: 'text' },
-          {
-            name: 'status',
-            label: '状态',
-            type: 'select',
-            options: [
-              { label: '启用', value: 'ACTIVE' },
-              { label: '禁用', value: 'INACTIVE' },
-            ],
-          },
-        ]}
-        onFilterChange={(filter) => console.log(filter)}
-      />
+      {filterFields?.length && <DataFilter fields={filterFields} onFilterChange={handleFilterChange} />}
       <Card m="xs" withBorder>
         <MDataTable {...props} />
       </Card>
