@@ -1,9 +1,12 @@
-import { Navigate, RouteObject } from 'react-router';
+import { Navigate, Outlet, RouteObject } from "react-router";
 import { AuthLayout, MainLayout } from 'src/layouts';
+import { AdminPage, AdminRolePage } from 'src/pages/admin';
 import { LoginPage } from 'src/pages/auth';
-import { CompanyPage } from 'src/pages/company';
+import { CompanyPage, CompanyRolePage } from 'src/pages/company';
 import { NotFoundPage } from 'src/pages/error';
 import { DashboardPage, DevelopPage } from 'src/pages/home';
+import { MediaPage } from 'src/pages/media';
+import { UserPage } from 'src/pages/user';
 
 import { AuthGuard, GuestGuard } from './guards';
 
@@ -17,8 +20,48 @@ const mainRoutes: RouteObject[] = [
     Component: DashboardPage,
   },
   {
+    path: 'admin',
+    Component: Outlet,
+    children: [
+      {
+        index: true,
+        element: <Navigate to="list" />,
+      },
+      {
+        path: 'list',
+        Component: AdminPage,
+      },
+      {
+        path: 'roles',
+        Component: AdminRolePage,
+      },
+    ],
+  },
+  {
     path: 'company',
-    Component: CompanyPage,
+    Component: Outlet,
+    children: [
+      {
+        index: true,
+        element: <Navigate to="list" />,
+      },
+      {
+        path: 'list',
+        Component: CompanyPage,
+      },
+      {
+        path: 'roles',
+        Component: CompanyRolePage,
+      },
+    ],
+  },
+  {
+    path: 'user',
+    Component: UserPage,
+  },
+  {
+    path: 'media',
+    Component: MediaPage,
   },
   {
     path: 'develop',

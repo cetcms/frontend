@@ -68,6 +68,42 @@ export const useMenuStore = create<MenuStore>((set, get) => ({
       icon: 'solar:window-frame-line-duotone',
       path: '/dashboard',
     },
+    {
+      id: 'company',
+      label: '企业管理',
+      icon: 'solar:medal-ribbons-star-line-duotone',
+      path: '/company',
+      children: [
+        {
+          id: 'company-list',
+          label: '公司列表',
+          path: '/company/list',
+        },
+        {
+          id: 'company-role',
+          label: '公司角色',
+          path: '/company/roles',
+        },
+      ],
+    },
+    {
+      id: 'admin',
+      label: '系统成员',
+      icon: 'solar:user-id-line-duotone',
+      path: '/admin',
+      children: [
+        {
+          id: 'admin-list',
+          label: '管理员列表',
+          path: '/admin/list',
+        },
+        {
+          id: 'admin-role',
+          label: '管理员角色',
+          path: '/admin/roles',
+        },
+      ],
+    },
   ],
   activeMenuId: null,
   activeItem: null,

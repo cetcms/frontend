@@ -1,13 +1,13 @@
 import { useQuery } from '@apollo/client/react';
 import { Card } from '@mantine/core';
 import { DataTable } from 'mantine-datatable';
-import { PaginateCompaniesDocument, PaginationFragment } from 'src/graphql';
+import { PaginateAdminsDocument, PaginationFragment } from 'src/graphql';
 
-export const CompanyPage = () => {
-  const { data } = useQuery(PaginateCompaniesDocument, {});
-  const { paginateCompanies } = data || {};
-  const pagination = (paginateCompanies?.pagination || {}) as PaginationFragment;
-  const items = paginateCompanies?.items || [];
+export const AdminPage = () => {
+  const { data } = useQuery(PaginateAdminsDocument, {});
+  const { paginateAdmins } = data || {};
+  const pagination = (paginateAdmins?.pagination || {}) as PaginationFragment;
+  const items = paginateAdmins?.items || [];
   return (
     <Card m="xs" withBorder>
       <DataTable

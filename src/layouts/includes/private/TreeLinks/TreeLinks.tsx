@@ -54,7 +54,7 @@ const RenderLink: React.FC<RenderLinkProps> = ({ link }) => {
       <NavLink
         key={link.id}
         label={t(link.label) || link.label}
-        leftSection={link.icon ? <Iconify icon={link.icon} fontSize={16} /> : undefined}
+        leftSection={<Iconify icon={link.icon || 'solar:stop-circle-line-duotone'} fontSize={16} />}
         style={{
           borderRadius: 'var(--mantine-radius-default)',
           backgroundColor: hasCurrentActiveChild ? 'var(--mantine-color-primary-light)' : undefined,
@@ -99,7 +99,7 @@ const RenderLink: React.FC<RenderLinkProps> = ({ link }) => {
       component={Link}
       to={link.path || '#'}
       label={t(link.label) || link.label}
-      leftSection={link.icon ? <Iconify icon={link.icon} fontSize={16} /> : undefined}
+      leftSection={<Iconify icon={link.icon || 'solar:stop-circle-line-duotone'} fontSize={16} />}
       active={isCurrentActive}
       style={{ borderRadius: 'var(--mantine-radius-default)' }}
     />
