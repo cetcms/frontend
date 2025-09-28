@@ -1,0 +1,11 @@
+
+query PaginateCompanies($take: Int, $skip: Int, $where: CompanyWhereInput, $orderBy: [CompanyOrderByWithRelationInput!]) {
+	paginateCompanies(take: $take, skip: $skip, where: $where, orderBy: $orderBy) {
+		items {
+			...Company
+		}
+		pagination {
+			...Pagination
+		}
+	}
+}

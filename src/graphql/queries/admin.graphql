@@ -1,0 +1,11 @@
+
+query PaginateAdmins($take: Int, $skip: Int, $where: AdminWhereInput, $orderBy: [AdminOrderByWithRelationInput!]) {
+	paginateAdmins(take: $take, skip: $skip, where: $where, orderBy: $orderBy) {
+		items {
+			...Admin
+		}
+		pagination {
+			...Pagination
+		}
+	}
+}

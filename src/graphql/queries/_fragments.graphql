@@ -1,0 +1,68 @@
+fragment Pagination on Pagination {
+	take
+	skip
+	page
+	totalPages
+	totalCount
+}
+
+fragment Admin on Admin {
+	id
+	createdAt
+	updatedAt
+	status
+	name
+	email
+	roleId
+}
+
+fragment AdminRole on AdminRole {
+	id
+	createdAt
+	updatedAt
+	status
+	name
+	description
+	code
+	permissions
+}
+
+fragment Company on Company {
+	id
+	createdAt
+	updatedAt
+	status
+	name
+	alias
+	code
+	description
+}
+
+fragment CompanyRole on CompanyRole {
+	id
+	createdAt
+	updatedAt
+	status
+	name
+	description
+	code
+	permissions
+	companyId
+}
+
+fragment User on User {
+	id
+	createdAt
+	updatedAt
+	status
+	name
+	email
+}
+
+
+fragment Login on Login {
+	target
+	accessType
+	accessToken
+	accessTimeout
+}

@@ -1,29 +1,22 @@
-fragment LoginResult on Login {
-	target
-	accessType
-	accessToken
-	accessTimeout
-}
-
 query Logout {
 	logout
 }
 
 query Refresh {
 	refresh {
-		...LoginResult
+		...Login
 	}
 }
 
 mutation Login($input: LoginInput!) {
 	login(input: $input) {
-		...LoginResult
+		...Login
 	}
 }
 
 mutation SwitchAuthCompany($companyId: String!) {
 	switchAuthCompany(companyId: $companyId) {
-		...LoginResult
+		...Login
 	}
 }
 

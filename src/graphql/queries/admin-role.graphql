@@ -1,0 +1,11 @@
+
+query PaginateAdminRoles($take: Int, $skip: Int, $where: AdminRoleWhereInput, $orderBy: [AdminRoleOrderByWithRelationInput!]) {
+	paginateAdminRoles(take: $take, skip: $skip, where: $where, orderBy: $orderBy) {
+		items {
+			...AdminRole
+		}
+		pagination {
+			...Pagination
+		}
+	}
+}
