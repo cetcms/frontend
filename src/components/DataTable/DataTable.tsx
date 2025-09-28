@@ -35,7 +35,22 @@ export const DataTable: React.FC<DataTableProps> = ({ pagination, loading, ...pr
 
   return (
     <>
-      <DataFilter />
+      <DataFilter
+        fields={[
+          { name: 'name', label: '姓名', type: 'text' },
+          { name: 'email', label: '邮箱', type: 'text' },
+          {
+            name: 'status',
+            label: '状态',
+            type: 'select',
+            options: [
+              { label: '启用', value: 'ACTIVE' },
+              { label: '禁用', value: 'INACTIVE' },
+            ],
+          },
+        ]}
+        onFilterChange={(filter) => console.log(filter)}
+      />
       <Card m="xs" withBorder>
         <MDataTable {...props} />
       </Card>
