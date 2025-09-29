@@ -1,9 +1,10 @@
 import { Card } from '@mantine/core';
 import { DataTableProps as MDataTableProps, DataTable as MDataTable } from 'mantine-datatable';
 import React from 'react';
+import { DataToolbar } from 'src/components/DataTable/DataToolbar';
 import { Pagination, PaginationFragment } from 'src/graphql';
 
-import { DataFilter, FieldConfig } from './DataFilter';
+import { FieldConfig } from './DataFilter';
 
 export type RequestParams = {
   page: number;
@@ -74,7 +75,7 @@ export const DataTable: React.FC<DataTableProps> = ({
 
   return (
     <>
-      {filterFields?.length && <DataFilter fields={filterFields} onFilterChange={handleFilterChange} />}
+      <DataToolbar fields={filterFields} onFilterChange={handleFilterChange} />
       <Card m="xs" withBorder>
         <MDataTable {...props} />
       </Card>

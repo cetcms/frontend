@@ -1,46 +1,34 @@
-import { Card, Collapse, SimpleGrid, TextInput, Text, Group, Button, Grid } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
-import React from 'react';
+import { Card, Group, Button, Popover } from '@mantine/core';
+import React, { useState } from 'react';
 
-export const DataToolbar = () => {
-  const [opened, { toggle }] = useDisclosure(false);
+import { DataFilter, FieldConfig } from './DataFilter';
+
+export interface DataToolbarProps {
+  fields?: FieldConfig[];
+  onFilterChange?: (filter: any) => void;
+}
+
+export const DataToolbar: React.FC<DataToolbarProps> = ({ fields, onFilterChange }) => {
+  const [opened, setOpened] = useState(false);
+  const handleFilterChange = (filter: any) => {
+    onFilterChange?.(filter);
+    setOpened(false);
+  };
   return (
     <Card m="xs" withBorder>
-      <Grid columns={10}>
-        <Grid.Col span={8}>
-          <SimpleGrid cols={4}>
-            <TextInput placeholder="Name" label="Name" />
-            <TextInput placeholder="Status" label="Status" />
-            <TextInput placeholder="Error as boolean" label="Error as boolean" />
-            <TextInput placeholder="Name" label="Name" />
-          </SimpleGrid>
-        </Grid.Col>
-        <Grid.Col span={2}>
-          <Group align="end" justify="end" h="100%">
-            <Button variant="default">重置</Button>
-            <Button variant="filled">搜索</Button>
-            <Button
-              variant="subtle"
-              onClick={toggle}
-              rightSection={opened ? <IconChevronUp size={16} /> : <IconChevronDown size={16} />}
-            >
-              {opened ? '收起' : '展开'}
+      <Group>
+        <Popover withArrow trapFocus opened={opened} onChange={setOpened} position="bottom-start" shadow="md">
+          <Popover.Target>
+            <Button variant="default" onClick={() => setOpened((o) => !o)}>
+              过滤
             </Button>
-          </Group>
-        </Grid.Col>
-      </Grid>
-      <Collapse in={opened}>
-        <SimpleGrid cols={5} pt="md">
-          <TextInput placeholder="名称" label="名称" />
-          <TextInput placeholder="Status" label="Status" />
-          <TextInput placeholder="Name" label="Name" />
-          <TextInput placeholder="Name" label="Name" />
-          <TextInput placeholder="Name" label="Name" />
-          <TextInput placeholder="Name" label="Name" />
-          <TextInput placeholder="Status" label="Status" />
-        </SimpleGrid>
-      </Collapse>
+          </Popover.Target>
+          <Popover.Dropdown>
+            <DataFilter fields={fields} onFilterChange={handleFilterChange} size="xs" />
+          </Popover.Dropdown>
+        </Popover>
+        <Button variant="filled">创建</Button>
+      </Group>
     </Card>
   );
 };

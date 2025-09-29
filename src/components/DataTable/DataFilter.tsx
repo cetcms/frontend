@@ -1,4 +1,4 @@
-import { Button, Card, Grid, Group, Select, SegmentedControl, TextInput, Text, Stack } from '@mantine/core';
+import { Button, Group, Select, SegmentedControl, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React, { useState } from 'react';
 
@@ -14,6 +14,7 @@ export interface FieldConfig {
 export interface DataFilterProps {
   fields?: FieldConfig[];
   onFilterChange?: (filter: any) => void;
+  size?: 'xs' | 'sm';
 }
 
 // Prisma 查询操作符映射
@@ -99,7 +100,7 @@ const createNewFilter = (fields: FieldConfig[]) => {
   return { id: Date.now(), field: firstField.name, operator: defaultOperator, value: '' };
 };
 
-export const DataFilter: React.FC<DataFilterProps> = ({ fields = [], onFilterChange }) => {
+export const DataFilter: React.FC<DataFilterProps> = ({ fields = [], onFilterChange, size }) => {
   const [filterFields, setFilterFields] = useState<Array<{ id: number; field: string; operator: string; value: any }>>(
     []
   );
@@ -199,14 +200,14 @@ export const DataFilter: React.FC<DataFilterProps> = ({ fields = [], onFilterCha
   const hasValidFilters = filterFields.length > 0 && filterFields.some((filter) => filter.field);
 
   return (
-    <Card m="xs" withBorder>
+    <>
       {/* 添加逻辑操作符选择器 */}
-      <Group>
-        <Button variant="default" onClick={addFilter}>
+      <Group gap={size}>
+        <Button size={size} variant="default" onClick={addFilter}>
           添加条件
         </Button>
         <SegmentedControl
-          size="sm"
+          size={size}
           value={logicOperator}
           disabled={!hasValidFilters}
           style={{ outline: '1px solid var(--app-shell-border-color)', outlineOffset: '-1px' }}
@@ -216,31 +217,37 @@ export const DataFilter: React.FC<DataFilterProps> = ({ fields = [], onFilterCha
             { label: 'OR (或)', value: 'OR' },
           ]}
         />
-        <Button variant="filled" onClick={applyFilter} disabled={!hasValidFilters}>
+        <Button size={size} variant="filled" onClick={applyFilter} disabled={!hasValidFilters}>
           应用过滤
         </Button>
-        <Button variant="light" onClick={resetFilter} disabled={!hasValidFilters}>
+        <Button size={size} variant="light" onClick={resetFilter} disabled={!hasValidFilters}>
           重置
         </Button>
       </Group>
 
       {filterFields.map((filter) => (
-        <Group mt="md" key={filter.id}>
+        <Group mt={size} gap={size} key={filter.id}>
           <Select
-            w={200}
+            w={size === 'xs' ? 100 : 200}
+            size={size}
             allowDeselect={false}
             placeholder="选择字段"
+            value={filter.field}
+            comboboxProps={{ withinPortal: false }}
+            onChange={(value) => updateFilter(filter.id, 'field', value)}
             data={fields.map((field) => ({
               value: field.name,
               label: field.label,
             }))}
-            value={filter.field}
-            onChange={(value) => updateFilter(filter.id, 'field', value)}
           />
           <Select
-            w={150}
+            w={size === 'xs' ? 80 : 150}
+            size={size}
             allowDeselect={false}
             placeholder="操作符"
+            value={filter.operator}
+            comboboxProps={{ withinPortal: false }}
+            onChange={(value) => updateFilter(filter.id, 'operator', value)}
             data={(() => {
               const fieldConfig = getFieldConfig(fields, filter.field);
               if (fieldConfig) {
@@ -251,18 +258,18 @@ export const DataFilter: React.FC<DataFilterProps> = ({ fields = [], onFilterCha
                 label,
               }));
             })()}
-            value={filter.operator}
-            onChange={(value) => updateFilter(filter.id, 'operator', value)}
           />
           {(() => {
             const fieldConfig = fields.find((f) => f.name === filter.field);
             if (fieldConfig?.type === 'select') {
               return (
                 <Select
-                  w={200}
+                  w={size === 'xs' ? 100 : 200}
+                  size={size}
                   placeholder="值"
                   data={fieldConfig.options || []}
                   value={filter.value}
+                  comboboxProps={{ withinPortal: false }}
                   onChange={(value) => updateFilter(filter.id, 'value', value)}
                   clearable
                 />
@@ -270,18 +277,19 @@ export const DataFilter: React.FC<DataFilterProps> = ({ fields = [], onFilterCha
             }
             return (
               <TextInput
-                w={200}
+                w={size === 'xs' ? 100 : 200}
+                size={size}
                 placeholder="值"
                 value={filter.value}
                 onChange={(e) => updateFilter(filter.id, 'value', e.target.value)}
               />
             );
           })()}
-          <Button variant="light" color="red" onClick={() => removeFilter(filter.id)}>
+          <Button size={size} variant="light" color="red" onClick={() => removeFilter(filter.id)}>
             删除
           </Button>
         </Group>
       ))}
-    </Card>
+    </>
   );
 };
