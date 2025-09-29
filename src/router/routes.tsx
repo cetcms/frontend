@@ -1,4 +1,4 @@
-import { Navigate, Outlet, RouteObject } from "react-router";
+import { Navigate, Outlet, RouteObject } from 'react-router';
 import { AuthLayout, MainLayout } from 'src/layouts';
 import { AdminPage, AdminRolePage } from 'src/pages/admin';
 import { LoginPage } from 'src/pages/auth';

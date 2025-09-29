@@ -1,0 +1,11 @@
+
+query PaginateUsers($take: Int, $skip: Int, $where: UserWhereInput, $orderBy: [UserOrderByWithRelationInput!]) {
+	paginateUsers(take: $take, skip: $skip, where: $where, orderBy: $orderBy) {
+		items {
+			...User
+		}
+		pagination {
+			...Pagination
+		}
+	}
+}
