@@ -1,6 +1,7 @@
 import { Button, Group, Select, SegmentedControl, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React, { useState } from 'react';
+import { EventBus, EventBusEnum } from 'src/utils';
 
 // 定义字段类型
 export interface FieldConfig {
@@ -195,6 +196,7 @@ export const DataFilter: React.FC<DataFilterProps> = ({ fields = [], onFilterCha
       onFilterChange({});
     }
   };
+  EventBus.on(EventBusEnum.ResetFilter, resetFilter);
 
   // 判断是否有有效的过滤条件
   const hasValidFilters = filterFields.length > 0 && filterFields.some((filter) => filter.field);
