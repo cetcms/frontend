@@ -154,6 +154,9 @@ export const FilterButton: React.FC<FilterButtonProps> = ({ fields = [], onFilte
   const removeFilter = (id: number) => {
     const newFilters = filterFields.filter((filter) => filter.id !== id);
     setFilterFields(newFilters);
+    if (!newFilters.length && onFilterChange) {
+      onFilterChange({});
+    }
   };
 
   // 更新过滤条件
@@ -207,8 +210,8 @@ export const FilterButton: React.FC<FilterButtonProps> = ({ fields = [], onFilte
     <Popover withArrow trapFocus opened={opened} onChange={setOpened} position="bottom-start" shadow="md">
       <Popover.Target>
         <Button
-          disabled={!fields.length}
           variant="default"
+          disabled={!fields.length}
           leftSection={<IconFilter2Search size={14} />}
           onClick={() => setOpened((o) => !o)}
         >
@@ -218,11 +221,12 @@ export const FilterButton: React.FC<FilterButtonProps> = ({ fields = [], onFilte
       <Popover.Dropdown>
         {/* 添加逻辑操作符选择器 */}
         <Group gap={size}>
-          <Button disabled={!fields.length} size={size} variant="default" onClick={addFilter}>
+          <Button w="130" disabled={!fields.length} size={size} variant="default" onClick={addFilter}>
             添加条件
           </Button>
           <SegmentedControl
             size={size}
+            w="130"
             value={logicOperator}
             disabled={!hasValidFilters}
             style={{ outline: '1px solid var(--app-shell-border-color)', outlineOffset: '-1px' }}
@@ -232,7 +236,7 @@ export const FilterButton: React.FC<FilterButtonProps> = ({ fields = [], onFilte
               { label: 'OR (或)', value: 'OR' },
             ]}
           />
-          <Button size={size} variant="filled" onClick={applyFilter} disabled={!hasValidFilters}>
+          <Button w="130" size={size} variant="filled" onClick={applyFilter} disabled={!hasValidFilters}>
             应用过滤
           </Button>
           <Button size={size} variant="light" onClick={resetFilter} disabled={!hasValidFilters}>
@@ -243,7 +247,7 @@ export const FilterButton: React.FC<FilterButtonProps> = ({ fields = [], onFilte
         {filterFields.map((filter) => (
           <Group mt={size} gap={size} key={filter.id}>
             <Select
-              w={size === 'xs' ? 100 : 200}
+              w={size === 'xs' ? 130 : 200}
               size={size}
               allowDeselect={false}
               placeholder="选择字段"
@@ -256,7 +260,7 @@ export const FilterButton: React.FC<FilterButtonProps> = ({ fields = [], onFilte
               }))}
             />
             <Select
-              w={size === 'xs' ? 80 : 150}
+              w={size === 'xs' ? 130 : 150}
               size={size}
               allowDeselect={false}
               placeholder="操作符"
@@ -279,7 +283,7 @@ export const FilterButton: React.FC<FilterButtonProps> = ({ fields = [], onFilte
               if (fieldConfig?.type === 'select') {
                 return (
                   <Select
-                    w={size === 'xs' ? 100 : 200}
+                    w={size === 'xs' ? 130 : 200}
                     size={size}
                     placeholder="值"
                     data={fieldConfig.options || []}
@@ -292,7 +296,7 @@ export const FilterButton: React.FC<FilterButtonProps> = ({ fields = [], onFilte
               }
               return (
                 <TextInput
-                  w={size === 'xs' ? 100 : 200}
+                  w={size === 'xs' ? 130 : 200}
                   size={size}
                   placeholder="值"
                   value={filter.value}
