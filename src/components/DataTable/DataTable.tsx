@@ -4,7 +4,7 @@ import React from 'react';
 import { DataToolbar } from 'src/components/DataTable/DataToolbar';
 import { Pagination, PaginationFragment } from 'src/graphql';
 
-import { FieldConfig } from './DataFilter';
+import { FieldConfig } from './FilterButton';
 
 export type RequestParams = {
   page: number;

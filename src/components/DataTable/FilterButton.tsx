@@ -1,7 +1,7 @@
-import { Button, Group, Select, SegmentedControl, TextInput } from '@mantine/core';
+import { Button, Group, Select, SegmentedControl, TextInput, Popover } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { IconFilter2Search } from '@tabler/icons-react';
 import React, { useState } from 'react';
-import { EventBus, EventBusEnum } from 'src/utils';
 
 // 定义字段类型
 export interface FieldConfig {
@@ -12,7 +12,7 @@ export interface FieldConfig {
   operator?: string;
 }
 
-export interface DataFilterProps {
+export interface FilterButtonProps {
   fields?: FieldConfig[];
   onFilterChange?: (filter: any) => void;
   size?: 'xs' | 'sm';
@@ -101,7 +101,10 @@ const createNewFilter = (fields: FieldConfig[]) => {
   return { id: Date.now(), field: firstField.name, operator: defaultOperator, value: '' };
 };
 
-export const DataFilter: React.FC<DataFilterProps> = ({ fields = [], onFilterChange, size }) => {
+export const FilterButton: React.FC<FilterButtonProps> = ({ fields = [], onFilterChange, size = 'xs' }) => {
+  const [opened, setOpened] = useState(false);
+
+  // 获取字段列表
   const [filterFields, setFilterFields] = useState<Array<{ id: number; field: string; operator: string; value: any }>>(
     []
   );
@@ -185,6 +188,7 @@ export const DataFilter: React.FC<DataFilterProps> = ({ fields = [], onFilterCha
     if (onFilterChange) {
       onFilterChange(prismaFilter);
     }
+    setOpened(false);
   };
 
   // 重置过滤器
@@ -196,102 +200,112 @@ export const DataFilter: React.FC<DataFilterProps> = ({ fields = [], onFilterCha
       onFilterChange({});
     }
   };
-  EventBus.on(EventBusEnum.ResetFilter, resetFilter);
 
   // 判断是否有有效的过滤条件
   const hasValidFilters = filterFields.length > 0 && filterFields.some((filter) => filter.field);
-
   return (
-    <>
-      {/* 添加逻辑操作符选择器 */}
-      <Group gap={size}>
-        <Button size={size} variant="default" onClick={addFilter}>
-          添加条件
+    <Popover withArrow trapFocus opened={opened} onChange={setOpened} position="bottom-start" shadow="md">
+      <Popover.Target>
+        <Button
+          disabled={!fields.length}
+          variant="default"
+          leftSection={<IconFilter2Search size={14} />}
+          onClick={() => setOpened((o) => !o)}
+        >
+          过滤
         </Button>
-        <SegmentedControl
-          size={size}
-          value={logicOperator}
-          disabled={!hasValidFilters}
-          style={{ outline: '1px solid var(--app-shell-border-color)', outlineOffset: '-1px' }}
-          onChange={(value) => setLogicOperator(value as 'AND' | 'OR')}
-          data={[
-            { label: 'AND (且)', value: 'AND' },
-            { label: 'OR (或)', value: 'OR' },
-          ]}
-        />
-        <Button size={size} variant="filled" onClick={applyFilter} disabled={!hasValidFilters}>
-          应用过滤
-        </Button>
-        <Button size={size} variant="light" onClick={resetFilter} disabled={!hasValidFilters}>
-          重置
-        </Button>
-      </Group>
+      </Popover.Target>
+      <Popover.Dropdown>
+        {/* 添加逻辑操作符选择器 */}
+        <Group gap={size}>
+          <Button disabled={!fields.length} size={size} variant="default" onClick={addFilter}>
+            添加条件
+          </Button>
+          <SegmentedControl
+            size={size}
+            value={logicOperator}
+            disabled={!hasValidFilters}
+            style={{ outline: '1px solid var(--app-shell-border-color)', outlineOffset: '-1px' }}
+            onChange={(value) => setLogicOperator(value as 'AND' | 'OR')}
+            data={[
+              { label: 'AND (且)', value: 'AND' },
+              { label: 'OR (或)', value: 'OR' },
+            ]}
+          />
+          <Button size={size} variant="filled" onClick={applyFilter} disabled={!hasValidFilters}>
+            应用过滤
+          </Button>
+          <Button size={size} variant="light" onClick={resetFilter} disabled={!hasValidFilters}>
+            重置
+          </Button>
+        </Group>
 
-      {filterFields.map((filter) => (
-        <Group mt={size} gap={size} key={filter.id}>
-          <Select
-            w={size === 'xs' ? 100 : 200}
-            size={size}
-            allowDeselect={false}
-            placeholder="选择字段"
-            value={filter.field}
-            comboboxProps={{ withinPortal: false }}
-            onChange={(value) => updateFilter(filter.id, 'field', value)}
-            data={fields.map((field) => ({
-              value: field.name,
-              label: field.label,
-            }))}
-          />
-          <Select
-            w={size === 'xs' ? 80 : 150}
-            size={size}
-            allowDeselect={false}
-            placeholder="操作符"
-            value={filter.operator}
-            comboboxProps={{ withinPortal: false }}
-            onChange={(value) => updateFilter(filter.id, 'operator', value)}
-            data={(() => {
-              const fieldConfig = getFieldConfig(fields, filter.field);
-              if (fieldConfig) {
-                return getOperatorsByFieldType(fieldConfig.type);
+        {filterFields.map((filter) => (
+          <Group mt={size} gap={size} key={filter.id}>
+            <Select
+              w={size === 'xs' ? 100 : 200}
+              size={size}
+              allowDeselect={false}
+              placeholder="选择字段"
+              value={filter.field}
+              comboboxProps={{ withinPortal: false }}
+              onChange={(value) => updateFilter(filter.id, 'field', value)}
+              data={fields.map((field) => ({
+                value: field.name,
+                label: field.label,
+              }))}
+            />
+            <Select
+              w={size === 'xs' ? 80 : 150}
+              size={size}
+              allowDeselect={false}
+              placeholder="操作符"
+              value={filter.operator}
+              comboboxProps={{ withinPortal: false }}
+              onChange={(value) => updateFilter(filter.id, 'operator', value)}
+              data={(() => {
+                const fieldConfig = getFieldConfig(fields, filter.field);
+                if (fieldConfig) {
+                  return getOperatorsByFieldType(fieldConfig.type);
+                }
+                return Object.entries(OPERATORS).map(([value, label]) => ({
+                  value,
+                  label,
+                }));
+              })()}
+            />
+            {(() => {
+              const fieldConfig = fields.find((f) => f.name === filter.field);
+              if (fieldConfig?.type === 'select') {
+                return (
+                  <Select
+                    w={size === 'xs' ? 100 : 200}
+                    size={size}
+                    placeholder="值"
+                    data={fieldConfig.options || []}
+                    value={filter.value}
+                    comboboxProps={{ withinPortal: false }}
+                    onChange={(value) => updateFilter(filter.id, 'value', value)}
+                    clearable
+                  />
+                );
               }
-              return Object.entries(OPERATORS).map(([value, label]) => ({
-                value,
-                label,
-              }));
-            })()}
-          />
-          {(() => {
-            const fieldConfig = fields.find((f) => f.name === filter.field);
-            if (fieldConfig?.type === 'select') {
               return (
-                <Select
+                <TextInput
                   w={size === 'xs' ? 100 : 200}
                   size={size}
                   placeholder="值"
-                  data={fieldConfig.options || []}
                   value={filter.value}
-                  comboboxProps={{ withinPortal: false }}
-                  onChange={(value) => updateFilter(filter.id, 'value', value)}
-                  clearable
+                  onChange={(e) => updateFilter(filter.id, 'value', e.target.value)}
                 />
               );
-            }
-            return (
-              <TextInput
-                w={size === 'xs' ? 100 : 200}
-                size={size}
-                placeholder="值"
-                value={filter.value}
-                onChange={(e) => updateFilter(filter.id, 'value', e.target.value)}
-              />
-            );
-          })()}
-          <Button size={size} variant="light" color="red" onClick={() => removeFilter(filter.id)}>
-            删除
-          </Button>
-        </Group>
-      ))}
-    </>
+            })()}
+            <Button size={size} variant="light" color="red" onClick={() => removeFilter(filter.id)}>
+              删除
+            </Button>
+          </Group>
+        ))}
+      </Popover.Dropdown>
+    </Popover>
   );
 };
