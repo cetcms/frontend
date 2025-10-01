@@ -2,7 +2,7 @@ import { Card, Group, Button, Divider } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import React from 'react';
 
-import { FilterButton, FilterButtonProps } from './FilterButton';
+import { FilterButton, FilterButtonProps } from './FilterButton/FilterButton';
 
 export interface DataToolbarProps {
   fields?: FilterButtonProps['fields'];
