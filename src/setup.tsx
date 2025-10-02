@@ -27,10 +27,10 @@ export const SetupApp = async (options?: SetupAppOptions) => {
   const container = document.querySelector('#root');
   const root = createRoot(container as Element);
   root.render(
-    <InitializeProvider setupOptions={options}>
-      <ApolloProvider>
+    <ApolloProvider>
+      <InitializeProvider setupOptions={options}>
         <Router />
-      </ApolloProvider>
-    </InitializeProvider>
+      </InitializeProvider>
+    </ApolloProvider>
   );
 };

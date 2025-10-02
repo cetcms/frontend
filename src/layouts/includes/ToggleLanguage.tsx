@@ -37,6 +37,7 @@ export const ToggleLanguage = () => {
   const handleChange = (lang: string) => {
     i18n.changeLanguage(lang).then(() => {
       localStorage.setItem('app-language', lang);
+      location.reload();
     });
   };
 

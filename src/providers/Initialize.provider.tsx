@@ -1,6 +1,9 @@
+import { useQuery } from '@apollo/client/react';
 import { MantineProvider } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Loading } from 'src/components';
+import { TranslationsDocument } from 'src/graphql';
 import { SetupAppOptions } from 'src/setup';
 import { useMenuStore, useThemeStore } from 'src/store';
 
@@ -8,6 +11,19 @@ export interface InitializeProviderProps {
   children: React.ReactNode;
   setupOptions?: SetupAppOptions;
 }
+
+const useLoadTranslations = (scope: string) => {
+  const { i18n } = useTranslation();
+  const { data, loading } = useQuery(TranslationsDocument, {
+    variables: { scope },
+  });
+  useEffect(() => {
+    if (data?.translations) {
+      i18n.addResourceBundle(i18n.language, scope, data.translations);
+    }
+  }, [data]);
+  return { loading };
+};
 
 const useRegisterMenus = (registerMenus: SetupAppOptions['registerMenus']) => {
   // 注册菜单
@@ -61,10 +77,11 @@ const useRegisterTheme = (registerTheme: SetupAppOptions['registerTheme']) => {
 };
 
 export const InitializeProvider: React.FC<InitializeProviderProps> = ({ children, setupOptions }) => {
-  const { registerMenus } = setupOptions || {};
+  const { registerMenus, registerTheme } = setupOptions || {};
   const { loading: menuLoading } = useRegisterMenus(registerMenus);
-  const { loading: themeLoading, theme } = useRegisterTheme(setupOptions?.registerTheme);
-  if (menuLoading || themeLoading) {
+  const { loading: themeLoading, theme } = useRegisterTheme(registerTheme);
+  const { loading: translationsLoading } = useLoadTranslations('models');
+  if (menuLoading || themeLoading || translationsLoading) {
     return <Loading native />;
   }
   return <MantineProvider theme={theme}>{children}</MantineProvider>;

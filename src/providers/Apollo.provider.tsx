@@ -3,6 +3,7 @@ import { ApolloProvider as ApolloClientProvider } from '@apollo/client/react';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import React, { useEffect, useState } from 'react';
 import { Loading } from 'src/components';
+import i18n from 'src/i18n';
 import { useAuthStore } from 'src/store/auth';
 const agent = FingerprintJS.load();
 
@@ -24,6 +25,7 @@ const createClient = (options: CreateClientOptions) => {
   }
   headers['Apollo-Require-Preflight'] = 'true';
   headers['Content-Type'] = 'application/json';
+  headers[RequestHeaders.Language] = i18n.language;
   return new ApolloClient({
     cache: new InMemoryCache(),
     link: new HttpLink({
@@ -63,7 +65,7 @@ export const ApolloProvider: React.FC<ApolloProviderProps> = ({ children }) => {
 
   // 等待 Apollo 客户端创建完成
   if (!client) {
-    return <Loading />;
+    return <Loading native />;
   }
 
   // 渲染子组件
