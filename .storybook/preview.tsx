@@ -1,8 +1,7 @@
 import '@mantine/core/styles.css';
 
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
-
-import { theme } from '../src/theme';
+import { useThemeStore } from 'src/store';
 
 export const parameters = {
   layout: 'fullscreen',
@@ -31,6 +30,7 @@ export const globalTypes = {
 export const decorators = [
   (renderStory: any, context: any) => {
     const scheme = (context.globals.theme || 'light') as 'light' | 'dark';
+    const { theme } = useThemeStore();
     return (
       <MantineProvider theme={theme} forceColorScheme={scheme}>
         <ColorSchemeScript />
