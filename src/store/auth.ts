@@ -33,15 +33,23 @@ export const useAuthStore = create<AuthStore>()((set, getState) => ({
     return set(() => ({ login: null }));
   },
   checkLogin: () => {
+    const currentLogin = getState().login;
     try {
-      const login: Login = JSON.parse(localStorage.getItem(STORAGE_KEY) || '');
-      if (login && login.accessToken && new Date().getTime() < login.accessTimeout) {
-        return set(() => ({ login }));
+      const storedLogin: Login = JSON.parse(localStorage.getItem(STORAGE_KEY) || '');
+      if (storedLogin && storedLogin.accessToken && new Date().getTime() < storedLogin.accessTimeout) {
+        // 只在登录状态真正发生变化时才更新
+        if (!currentLogin || currentLogin.accessToken !== storedLogin.accessToken) {
+          return set(() => ({ login: storedLogin }));
+        }
+        return; // 状态未变化，不触发更新
       }
     } catch {
-      // 忽略
+      // 忽略解析错误
     }
-    return set(() => ({ login: null }));
+    // 只在当前有登录状态时才清除（避免重复设置 null）
+    if (currentLogin) {
+      return set(() => ({ login: null }));
+    }
   },
   initialized: false,
   initialize: () => {
