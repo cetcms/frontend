@@ -3,6 +3,7 @@ import 'mantine-datatable/styles.layer.css';
 import 'mantine-contextmenu/styles.layer.css';
 import '@mantine/nprogress/styles.css';
 import '@mantine/dropzone/styles.css';
+import '@mantine/dates/styles.css';
 import '@mantine/notifications/styles.css';
 import '@mantine/charts/styles.css';
 import 'src/styles/main.scss';

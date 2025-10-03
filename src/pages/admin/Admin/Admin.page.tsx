@@ -25,6 +25,8 @@ export const AdminPage = () => {
         { name: 'name', label: t('Admin.name'), type: 'text' },
         { name: 'email', label: t('Admin.email'), type: 'text' },
         { name: 'updatedAt', label: t('Admin.updatedAt'), type: 'date' },
+        { name: 'test', label: t('Admin.updatedAt'), type: 'boolean' },
+        { name: 'id', label: t('Admin.id'), type: 'number' },
         {
           name: 'status',
           label: t('Admin.status'),
