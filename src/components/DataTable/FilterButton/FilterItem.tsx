@@ -1,4 +1,4 @@
-import { Button, Group, Select, TextInput, NumberInput, Switch, SegmentedControl } from '@mantine/core';
+import { Button, Group, Select, TextInput, NumberInput, Switch, SegmentedControl, MultiSelect } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
 import React from 'react';
 
@@ -77,7 +77,24 @@ export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, on
           />
         );
 
-      case 'select':
+      case 'select': {
+        // 检查操作符是否为 in 或 notIn，以决定是使用 MultiSelect 还是 Select
+        const isMultiSelect = filter.operator === 'in' || filter.operator === 'notIn';
+
+        if (isMultiSelect) {
+          return (
+            <MultiSelect
+              w={size === 'xs' ? 130 : 200}
+              size={size}
+              placeholder="值"
+              data={fieldConfig.options || []}
+              value={Array.isArray(filter.value) ? filter.value : filter.value ? [filter.value] : []}
+              comboboxProps={{ withinPortal: false }}
+              onChange={(value) => onUpdate(filter.id, 'value', value)}
+              clearable
+            />
+          );
+        }
         return (
           <Select
             w={size === 'xs' ? 130 : 200}
@@ -90,6 +107,7 @@ export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, on
             clearable
           />
         );
+      }
 
       default: // text 类型
         return (

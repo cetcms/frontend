@@ -75,7 +75,9 @@ export const createNewFilter = (fields: FieldConfig[]) => {
   }
 
   const defaultOperator = getDefaultOperator(firstField.type);
-  return { id: Date.now(), field: firstField.name, operator: defaultOperator, value: '' };
+  // 对于 in 和 notIn 操作符，初始值应该是空数组
+  const initialValue = (defaultOperator === 'in' || defaultOperator === 'notIn') ? [] : '';
+  return { id: Date.now(), field: firstField.name, operator: defaultOperator, value: initialValue };
 };
 
 // 生成 Prisma 查询结构
@@ -89,7 +91,23 @@ export const generatePrismaFilter = (filterFields: any[], logicOperator: 'AND' |
     filterFields.forEach((filter) => {
       if (filter.field) {
         const condition: any = {};
-        condition[filter.operator] = filter.value;
+        
+        // 处理 in 和 notIn 操作符，确保值是数组
+        if ((filter.operator === 'in' || filter.operator === 'notIn')) {
+          // 确保值是数组格式
+          if (Array.isArray(filter.value)) {
+            condition[filter.operator] = filter.value;
+          } else if (filter.value) {
+            // 如果不是数组但有值，转换为单元素数组
+            condition[filter.operator] = [filter.value];
+          } else {
+            // 如果没有值，使用空数组
+            condition[filter.operator] = [];
+          }
+        } else {
+          condition[filter.operator] = filter.value;
+        }
+        
         where[logicOperator].push({
           [filter.field]: condition,
         });

@@ -53,7 +53,20 @@ export const FilterButton: React.FC<FilterButtonProps> = ({ fields = [], onFilte
           const fieldConfig = fields.find((f) => f.name === value);
           if (fieldConfig) {
             const defaultOperator = getDefaultOperator(fieldConfig.type);
-            return { ...filter, [property]: value, operator: defaultOperator };
+            // 对于 in 和 notIn 操作符，值应该是数组
+            const newValue = (defaultOperator === 'in' || defaultOperator === 'notIn') ? [] : '';
+            return { ...filter, [property]: value, operator: defaultOperator, value: newValue };
+          }
+        }
+        // 如果更改的是操作符，需要检查是否为 in/notIn 来调整值的类型
+        else if (property === 'operator') {
+          // 如果新操作符是 in 或 notIn，而当前值不是数组，则将值转换为数组
+          if ((value === 'in' || value === 'notIn') && !Array.isArray(filter.value)) {
+            return { ...filter, [property]: value, value: [] };
+          }
+          // 如果新操作符不是 in 或 notIn，而当前值是数组，则取第一个值或空字符串
+          else if (value !== 'in' && value !== 'notIn' && Array.isArray(filter.value)) {
+            return { ...filter, [property]: value, value: filter.value.length > 0 ? filter.value[0] : '' };
           }
         }
         return { ...filter, [property]: value };
