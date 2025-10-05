@@ -1,6 +1,8 @@
 import { useQuery } from '@apollo/client/react';
+import { Group } from '@mantine/core';
+import { IconEdit, IconEye, IconTrash } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
-import { DataTable } from 'src/components';
+import { DataTable, IconButton } from 'src/components';
 import { PaginateAdminsDocument, PaginationFragment, Status } from 'src/graphql';
 
 export const AdminPage = () => {
@@ -21,42 +23,53 @@ export const AdminPage = () => {
       loading={loading}
       pagination={pagination}
       records={items}
-      filterFields={[
-        { name: 'name', label: t('Admin.name'), type: 'text' },
-        { name: 'email', label: t('Admin.email'), type: 'text' },
-        { name: 'updatedAt', label: t('Admin.updatedAt'), type: 'date' },
-        { name: 'test', label: t('Admin.updatedAt'), type: 'boolean' },
-        { name: 'id', label: t('Admin.id'), type: 'number' },
+      columns={[
         {
-          name: 'status',
-          label: t('Admin.status'),
-          type: 'select',
+          accessor: 'id',
+          title: t('Admin.id'),
+          type: 'string',
+        },
+        {
+          accessor: 'email',
+          title: t('Admin.email'),
+          type: 'string',
+        },
+        {
+          accessor: 'name',
+          title: t('Admin.name'),
+          type: 'string',
+        },
+        {
+          accessor: 'status',
+          title: t('Admin.status'),
+          type: 'enum',
           options: [
             { label: '启用', value: Status.Enabled },
             { label: '禁用', value: Status.Disabled },
           ],
         },
-      ]}
-      columns={[
-        {
-          accessor: 'email',
-          title: t('Admin.email'),
-        },
-        {
-          accessor: 'name',
-          title: t('Admin.name'),
-        },
-        {
-          accessor: 'status',
-          title: t('Admin.status'),
-        },
         {
           accessor: 'createdAt',
           title: t('Admin.createdAt'),
+          type: 'date',
         },
         {
           accessor: 'updatedAt',
           title: t('Admin.updatedAt'),
+          type: 'date',
+        },
+        {
+          accessor: 'actions',
+          title: t('actions'),
+          textAlign: 'center',
+          width: 200,
+          render: () => (
+            <Group gap="xs" justify="center">
+              <IconButton tooltip={t('view')} icon={IconEye} onClick={() => {}} />
+              <IconButton tooltip={t('edit')} icon={IconEdit} onClick={() => {}} />
+              <IconButton tooltip={t('delete')} icon={IconTrash} onClick={() => {}} />
+            </Group>
+          ),
         },
       ]}
     />

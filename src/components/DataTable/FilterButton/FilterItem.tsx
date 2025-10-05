@@ -1,4 +1,4 @@
-import { Button, Group, Select, TextInput, NumberInput, Switch, SegmentedControl, MultiSelect } from '@mantine/core';
+import { Button, Group, Select, TextInput, NumberInput, SegmentedControl, MultiSelect } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
 import React from 'react';
 
@@ -21,7 +21,7 @@ interface FilterItemProps {
 export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, onUpdate, onRemove }) => {
   // 获取字段配置
   const getFieldConfig = (fieldName: string) => {
-    return fields.find((field) => field.name === fieldName);
+    return fields.find((field) => field.accessor === fieldName);
   };
 
   const fieldConfig = getFieldConfig(filter.field);
@@ -77,7 +77,7 @@ export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, on
           />
         );
 
-      case 'select': {
+      case 'enum': {
         // 检查操作符是否为 in 或 notIn，以决定是使用 MultiSelect 还是 Select
         const isMultiSelect = filter.operator === 'in' || filter.operator === 'notIn';
 
@@ -109,7 +109,7 @@ export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, on
         );
       }
 
-      default: // text 类型
+      default: // string 类型
         return (
           <TextInput
             w={size === 'xs' ? 130 : 200}
@@ -133,8 +133,8 @@ export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, on
         comboboxProps={{ withinPortal: false }}
         onChange={(value) => onUpdate(filter.id, 'field', value)}
         data={fields.map((field) => ({
-          value: field.name,
-          label: field.label,
+          value: field.accessor,
+          label: field.title,
         }))}
       />
       <Select

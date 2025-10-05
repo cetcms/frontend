@@ -18,7 +18,7 @@ export const OPERATORS: Record<string, string> = {
 // 根据字段类型获取可用操作符
 export const getOperatorsByFieldType = (fieldType: FieldConfig['type']) => {
   switch (fieldType) {
-    case 'text':
+    case 'string':
       return [
         { value: 'contains', label: '包含' },
         { value: 'equals', label: '等于' },
@@ -49,7 +49,7 @@ export const getOperatorsByFieldType = (fieldType: FieldConfig['type']) => {
         { value: 'equals', label: '等于' },
         { value: 'not', label: '不等于' },
       ];
-    case 'select':
+    case 'enum':
       return [
         { value: 'equals', label: '等于' },
         { value: 'not', label: '不等于' },
@@ -76,8 +76,8 @@ export const createNewFilter = (fields: FieldConfig[]) => {
 
   const defaultOperator = getDefaultOperator(firstField.type);
   // 对于 in 和 notIn 操作符，初始值应该是空数组
-  const initialValue = (defaultOperator === 'in' || defaultOperator === 'notIn') ? [] : '';
-  return { id: Date.now(), field: firstField.name, operator: defaultOperator, value: initialValue };
+  const initialValue = defaultOperator === 'in' || defaultOperator === 'notIn' ? [] : '';
+  return { id: Date.now(), field: firstField.accessor, operator: defaultOperator, value: initialValue };
 };
 
 // 生成 Prisma 查询结构
@@ -91,9 +91,9 @@ export const generatePrismaFilter = (filterFields: any[], logicOperator: 'AND' |
     filterFields.forEach((filter) => {
       if (filter.field) {
         const condition: any = {};
-        
+
         // 处理 in 和 notIn 操作符，确保值是数组
-        if ((filter.operator === 'in' || filter.operator === 'notIn')) {
+        if (filter.operator === 'in' || filter.operator === 'notIn') {
           // 确保值是数组格式
           if (Array.isArray(filter.value)) {
             condition[filter.operator] = filter.value;
@@ -107,7 +107,7 @@ export const generatePrismaFilter = (filterFields: any[], logicOperator: 'AND' |
         } else {
           condition[filter.operator] = filter.value;
         }
-        
+
         where[logicOperator].push({
           [filter.field]: condition,
         });

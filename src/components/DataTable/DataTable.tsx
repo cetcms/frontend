@@ -1,9 +1,10 @@
 import { Card } from '@mantine/core';
-import { DataTableProps as MDataTableProps, DataTable as MDataTable } from 'mantine-datatable';
-import React from 'react';
-import { DataToolbar } from 'src/components/DataTable/DataToolbar';
+import { DataTableProps as MDataTableProps, DataTable as MDataTable, DataTableColumn } from 'mantine-datatable';
+import React, { useState } from 'react';
 import { Pagination, PaginationFragment } from 'src/graphql';
 
+import { columnsHandler } from './columns.handler';
+import { DataToolbar } from './DataToolbar';
 import { FieldConfig } from './FilterButton';
 
 export type RequestParams = {
@@ -13,22 +14,24 @@ export type RequestParams = {
   where: any;
 };
 
-export type DataTableProps = MDataTableProps & {
+export type DataTableProps = {
   pagination?: Pagination | PaginationFragment;
   loading?: boolean;
-  filterFields?: FieldConfig[];
   onChangeRequest?: (params: RequestParams) => void;
-};
+  columns: Array<
+    DataTableColumn & {
+      type?: FieldConfig['type'];
+      options?: FieldConfig['options'];
+    }
+  >;
+} & MDataTableProps;
 
-export const DataTable: React.FC<DataTableProps> = ({
-  pagination,
-  loading,
-  filterFields,
-  onChangeRequest,
-  ...props
-}) => {
-  const [where, setWhere] = React.useState({});
-
+export const DataTable: React.FC<DataTableProps> = ({ pagination, loading, onChangeRequest, ...props }) => {
+  const [where, setWhere] = useState({});
+  props.highlightOnHover = true;
+  props.verticalSpacing = 'xs';
+  props.verticalAlign = 'center';
+  props.fz = 'xs';
   props.minHeight = 300;
   props.styles = {
     ...props.styles,
@@ -40,6 +43,12 @@ export const DataTable: React.FC<DataTableProps> = ({
       ...props.styles?.root,
       backgroundColor: 'transparent',
     },
+  };
+
+  props.defaultColumnProps = {
+    ...props.defaultColumnProps,
+    noWrap: true,
+    ellipsis: true,
   };
 
   if (pagination && pagination.totalCount > pagination.take) {
@@ -73,9 +82,31 @@ export const DataTable: React.FC<DataTableProps> = ({
     }
   };
 
+  const [columns, setColumns] = useState(props.columns);
+  const onChangeColumns = (columns: any) => {
+    setColumns(columns);
+  };
+  const defaultColumns = props.columns || [];
+  props.columns = columnsHandler(columns || []);
+
+  const filterFields = props.columns.reduce((res: FieldConfig[], col) => {
+    if (col.type) {
+      res.push({
+        title: String(col.title),
+        accessor: col.accessor,
+        type: col.type,
+      });
+    }
+    return res;
+  }, []);
   return (
     <>
-      <DataToolbar fields={filterFields} onFilterChange={handleFilterChange} />
+      <DataToolbar
+        fields={filterFields}
+        onFilterChange={handleFilterChange}
+        onChangeColumns={onChangeColumns}
+        columns={defaultColumns || []}
+      />
       <Card m="xs" withBorder>
         <MDataTable {...props} />
       </Card>

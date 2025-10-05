@@ -49,10 +49,11 @@ export const initializeI18n = async () => {
     resources,
     lng: defaultLanguage,
     fallbackLng: 'zh',
+    fallbackNS: 'common',
+    defaultNS: 'common',
     interpolation: {
       escapeValue: false,
     },
-    defaultNS: 'common',
     saveMissing: true,
   });
 

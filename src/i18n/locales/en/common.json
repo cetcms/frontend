@@ -1,4 +1,14 @@
 {
+  "actions": "Actions",
+  "add": "Add",
   "cancel": "Cancel",
-  "confirm": "Confirm"
+  "confirm": "Confirm",
+  "delete": "Delete",
+  "edit": "Edit",
+  "search": "Search",
+  "save": "Save",
+  "view": "View",
+  "YYYY-MM-DD HH:mm:ss": "MMM DD,YYYY\n A HH:mm:ss",
+  "YYYY-MM-DD": "DD/MM/YYYY",
+  "HH:mm:ss": "HH:mm:ss"
 }

@@ -50,11 +50,11 @@ export const FilterButton: React.FC<FilterButtonProps> = ({ fields = [], onFilte
       if (filter.id === id) {
         // 如果更改的是字段，则重置操作符为该字段类型的默认操作符
         if (property === 'field') {
-          const fieldConfig = fields.find((f) => f.name === value);
+          const fieldConfig = fields.find((f) => f.accessor === value);
           if (fieldConfig) {
             const defaultOperator = getDefaultOperator(fieldConfig.type);
             // 对于 in 和 notIn 操作符，值应该是数组
-            const newValue = (defaultOperator === 'in' || defaultOperator === 'notIn') ? [] : '';
+            const newValue = defaultOperator === 'in' || defaultOperator === 'notIn' ? [] : '';
             return { ...filter, [property]: value, operator: defaultOperator, value: newValue };
           }
         }
