@@ -1,9 +1,10 @@
 import { Card } from '@mantine/core';
 import { DataTableProps as MDataTableProps, DataTable as MDataTable, DataTableColumn } from 'mantine-datatable';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ActionColumn, ActionColumnProps } from 'src/components/DataTable/ActionColumn';
 import { Pagination, PaginationFragment } from 'src/graphql';
 
-import { actionsColumn, ActionsColumnOptions } from './actions.column';
 import { columnsHandler } from './columns.handler';
 import { DataToolbar } from './DataToolbar';
 import { FieldConfig } from './FilterButton';
@@ -19,8 +20,8 @@ export type DataTableProps = {
   pagination?: Pagination | PaginationFragment;
   loading?: boolean;
   addRoutePath?: string;
-  editRoute?: ActionsColumnOptions['editRoute'];
-  viewRoute?: ActionsColumnOptions['viewRoute'];
+  editRoute?: ActionColumnProps['editRoute'];
+  viewRoute?: ActionColumnProps['viewRoute'];
   onChangeRequest?: (params: RequestParams) => void;
   onDeleteItem?: (item: any) => any;
   columns: Array<
@@ -41,6 +42,7 @@ export const DataTable: React.FC<DataTableProps> = ({
   onChangeRequest,
   ...props
 }) => {
+  const { t } = useTranslation();
   const [where, setWhere] = useState({});
   props.highlightOnHover = true;
   props.verticalSpacing = 'xs';
@@ -97,18 +99,20 @@ export const DataTable: React.FC<DataTableProps> = ({
   };
 
   const [columns, setColumns] = useState(props.columns);
-  const onChangeColumns = (columns: any) => {
-    setColumns(columns);
+  const onChangeColumns = (columns: DataTableColumn[]) => {
+    const access = columns.map((column) => column.accessor);
+    setColumns(props.columns.filter((c) => access.includes(c.accessor)));
   };
-  const defaultColumns = props.columns || [];
-  props.columns = columnsHandler(columns || []);
 
-  const _actionsColumn = actionsColumn({
-    editRoute,
-    viewRoute,
-  });
-  if (_actionsColumn) {
-    props.columns.push(_actionsColumn);
+  const expandColumns: DataTableColumn[] = [];
+  if (editRoute || viewRoute) {
+    expandColumns.push({
+      accessor: 'actions',
+      title: t('actions'),
+      textAlign: 'center',
+      width: 200,
+      render: (item: any) => <ActionColumn item={item} viewRoute={viewRoute} editRoute={editRoute} />,
+    });
   }
 
   const filterFields = props.columns.reduce((res: FieldConfig[], col) => {
@@ -128,10 +132,10 @@ export const DataTable: React.FC<DataTableProps> = ({
         fields={filterFields}
         onFilterChange={handleFilterChange}
         onChangeColumns={onChangeColumns}
-        columns={defaultColumns || []}
+        columns={props.columns}
       />
       <Card m="md" withBorder>
-        <MDataTable {...props} />
+        <MDataTable {...props} columns={[...columnsHandler(columns), ...expandColumns]} />
       </Card>
     </>
   );

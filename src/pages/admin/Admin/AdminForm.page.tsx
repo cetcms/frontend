@@ -1,14 +1,26 @@
-import { Box } from '@mantine/core';
+import { useLazyQuery } from '@apollo/client/react';
+import { Box, LoadingOverlay } from '@mantine/core';
+import { useEffect } from 'react';
 import { useSearchParams } from 'react-router';
+import { Admin, FindOneAdminDocument } from 'src/graphql';
 
 import { AdminForm } from './Admin.form';
 
 export const AdminFormPage = () => {
+  const [findOneAdmin, { data, loading }] = useLazyQuery(FindOneAdminDocument);
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id');
+  useEffect(() => {
+    if (id) findOneAdmin({ variables: { id } });
+  }, [id]);
+
+  if (loading) {
+    return <LoadingOverlay visible />;
+  }
+
   return (
     <Box m="md">
-      <AdminForm id={id || undefined} />
+      <AdminForm item={data?.findOneAdmin as Admin} />
     </Box>
   );
 };

@@ -1,26 +1,24 @@
-import { useLazyQuery } from '@apollo/client/react';
 import { Button, Card, Divider, Grid, Group, PasswordInput, Select, Stack, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { IconArrowLeft, IconCheck } from '@tabler/icons-react';
-import React, { useCallback, useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
-import { Admin, AdminUpdateInput, FindOneAdminDocument, Status } from 'src/graphql';
+import { Admin, AdminUpdateInput, Status } from 'src/graphql';
 
 export type AdminFormProps = {
-  id?: string;
+  item?: Admin;
 };
 
-export const AdminForm: React.FC<AdminFormProps> = ({ id }) => {
+export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
   const { t } = useTranslation('models');
-  const [findOneAdmin] = useLazyQuery(FindOneAdminDocument);
   const form = useForm<AdminUpdateInput & { confirmPassword: string }>({
     initialValues: {
-      email: '',
-      name: '',
-      password: '',
+      email: item?.email || '',
+      name: item?.name || '',
+      status: item?.status || Status.Enabled,
       confirmPassword: '',
-      status: Status.Enabled,
+      password: '',
     },
     validate: {
       email: (value) => (value && value.length < 5 ? t('Admin.email.minLength') : null),
@@ -30,34 +28,10 @@ export const AdminForm: React.FC<AdminFormProps> = ({ id }) => {
     },
   });
 
-  const initialValues = useCallback(
-    (id: string) => {
-      findOneAdmin({ variables: { id } }).then(({ data }) => {
-        if (data?.findOneAdmin) {
-          const admin = data.findOneAdmin as Admin;
-          form.setValues({
-            email: admin.email,
-            name: admin.name,
-            status: admin.status,
-          });
-        }
-      });
-    },
-    [id]
-  );
-
-  const resetValues = () => {
-    form.reset();
-    if (id) initialValues(id);
-  };
-
-  useEffect(() => {
-    if (id) initialValues(id);
-  }, [id]);
-
   const handleSubmit = () => {
     console.log(form.values);
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <Stack maw={800} gap="md">
@@ -66,13 +40,15 @@ export const AdminForm: React.FC<AdminFormProps> = ({ id }) => {
             <Button variant="default" component={Link} to="/admin/list">
               <IconArrowLeft size={16} />
             </Button>
-            {id ? <Text>编辑管理员信息</Text> : <Text>添加管理员信息</Text>}
+            {item ? <Text>编辑管理员信息</Text> : <Text>添加管理员信息</Text>}
           </Group>
           <Group justify="center">
-            <Button variant="default" onClick={() => resetValues()}>
+            <Button disabled={!form.isDirty()} variant="default" onClick={() => form.reset()}>
               重置
             </Button>
-            <Button leftSection={<IconCheck size={14} />}>保存</Button>
+            <Button disabled={!form.isDirty()} leftSection={<IconCheck size={14} />} type="submit">
+              保存
+            </Button>
           </Group>
         </Group>
         <Card withBorder>
@@ -87,7 +63,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({ id }) => {
               <PasswordInput label={t('Admin.password')} {...form.getInputProps('password')} />
             </Grid.Col>
             <Grid.Col span={1}>
-              <PasswordInput label={t('confirmPassword')} {...form.getInputProps('confirm_password')} />
+              <PasswordInput label={t('confirmPassword')} {...form.getInputProps('confirmPassword')} />
             </Grid.Col>
             <Grid.Col span={1}>
               <Select
