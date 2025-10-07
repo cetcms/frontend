@@ -12,6 +12,7 @@ export type MenuItem = {
   path?: string;
   active?: boolean;
   children?: MenuItem[];
+  hide?: boolean;
   type?: 'divider';
   description?: string;
 };
@@ -80,6 +81,11 @@ export const useMenuStore = create<MenuStore>((set, get) => ({
           path: '/company/list',
         },
         {
+          id: 'company-list-add',
+          label: '添加公司',
+          path: '/company/list/add',
+        },
+        {
           id: 'company-role',
           label: '公司角色',
           path: '/company/roles',
@@ -96,6 +102,20 @@ export const useMenuStore = create<MenuStore>((set, get) => ({
           id: 'admin-list',
           label: '管理员列表',
           path: '/admin/list',
+          children: [
+            {
+              id: 'admin-list-add',
+              label: '添加管理员',
+              path: '/admin/add',
+              hide: true,
+            },
+            {
+              id: 'admin-list-edit',
+              label: '编辑管理员',
+              path: '/admin/edit',
+              hide: true,
+            },
+          ],
         },
         {
           id: 'admin-role',

@@ -29,19 +29,19 @@ const RenderLink: React.FC<RenderLinkProps> = ({ link }) => {
     return <Divider size="xs" />;
   }
 
+  const children = link.children?.filter((child) => !child.hide);
+  const childrenCount = children?.length || 0;
   const pathname = location.pathname;
-  const childrenCount = link.children?.length || 0;
 
   // 判断当前菜单项的激活状态
   const isCurrentActive = isMenuActive(link.id);
   const isCurrentExpanded = isMenuExpanded(link.id);
   const hasCurrentActiveChild = hasActiveChild(link.id);
-
   /**
    * 处理有子菜单的菜单项
    */
-  if (link.children && childrenCount > 0) {
-    const activeChildIndex = link.children.findIndex((child) => child.path === pathname);
+  if (children && childrenCount > 0) {
+    const activeChildIndex = children.findIndex((child) => child.path === pathname);
 
     // 当有激活的子项时，自动展开父菜单
     React.useEffect(() => {
@@ -64,7 +64,7 @@ const RenderLink: React.FC<RenderLinkProps> = ({ link }) => {
         active={isCurrentActive}
         childrenOffset={10}
       >
-        {link.children.map((child, index) => (
+        {children.map((child, index) => (
           <NavLink
             key={child.id}
             component={Link}

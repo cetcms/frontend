@@ -1,15 +1,21 @@
 import { ActionIcon, ActionIconProps, Tooltip } from '@mantine/core';
 import { Icon } from '@tabler/icons-react';
 import React from 'react';
+import { Link } from 'react-router';
 
-export interface IconButtonProps extends Omit<ActionIconProps, 'children'> {
+export type IconButtonProps = Omit<ActionIconProps, 'children'> & {
+  to?: any;
   icon: Icon;
   tooltip?: string;
   onClick?: () => void;
-}
+};
 
-export const IconButton: React.FC<IconButtonProps> = ({ icon: Icon, tooltip, ...props }) => {
-  const button = (
+export const IconButton: React.FC<IconButtonProps> = ({ icon: Icon, tooltip, to, ...props }) => {
+  const button = to ? (
+    <ActionIcon radius="xl" variant="default" to={to} component={Link} {...props}>
+      <Icon style={{ width: '70%', height: '70%' }} stroke={1.5} />
+    </ActionIcon>
+  ) : (
     <ActionIcon radius="xl" variant="default" {...props}>
       <Icon style={{ width: '70%', height: '70%' }} stroke={1.5} />
     </ActionIcon>

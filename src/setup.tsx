@@ -8,6 +8,7 @@ import '@mantine/notifications/styles.css';
 import '@mantine/charts/styles.css';
 import 'src/styles/main.scss';
 
+import { Notifications } from '@mantine/notifications';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { initializeI18n } from 'src/i18n';
@@ -30,6 +31,7 @@ export const SetupApp = async (options?: SetupAppOptions) => {
   root.render(
     <ApolloProvider>
       <InitializeProvider setupOptions={options}>
+        <Notifications />
         <Router />
       </InitializeProvider>
     </ApolloProvider>

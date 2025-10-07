@@ -144,17 +144,12 @@ export type AdminCompanyWhereInput = {
 };
 
 export type AdminCompanyWhereUniqueInput = {
-  AND?: InputMaybe<Array<AdminCompanyWhereInput>>;
-  NOT?: InputMaybe<Array<AdminCompanyWhereInput>>;
-  OR?: InputMaybe<Array<AdminCompanyWhereInput>>;
   admin?: InputMaybe<AdminScalarRelationFilter>;
   adminCompanyIdx?: InputMaybe<AdminCompanyAdminCompanyIdxCompoundUniqueInput>;
   adminId?: InputMaybe<StringFilter>;
   company?: InputMaybe<CompanyScalarRelationFilter>;
   companyId?: InputMaybe<StringFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
   permissions?: InputMaybe<StringNullableListFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
 };
 
 export type AdminCountAggregate = {
@@ -356,18 +351,13 @@ export type AdminRoleWhereInput = {
 };
 
 export type AdminRoleWhereUniqueInput = {
-  AND?: InputMaybe<Array<AdminRoleWhereInput>>;
-  NOT?: InputMaybe<Array<AdminRoleWhereInput>>;
-  OR?: InputMaybe<Array<AdminRoleWhereInput>>;
   admins?: InputMaybe<AdminListRelationFilter>;
   code?: InputMaybe<Scalars['String']['input']>;
-  createdAt?: InputMaybe<DateTimeFilter>;
   description?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   permissions?: InputMaybe<StringNullableListFilter>;
   status?: InputMaybe<EnumStatusFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
 };
 
 export enum AdminScalarFieldEnum {
@@ -423,17 +413,12 @@ export type AdminWhereInput = {
 };
 
 export type AdminWhereUniqueInput = {
-  AND?: InputMaybe<Array<AdminWhereInput>>;
-  NOT?: InputMaybe<Array<AdminWhereInput>>;
-  OR?: InputMaybe<Array<AdminWhereInput>>;
-  createdAt?: InputMaybe<DateTimeFilter>;
   email?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<StringFilter>;
   role?: InputMaybe<AdminRoleScalarRelationFilter>;
   roleId?: InputMaybe<StringFilter>;
   status?: InputMaybe<EnumStatusFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
 };
 
 export type Auth = {
@@ -533,14 +518,10 @@ export type AuthWhereInput = {
 };
 
 export type AuthWhereUniqueInput = {
-  AND?: InputMaybe<Array<AuthWhereInput>>;
-  NOT?: InputMaybe<Array<AuthWhereInput>>;
-  OR?: InputMaybe<Array<AuthWhereInput>>;
   admin?: InputMaybe<AdminNullableScalarRelationFilter>;
   adminId?: InputMaybe<StringNullableFilter>;
   company?: InputMaybe<CompanyNullableScalarRelationFilter>;
   companyId?: InputMaybe<StringNullableFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
   device?: InputMaybe<JsonNullableFilter>;
   expiredAt?: InputMaybe<DateTimeFilter>;
   fingerprint?: InputMaybe<StringNullableFilter>;
@@ -548,7 +529,6 @@ export type AuthWhereUniqueInput = {
   location?: InputMaybe<JsonNullableFilter>;
   target?: InputMaybe<EnumTargetFilter>;
   token?: InputMaybe<StringFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserNullableScalarRelationFilter>;
   userId?: InputMaybe<StringNullableFilter>;
 };
@@ -815,20 +795,15 @@ export type CompanyRoleWhereInput = {
 };
 
 export type CompanyRoleWhereUniqueInput = {
-  AND?: InputMaybe<Array<CompanyRoleWhereInput>>;
-  NOT?: InputMaybe<Array<CompanyRoleWhereInput>>;
-  OR?: InputMaybe<Array<CompanyRoleWhereInput>>;
   code?: InputMaybe<StringFilter>;
   company?: InputMaybe<CompanyNullableScalarRelationFilter>;
   companyId?: InputMaybe<StringNullableFilter>;
   companyRoleIdx?: InputMaybe<CompanyRoleCompanyRoleIdxCompoundUniqueInput>;
-  createdAt?: InputMaybe<DateTimeFilter>;
   description?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<StringFilter>;
   permissions?: InputMaybe<StringNullableListFilter>;
   status?: InputMaybe<EnumStatusFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
   users?: InputMaybe<CompanyUserListRelationFilter>;
 };
 
@@ -995,17 +970,12 @@ export type CompanyUserWhereInput = {
 };
 
 export type CompanyUserWhereUniqueInput = {
-  AND?: InputMaybe<Array<CompanyUserWhereInput>>;
-  NOT?: InputMaybe<Array<CompanyUserWhereInput>>;
-  OR?: InputMaybe<Array<CompanyUserWhereInput>>;
   company?: InputMaybe<CompanyScalarRelationFilter>;
   companyId?: InputMaybe<StringFilter>;
   companyUserIdx?: InputMaybe<CompanyUserCompanyUserIdxCompoundUniqueInput>;
-  createdAt?: InputMaybe<DateTimeFilter>;
   role?: InputMaybe<CompanyRoleScalarRelationFilter>;
   roleId?: InputMaybe<StringFilter>;
   status?: InputMaybe<EnumStatusFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserScalarRelationFilter>;
   userId?: InputMaybe<StringFilter>;
 };
@@ -1032,14 +1002,10 @@ export type CompanyWhereInput = {
 };
 
 export type CompanyWhereUniqueInput = {
-  AND?: InputMaybe<Array<CompanyWhereInput>>;
-  NOT?: InputMaybe<Array<CompanyWhereInput>>;
-  OR?: InputMaybe<Array<CompanyWhereInput>>;
   admins?: InputMaybe<AdminCompanyListRelationFilter>;
   alias?: InputMaybe<StringNullableFilter>;
   auths?: InputMaybe<AuthListRelationFilter>;
   code?: InputMaybe<Scalars['String']['input']>;
-  createdAt?: InputMaybe<DateTimeFilter>;
   description?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<RequestLogListRelationFilter>;
@@ -1048,7 +1014,6 @@ export type CompanyWhereUniqueInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   roles?: InputMaybe<CompanyRoleListRelationFilter>;
   status?: InputMaybe<EnumStatusFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
   users?: InputMaybe<CompanyUserListRelationFilter>;
 };
 
@@ -1372,14 +1337,10 @@ export type MediaFileWhereInput = {
 };
 
 export type MediaFileWhereUniqueInput = {
-  AND?: InputMaybe<Array<MediaFileWhereInput>>;
-  NOT?: InputMaybe<Array<MediaFileWhereInput>>;
-  OR?: InputMaybe<Array<MediaFileWhereInput>>;
   admin?: InputMaybe<AdminNullableScalarRelationFilter>;
   adminId?: InputMaybe<StringNullableFilter>;
   company?: InputMaybe<CompanyNullableScalarRelationFilter>;
   companyId?: InputMaybe<StringNullableFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
   description?: InputMaybe<StringNullableFilter>;
   duration?: InputMaybe<IntNullableFilter>;
   fileHash?: InputMaybe<StringFilter>;
@@ -1399,7 +1360,6 @@ export type MediaFileWhereUniqueInput = {
   ownerType?: InputMaybe<EnumTargetFilter>;
   status?: InputMaybe<EnumStatusFilter>;
   store?: InputMaybe<EnumMediaStoreFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
   uploadedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserNullableScalarRelationFilter>;
   userId?: InputMaybe<StringNullableFilter>;
@@ -1557,15 +1517,11 @@ export type MediaFolderWhereInput = {
 };
 
 export type MediaFolderWhereUniqueInput = {
-  AND?: InputMaybe<Array<MediaFolderWhereInput>>;
-  NOT?: InputMaybe<Array<MediaFolderWhereInput>>;
-  OR?: InputMaybe<Array<MediaFolderWhereInput>>;
   admin?: InputMaybe<AdminNullableScalarRelationFilter>;
   adminId?: InputMaybe<StringNullableFilter>;
   children?: InputMaybe<MediaFolderListRelationFilter>;
   company?: InputMaybe<CompanyNullableScalarRelationFilter>;
   companyId?: InputMaybe<StringNullableFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
   description?: InputMaybe<StringNullableFilter>;
   folderPathIdx?: InputMaybe<MediaFolderFolderPathIdxCompoundUniqueInput>;
   id?: InputMaybe<Scalars['String']['input']>;
@@ -1577,7 +1533,6 @@ export type MediaFolderWhereUniqueInput = {
   parentId?: InputMaybe<StringNullableFilter>;
   path?: InputMaybe<StringFilter>;
   status?: InputMaybe<EnumStatusFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserNullableScalarRelationFilter>;
   userId?: InputMaybe<StringNullableFilter>;
   visibility?: InputMaybe<EnumMediaVisibilityFilter>;
@@ -2256,9 +2211,6 @@ export type RequestLogWhereInput = {
 };
 
 export type RequestLogWhereUniqueInput = {
-  AND?: InputMaybe<Array<RequestLogWhereInput>>;
-  NOT?: InputMaybe<Array<RequestLogWhereInput>>;
-  OR?: InputMaybe<Array<RequestLogWhereInput>>;
   action?: InputMaybe<StringNullableFilter>;
   admin?: InputMaybe<AdminNullableScalarRelationFilter>;
   adminId?: InputMaybe<StringNullableFilter>;
@@ -2267,7 +2219,6 @@ export type RequestLogWhereUniqueInput = {
   body?: InputMaybe<JsonNullableFilter>;
   company?: InputMaybe<CompanyNullableScalarRelationFilter>;
   companyId?: InputMaybe<StringNullableFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
   device?: InputMaybe<JsonNullableFilter>;
   duration?: InputMaybe<BigIntFilter>;
   fingerprint?: InputMaybe<StringNullableFilter>;
@@ -2284,7 +2235,6 @@ export type RequestLogWhereUniqueInput = {
   route?: InputMaybe<StringNullableFilter>;
   subject?: InputMaybe<StringNullableFilter>;
   target?: InputMaybe<EnumTargetNullableFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserNullableScalarRelationFilter>;
   userId?: InputMaybe<StringNullableFilter>;
 };
@@ -2478,15 +2428,10 @@ export type UserWhereInput = {
 };
 
 export type UserWhereUniqueInput = {
-  AND?: InputMaybe<Array<UserWhereInput>>;
-  NOT?: InputMaybe<Array<UserWhereInput>>;
-  OR?: InputMaybe<Array<UserWhereInput>>;
-  createdAt?: InputMaybe<DateTimeFilter>;
   email?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<StringFilter>;
   status?: InputMaybe<EnumStatusFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
 };
 
 export type PaginationFragment = { __typename?: 'Pagination', take: number, skip: number, page: number, totalPages: number, totalCount: number } & { ' $fragmentName'?: 'PaginationFragment' };
@@ -2534,6 +2479,27 @@ export type PaginateAdminsQuery = { __typename?: 'Query', paginateAdmins: { __ty
       { __typename?: 'Pagination' }
       & { ' $fragmentRefs'?: { 'PaginationFragment': PaginationFragment } }
     ) | null } };
+
+export type FindOneAdminQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type FindOneAdminQuery = { __typename?: 'Query', findOneAdmin: (
+    { __typename?: 'Admin' }
+    & { ' $fragmentRefs'?: { 'AdminFragment': AdminFragment } }
+  ) };
+
+export type UpdateOneAdminMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  data: AdminUpdateInput;
+}>;
+
+
+export type UpdateOneAdminMutation = { __typename?: 'Mutation', updateOneAdmin: (
+    { __typename?: 'Admin' }
+    & { ' $fragmentRefs'?: { 'AdminFragment': AdminFragment } }
+  ) };
 
 export type LogoutQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2644,6 +2610,8 @@ export const UserFragmentDoc = {"kind":"Document","definitions":[{"kind":"Fragme
 export const LoginFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Login"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Login"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"accessType"}},{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"accessTimeout"}}]}}]} as unknown as DocumentNode<LoginFragment, unknown>;
 export const PaginateAdminRolesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PaginateAdminRoles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AdminRoleWhereInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AdminRoleOrderByWithRelationInput"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"paginateAdminRoles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"AdminRole"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Pagination"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AdminRole"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AdminRole"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Pagination"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"take"}},{"kind":"Field","name":{"kind":"Name","value":"skip"}},{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"totalPages"}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]} as unknown as DocumentNode<PaginateAdminRolesQuery, PaginateAdminRolesQueryVariables>;
 export const PaginateAdminsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PaginateAdmins"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AdminWhereInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AdminOrderByWithRelationInput"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"paginateAdmins"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Admin"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Pagination"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Admin"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Admin"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"roleId"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Pagination"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"take"}},{"kind":"Field","name":{"kind":"Name","value":"skip"}},{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"totalPages"}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]} as unknown as DocumentNode<PaginateAdminsQuery, PaginateAdminsQueryVariables>;
+export const FindOneAdminDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FindOneAdmin"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findOneAdmin"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Admin"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Admin"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Admin"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"roleId"}}]}}]} as unknown as DocumentNode<FindOneAdminQuery, FindOneAdminQueryVariables>;
+export const UpdateOneAdminDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateOneAdmin"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AdminUpdateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateOneAdmin"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Admin"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Admin"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Admin"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"roleId"}}]}}]} as unknown as DocumentNode<UpdateOneAdminMutation, UpdateOneAdminMutationVariables>;
 export const LogoutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Logout"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logout"}}]}}]} as unknown as DocumentNode<LogoutQuery, LogoutQueryVariables>;
 export const RefreshDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Refresh"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"refresh"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Login"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Login"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Login"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"accessType"}},{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"accessTimeout"}}]}}]} as unknown as DocumentNode<RefreshQuery, RefreshQueryVariables>;
 export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Login"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Login"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Login"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"accessType"}},{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"accessTimeout"}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;

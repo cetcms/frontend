@@ -3,6 +3,7 @@ import { DataTableProps as MDataTableProps, DataTable as MDataTable, DataTableCo
 import React, { useState } from 'react';
 import { Pagination, PaginationFragment } from 'src/graphql';
 
+import { actionsColumn, ActionsColumnOptions } from './actions.column';
 import { columnsHandler } from './columns.handler';
 import { DataToolbar } from './DataToolbar';
 import { FieldConfig } from './FilterButton';
@@ -17,7 +18,11 @@ export type RequestParams = {
 export type DataTableProps = {
   pagination?: Pagination | PaginationFragment;
   loading?: boolean;
+  addRoutePath?: string;
+  editRoute?: ActionsColumnOptions['editRoute'];
+  viewRoute?: ActionsColumnOptions['viewRoute'];
   onChangeRequest?: (params: RequestParams) => void;
+  onDeleteItem?: (item: any) => any;
   columns: Array<
     DataTableColumn & {
       type?: FieldConfig['type'];
@@ -26,7 +31,16 @@ export type DataTableProps = {
   >;
 } & MDataTableProps;
 
-export const DataTable: React.FC<DataTableProps> = ({ pagination, loading, onChangeRequest, ...props }) => {
+export const DataTable: React.FC<DataTableProps> = ({
+  pagination,
+  loading,
+  editRoute,
+  viewRoute,
+  addRoutePath,
+  onDeleteItem,
+  onChangeRequest,
+  ...props
+}) => {
   const [where, setWhere] = useState({});
   props.highlightOnHover = true;
   props.verticalSpacing = 'xs';
@@ -89,6 +103,14 @@ export const DataTable: React.FC<DataTableProps> = ({ pagination, loading, onCha
   const defaultColumns = props.columns || [];
   props.columns = columnsHandler(columns || []);
 
+  const _actionsColumn = actionsColumn({
+    editRoute,
+    viewRoute,
+  });
+  if (_actionsColumn) {
+    props.columns.push(_actionsColumn);
+  }
+
   const filterFields = props.columns.reduce((res: FieldConfig[], col) => {
     if (col.type) {
       res.push({
@@ -102,12 +124,13 @@ export const DataTable: React.FC<DataTableProps> = ({ pagination, loading, onCha
   return (
     <>
       <DataToolbar
+        addRoutePath={addRoutePath}
         fields={filterFields}
         onFilterChange={handleFilterChange}
         onChangeColumns={onChangeColumns}
         columns={defaultColumns || []}
       />
-      <Card m="xs" withBorder>
+      <Card m="md" withBorder>
         <MDataTable {...props} />
       </Card>
     </>

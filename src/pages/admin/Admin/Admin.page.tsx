@@ -1,18 +1,20 @@
-import { useQuery } from '@apollo/client/react';
-import { Group } from '@mantine/core';
-import { IconEdit, IconEye, IconTrash } from '@tabler/icons-react';
+import { useMutation, useQuery } from '@apollo/client/react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { DataTable, IconButton } from 'src/components';
-import { PaginateAdminsDocument, PaginationFragment, Status } from 'src/graphql';
+import { DataTable } from 'src/components';
+import { PaginateAdminsDocument, PaginationFragment, Status, UpdateOneAdminDocument } from 'src/graphql';
 
 export const AdminPage = () => {
   const { t } = useTranslation('models');
   const { data, loading, refetch } = useQuery(PaginateAdminsDocument, {});
+  const [_] = useMutation(UpdateOneAdminDocument);
   const { paginateAdmins } = data || {};
   const pagination = (paginateAdmins?.pagination || {}) as PaginationFragment;
   const items = paginateAdmins?.items || [];
   return (
     <DataTable
+      editRoute={{ path: '/admin/edit', paramFields: { id: 'id' } }}
+      addRoutePath="/admin/add"
       onChangeRequest={(params) => {
         refetch({
           take: params.take,
@@ -44,8 +46,8 @@ export const AdminPage = () => {
           title: t('Admin.status'),
           type: 'enum',
           options: [
-            { label: '启用', value: Status.Enabled },
-            { label: '禁用', value: Status.Disabled },
+            { label: t('enum.Status.Enabled'), value: Status.Enabled },
+            { label: t('enum.Status.Disabled'), value: Status.Disabled },
           ],
         },
         {
@@ -57,19 +59,6 @@ export const AdminPage = () => {
           accessor: 'updatedAt',
           title: t('Admin.updatedAt'),
           type: 'date',
-        },
-        {
-          accessor: 'actions',
-          title: t('actions'),
-          textAlign: 'center',
-          width: 200,
-          render: () => (
-            <Group gap="xs" justify="center">
-              <IconButton tooltip={t('view')} icon={IconEye} onClick={() => {}} />
-              <IconButton tooltip={t('edit')} icon={IconEdit} onClick={() => {}} />
-              <IconButton tooltip={t('delete')} icon={IconTrash} onClick={() => {}} />
-            </Group>
-          ),
         },
       ]}
     />

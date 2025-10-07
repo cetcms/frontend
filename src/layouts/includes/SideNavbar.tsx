@@ -52,18 +52,20 @@ export const SideNavbar = ({ onCollapse, width }: SideNavbarProps) => {
    * 渲染主菜单链接列表
    */
   const renderMainMenuLinks = () => {
-    return menuItems.map((link) => (
-      <NavbarLink
-        {...link}
-        collapsed
-        width={width - 2}
-        key={link.id}
-        label={t(link.label)}
-        path={link.path || '#'}
-        active={isMenuActive(link.id)}
-        onClick={() => handleMenuClick(link.id)}
-      />
-    ));
+    return menuItems
+      .filter((link) => !link.hide)
+      .map((link) => (
+        <NavbarLink
+          {...link}
+          collapsed
+          width={width - 2}
+          key={link.id}
+          label={t(link.label)}
+          path={link.path || '#'}
+          active={isMenuActive(link.id)}
+          onClick={() => handleMenuClick(link.id)}
+        />
+      ));
   };
 
   /**
@@ -71,7 +73,8 @@ export const SideNavbar = ({ onCollapse, width }: SideNavbarProps) => {
    * 只有当激活的菜单项有子菜单时才显示
    */
   const renderChildrenLinks = () => {
-    if (!activeItem?.children?.length) {
+    const children = activeItem?.children?.filter((child) => !child.hide);
+    if (!activeItem || !children?.length) {
       return null;
     }
 
@@ -79,7 +82,7 @@ export const SideNavbar = ({ onCollapse, width }: SideNavbarProps) => {
       <>
         <Divider orientation="vertical" h="100vh" />
         <Box w={`calc(100% - ${width + 1}px)`}>
-          <TreeLinks links={activeItem.children} parentMenuId={activeItem.id} />
+          <TreeLinks links={children} parentMenuId={activeItem.id} />
         </Box>
       </>
     );

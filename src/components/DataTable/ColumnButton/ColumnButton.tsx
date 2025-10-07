@@ -1,4 +1,4 @@
-import { ActionIcon, Checkbox, Popover, Stack } from '@mantine/core';
+import { Button, Checkbox, Popover, Stack } from '@mantine/core';
 import { IconTallymark4 } from '@tabler/icons-react';
 import { DataTableColumn } from 'mantine-datatable';
 import React, { useCallback, useState } from 'react';
@@ -20,9 +20,9 @@ export const ColumnButton: React.FC<ColumnButtonProps> = ({ columns, onChangeCol
   return (
     <Popover position="bottom" withArrow shadow="md">
       <Popover.Target>
-        <ActionIcon variant="default">
-          <IconTallymark4 size={18} />
-        </ActionIcon>
+        <Button variant="default" leftSection={<IconTallymark4 size={18} />}>
+          列表字段
+        </Button>
       </Popover.Target>
       <Popover.Dropdown>
         <Checkbox.Group value={checkedColumns} onChange={(checked) => handleChange(checked)} withAsterisk>
