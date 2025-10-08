@@ -2,7 +2,7 @@ import { AppShell, Group, Text } from '@mantine/core';
 import React from 'react';
 import { Outlet } from 'react-router';
 
-import { Background, MainLogo, ToggleLanguage, ToggleThemeMode } from './includes';
+import { Background, MainLogo, ToggleLanguage, ToggleThemeMode } from './components';
 
 export interface AuthLayoutProps {
   children?: React.ReactNode;

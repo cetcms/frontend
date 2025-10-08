@@ -25,7 +25,7 @@ export const ActionColumn: React.FC<ActionColumnProps> = ({ item, editRoute, vie
   );
   return (
     <>
-      <Group gap="xs" justify="center">
+      <Group gap="xs" justify="right">
         {editRoute && (
           <IconButton
             icon={IconEdit}

@@ -6,7 +6,9 @@ import { PaginateAdminsDocument, PaginationFragment, Status, UpdateOneAdminDocum
 
 export const AdminPage = () => {
   const { t } = useTranslation('models');
-  const { data, loading, refetch } = useQuery(PaginateAdminsDocument, {});
+  const { data, loading, refetch } = useQuery(PaginateAdminsDocument, {
+    fetchPolicy: 'network-only',
+  });
   const [_] = useMutation(UpdateOneAdminDocument);
   const { paginateAdmins } = data || {};
   const pagination = (paginateAdmins?.pagination || {}) as PaginationFragment;

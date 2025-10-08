@@ -1,0 +1,7 @@
+{
+  "formatInvalid": "Invalid {{field}}",
+  "inputRequired": "{{field}} is required",
+  "selectRequired": "Select {{field}}",
+  "minLength": "{{field}} must be at least {{count}} characters",
+  "confirmNotMatch": "{{field}} do not match"
+}

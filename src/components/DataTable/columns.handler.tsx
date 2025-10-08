@@ -24,12 +24,14 @@ export const columnsHandler = (columns: DataTableProps['columns']) => {
           </Group>
         );
       };
+      return column;
     }
 
     if (column.accessor === 'status') {
       column.width = 150;
       column.textAlign = 'center';
       column.render = (item: any) => <Status status={item.status} />;
+      return column;
     }
 
     if (column.accessor === 'id') {
@@ -52,7 +54,9 @@ export const columnsHandler = (columns: DataTableProps['columns']) => {
           </Tooltip>
         );
       };
+      return column;
     }
+
     return column;
   });
 };

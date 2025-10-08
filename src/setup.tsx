@@ -31,7 +31,7 @@ export const SetupApp = async (options?: SetupAppOptions) => {
   root.render(
     <ApolloProvider>
       <InitializeProvider setupOptions={options}>
-        <Notifications />
+        <Notifications position="top-center" limit={3} />
         <Router />
       </InitializeProvider>
     </ApolloProvider>

@@ -1,6 +1,7 @@
 import { AppShell, Divider, Group, ScrollArea, Text } from '@mantine/core';
 import React, { useState } from 'react';
 import { Outlet } from 'react-router';
+
 import {
   ActionAccount,
   ActionNotification,
@@ -10,7 +11,7 @@ import {
   SideNavbar,
   ToggleLanguage,
   ToggleThemeMode,
-} from 'src/layouts/includes';
+} from './components';
 
 export interface MainLayoutProps {
   children?: React.ReactNode;

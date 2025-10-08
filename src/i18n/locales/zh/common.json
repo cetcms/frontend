@@ -3,7 +3,7 @@
   "add": "添加",
   "cancel": "取消",
   "confirm": "确认",
-  "confirmPassword": "确认密码",
+  "confirmMatch": "确认{{field}}",
   "delete": "删除",
   "edit": "编辑",
   "search": "搜索",

@@ -1,0 +1,7 @@
+{
+  "formatInvalid": "{{field}}格式不正确",
+  "inputRequired": "{{field}}是必填项",
+  "selectRequired": "请选择{{field}}",
+  "minLength": "{{field}}至少需要{{count}}个字符",
+  "confirmNotMatch": "两次输入的{{field}}不一致"
+}

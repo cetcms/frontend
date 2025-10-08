@@ -2,9 +2,9 @@ import { Card } from '@mantine/core';
 import { DataTableProps as MDataTableProps, DataTable as MDataTable, DataTableColumn } from 'mantine-datatable';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActionColumn, ActionColumnProps } from 'src/components/DataTable/ActionColumn';
 import { Pagination, PaginationFragment } from 'src/graphql';
 
+import { ActionColumn, ActionColumnProps } from './ActionColumn';
 import { columnsHandler } from './columns.handler';
 import { DataToolbar } from './DataToolbar';
 import { FieldConfig } from './FilterButton';
@@ -109,7 +109,7 @@ export const DataTable: React.FC<DataTableProps> = ({
     expandColumns.push({
       accessor: 'actions',
       title: t('actions'),
-      textAlign: 'center',
+      textAlign: 'right',
       width: 200,
       render: (item: any) => <ActionColumn item={item} viewRoute={viewRoute} editRoute={editRoute} />,
     });

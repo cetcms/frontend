@@ -3,8 +3,8 @@ import { IconPlus } from '@tabler/icons-react';
 import React from 'react';
 import { Link } from 'react-router';
 
-import { ColumnButton, ColumnButtonProps } from './ColumnButton/ColumnButton';
-import { FilterButton, FilterButtonProps } from './FilterButton/FilterButton';
+import { ColumnButton, ColumnButtonProps } from './ColumnButton';
+import { FilterButton, FilterButtonProps } from './FilterButton';
 
 export interface DataToolbarProps {
   addRoutePath?: string;

@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 import { useMenuStore } from 'src/store';
 
-import { NavbarLink } from './private/NavbarLink';
-import { TreeLinks } from './private/TreeLinks';
+import { NavbarLink } from './NavbarLink';
+import { TreeLinks } from './TreeLinks';
 
 export interface SideNavbarProps {
   onCollapse?: (value: boolean) => void;

@@ -3,7 +3,7 @@
   "add": "Add",
   "cancel": "Cancel",
   "confirm": "Confirm",
-  "confirmPassword": "Confirm Password",
+  "confirmMatch": "Confirm {{field}}",
   "delete": "Delete",
   "edit": "Edit",
   "search": "Search",
