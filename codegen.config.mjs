@@ -6,5 +6,19 @@ export default {
     'src/graphql/generated/': {
       preset: 'client'
     },
+    'src/graphql/generated/zod.ts': {
+      plugins: [
+        'typescript-validation-schema',
+      ],
+      config: {
+        importFrom: './graphql',
+        schema: 'zodv4',
+        scalarSchemas: {
+          DateTime: 'z.date()',
+          JSON: 'z.object()',
+          Email: 'z.email()',
+        }
+      }
+    },
   }
 }

@@ -76,7 +76,7 @@ export default [
       },
     },
   },
-  { ignores: ['**/*.{mjs,cjs,js,d.ts,d.mts}'] },
+  { ignores: ['**/*.{mjs,cjs,js,d.ts,d.mts}', 'src/graphql/generated/*.ts'] },
   {
     files: ['**/*.story.tsx'],
     rules: { 'no-console': 'off' },

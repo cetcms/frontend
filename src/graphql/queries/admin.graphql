@@ -16,8 +16,15 @@ query FindOneAdmin($id: String!) {
 	}
 }
 
+mutation CreateOneAdmin($data: AdminCreateInput!) {
+	createOneAdmin(data: $data) {
+		...Admin
+	}
+}
+
 mutation UpdateOneAdmin($id: String!, $data: AdminUpdateInput!) {
 	updateOneAdmin(data: $data, where: { id: $id }) {
 		...Admin
 	}
 }
+
