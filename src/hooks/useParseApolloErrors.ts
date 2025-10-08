@@ -1,7 +1,7 @@
 import { CombinedGraphQLErrors } from '@apollo/client';
 import { useCallback, useState } from 'react';
 
-type ParseError = {
+export type ParseError = {
   message: string;
   code: string;
   path: string;
@@ -12,8 +12,8 @@ type ParseError = {
     path: string;
   }>;
 };
-type ParseFunction = (errors: CombinedGraphQLErrors) => void;
-type ParseResult = {
+export type ParseFunction = (errors: CombinedGraphQLErrors) => void;
+export type ParseResult = {
   errors: Map<string | number, ParseError>;
   resetErrors: () => void;
 };

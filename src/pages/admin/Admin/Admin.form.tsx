@@ -1,6 +1,5 @@
-import { useMutation, useQuery } from '@apollo/client/react';
+import { useMutation } from '@apollo/client/react';
 import {
-  Alert,
   Card,
   Divider,
   Grid,
@@ -8,84 +7,23 @@ import {
   LoadingOverlay,
   PasswordInput,
   Select,
-  SelectProps,
   Stack,
   Text,
   TextInput,
 } from '@mantine/core';
 import { Form, hasLength, isEmail, isNotEmpty, matchesField, useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
-import { IconExclamationCircle } from '@tabler/icons-react';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-import { FormPageAction } from 'src/components/FormPage';
-import {
-  Admin,
-  AdminCreateInput,
-  AdminRole,
-  AdminRoleWhereInput,
-  CreateOneAdminDocument,
-  PaginateAdminRolesDocument,
-  Status,
-  UpdateOneAdminDocument,
-} from 'src/graphql';
-import { useParseApolloErrors } from 'src/hooks/useParseApolloErrors';
+import { AdminRoleSelect } from 'src/components/FormInputs';
+import { FormPageAction, FormPageErrors } from 'src/components/FormPage';
+import { Admin, AdminCreateInput, CreateOneAdminDocument, Status, UpdateOneAdminDocument } from 'src/graphql';
+import { useParseApolloErrors } from 'src/hooks';
 import { validates } from 'src/validator';
 
 export type AdminFormProps = {
   item?: Admin;
-};
-
-const RoleSelect: React.FC<SelectProps> = (props) => {
-  const [where, setWhere] = useState<AdminRoleWhereInput>(() => {
-    if (props.value) {
-      return { OR: [{ id: { equals: props.value } }, { id: { not: { equals: '' } } }] };
-    }
-    return {};
-  });
-  const { data, loading } = useQuery(PaginateAdminRolesDocument, {
-    variables: {
-      where,
-    },
-  });
-  const handleSearchChange = (value: string) => {
-    const OR: AdminRoleWhereInput[] = [];
-    if (props.value) {
-      OR.push({ id: { equals: props.value } });
-    }
-    OR.push({ name: { contains: value } });
-    OR.push({ code: { contains: value } });
-    OR.push({ description: { contains: value } });
-    OR.push({ id: { not: { equals: '' } } });
-    setWhere({ OR });
-  };
-  const handleData = (items: AdminRole[]) => {
-    return items.map((item) => ({
-      value: item.id,
-      label: item.name,
-    }));
-  };
-
-  // 自动选择第一个选项的逻辑
-  useEffect(() => {
-    if (!loading && data?.paginateAdminRoles?.items?.length && !props.value) {
-      const firstRole = data.paginateAdminRoles.items[0] as AdminRole;
-      // 调用 onChange 方法设置第一个选项为默认值
-      if (props.onChange) {
-        props.onChange(firstRole.id, { value: firstRole.id, label: firstRole.name });
-      }
-    }
-  }, [data, loading, props.value, props.onChange]);
-
-  return (
-    <Select
-      {...props}
-      searchable
-      onSearchChange={handleSearchChange}
-      data={handleData((data?.paginateAdminRoles.items ?? []) as AdminRole[])}
-    />
-  );
 };
 
 export type AdminFormValues = AdminCreateInput & {
@@ -198,22 +136,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
           }}
         />
         <Card withBorder>
-          {Array.from(errors).map(([key, error]) => (
-            <Alert
-              p="xs"
-              mb="md"
-              key={key}
-              color="red"
-              title={error.message}
-              icon={<IconExclamationCircle size={16} />}
-            >
-              {error?.errors?.map((error, index) => (
-                <Text size="xs" opacity={0.5} key={index}>
-                  {error.message} [{error.path}]
-                </Text>
-              ))}
-            </Alert>
-          ))}
+          <FormPageErrors errors={errors} />
           <Grid columns={2}>
             <Grid.Col span={1}>
               <TextInput withAsterisk label={t('Admin.name')} {...form.getInputProps('name')} />
@@ -245,7 +168,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
               />
             </Grid.Col>
             <Grid.Col span={1}>
-              <RoleSelect
+              <AdminRoleSelect
                 withAsterisk
                 allowDeselect={false}
                 label={t('Admin.role')}
