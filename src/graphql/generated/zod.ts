@@ -1,158 +1,5 @@
-import * as z from 'zod';
-
-import {
-  AdminCompanyAdminCompanyIdxCompoundUniqueInput,
-  AdminCompanyCreateInput,
-  AdminCompanyCreateNestedManyWithoutCompanyInput,
-  AdminCompanyListRelationFilter,
-  AdminCompanyOrderByRelationAggregateInput,
-  AdminCompanyOrderByWithRelationInput,
-  AdminCompanyScalarFieldEnum,
-  AdminCompanyUpdateInput,
-  AdminCompanyUpdateManyWithoutCompanyNestedInput,
-  AdminCompanyWhereInput,
-  AdminCompanyWhereUniqueInput,
-  AdminCreateInput,
-  AdminCreateNestedManyWithoutRoleInput,
-  AdminCreateNestedOneWithoutCompaniesInput,
-  AdminListRelationFilter,
-  AdminNullableScalarRelationFilter,
-  AdminOrderByRelationAggregateInput,
-  AdminOrderByWithRelationInput,
-  AdminRoleCreateInput,
-  AdminRoleCreateNestedOneWithoutAdminsInput,
-  AdminRoleOrderByWithRelationInput,
-  AdminRoleScalarFieldEnum,
-  AdminRoleScalarRelationFilter,
-  AdminRoleUpdateInput,
-  AdminRoleUpdateOneRequiredWithoutAdminsNestedInput,
-  AdminRoleWhereInput,
-  AdminRoleWhereUniqueInput,
-  AdminScalarFieldEnum,
-  AdminScalarRelationFilter,
-  AdminUpdateInput,
-  AdminUpdateManyWithoutRoleNestedInput,
-  AdminUpdateOneRequiredWithoutCompaniesNestedInput,
-  AdminWhereInput,
-  AdminWhereUniqueInput,
-  AuthCreateNestedManyWithoutCompanyInput,
-  AuthListRelationFilter,
-  AuthOrderByRelationAggregateInput,
-  AuthUpdateManyWithoutCompanyNestedInput,
-  AuthWhereInput,
-  AuthWhereUniqueInput,
-  BigIntFilter,
-  CompanyCreateInput,
-  CompanyCreateNestedOneWithoutAdminsInput,
-  CompanyCreateNestedOneWithoutRolesInput,
-  CompanyCreateNestedOneWithoutUsersInput,
-  CompanyNullableScalarRelationFilter,
-  CompanyOrderByWithRelationInput,
-  CompanyRoleCompanyRoleIdxCompoundUniqueInput,
-  CompanyRoleCreateInput,
-  CompanyRoleCreateNestedManyWithoutCompanyInput,
-  CompanyRoleCreateNestedOneWithoutUsersInput,
-  CompanyRoleListRelationFilter,
-  CompanyRoleOrderByRelationAggregateInput,
-  CompanyRoleOrderByWithRelationInput,
-  CompanyRoleScalarFieldEnum,
-  CompanyRoleScalarRelationFilter,
-  CompanyRoleUpdateInput,
-  CompanyRoleUpdateManyWithoutCompanyNestedInput,
-  CompanyRoleUpdateOneRequiredWithoutUsersNestedInput,
-  CompanyRoleWhereInput,
-  CompanyRoleWhereUniqueInput,
-  CompanyScalarFieldEnum,
-  CompanyScalarRelationFilter,
-  CompanyUpdateInput,
-  CompanyUpdateOneRequiredWithoutAdminsNestedInput,
-  CompanyUpdateOneRequiredWithoutUsersNestedInput,
-  CompanyUpdateOneWithoutRolesNestedInput,
-  CompanyUserCompanyUserIdxCompoundUniqueInput,
-  CompanyUserCreateInput,
-  CompanyUserCreateNestedManyWithoutCompanyInput,
-  CompanyUserListRelationFilter,
-  CompanyUserOrderByRelationAggregateInput,
-  CompanyUserOrderByWithRelationInput,
-  CompanyUserScalarFieldEnum,
-  CompanyUserUpdateInput,
-  CompanyUserUpdateManyWithoutCompanyNestedInput,
-  CompanyUserWhereInput,
-  CompanyUserWhereUniqueInput,
-  CompanyWhereInput,
-  CompanyWhereUniqueInput,
-  DateTimeFilter,
-  DateTimeNullableFilter,
-  EnumMediaStoreFilter,
-  EnumMediaTypeFilter,
-  EnumMediaVisibilityFilter,
-  EnumRequestMethodNullableFilter,
-  EnumStatusFilter,
-  EnumTargetFilter,
-  EnumTargetNullableFilter,
-  IntFilter,
-  IntNullableFilter,
-  JsonNullableFilter,
-  LoginInput,
-  MediaFileCreateNestedManyWithoutCompanyInput,
-  MediaFileFileHashIdxCompoundUniqueInput,
-  MediaFileListRelationFilter,
-  MediaFileOrderByRelationAggregateInput,
-  MediaFileUpdateManyWithoutCompanyNestedInput,
-  MediaFileWhereInput,
-  MediaFileWhereUniqueInput,
-  MediaFolderCreateNestedManyWithoutCompanyInput,
-  MediaFolderFolderPathIdxCompoundUniqueInput,
-  MediaFolderListRelationFilter,
-  MediaFolderNullableScalarRelationFilter,
-  MediaFolderOrderByRelationAggregateInput,
-  MediaFolderUpdateManyWithoutCompanyNestedInput,
-  MediaFolderWhereInput,
-  MediaFolderWhereUniqueInput,
-  MediaStore,
-  MediaType,
-  MediaVisibility,
-  NestedBigIntFilter,
-  NestedDateTimeFilter,
-  NestedDateTimeNullableFilter,
-  NestedEnumMediaStoreFilter,
-  NestedEnumMediaTypeFilter,
-  NestedEnumMediaVisibilityFilter,
-  NestedEnumRequestMethodNullableFilter,
-  NestedEnumStatusFilter,
-  NestedEnumTargetFilter,
-  NestedEnumTargetNullableFilter,
-  NestedIntFilter,
-  NestedIntNullableFilter,
-  NestedStringFilter,
-  NestedStringNullableFilter,
-  NullsOrder,
-  QueryMode,
-  RequestLogCreateNestedManyWithoutCompanyInput,
-  RequestLogListRelationFilter,
-  RequestLogOrderByRelationAggregateInput,
-  RequestLogUpdateManyWithoutCompanyNestedInput,
-  RequestLogWhereInput,
-  RequestLogWhereUniqueInput,
-  RequestMethod,
-  SortOrder,
-  SortOrderInput,
-  Status,
-  StringFilter,
-  StringNullableFilter,
-  StringNullableListFilter,
-  Target,
-  UserCreateInput,
-  UserCreateNestedOneWithoutCompaniesInput,
-  UserNullableScalarRelationFilter,
-  UserOrderByWithRelationInput,
-  UserScalarFieldEnum,
-  UserScalarRelationFilter,
-  UserUpdateInput,
-  UserUpdateOneRequiredWithoutCompaniesNestedInput,
-  UserWhereInput,
-  UserWhereUniqueInput,
-} from './graphql';
+import * as z from 'zod'
+import { AdminCompanyAdminCompanyIdxCompoundUniqueInput, AdminCompanyCreateInput, AdminCompanyCreateNestedManyWithoutCompanyInput, AdminCompanyListRelationFilter, AdminCompanyOrderByRelationAggregateInput, AdminCompanyOrderByWithRelationInput, AdminCompanyScalarFieldEnum, AdminCompanyUpdateInput, AdminCompanyUpdateManyWithoutCompanyNestedInput, AdminCompanyWhereInput, AdminCompanyWhereUniqueInput, AdminCreateInput, AdminCreateNestedManyWithoutRoleInput, AdminCreateNestedOneWithoutCompaniesInput, AdminListRelationFilter, AdminNullableScalarRelationFilter, AdminOrderByRelationAggregateInput, AdminOrderByWithRelationInput, AdminRoleCreateInput, AdminRoleCreateNestedOneWithoutAdminsInput, AdminRoleOrderByWithRelationInput, AdminRoleScalarFieldEnum, AdminRoleScalarRelationFilter, AdminRoleUpdateInput, AdminRoleUpdateOneRequiredWithoutAdminsNestedInput, AdminRoleWhereInput, AdminRoleWhereUniqueInput, AdminScalarFieldEnum, AdminScalarRelationFilter, AdminUpdateInput, AdminUpdateManyWithoutRoleNestedInput, AdminUpdateOneRequiredWithoutCompaniesNestedInput, AdminWhereInput, AdminWhereUniqueInput, AuthCreateNestedManyWithoutCompanyInput, AuthListRelationFilter, AuthOrderByRelationAggregateInput, AuthUpdateManyWithoutCompanyNestedInput, AuthWhereInput, AuthWhereUniqueInput, BigIntFilter, CompanyCreateInput, CompanyCreateNestedOneWithoutAdminsInput, CompanyCreateNestedOneWithoutRolesInput, CompanyCreateNestedOneWithoutUsersInput, CompanyNullableScalarRelationFilter, CompanyOrderByWithRelationInput, CompanyRoleCompanyRoleIdxCompoundUniqueInput, CompanyRoleCreateInput, CompanyRoleCreateNestedManyWithoutCompanyInput, CompanyRoleCreateNestedOneWithoutUsersInput, CompanyRoleListRelationFilter, CompanyRoleOrderByRelationAggregateInput, CompanyRoleOrderByWithRelationInput, CompanyRoleScalarFieldEnum, CompanyRoleScalarRelationFilter, CompanyRoleUpdateInput, CompanyRoleUpdateManyWithoutCompanyNestedInput, CompanyRoleUpdateOneRequiredWithoutUsersNestedInput, CompanyRoleWhereInput, CompanyRoleWhereUniqueInput, CompanyScalarFieldEnum, CompanyScalarRelationFilter, CompanyUpdateInput, CompanyUpdateOneRequiredWithoutAdminsNestedInput, CompanyUpdateOneRequiredWithoutUsersNestedInput, CompanyUpdateOneWithoutRolesNestedInput, CompanyUserCompanyUserIdxCompoundUniqueInput, CompanyUserCreateInput, CompanyUserCreateNestedManyWithoutCompanyInput, CompanyUserListRelationFilter, CompanyUserOrderByRelationAggregateInput, CompanyUserOrderByWithRelationInput, CompanyUserScalarFieldEnum, CompanyUserUpdateInput, CompanyUserUpdateManyWithoutCompanyNestedInput, CompanyUserWhereInput, CompanyUserWhereUniqueInput, CompanyWhereInput, CompanyWhereUniqueInput, DateTimeFilter, DateTimeNullableFilter, EnumMediaStoreFilter, EnumMediaTypeFilter, EnumMediaVisibilityFilter, EnumRequestMethodNullableFilter, EnumStatusFilter, EnumTargetFilter, EnumTargetNullableFilter, IntFilter, IntNullableFilter, JsonNullableFilter, LoginInput, MediaFileCreateNestedManyWithoutCompanyInput, MediaFileFileHashIdxCompoundUniqueInput, MediaFileListRelationFilter, MediaFileOrderByRelationAggregateInput, MediaFileUpdateManyWithoutCompanyNestedInput, MediaFileWhereInput, MediaFileWhereUniqueInput, MediaFolderCreateNestedManyWithoutCompanyInput, MediaFolderFolderPathIdxCompoundUniqueInput, MediaFolderListRelationFilter, MediaFolderNullableScalarRelationFilter, MediaFolderOrderByRelationAggregateInput, MediaFolderUpdateManyWithoutCompanyNestedInput, MediaFolderWhereInput, MediaFolderWhereUniqueInput, MediaStore, MediaType, MediaVisibility, NestedBigIntFilter, NestedDateTimeFilter, NestedDateTimeNullableFilter, NestedEnumMediaStoreFilter, NestedEnumMediaTypeFilter, NestedEnumMediaVisibilityFilter, NestedEnumRequestMethodNullableFilter, NestedEnumStatusFilter, NestedEnumTargetFilter, NestedEnumTargetNullableFilter, NestedIntFilter, NestedIntNullableFilter, NestedStringFilter, NestedStringNullableFilter, NullsOrder, QueryMode, RequestLogCreateNestedManyWithoutCompanyInput, RequestLogListRelationFilter, RequestLogOrderByRelationAggregateInput, RequestLogUpdateManyWithoutCompanyNestedInput, RequestLogWhereInput, RequestLogWhereUniqueInput, RequestMethod, SortOrder, SortOrderInput, Status, StringFilter, StringNullableFilter, StringNullableListFilter, Target, UserCreateInput, UserCreateNestedOneWithoutCompaniesInput, UserNullableScalarRelationFilter, UserOrderByWithRelationInput, UserScalarFieldEnum, UserScalarRelationFilter, UserUpdateInput, UserUpdateOneRequiredWithoutCompaniesNestedInput, UserWhereInput, UserWhereUniqueInput } from './graphql'
 
 type Properties<T> = Required<{
   [K in keyof T]: z.ZodType<T[K]>;
@@ -196,50 +43,42 @@ export const TargetSchema = z.enum(Target);
 
 export const UserScalarFieldEnumSchema = z.enum(UserScalarFieldEnum);
 
-export function AdminCompanyAdminCompanyIdxCompoundUniqueInputSchema(): z.ZodObject<
-  Properties<AdminCompanyAdminCompanyIdxCompoundUniqueInput>
-> {
+export function AdminCompanyAdminCompanyIdxCompoundUniqueInputSchema(): z.ZodObject<Properties<AdminCompanyAdminCompanyIdxCompoundUniqueInput>> {
   return z.object({
     adminId: z.string(),
-    companyId: z.string(),
-  });
+    companyId: z.string()
+  })
 }
 
 export function AdminCompanyCreateInputSchema(): z.ZodObject<Properties<AdminCompanyCreateInput>> {
   return z.object({
     admin: z.lazy(() => AdminCreateNestedOneWithoutCompaniesInputSchema()),
     company: z.lazy(() => CompanyCreateNestedOneWithoutAdminsInputSchema()),
-    permissions: z.array(z.string()).nullish(),
-  });
+    permissions: z.array(z.string()).nullish()
+  })
 }
 
-export function AdminCompanyCreateNestedManyWithoutCompanyInputSchema(): z.ZodObject<
-  Properties<AdminCompanyCreateNestedManyWithoutCompanyInput>
-> {
+export function AdminCompanyCreateNestedManyWithoutCompanyInputSchema(): z.ZodObject<Properties<AdminCompanyCreateNestedManyWithoutCompanyInput>> {
   return z.object({
-    connect: z.array(z.lazy(() => AdminCompanyWhereUniqueInputSchema())).nullish(),
-  });
+    connect: z.array(z.lazy(() => AdminCompanyWhereUniqueInputSchema())).nullish()
+  })
 }
 
 export function AdminCompanyListRelationFilterSchema(): z.ZodObject<Properties<AdminCompanyListRelationFilter>> {
   return z.object({
     every: z.lazy(() => AdminCompanyWhereInputSchema().nullish()),
     none: z.lazy(() => AdminCompanyWhereInputSchema().nullish()),
-    some: z.lazy(() => AdminCompanyWhereInputSchema().nullish()),
-  });
+    some: z.lazy(() => AdminCompanyWhereInputSchema().nullish())
+  })
 }
 
-export function AdminCompanyOrderByRelationAggregateInputSchema(): z.ZodObject<
-  Properties<AdminCompanyOrderByRelationAggregateInput>
-> {
+export function AdminCompanyOrderByRelationAggregateInputSchema(): z.ZodObject<Properties<AdminCompanyOrderByRelationAggregateInput>> {
   return z.object({
-    _count: SortOrderSchema.nullish(),
-  });
+    _count: SortOrderSchema.nullish()
+  })
 }
 
-export function AdminCompanyOrderByWithRelationInputSchema(): z.ZodObject<
-  Properties<AdminCompanyOrderByWithRelationInput>
-> {
+export function AdminCompanyOrderByWithRelationInputSchema(): z.ZodObject<Properties<AdminCompanyOrderByWithRelationInput>> {
   return z.object({
     admin: z.lazy(() => AdminOrderByWithRelationInputSchema().nullish()),
     adminId: SortOrderSchema.nullish(),
@@ -247,25 +86,23 @@ export function AdminCompanyOrderByWithRelationInputSchema(): z.ZodObject<
     companyId: SortOrderSchema.nullish(),
     createdAt: SortOrderSchema.nullish(),
     permissions: SortOrderSchema.nullish(),
-    updatedAt: SortOrderSchema.nullish(),
-  });
+    updatedAt: SortOrderSchema.nullish()
+  })
 }
 
 export function AdminCompanyUpdateInputSchema(): z.ZodObject<Properties<AdminCompanyUpdateInput>> {
   return z.object({
     admin: z.lazy(() => AdminUpdateOneRequiredWithoutCompaniesNestedInputSchema().nullish()),
     company: z.lazy(() => CompanyUpdateOneRequiredWithoutAdminsNestedInputSchema().nullish()),
-    permissions: z.array(z.string()).nullish(),
-  });
+    permissions: z.array(z.string()).nullish()
+  })
 }
 
-export function AdminCompanyUpdateManyWithoutCompanyNestedInputSchema(): z.ZodObject<
-  Properties<AdminCompanyUpdateManyWithoutCompanyNestedInput>
-> {
+export function AdminCompanyUpdateManyWithoutCompanyNestedInputSchema(): z.ZodObject<Properties<AdminCompanyUpdateManyWithoutCompanyNestedInput>> {
   return z.object({
     connect: z.array(z.lazy(() => AdminCompanyWhereUniqueInputSchema())).nullish(),
-    disconnect: z.array(z.lazy(() => AdminCompanyWhereUniqueInputSchema())).nullish(),
-  });
+    disconnect: z.array(z.lazy(() => AdminCompanyWhereUniqueInputSchema())).nullish()
+  })
 }
 
 export function AdminCompanyWhereInputSchema(): z.ZodObject<Properties<AdminCompanyWhereInput>> {
@@ -279,8 +116,8 @@ export function AdminCompanyWhereInputSchema(): z.ZodObject<Properties<AdminComp
     companyId: z.lazy(() => StringFilterSchema().nullish()),
     createdAt: z.lazy(() => DateTimeFilterSchema().nullish()),
     permissions: z.lazy(() => StringNullableListFilterSchema().nullish()),
-    updatedAt: z.lazy(() => DateTimeFilterSchema().nullish()),
-  });
+    updatedAt: z.lazy(() => DateTimeFilterSchema().nullish())
+  })
 }
 
 export function AdminCompanyWhereUniqueInputSchema(): z.ZodObject<Properties<AdminCompanyWhereUniqueInput>> {
@@ -290,8 +127,8 @@ export function AdminCompanyWhereUniqueInputSchema(): z.ZodObject<Properties<Adm
     adminId: z.lazy(() => StringFilterSchema().nullish()),
     company: z.lazy(() => CompanyScalarRelationFilterSchema().nullish()),
     companyId: z.lazy(() => StringFilterSchema().nullish()),
-    permissions: z.lazy(() => StringNullableListFilterSchema().nullish()),
-  });
+    permissions: z.lazy(() => StringNullableListFilterSchema().nullish())
+  })
 }
 
 export function AdminCreateInputSchema(): z.ZodObject<Properties<AdminCreateInput>> {
@@ -300,47 +137,41 @@ export function AdminCreateInputSchema(): z.ZodObject<Properties<AdminCreateInpu
     name: z.string(),
     password: z.string(),
     role: z.lazy(() => AdminRoleCreateNestedOneWithoutAdminsInputSchema()),
-    status: StatusSchema.nullish(),
-  });
+    status: StatusSchema.nullish()
+  })
 }
 
-export function AdminCreateNestedManyWithoutRoleInputSchema(): z.ZodObject<
-  Properties<AdminCreateNestedManyWithoutRoleInput>
-> {
+export function AdminCreateNestedManyWithoutRoleInputSchema(): z.ZodObject<Properties<AdminCreateNestedManyWithoutRoleInput>> {
   return z.object({
-    connect: z.array(z.lazy(() => AdminWhereUniqueInputSchema())).nullish(),
-  });
+    connect: z.array(z.lazy(() => AdminWhereUniqueInputSchema())).nullish()
+  })
 }
 
-export function AdminCreateNestedOneWithoutCompaniesInputSchema(): z.ZodObject<
-  Properties<AdminCreateNestedOneWithoutCompaniesInput>
-> {
+export function AdminCreateNestedOneWithoutCompaniesInputSchema(): z.ZodObject<Properties<AdminCreateNestedOneWithoutCompaniesInput>> {
   return z.object({
-    connect: z.lazy(() => AdminWhereUniqueInputSchema().nullish()),
-  });
+    connect: z.lazy(() => AdminWhereUniqueInputSchema().nullish())
+  })
 }
 
 export function AdminListRelationFilterSchema(): z.ZodObject<Properties<AdminListRelationFilter>> {
   return z.object({
     every: z.lazy(() => AdminWhereInputSchema().nullish()),
     none: z.lazy(() => AdminWhereInputSchema().nullish()),
-    some: z.lazy(() => AdminWhereInputSchema().nullish()),
-  });
+    some: z.lazy(() => AdminWhereInputSchema().nullish())
+  })
 }
 
 export function AdminNullableScalarRelationFilterSchema(): z.ZodObject<Properties<AdminNullableScalarRelationFilter>> {
   return z.object({
     is: z.lazy(() => AdminWhereInputSchema().nullish()),
-    isNot: z.lazy(() => AdminWhereInputSchema().nullish()),
-  });
+    isNot: z.lazy(() => AdminWhereInputSchema().nullish())
+  })
 }
 
-export function AdminOrderByRelationAggregateInputSchema(): z.ZodObject<
-  Properties<AdminOrderByRelationAggregateInput>
-> {
+export function AdminOrderByRelationAggregateInputSchema(): z.ZodObject<Properties<AdminOrderByRelationAggregateInput>> {
   return z.object({
-    _count: SortOrderSchema.nullish(),
-  });
+    _count: SortOrderSchema.nullish()
+  })
 }
 
 export function AdminOrderByWithRelationInputSchema(): z.ZodObject<Properties<AdminOrderByWithRelationInput>> {
@@ -357,8 +188,8 @@ export function AdminOrderByWithRelationInputSchema(): z.ZodObject<Properties<Ad
     role: z.lazy(() => AdminRoleOrderByWithRelationInputSchema().nullish()),
     roleId: SortOrderSchema.nullish(),
     status: SortOrderSchema.nullish(),
-    updatedAt: SortOrderSchema.nullish(),
-  });
+    updatedAt: SortOrderSchema.nullish()
+  })
 }
 
 export function AdminRoleCreateInputSchema(): z.ZodObject<Properties<AdminRoleCreateInput>> {
@@ -368,16 +199,14 @@ export function AdminRoleCreateInputSchema(): z.ZodObject<Properties<AdminRoleCr
     description: z.string().nullish(),
     name: z.string(),
     permissions: z.array(z.string()).nullish(),
-    status: StatusSchema.nullish(),
-  });
+    status: StatusSchema.nullish()
+  })
 }
 
-export function AdminRoleCreateNestedOneWithoutAdminsInputSchema(): z.ZodObject<
-  Properties<AdminRoleCreateNestedOneWithoutAdminsInput>
-> {
+export function AdminRoleCreateNestedOneWithoutAdminsInputSchema(): z.ZodObject<Properties<AdminRoleCreateNestedOneWithoutAdminsInput>> {
   return z.object({
-    connect: z.lazy(() => AdminRoleWhereUniqueInputSchema().nullish()),
-  });
+    connect: z.lazy(() => AdminRoleWhereUniqueInputSchema().nullish())
+  })
 }
 
 export function AdminRoleOrderByWithRelationInputSchema(): z.ZodObject<Properties<AdminRoleOrderByWithRelationInput>> {
@@ -390,15 +219,15 @@ export function AdminRoleOrderByWithRelationInputSchema(): z.ZodObject<Propertie
     name: SortOrderSchema.nullish(),
     permissions: SortOrderSchema.nullish(),
     status: SortOrderSchema.nullish(),
-    updatedAt: SortOrderSchema.nullish(),
-  });
+    updatedAt: SortOrderSchema.nullish()
+  })
 }
 
 export function AdminRoleScalarRelationFilterSchema(): z.ZodObject<Properties<AdminRoleScalarRelationFilter>> {
   return z.object({
     is: z.lazy(() => AdminRoleWhereInputSchema().nullish()),
-    isNot: z.lazy(() => AdminRoleWhereInputSchema().nullish()),
-  });
+    isNot: z.lazy(() => AdminRoleWhereInputSchema().nullish())
+  })
 }
 
 export function AdminRoleUpdateInputSchema(): z.ZodObject<Properties<AdminRoleUpdateInput>> {
@@ -408,16 +237,14 @@ export function AdminRoleUpdateInputSchema(): z.ZodObject<Properties<AdminRoleUp
     description: z.string().nullish(),
     name: z.string().nullish(),
     permissions: z.array(z.string()).nullish(),
-    status: StatusSchema.nullish(),
-  });
+    status: StatusSchema.nullish()
+  })
 }
 
-export function AdminRoleUpdateOneRequiredWithoutAdminsNestedInputSchema(): z.ZodObject<
-  Properties<AdminRoleUpdateOneRequiredWithoutAdminsNestedInput>
-> {
+export function AdminRoleUpdateOneRequiredWithoutAdminsNestedInputSchema(): z.ZodObject<Properties<AdminRoleUpdateOneRequiredWithoutAdminsNestedInput>> {
   return z.object({
-    connect: z.lazy(() => AdminRoleWhereUniqueInputSchema().nullish()),
-  });
+    connect: z.lazy(() => AdminRoleWhereUniqueInputSchema().nullish())
+  })
 }
 
 export function AdminRoleWhereInputSchema(): z.ZodObject<Properties<AdminRoleWhereInput>> {
@@ -433,8 +260,8 @@ export function AdminRoleWhereInputSchema(): z.ZodObject<Properties<AdminRoleWhe
     name: z.lazy(() => StringFilterSchema().nullish()),
     permissions: z.lazy(() => StringNullableListFilterSchema().nullish()),
     status: z.lazy(() => EnumStatusFilterSchema().nullish()),
-    updatedAt: z.lazy(() => DateTimeFilterSchema().nullish()),
-  });
+    updatedAt: z.lazy(() => DateTimeFilterSchema().nullish())
+  })
 }
 
 export function AdminRoleWhereUniqueInputSchema(): z.ZodObject<Properties<AdminRoleWhereUniqueInput>> {
@@ -445,15 +272,15 @@ export function AdminRoleWhereUniqueInputSchema(): z.ZodObject<Properties<AdminR
     id: z.string().nullish(),
     name: z.string().nullish(),
     permissions: z.lazy(() => StringNullableListFilterSchema().nullish()),
-    status: z.lazy(() => EnumStatusFilterSchema().nullish()),
-  });
+    status: z.lazy(() => EnumStatusFilterSchema().nullish())
+  })
 }
 
 export function AdminScalarRelationFilterSchema(): z.ZodObject<Properties<AdminScalarRelationFilter>> {
   return z.object({
     is: z.lazy(() => AdminWhereInputSchema().nullish()),
-    isNot: z.lazy(() => AdminWhereInputSchema().nullish()),
-  });
+    isNot: z.lazy(() => AdminWhereInputSchema().nullish())
+  })
 }
 
 export function AdminUpdateInputSchema(): z.ZodObject<Properties<AdminUpdateInput>> {
@@ -462,25 +289,21 @@ export function AdminUpdateInputSchema(): z.ZodObject<Properties<AdminUpdateInpu
     name: z.string().nullish(),
     password: z.string().nullish(),
     role: z.lazy(() => AdminRoleUpdateOneRequiredWithoutAdminsNestedInputSchema().nullish()),
-    status: StatusSchema.nullish(),
-  });
+    status: StatusSchema.nullish()
+  })
 }
 
-export function AdminUpdateManyWithoutRoleNestedInputSchema(): z.ZodObject<
-  Properties<AdminUpdateManyWithoutRoleNestedInput>
-> {
+export function AdminUpdateManyWithoutRoleNestedInputSchema(): z.ZodObject<Properties<AdminUpdateManyWithoutRoleNestedInput>> {
   return z.object({
     connect: z.array(z.lazy(() => AdminWhereUniqueInputSchema())).nullish(),
-    disconnect: z.array(z.lazy(() => AdminWhereUniqueInputSchema())).nullish(),
-  });
+    disconnect: z.array(z.lazy(() => AdminWhereUniqueInputSchema())).nullish()
+  })
 }
 
-export function AdminUpdateOneRequiredWithoutCompaniesNestedInputSchema(): z.ZodObject<
-  Properties<AdminUpdateOneRequiredWithoutCompaniesNestedInput>
-> {
+export function AdminUpdateOneRequiredWithoutCompaniesNestedInputSchema(): z.ZodObject<Properties<AdminUpdateOneRequiredWithoutCompaniesNestedInput>> {
   return z.object({
-    connect: z.lazy(() => AdminWhereUniqueInputSchema().nullish()),
-  });
+    connect: z.lazy(() => AdminWhereUniqueInputSchema().nullish())
+  })
 }
 
 export function AdminWhereInputSchema(): z.ZodObject<Properties<AdminWhereInput>> {
@@ -500,8 +323,8 @@ export function AdminWhereInputSchema(): z.ZodObject<Properties<AdminWhereInput>
     role: z.lazy(() => AdminRoleScalarRelationFilterSchema().nullish()),
     roleId: z.lazy(() => StringFilterSchema().nullish()),
     status: z.lazy(() => EnumStatusFilterSchema().nullish()),
-    updatedAt: z.lazy(() => DateTimeFilterSchema().nullish()),
-  });
+    updatedAt: z.lazy(() => DateTimeFilterSchema().nullish())
+  })
 }
 
 export function AdminWhereUniqueInputSchema(): z.ZodObject<Properties<AdminWhereUniqueInput>> {
@@ -511,39 +334,35 @@ export function AdminWhereUniqueInputSchema(): z.ZodObject<Properties<AdminWhere
     name: z.lazy(() => StringFilterSchema().nullish()),
     role: z.lazy(() => AdminRoleScalarRelationFilterSchema().nullish()),
     roleId: z.lazy(() => StringFilterSchema().nullish()),
-    status: z.lazy(() => EnumStatusFilterSchema().nullish()),
-  });
+    status: z.lazy(() => EnumStatusFilterSchema().nullish())
+  })
 }
 
-export function AuthCreateNestedManyWithoutCompanyInputSchema(): z.ZodObject<
-  Properties<AuthCreateNestedManyWithoutCompanyInput>
-> {
+export function AuthCreateNestedManyWithoutCompanyInputSchema(): z.ZodObject<Properties<AuthCreateNestedManyWithoutCompanyInput>> {
   return z.object({
-    connect: z.array(z.lazy(() => AuthWhereUniqueInputSchema())).nullish(),
-  });
+    connect: z.array(z.lazy(() => AuthWhereUniqueInputSchema())).nullish()
+  })
 }
 
 export function AuthListRelationFilterSchema(): z.ZodObject<Properties<AuthListRelationFilter>> {
   return z.object({
     every: z.lazy(() => AuthWhereInputSchema().nullish()),
     none: z.lazy(() => AuthWhereInputSchema().nullish()),
-    some: z.lazy(() => AuthWhereInputSchema().nullish()),
-  });
+    some: z.lazy(() => AuthWhereInputSchema().nullish())
+  })
 }
 
 export function AuthOrderByRelationAggregateInputSchema(): z.ZodObject<Properties<AuthOrderByRelationAggregateInput>> {
   return z.object({
-    _count: SortOrderSchema.nullish(),
-  });
+    _count: SortOrderSchema.nullish()
+  })
 }
 
-export function AuthUpdateManyWithoutCompanyNestedInputSchema(): z.ZodObject<
-  Properties<AuthUpdateManyWithoutCompanyNestedInput>
-> {
+export function AuthUpdateManyWithoutCompanyNestedInputSchema(): z.ZodObject<Properties<AuthUpdateManyWithoutCompanyNestedInput>> {
   return z.object({
     connect: z.array(z.lazy(() => AuthWhereUniqueInputSchema())).nullish(),
-    disconnect: z.array(z.lazy(() => AuthWhereUniqueInputSchema())).nullish(),
-  });
+    disconnect: z.array(z.lazy(() => AuthWhereUniqueInputSchema())).nullish()
+  })
 }
 
 export function AuthWhereInputSchema(): z.ZodObject<Properties<AuthWhereInput>> {
@@ -565,8 +384,8 @@ export function AuthWhereInputSchema(): z.ZodObject<Properties<AuthWhereInput>> 
     token: z.lazy(() => StringFilterSchema().nullish()),
     updatedAt: z.lazy(() => DateTimeFilterSchema().nullish()),
     user: z.lazy(() => UserNullableScalarRelationFilterSchema().nullish()),
-    userId: z.lazy(() => StringNullableFilterSchema().nullish()),
-  });
+    userId: z.lazy(() => StringNullableFilterSchema().nullish())
+  })
 }
 
 export function AuthWhereUniqueInputSchema(): z.ZodObject<Properties<AuthWhereUniqueInput>> {
@@ -583,8 +402,8 @@ export function AuthWhereUniqueInputSchema(): z.ZodObject<Properties<AuthWhereUn
     target: z.lazy(() => EnumTargetFilterSchema().nullish()),
     token: z.lazy(() => StringFilterSchema().nullish()),
     user: z.lazy(() => UserNullableScalarRelationFilterSchema().nullish()),
-    userId: z.lazy(() => StringNullableFilterSchema().nullish()),
-  });
+    userId: z.lazy(() => StringNullableFilterSchema().nullish())
+  })
 }
 
 export function BigIntFilterSchema(): z.ZodObject<Properties<BigIntFilter>> {
@@ -596,8 +415,8 @@ export function BigIntFilterSchema(): z.ZodObject<Properties<BigIntFilter>> {
     lt: z.string().nullish(),
     lte: z.string().nullish(),
     not: z.lazy(() => NestedBigIntFilterSchema().nullish()),
-    notIn: z.array(z.string()).nullish(),
-  });
+    notIn: z.array(z.string()).nullish()
+  })
 }
 
 export function CompanyCreateInputSchema(): z.ZodObject<Properties<CompanyCreateInput>> {
@@ -613,41 +432,33 @@ export function CompanyCreateInputSchema(): z.ZodObject<Properties<CompanyCreate
     name: z.string(),
     roles: z.lazy(() => CompanyRoleCreateNestedManyWithoutCompanyInputSchema().nullish()),
     status: StatusSchema.nullish(),
-    users: z.lazy(() => CompanyUserCreateNestedManyWithoutCompanyInputSchema().nullish()),
-  });
+    users: z.lazy(() => CompanyUserCreateNestedManyWithoutCompanyInputSchema().nullish())
+  })
 }
 
-export function CompanyCreateNestedOneWithoutAdminsInputSchema(): z.ZodObject<
-  Properties<CompanyCreateNestedOneWithoutAdminsInput>
-> {
+export function CompanyCreateNestedOneWithoutAdminsInputSchema(): z.ZodObject<Properties<CompanyCreateNestedOneWithoutAdminsInput>> {
   return z.object({
-    connect: z.lazy(() => CompanyWhereUniqueInputSchema().nullish()),
-  });
+    connect: z.lazy(() => CompanyWhereUniqueInputSchema().nullish())
+  })
 }
 
-export function CompanyCreateNestedOneWithoutRolesInputSchema(): z.ZodObject<
-  Properties<CompanyCreateNestedOneWithoutRolesInput>
-> {
+export function CompanyCreateNestedOneWithoutRolesInputSchema(): z.ZodObject<Properties<CompanyCreateNestedOneWithoutRolesInput>> {
   return z.object({
-    connect: z.lazy(() => CompanyWhereUniqueInputSchema().nullish()),
-  });
+    connect: z.lazy(() => CompanyWhereUniqueInputSchema().nullish())
+  })
 }
 
-export function CompanyCreateNestedOneWithoutUsersInputSchema(): z.ZodObject<
-  Properties<CompanyCreateNestedOneWithoutUsersInput>
-> {
+export function CompanyCreateNestedOneWithoutUsersInputSchema(): z.ZodObject<Properties<CompanyCreateNestedOneWithoutUsersInput>> {
   return z.object({
-    connect: z.lazy(() => CompanyWhereUniqueInputSchema().nullish()),
-  });
+    connect: z.lazy(() => CompanyWhereUniqueInputSchema().nullish())
+  })
 }
 
-export function CompanyNullableScalarRelationFilterSchema(): z.ZodObject<
-  Properties<CompanyNullableScalarRelationFilter>
-> {
+export function CompanyNullableScalarRelationFilterSchema(): z.ZodObject<Properties<CompanyNullableScalarRelationFilter>> {
   return z.object({
     is: z.lazy(() => CompanyWhereInputSchema().nullish()),
-    isNot: z.lazy(() => CompanyWhereInputSchema().nullish()),
-  });
+    isNot: z.lazy(() => CompanyWhereInputSchema().nullish())
+  })
 }
 
 export function CompanyOrderByWithRelationInputSchema(): z.ZodObject<Properties<CompanyOrderByWithRelationInput>> {
@@ -666,17 +477,15 @@ export function CompanyOrderByWithRelationInputSchema(): z.ZodObject<Properties<
     roles: z.lazy(() => CompanyRoleOrderByRelationAggregateInputSchema().nullish()),
     status: SortOrderSchema.nullish(),
     updatedAt: SortOrderSchema.nullish(),
-    users: z.lazy(() => CompanyUserOrderByRelationAggregateInputSchema().nullish()),
-  });
+    users: z.lazy(() => CompanyUserOrderByRelationAggregateInputSchema().nullish())
+  })
 }
 
-export function CompanyRoleCompanyRoleIdxCompoundUniqueInputSchema(): z.ZodObject<
-  Properties<CompanyRoleCompanyRoleIdxCompoundUniqueInput>
-> {
+export function CompanyRoleCompanyRoleIdxCompoundUniqueInputSchema(): z.ZodObject<Properties<CompanyRoleCompanyRoleIdxCompoundUniqueInput>> {
   return z.object({
     code: z.string(),
-    companyId: z.string(),
-  });
+    companyId: z.string()
+  })
 }
 
 export function CompanyRoleCreateInputSchema(): z.ZodObject<Properties<CompanyRoleCreateInput>> {
@@ -686,45 +495,37 @@ export function CompanyRoleCreateInputSchema(): z.ZodObject<Properties<CompanyRo
     description: z.string().nullish(),
     name: z.string(),
     permissions: z.array(z.string()).nullish(),
-    status: StatusSchema.nullish(),
-  });
+    status: StatusSchema.nullish()
+  })
 }
 
-export function CompanyRoleCreateNestedManyWithoutCompanyInputSchema(): z.ZodObject<
-  Properties<CompanyRoleCreateNestedManyWithoutCompanyInput>
-> {
+export function CompanyRoleCreateNestedManyWithoutCompanyInputSchema(): z.ZodObject<Properties<CompanyRoleCreateNestedManyWithoutCompanyInput>> {
   return z.object({
-    connect: z.array(z.lazy(() => CompanyRoleWhereUniqueInputSchema())).nullish(),
-  });
+    connect: z.array(z.lazy(() => CompanyRoleWhereUniqueInputSchema())).nullish()
+  })
 }
 
-export function CompanyRoleCreateNestedOneWithoutUsersInputSchema(): z.ZodObject<
-  Properties<CompanyRoleCreateNestedOneWithoutUsersInput>
-> {
+export function CompanyRoleCreateNestedOneWithoutUsersInputSchema(): z.ZodObject<Properties<CompanyRoleCreateNestedOneWithoutUsersInput>> {
   return z.object({
-    connect: z.lazy(() => CompanyRoleWhereUniqueInputSchema().nullish()),
-  });
+    connect: z.lazy(() => CompanyRoleWhereUniqueInputSchema().nullish())
+  })
 }
 
 export function CompanyRoleListRelationFilterSchema(): z.ZodObject<Properties<CompanyRoleListRelationFilter>> {
   return z.object({
     every: z.lazy(() => CompanyRoleWhereInputSchema().nullish()),
     none: z.lazy(() => CompanyRoleWhereInputSchema().nullish()),
-    some: z.lazy(() => CompanyRoleWhereInputSchema().nullish()),
-  });
+    some: z.lazy(() => CompanyRoleWhereInputSchema().nullish())
+  })
 }
 
-export function CompanyRoleOrderByRelationAggregateInputSchema(): z.ZodObject<
-  Properties<CompanyRoleOrderByRelationAggregateInput>
-> {
+export function CompanyRoleOrderByRelationAggregateInputSchema(): z.ZodObject<Properties<CompanyRoleOrderByRelationAggregateInput>> {
   return z.object({
-    _count: SortOrderSchema.nullish(),
-  });
+    _count: SortOrderSchema.nullish()
+  })
 }
 
-export function CompanyRoleOrderByWithRelationInputSchema(): z.ZodObject<
-  Properties<CompanyRoleOrderByWithRelationInput>
-> {
+export function CompanyRoleOrderByWithRelationInputSchema(): z.ZodObject<Properties<CompanyRoleOrderByWithRelationInput>> {
   return z.object({
     code: SortOrderSchema.nullish(),
     company: z.lazy(() => CompanyOrderByWithRelationInputSchema().nullish()),
@@ -736,15 +537,15 @@ export function CompanyRoleOrderByWithRelationInputSchema(): z.ZodObject<
     permissions: SortOrderSchema.nullish(),
     status: SortOrderSchema.nullish(),
     updatedAt: SortOrderSchema.nullish(),
-    users: z.lazy(() => CompanyUserOrderByRelationAggregateInputSchema().nullish()),
-  });
+    users: z.lazy(() => CompanyUserOrderByRelationAggregateInputSchema().nullish())
+  })
 }
 
 export function CompanyRoleScalarRelationFilterSchema(): z.ZodObject<Properties<CompanyRoleScalarRelationFilter>> {
   return z.object({
     is: z.lazy(() => CompanyRoleWhereInputSchema().nullish()),
-    isNot: z.lazy(() => CompanyRoleWhereInputSchema().nullish()),
-  });
+    isNot: z.lazy(() => CompanyRoleWhereInputSchema().nullish())
+  })
 }
 
 export function CompanyRoleUpdateInputSchema(): z.ZodObject<Properties<CompanyRoleUpdateInput>> {
@@ -754,25 +555,21 @@ export function CompanyRoleUpdateInputSchema(): z.ZodObject<Properties<CompanyRo
     description: z.string().nullish(),
     name: z.string().nullish(),
     permissions: z.array(z.string()).nullish(),
-    status: StatusSchema.nullish(),
-  });
+    status: StatusSchema.nullish()
+  })
 }
 
-export function CompanyRoleUpdateManyWithoutCompanyNestedInputSchema(): z.ZodObject<
-  Properties<CompanyRoleUpdateManyWithoutCompanyNestedInput>
-> {
+export function CompanyRoleUpdateManyWithoutCompanyNestedInputSchema(): z.ZodObject<Properties<CompanyRoleUpdateManyWithoutCompanyNestedInput>> {
   return z.object({
     connect: z.array(z.lazy(() => CompanyRoleWhereUniqueInputSchema())).nullish(),
-    disconnect: z.array(z.lazy(() => CompanyRoleWhereUniqueInputSchema())).nullish(),
-  });
+    disconnect: z.array(z.lazy(() => CompanyRoleWhereUniqueInputSchema())).nullish()
+  })
 }
 
-export function CompanyRoleUpdateOneRequiredWithoutUsersNestedInputSchema(): z.ZodObject<
-  Properties<CompanyRoleUpdateOneRequiredWithoutUsersNestedInput>
-> {
+export function CompanyRoleUpdateOneRequiredWithoutUsersNestedInputSchema(): z.ZodObject<Properties<CompanyRoleUpdateOneRequiredWithoutUsersNestedInput>> {
   return z.object({
-    connect: z.lazy(() => CompanyRoleWhereUniqueInputSchema().nullish()),
-  });
+    connect: z.lazy(() => CompanyRoleWhereUniqueInputSchema().nullish())
+  })
 }
 
 export function CompanyRoleWhereInputSchema(): z.ZodObject<Properties<CompanyRoleWhereInput>> {
@@ -790,8 +587,8 @@ export function CompanyRoleWhereInputSchema(): z.ZodObject<Properties<CompanyRol
     permissions: z.lazy(() => StringNullableListFilterSchema().nullish()),
     status: z.lazy(() => EnumStatusFilterSchema().nullish()),
     updatedAt: z.lazy(() => DateTimeFilterSchema().nullish()),
-    users: z.lazy(() => CompanyUserListRelationFilterSchema().nullish()),
-  });
+    users: z.lazy(() => CompanyUserListRelationFilterSchema().nullish())
+  })
 }
 
 export function CompanyRoleWhereUniqueInputSchema(): z.ZodObject<Properties<CompanyRoleWhereUniqueInput>> {
@@ -805,15 +602,15 @@ export function CompanyRoleWhereUniqueInputSchema(): z.ZodObject<Properties<Comp
     name: z.lazy(() => StringFilterSchema().nullish()),
     permissions: z.lazy(() => StringNullableListFilterSchema().nullish()),
     status: z.lazy(() => EnumStatusFilterSchema().nullish()),
-    users: z.lazy(() => CompanyUserListRelationFilterSchema().nullish()),
-  });
+    users: z.lazy(() => CompanyUserListRelationFilterSchema().nullish())
+  })
 }
 
 export function CompanyScalarRelationFilterSchema(): z.ZodObject<Properties<CompanyScalarRelationFilter>> {
   return z.object({
     is: z.lazy(() => CompanyWhereInputSchema().nullish()),
-    isNot: z.lazy(() => CompanyWhereInputSchema().nullish()),
-  });
+    isNot: z.lazy(() => CompanyWhereInputSchema().nullish())
+  })
 }
 
 export function CompanyUpdateInputSchema(): z.ZodObject<Properties<CompanyUpdateInput>> {
@@ -829,42 +626,34 @@ export function CompanyUpdateInputSchema(): z.ZodObject<Properties<CompanyUpdate
     name: z.string().nullish(),
     roles: z.lazy(() => CompanyRoleUpdateManyWithoutCompanyNestedInputSchema().nullish()),
     status: StatusSchema.nullish(),
-    users: z.lazy(() => CompanyUserUpdateManyWithoutCompanyNestedInputSchema().nullish()),
-  });
+    users: z.lazy(() => CompanyUserUpdateManyWithoutCompanyNestedInputSchema().nullish())
+  })
 }
 
-export function CompanyUpdateOneRequiredWithoutAdminsNestedInputSchema(): z.ZodObject<
-  Properties<CompanyUpdateOneRequiredWithoutAdminsNestedInput>
-> {
+export function CompanyUpdateOneRequiredWithoutAdminsNestedInputSchema(): z.ZodObject<Properties<CompanyUpdateOneRequiredWithoutAdminsNestedInput>> {
+  return z.object({
+    connect: z.lazy(() => CompanyWhereUniqueInputSchema().nullish())
+  })
+}
+
+export function CompanyUpdateOneRequiredWithoutUsersNestedInputSchema(): z.ZodObject<Properties<CompanyUpdateOneRequiredWithoutUsersNestedInput>> {
+  return z.object({
+    connect: z.lazy(() => CompanyWhereUniqueInputSchema().nullish())
+  })
+}
+
+export function CompanyUpdateOneWithoutRolesNestedInputSchema(): z.ZodObject<Properties<CompanyUpdateOneWithoutRolesNestedInput>> {
   return z.object({
     connect: z.lazy(() => CompanyWhereUniqueInputSchema().nullish()),
-  });
+    disconnect: z.lazy(() => CompanyWhereInputSchema().nullish())
+  })
 }
 
-export function CompanyUpdateOneRequiredWithoutUsersNestedInputSchema(): z.ZodObject<
-  Properties<CompanyUpdateOneRequiredWithoutUsersNestedInput>
-> {
-  return z.object({
-    connect: z.lazy(() => CompanyWhereUniqueInputSchema().nullish()),
-  });
-}
-
-export function CompanyUpdateOneWithoutRolesNestedInputSchema(): z.ZodObject<
-  Properties<CompanyUpdateOneWithoutRolesNestedInput>
-> {
-  return z.object({
-    connect: z.lazy(() => CompanyWhereUniqueInputSchema().nullish()),
-    disconnect: z.lazy(() => CompanyWhereInputSchema().nullish()),
-  });
-}
-
-export function CompanyUserCompanyUserIdxCompoundUniqueInputSchema(): z.ZodObject<
-  Properties<CompanyUserCompanyUserIdxCompoundUniqueInput>
-> {
+export function CompanyUserCompanyUserIdxCompoundUniqueInputSchema(): z.ZodObject<Properties<CompanyUserCompanyUserIdxCompoundUniqueInput>> {
   return z.object({
     companyId: z.string(),
-    userId: z.string(),
-  });
+    userId: z.string()
+  })
 }
 
 export function CompanyUserCreateInputSchema(): z.ZodObject<Properties<CompanyUserCreateInput>> {
@@ -872,37 +661,31 @@ export function CompanyUserCreateInputSchema(): z.ZodObject<Properties<CompanyUs
     company: z.lazy(() => CompanyCreateNestedOneWithoutUsersInputSchema()),
     role: z.lazy(() => CompanyRoleCreateNestedOneWithoutUsersInputSchema()),
     status: StatusSchema.nullish(),
-    user: z.lazy(() => UserCreateNestedOneWithoutCompaniesInputSchema()),
-  });
+    user: z.lazy(() => UserCreateNestedOneWithoutCompaniesInputSchema())
+  })
 }
 
-export function CompanyUserCreateNestedManyWithoutCompanyInputSchema(): z.ZodObject<
-  Properties<CompanyUserCreateNestedManyWithoutCompanyInput>
-> {
+export function CompanyUserCreateNestedManyWithoutCompanyInputSchema(): z.ZodObject<Properties<CompanyUserCreateNestedManyWithoutCompanyInput>> {
   return z.object({
-    connect: z.array(z.lazy(() => CompanyUserWhereUniqueInputSchema())).nullish(),
-  });
+    connect: z.array(z.lazy(() => CompanyUserWhereUniqueInputSchema())).nullish()
+  })
 }
 
 export function CompanyUserListRelationFilterSchema(): z.ZodObject<Properties<CompanyUserListRelationFilter>> {
   return z.object({
     every: z.lazy(() => CompanyUserWhereInputSchema().nullish()),
     none: z.lazy(() => CompanyUserWhereInputSchema().nullish()),
-    some: z.lazy(() => CompanyUserWhereInputSchema().nullish()),
-  });
+    some: z.lazy(() => CompanyUserWhereInputSchema().nullish())
+  })
 }
 
-export function CompanyUserOrderByRelationAggregateInputSchema(): z.ZodObject<
-  Properties<CompanyUserOrderByRelationAggregateInput>
-> {
+export function CompanyUserOrderByRelationAggregateInputSchema(): z.ZodObject<Properties<CompanyUserOrderByRelationAggregateInput>> {
   return z.object({
-    _count: SortOrderSchema.nullish(),
-  });
+    _count: SortOrderSchema.nullish()
+  })
 }
 
-export function CompanyUserOrderByWithRelationInputSchema(): z.ZodObject<
-  Properties<CompanyUserOrderByWithRelationInput>
-> {
+export function CompanyUserOrderByWithRelationInputSchema(): z.ZodObject<Properties<CompanyUserOrderByWithRelationInput>> {
   return z.object({
     company: z.lazy(() => CompanyOrderByWithRelationInputSchema().nullish()),
     companyId: SortOrderSchema.nullish(),
@@ -912,8 +695,8 @@ export function CompanyUserOrderByWithRelationInputSchema(): z.ZodObject<
     status: SortOrderSchema.nullish(),
     updatedAt: SortOrderSchema.nullish(),
     user: z.lazy(() => UserOrderByWithRelationInputSchema().nullish()),
-    userId: SortOrderSchema.nullish(),
-  });
+    userId: SortOrderSchema.nullish()
+  })
 }
 
 export function CompanyUserUpdateInputSchema(): z.ZodObject<Properties<CompanyUserUpdateInput>> {
@@ -921,17 +704,15 @@ export function CompanyUserUpdateInputSchema(): z.ZodObject<Properties<CompanyUs
     company: z.lazy(() => CompanyUpdateOneRequiredWithoutUsersNestedInputSchema().nullish()),
     role: z.lazy(() => CompanyRoleUpdateOneRequiredWithoutUsersNestedInputSchema().nullish()),
     status: StatusSchema.nullish(),
-    user: z.lazy(() => UserUpdateOneRequiredWithoutCompaniesNestedInputSchema().nullish()),
-  });
+    user: z.lazy(() => UserUpdateOneRequiredWithoutCompaniesNestedInputSchema().nullish())
+  })
 }
 
-export function CompanyUserUpdateManyWithoutCompanyNestedInputSchema(): z.ZodObject<
-  Properties<CompanyUserUpdateManyWithoutCompanyNestedInput>
-> {
+export function CompanyUserUpdateManyWithoutCompanyNestedInputSchema(): z.ZodObject<Properties<CompanyUserUpdateManyWithoutCompanyNestedInput>> {
   return z.object({
     connect: z.array(z.lazy(() => CompanyUserWhereUniqueInputSchema())).nullish(),
-    disconnect: z.array(z.lazy(() => CompanyUserWhereUniqueInputSchema())).nullish(),
-  });
+    disconnect: z.array(z.lazy(() => CompanyUserWhereUniqueInputSchema())).nullish()
+  })
 }
 
 export function CompanyUserWhereInputSchema(): z.ZodObject<Properties<CompanyUserWhereInput>> {
@@ -947,8 +728,8 @@ export function CompanyUserWhereInputSchema(): z.ZodObject<Properties<CompanyUse
     status: z.lazy(() => EnumStatusFilterSchema().nullish()),
     updatedAt: z.lazy(() => DateTimeFilterSchema().nullish()),
     user: z.lazy(() => UserScalarRelationFilterSchema().nullish()),
-    userId: z.lazy(() => StringFilterSchema().nullish()),
-  });
+    userId: z.lazy(() => StringFilterSchema().nullish())
+  })
 }
 
 export function CompanyUserWhereUniqueInputSchema(): z.ZodObject<Properties<CompanyUserWhereUniqueInput>> {
@@ -960,8 +741,8 @@ export function CompanyUserWhereUniqueInputSchema(): z.ZodObject<Properties<Comp
     roleId: z.lazy(() => StringFilterSchema().nullish()),
     status: z.lazy(() => EnumStatusFilterSchema().nullish()),
     user: z.lazy(() => UserScalarRelationFilterSchema().nullish()),
-    userId: z.lazy(() => StringFilterSchema().nullish()),
-  });
+    userId: z.lazy(() => StringFilterSchema().nullish())
+  })
 }
 
 export function CompanyWhereInputSchema(): z.ZodObject<Properties<CompanyWhereInput>> {
@@ -983,8 +764,8 @@ export function CompanyWhereInputSchema(): z.ZodObject<Properties<CompanyWhereIn
     roles: z.lazy(() => CompanyRoleListRelationFilterSchema().nullish()),
     status: z.lazy(() => EnumStatusFilterSchema().nullish()),
     updatedAt: z.lazy(() => DateTimeFilterSchema().nullish()),
-    users: z.lazy(() => CompanyUserListRelationFilterSchema().nullish()),
-  });
+    users: z.lazy(() => CompanyUserListRelationFilterSchema().nullish())
+  })
 }
 
 export function CompanyWhereUniqueInputSchema(): z.ZodObject<Properties<CompanyWhereUniqueInput>> {
@@ -1001,8 +782,8 @@ export function CompanyWhereUniqueInputSchema(): z.ZodObject<Properties<CompanyW
     name: z.string().nullish(),
     roles: z.lazy(() => CompanyRoleListRelationFilterSchema().nullish()),
     status: z.lazy(() => EnumStatusFilterSchema().nullish()),
-    users: z.lazy(() => CompanyUserListRelationFilterSchema().nullish()),
-  });
+    users: z.lazy(() => CompanyUserListRelationFilterSchema().nullish())
+  })
 }
 
 export function DateTimeFilterSchema(): z.ZodObject<Properties<DateTimeFilter>> {
@@ -1014,8 +795,8 @@ export function DateTimeFilterSchema(): z.ZodObject<Properties<DateTimeFilter>> 
     lt: z.date().nullish(),
     lte: z.date().nullish(),
     not: z.lazy(() => NestedDateTimeFilterSchema().nullish()),
-    notIn: z.array(z.date()).nullish(),
-  });
+    notIn: z.array(z.date()).nullish()
+  })
 }
 
 export function DateTimeNullableFilterSchema(): z.ZodObject<Properties<DateTimeNullableFilter>> {
@@ -1027,8 +808,8 @@ export function DateTimeNullableFilterSchema(): z.ZodObject<Properties<DateTimeN
     lt: z.date().nullish(),
     lte: z.date().nullish(),
     not: z.lazy(() => NestedDateTimeNullableFilterSchema().nullish()),
-    notIn: z.array(z.date()).nullish(),
-  });
+    notIn: z.array(z.date()).nullish()
+  })
 }
 
 export function EnumMediaStoreFilterSchema(): z.ZodObject<Properties<EnumMediaStoreFilter>> {
@@ -1036,8 +817,8 @@ export function EnumMediaStoreFilterSchema(): z.ZodObject<Properties<EnumMediaSt
     equals: MediaStoreSchema.nullish(),
     in: z.array(MediaStoreSchema).nullish(),
     not: z.lazy(() => NestedEnumMediaStoreFilterSchema().nullish()),
-    notIn: z.array(MediaStoreSchema).nullish(),
-  });
+    notIn: z.array(MediaStoreSchema).nullish()
+  })
 }
 
 export function EnumMediaTypeFilterSchema(): z.ZodObject<Properties<EnumMediaTypeFilter>> {
@@ -1045,8 +826,8 @@ export function EnumMediaTypeFilterSchema(): z.ZodObject<Properties<EnumMediaTyp
     equals: MediaTypeSchema.nullish(),
     in: z.array(MediaTypeSchema).nullish(),
     not: z.lazy(() => NestedEnumMediaTypeFilterSchema().nullish()),
-    notIn: z.array(MediaTypeSchema).nullish(),
-  });
+    notIn: z.array(MediaTypeSchema).nullish()
+  })
 }
 
 export function EnumMediaVisibilityFilterSchema(): z.ZodObject<Properties<EnumMediaVisibilityFilter>> {
@@ -1054,8 +835,8 @@ export function EnumMediaVisibilityFilterSchema(): z.ZodObject<Properties<EnumMe
     equals: MediaVisibilitySchema.nullish(),
     in: z.array(MediaVisibilitySchema).nullish(),
     not: z.lazy(() => NestedEnumMediaVisibilityFilterSchema().nullish()),
-    notIn: z.array(MediaVisibilitySchema).nullish(),
-  });
+    notIn: z.array(MediaVisibilitySchema).nullish()
+  })
 }
 
 export function EnumRequestMethodNullableFilterSchema(): z.ZodObject<Properties<EnumRequestMethodNullableFilter>> {
@@ -1063,8 +844,8 @@ export function EnumRequestMethodNullableFilterSchema(): z.ZodObject<Properties<
     equals: RequestMethodSchema.nullish(),
     in: z.array(RequestMethodSchema).nullish(),
     not: z.lazy(() => NestedEnumRequestMethodNullableFilterSchema().nullish()),
-    notIn: z.array(RequestMethodSchema).nullish(),
-  });
+    notIn: z.array(RequestMethodSchema).nullish()
+  })
 }
 
 export function EnumStatusFilterSchema(): z.ZodObject<Properties<EnumStatusFilter>> {
@@ -1072,8 +853,8 @@ export function EnumStatusFilterSchema(): z.ZodObject<Properties<EnumStatusFilte
     equals: StatusSchema.nullish(),
     in: z.array(StatusSchema).nullish(),
     not: z.lazy(() => NestedEnumStatusFilterSchema().nullish()),
-    notIn: z.array(StatusSchema).nullish(),
-  });
+    notIn: z.array(StatusSchema).nullish()
+  })
 }
 
 export function EnumTargetFilterSchema(): z.ZodObject<Properties<EnumTargetFilter>> {
@@ -1081,8 +862,8 @@ export function EnumTargetFilterSchema(): z.ZodObject<Properties<EnumTargetFilte
     equals: TargetSchema.nullish(),
     in: z.array(TargetSchema).nullish(),
     not: z.lazy(() => NestedEnumTargetFilterSchema().nullish()),
-    notIn: z.array(TargetSchema).nullish(),
-  });
+    notIn: z.array(TargetSchema).nullish()
+  })
 }
 
 export function EnumTargetNullableFilterSchema(): z.ZodObject<Properties<EnumTargetNullableFilter>> {
@@ -1090,8 +871,8 @@ export function EnumTargetNullableFilterSchema(): z.ZodObject<Properties<EnumTar
     equals: TargetSchema.nullish(),
     in: z.array(TargetSchema).nullish(),
     not: z.lazy(() => NestedEnumTargetNullableFilterSchema().nullish()),
-    notIn: z.array(TargetSchema).nullish(),
-  });
+    notIn: z.array(TargetSchema).nullish()
+  })
 }
 
 export function IntFilterSchema(): z.ZodObject<Properties<IntFilter>> {
@@ -1103,8 +884,8 @@ export function IntFilterSchema(): z.ZodObject<Properties<IntFilter>> {
     lt: z.number().nullish(),
     lte: z.number().nullish(),
     not: z.lazy(() => NestedIntFilterSchema().nullish()),
-    notIn: z.array(z.number()).nullish(),
-  });
+    notIn: z.array(z.number()).nullish()
+  })
 }
 
 export function IntNullableFilterSchema(): z.ZodObject<Properties<IntNullableFilter>> {
@@ -1116,8 +897,8 @@ export function IntNullableFilterSchema(): z.ZodObject<Properties<IntNullableFil
     lt: z.number().nullish(),
     lte: z.number().nullish(),
     not: z.lazy(() => NestedIntNullableFilterSchema().nullish()),
-    notIn: z.array(z.number()).nullish(),
-  });
+    notIn: z.array(z.number()).nullish()
+  })
 }
 
 export function JsonNullableFilterSchema(): z.ZodObject<Properties<JsonNullableFilter>> {
@@ -1135,8 +916,8 @@ export function JsonNullableFilterSchema(): z.ZodObject<Properties<JsonNullableF
     path: z.array(z.string()).nullish(),
     string_contains: z.string().nullish(),
     string_ends_with: z.string().nullish(),
-    string_starts_with: z.string().nullish(),
-  });
+    string_starts_with: z.string().nullish()
+  })
 }
 
 export function LoginInputSchema(): z.ZodObject<Properties<LoginInput>> {
@@ -1144,50 +925,42 @@ export function LoginInputSchema(): z.ZodObject<Properties<LoginInput>> {
     account: z.string(),
     companyId: z.string().nullish(),
     password: z.string(),
-    target: TargetSchema.default('User').nullish(),
-  });
+    target: TargetSchema.default("User").nullish()
+  })
 }
 
-export function MediaFileCreateNestedManyWithoutCompanyInputSchema(): z.ZodObject<
-  Properties<MediaFileCreateNestedManyWithoutCompanyInput>
-> {
+export function MediaFileCreateNestedManyWithoutCompanyInputSchema(): z.ZodObject<Properties<MediaFileCreateNestedManyWithoutCompanyInput>> {
   return z.object({
-    connect: z.array(z.lazy(() => MediaFileWhereUniqueInputSchema())).nullish(),
-  });
+    connect: z.array(z.lazy(() => MediaFileWhereUniqueInputSchema())).nullish()
+  })
 }
 
-export function MediaFileFileHashIdxCompoundUniqueInputSchema(): z.ZodObject<
-  Properties<MediaFileFileHashIdxCompoundUniqueInput>
-> {
+export function MediaFileFileHashIdxCompoundUniqueInputSchema(): z.ZodObject<Properties<MediaFileFileHashIdxCompoundUniqueInput>> {
   return z.object({
     companyId: z.string(),
-    fileHash: z.string(),
-  });
+    fileHash: z.string()
+  })
 }
 
 export function MediaFileListRelationFilterSchema(): z.ZodObject<Properties<MediaFileListRelationFilter>> {
   return z.object({
     every: z.lazy(() => MediaFileWhereInputSchema().nullish()),
     none: z.lazy(() => MediaFileWhereInputSchema().nullish()),
-    some: z.lazy(() => MediaFileWhereInputSchema().nullish()),
-  });
+    some: z.lazy(() => MediaFileWhereInputSchema().nullish())
+  })
 }
 
-export function MediaFileOrderByRelationAggregateInputSchema(): z.ZodObject<
-  Properties<MediaFileOrderByRelationAggregateInput>
-> {
+export function MediaFileOrderByRelationAggregateInputSchema(): z.ZodObject<Properties<MediaFileOrderByRelationAggregateInput>> {
   return z.object({
-    _count: SortOrderSchema.nullish(),
-  });
+    _count: SortOrderSchema.nullish()
+  })
 }
 
-export function MediaFileUpdateManyWithoutCompanyNestedInputSchema(): z.ZodObject<
-  Properties<MediaFileUpdateManyWithoutCompanyNestedInput>
-> {
+export function MediaFileUpdateManyWithoutCompanyNestedInputSchema(): z.ZodObject<Properties<MediaFileUpdateManyWithoutCompanyNestedInput>> {
   return z.object({
     connect: z.array(z.lazy(() => MediaFileWhereUniqueInputSchema())).nullish(),
-    disconnect: z.array(z.lazy(() => MediaFileWhereUniqueInputSchema())).nullish(),
-  });
+    disconnect: z.array(z.lazy(() => MediaFileWhereUniqueInputSchema())).nullish()
+  })
 }
 
 export function MediaFileWhereInputSchema(): z.ZodObject<Properties<MediaFileWhereInput>> {
@@ -1223,8 +996,8 @@ export function MediaFileWhereInputSchema(): z.ZodObject<Properties<MediaFileWhe
     user: z.lazy(() => UserNullableScalarRelationFilterSchema().nullish()),
     userId: z.lazy(() => StringNullableFilterSchema().nullish()),
     visibility: z.lazy(() => EnumMediaVisibilityFilterSchema().nullish()),
-    width: z.lazy(() => IntNullableFilterSchema().nullish()),
-  });
+    width: z.lazy(() => IntNullableFilterSchema().nullish())
+  })
 }
 
 export function MediaFileWhereUniqueInputSchema(): z.ZodObject<Properties<MediaFileWhereUniqueInput>> {
@@ -1256,59 +1029,49 @@ export function MediaFileWhereUniqueInputSchema(): z.ZodObject<Properties<MediaF
     user: z.lazy(() => UserNullableScalarRelationFilterSchema().nullish()),
     userId: z.lazy(() => StringNullableFilterSchema().nullish()),
     visibility: z.lazy(() => EnumMediaVisibilityFilterSchema().nullish()),
-    width: z.lazy(() => IntNullableFilterSchema().nullish()),
-  });
+    width: z.lazy(() => IntNullableFilterSchema().nullish())
+  })
 }
 
-export function MediaFolderCreateNestedManyWithoutCompanyInputSchema(): z.ZodObject<
-  Properties<MediaFolderCreateNestedManyWithoutCompanyInput>
-> {
+export function MediaFolderCreateNestedManyWithoutCompanyInputSchema(): z.ZodObject<Properties<MediaFolderCreateNestedManyWithoutCompanyInput>> {
   return z.object({
-    connect: z.array(z.lazy(() => MediaFolderWhereUniqueInputSchema())).nullish(),
-  });
+    connect: z.array(z.lazy(() => MediaFolderWhereUniqueInputSchema())).nullish()
+  })
 }
 
-export function MediaFolderFolderPathIdxCompoundUniqueInputSchema(): z.ZodObject<
-  Properties<MediaFolderFolderPathIdxCompoundUniqueInput>
-> {
+export function MediaFolderFolderPathIdxCompoundUniqueInputSchema(): z.ZodObject<Properties<MediaFolderFolderPathIdxCompoundUniqueInput>> {
   return z.object({
     companyId: z.string(),
-    path: z.string(),
-  });
+    path: z.string()
+  })
 }
 
 export function MediaFolderListRelationFilterSchema(): z.ZodObject<Properties<MediaFolderListRelationFilter>> {
   return z.object({
     every: z.lazy(() => MediaFolderWhereInputSchema().nullish()),
     none: z.lazy(() => MediaFolderWhereInputSchema().nullish()),
-    some: z.lazy(() => MediaFolderWhereInputSchema().nullish()),
-  });
+    some: z.lazy(() => MediaFolderWhereInputSchema().nullish())
+  })
 }
 
-export function MediaFolderNullableScalarRelationFilterSchema(): z.ZodObject<
-  Properties<MediaFolderNullableScalarRelationFilter>
-> {
+export function MediaFolderNullableScalarRelationFilterSchema(): z.ZodObject<Properties<MediaFolderNullableScalarRelationFilter>> {
   return z.object({
     is: z.lazy(() => MediaFolderWhereInputSchema().nullish()),
-    isNot: z.lazy(() => MediaFolderWhereInputSchema().nullish()),
-  });
+    isNot: z.lazy(() => MediaFolderWhereInputSchema().nullish())
+  })
 }
 
-export function MediaFolderOrderByRelationAggregateInputSchema(): z.ZodObject<
-  Properties<MediaFolderOrderByRelationAggregateInput>
-> {
+export function MediaFolderOrderByRelationAggregateInputSchema(): z.ZodObject<Properties<MediaFolderOrderByRelationAggregateInput>> {
   return z.object({
-    _count: SortOrderSchema.nullish(),
-  });
+    _count: SortOrderSchema.nullish()
+  })
 }
 
-export function MediaFolderUpdateManyWithoutCompanyNestedInputSchema(): z.ZodObject<
-  Properties<MediaFolderUpdateManyWithoutCompanyNestedInput>
-> {
+export function MediaFolderUpdateManyWithoutCompanyNestedInputSchema(): z.ZodObject<Properties<MediaFolderUpdateManyWithoutCompanyNestedInput>> {
   return z.object({
     connect: z.array(z.lazy(() => MediaFolderWhereUniqueInputSchema())).nullish(),
-    disconnect: z.array(z.lazy(() => MediaFolderWhereUniqueInputSchema())).nullish(),
-  });
+    disconnect: z.array(z.lazy(() => MediaFolderWhereUniqueInputSchema())).nullish()
+  })
 }
 
 export function MediaFolderWhereInputSchema(): z.ZodObject<Properties<MediaFolderWhereInput>> {
@@ -1336,8 +1099,8 @@ export function MediaFolderWhereInputSchema(): z.ZodObject<Properties<MediaFolde
     updatedAt: z.lazy(() => DateTimeFilterSchema().nullish()),
     user: z.lazy(() => UserNullableScalarRelationFilterSchema().nullish()),
     userId: z.lazy(() => StringNullableFilterSchema().nullish()),
-    visibility: z.lazy(() => EnumMediaVisibilityFilterSchema().nullish()),
-  });
+    visibility: z.lazy(() => EnumMediaVisibilityFilterSchema().nullish())
+  })
 }
 
 export function MediaFolderWhereUniqueInputSchema(): z.ZodObject<Properties<MediaFolderWhereUniqueInput>> {
@@ -1360,8 +1123,8 @@ export function MediaFolderWhereUniqueInputSchema(): z.ZodObject<Properties<Medi
     status: z.lazy(() => EnumStatusFilterSchema().nullish()),
     user: z.lazy(() => UserNullableScalarRelationFilterSchema().nullish()),
     userId: z.lazy(() => StringNullableFilterSchema().nullish()),
-    visibility: z.lazy(() => EnumMediaVisibilityFilterSchema().nullish()),
-  });
+    visibility: z.lazy(() => EnumMediaVisibilityFilterSchema().nullish())
+  })
 }
 
 export function NestedBigIntFilterSchema(): z.ZodObject<Properties<NestedBigIntFilter>> {
@@ -1373,8 +1136,8 @@ export function NestedBigIntFilterSchema(): z.ZodObject<Properties<NestedBigIntF
     lt: z.string().nullish(),
     lte: z.string().nullish(),
     not: z.lazy(() => NestedBigIntFilterSchema().nullish()),
-    notIn: z.array(z.string()).nullish(),
-  });
+    notIn: z.array(z.string()).nullish()
+  })
 }
 
 export function NestedDateTimeFilterSchema(): z.ZodObject<Properties<NestedDateTimeFilter>> {
@@ -1386,8 +1149,8 @@ export function NestedDateTimeFilterSchema(): z.ZodObject<Properties<NestedDateT
     lt: z.date().nullish(),
     lte: z.date().nullish(),
     not: z.lazy(() => NestedDateTimeFilterSchema().nullish()),
-    notIn: z.array(z.date()).nullish(),
-  });
+    notIn: z.array(z.date()).nullish()
+  })
 }
 
 export function NestedDateTimeNullableFilterSchema(): z.ZodObject<Properties<NestedDateTimeNullableFilter>> {
@@ -1399,8 +1162,8 @@ export function NestedDateTimeNullableFilterSchema(): z.ZodObject<Properties<Nes
     lt: z.date().nullish(),
     lte: z.date().nullish(),
     not: z.lazy(() => NestedDateTimeNullableFilterSchema().nullish()),
-    notIn: z.array(z.date()).nullish(),
-  });
+    notIn: z.array(z.date()).nullish()
+  })
 }
 
 export function NestedEnumMediaStoreFilterSchema(): z.ZodObject<Properties<NestedEnumMediaStoreFilter>> {
@@ -1408,8 +1171,8 @@ export function NestedEnumMediaStoreFilterSchema(): z.ZodObject<Properties<Neste
     equals: MediaStoreSchema.nullish(),
     in: z.array(MediaStoreSchema).nullish(),
     not: z.lazy(() => NestedEnumMediaStoreFilterSchema().nullish()),
-    notIn: z.array(MediaStoreSchema).nullish(),
-  });
+    notIn: z.array(MediaStoreSchema).nullish()
+  })
 }
 
 export function NestedEnumMediaTypeFilterSchema(): z.ZodObject<Properties<NestedEnumMediaTypeFilter>> {
@@ -1417,8 +1180,8 @@ export function NestedEnumMediaTypeFilterSchema(): z.ZodObject<Properties<Nested
     equals: MediaTypeSchema.nullish(),
     in: z.array(MediaTypeSchema).nullish(),
     not: z.lazy(() => NestedEnumMediaTypeFilterSchema().nullish()),
-    notIn: z.array(MediaTypeSchema).nullish(),
-  });
+    notIn: z.array(MediaTypeSchema).nullish()
+  })
 }
 
 export function NestedEnumMediaVisibilityFilterSchema(): z.ZodObject<Properties<NestedEnumMediaVisibilityFilter>> {
@@ -1426,19 +1189,17 @@ export function NestedEnumMediaVisibilityFilterSchema(): z.ZodObject<Properties<
     equals: MediaVisibilitySchema.nullish(),
     in: z.array(MediaVisibilitySchema).nullish(),
     not: z.lazy(() => NestedEnumMediaVisibilityFilterSchema().nullish()),
-    notIn: z.array(MediaVisibilitySchema).nullish(),
-  });
+    notIn: z.array(MediaVisibilitySchema).nullish()
+  })
 }
 
-export function NestedEnumRequestMethodNullableFilterSchema(): z.ZodObject<
-  Properties<NestedEnumRequestMethodNullableFilter>
-> {
+export function NestedEnumRequestMethodNullableFilterSchema(): z.ZodObject<Properties<NestedEnumRequestMethodNullableFilter>> {
   return z.object({
     equals: RequestMethodSchema.nullish(),
     in: z.array(RequestMethodSchema).nullish(),
     not: z.lazy(() => NestedEnumRequestMethodNullableFilterSchema().nullish()),
-    notIn: z.array(RequestMethodSchema).nullish(),
-  });
+    notIn: z.array(RequestMethodSchema).nullish()
+  })
 }
 
 export function NestedEnumStatusFilterSchema(): z.ZodObject<Properties<NestedEnumStatusFilter>> {
@@ -1446,8 +1207,8 @@ export function NestedEnumStatusFilterSchema(): z.ZodObject<Properties<NestedEnu
     equals: StatusSchema.nullish(),
     in: z.array(StatusSchema).nullish(),
     not: z.lazy(() => NestedEnumStatusFilterSchema().nullish()),
-    notIn: z.array(StatusSchema).nullish(),
-  });
+    notIn: z.array(StatusSchema).nullish()
+  })
 }
 
 export function NestedEnumTargetFilterSchema(): z.ZodObject<Properties<NestedEnumTargetFilter>> {
@@ -1455,8 +1216,8 @@ export function NestedEnumTargetFilterSchema(): z.ZodObject<Properties<NestedEnu
     equals: TargetSchema.nullish(),
     in: z.array(TargetSchema).nullish(),
     not: z.lazy(() => NestedEnumTargetFilterSchema().nullish()),
-    notIn: z.array(TargetSchema).nullish(),
-  });
+    notIn: z.array(TargetSchema).nullish()
+  })
 }
 
 export function NestedEnumTargetNullableFilterSchema(): z.ZodObject<Properties<NestedEnumTargetNullableFilter>> {
@@ -1464,8 +1225,8 @@ export function NestedEnumTargetNullableFilterSchema(): z.ZodObject<Properties<N
     equals: TargetSchema.nullish(),
     in: z.array(TargetSchema).nullish(),
     not: z.lazy(() => NestedEnumTargetNullableFilterSchema().nullish()),
-    notIn: z.array(TargetSchema).nullish(),
-  });
+    notIn: z.array(TargetSchema).nullish()
+  })
 }
 
 export function NestedIntFilterSchema(): z.ZodObject<Properties<NestedIntFilter>> {
@@ -1477,8 +1238,8 @@ export function NestedIntFilterSchema(): z.ZodObject<Properties<NestedIntFilter>
     lt: z.number().nullish(),
     lte: z.number().nullish(),
     not: z.lazy(() => NestedIntFilterSchema().nullish()),
-    notIn: z.array(z.number()).nullish(),
-  });
+    notIn: z.array(z.number()).nullish()
+  })
 }
 
 export function NestedIntNullableFilterSchema(): z.ZodObject<Properties<NestedIntNullableFilter>> {
@@ -1490,8 +1251,8 @@ export function NestedIntNullableFilterSchema(): z.ZodObject<Properties<NestedIn
     lt: z.number().nullish(),
     lte: z.number().nullish(),
     not: z.lazy(() => NestedIntNullableFilterSchema().nullish()),
-    notIn: z.array(z.number()).nullish(),
-  });
+    notIn: z.array(z.number()).nullish()
+  })
 }
 
 export function NestedStringFilterSchema(): z.ZodObject<Properties<NestedStringFilter>> {
@@ -1506,8 +1267,8 @@ export function NestedStringFilterSchema(): z.ZodObject<Properties<NestedStringF
     lte: z.string().nullish(),
     not: z.lazy(() => NestedStringFilterSchema().nullish()),
     notIn: z.array(z.string()).nullish(),
-    startsWith: z.string().nullish(),
-  });
+    startsWith: z.string().nullish()
+  })
 }
 
 export function NestedStringNullableFilterSchema(): z.ZodObject<Properties<NestedStringNullableFilter>> {
@@ -1522,41 +1283,35 @@ export function NestedStringNullableFilterSchema(): z.ZodObject<Properties<Neste
     lte: z.string().nullish(),
     not: z.lazy(() => NestedStringNullableFilterSchema().nullish()),
     notIn: z.array(z.string()).nullish(),
-    startsWith: z.string().nullish(),
-  });
+    startsWith: z.string().nullish()
+  })
 }
 
-export function RequestLogCreateNestedManyWithoutCompanyInputSchema(): z.ZodObject<
-  Properties<RequestLogCreateNestedManyWithoutCompanyInput>
-> {
+export function RequestLogCreateNestedManyWithoutCompanyInputSchema(): z.ZodObject<Properties<RequestLogCreateNestedManyWithoutCompanyInput>> {
   return z.object({
-    connect: z.array(z.lazy(() => RequestLogWhereUniqueInputSchema())).nullish(),
-  });
+    connect: z.array(z.lazy(() => RequestLogWhereUniqueInputSchema())).nullish()
+  })
 }
 
 export function RequestLogListRelationFilterSchema(): z.ZodObject<Properties<RequestLogListRelationFilter>> {
   return z.object({
     every: z.lazy(() => RequestLogWhereInputSchema().nullish()),
     none: z.lazy(() => RequestLogWhereInputSchema().nullish()),
-    some: z.lazy(() => RequestLogWhereInputSchema().nullish()),
-  });
+    some: z.lazy(() => RequestLogWhereInputSchema().nullish())
+  })
 }
 
-export function RequestLogOrderByRelationAggregateInputSchema(): z.ZodObject<
-  Properties<RequestLogOrderByRelationAggregateInput>
-> {
+export function RequestLogOrderByRelationAggregateInputSchema(): z.ZodObject<Properties<RequestLogOrderByRelationAggregateInput>> {
   return z.object({
-    _count: SortOrderSchema.nullish(),
-  });
+    _count: SortOrderSchema.nullish()
+  })
 }
 
-export function RequestLogUpdateManyWithoutCompanyNestedInputSchema(): z.ZodObject<
-  Properties<RequestLogUpdateManyWithoutCompanyNestedInput>
-> {
+export function RequestLogUpdateManyWithoutCompanyNestedInputSchema(): z.ZodObject<Properties<RequestLogUpdateManyWithoutCompanyNestedInput>> {
   return z.object({
     connect: z.array(z.lazy(() => RequestLogWhereUniqueInputSchema())).nullish(),
-    disconnect: z.array(z.lazy(() => RequestLogWhereUniqueInputSchema())).nullish(),
-  });
+    disconnect: z.array(z.lazy(() => RequestLogWhereUniqueInputSchema())).nullish()
+  })
 }
 
 export function RequestLogWhereInputSchema(): z.ZodObject<Properties<RequestLogWhereInput>> {
@@ -1591,8 +1346,8 @@ export function RequestLogWhereInputSchema(): z.ZodObject<Properties<RequestLogW
     target: z.lazy(() => EnumTargetNullableFilterSchema().nullish()),
     updatedAt: z.lazy(() => DateTimeFilterSchema().nullish()),
     user: z.lazy(() => UserNullableScalarRelationFilterSchema().nullish()),
-    userId: z.lazy(() => StringNullableFilterSchema().nullish()),
-  });
+    userId: z.lazy(() => StringNullableFilterSchema().nullish())
+  })
 }
 
 export function RequestLogWhereUniqueInputSchema(): z.ZodObject<Properties<RequestLogWhereUniqueInput>> {
@@ -1622,15 +1377,15 @@ export function RequestLogWhereUniqueInputSchema(): z.ZodObject<Properties<Reque
     subject: z.lazy(() => StringNullableFilterSchema().nullish()),
     target: z.lazy(() => EnumTargetNullableFilterSchema().nullish()),
     user: z.lazy(() => UserNullableScalarRelationFilterSchema().nullish()),
-    userId: z.lazy(() => StringNullableFilterSchema().nullish()),
-  });
+    userId: z.lazy(() => StringNullableFilterSchema().nullish())
+  })
 }
 
 export function SortOrderInputSchema(): z.ZodObject<Properties<SortOrderInput>> {
   return z.object({
     nulls: NullsOrderSchema.nullish(),
-    sort: SortOrderSchema,
-  });
+    sort: SortOrderSchema
+  })
 }
 
 export function StringFilterSchema(): z.ZodObject<Properties<StringFilter>> {
@@ -1646,8 +1401,8 @@ export function StringFilterSchema(): z.ZodObject<Properties<StringFilter>> {
     mode: QueryModeSchema.nullish(),
     not: z.lazy(() => NestedStringFilterSchema().nullish()),
     notIn: z.array(z.string()).nullish(),
-    startsWith: z.string().nullish(),
-  });
+    startsWith: z.string().nullish()
+  })
 }
 
 export function StringNullableFilterSchema(): z.ZodObject<Properties<StringNullableFilter>> {
@@ -1663,8 +1418,8 @@ export function StringNullableFilterSchema(): z.ZodObject<Properties<StringNulla
     mode: QueryModeSchema.nullish(),
     not: z.lazy(() => NestedStringNullableFilterSchema().nullish()),
     notIn: z.array(z.string()).nullish(),
-    startsWith: z.string().nullish(),
-  });
+    startsWith: z.string().nullish()
+  })
 }
 
 export function StringNullableListFilterSchema(): z.ZodObject<Properties<StringNullableListFilter>> {
@@ -1673,8 +1428,8 @@ export function StringNullableListFilterSchema(): z.ZodObject<Properties<StringN
     has: z.string().nullish(),
     hasEvery: z.array(z.string()).nullish(),
     hasSome: z.array(z.string()).nullish(),
-    isEmpty: z.boolean().nullish(),
-  });
+    isEmpty: z.boolean().nullish()
+  })
 }
 
 export function UserCreateInputSchema(): z.ZodObject<Properties<UserCreateInput>> {
@@ -1682,23 +1437,21 @@ export function UserCreateInputSchema(): z.ZodObject<Properties<UserCreateInput>
     email: z.string(),
     name: z.string(),
     password: z.string(),
-    status: StatusSchema.nullish(),
-  });
+    status: StatusSchema.nullish()
+  })
 }
 
-export function UserCreateNestedOneWithoutCompaniesInputSchema(): z.ZodObject<
-  Properties<UserCreateNestedOneWithoutCompaniesInput>
-> {
+export function UserCreateNestedOneWithoutCompaniesInputSchema(): z.ZodObject<Properties<UserCreateNestedOneWithoutCompaniesInput>> {
   return z.object({
-    connect: z.lazy(() => UserWhereUniqueInputSchema().nullish()),
-  });
+    connect: z.lazy(() => UserWhereUniqueInputSchema().nullish())
+  })
 }
 
 export function UserNullableScalarRelationFilterSchema(): z.ZodObject<Properties<UserNullableScalarRelationFilter>> {
   return z.object({
     is: z.lazy(() => UserWhereInputSchema().nullish()),
-    isNot: z.lazy(() => UserWhereInputSchema().nullish()),
-  });
+    isNot: z.lazy(() => UserWhereInputSchema().nullish())
+  })
 }
 
 export function UserOrderByWithRelationInputSchema(): z.ZodObject<Properties<UserOrderByWithRelationInput>> {
@@ -1713,15 +1466,15 @@ export function UserOrderByWithRelationInputSchema(): z.ZodObject<Properties<Use
     mediaFolders: z.lazy(() => MediaFolderOrderByRelationAggregateInputSchema().nullish()),
     name: SortOrderSchema.nullish(),
     status: SortOrderSchema.nullish(),
-    updatedAt: SortOrderSchema.nullish(),
-  });
+    updatedAt: SortOrderSchema.nullish()
+  })
 }
 
 export function UserScalarRelationFilterSchema(): z.ZodObject<Properties<UserScalarRelationFilter>> {
   return z.object({
     is: z.lazy(() => UserWhereInputSchema().nullish()),
-    isNot: z.lazy(() => UserWhereInputSchema().nullish()),
-  });
+    isNot: z.lazy(() => UserWhereInputSchema().nullish())
+  })
 }
 
 export function UserUpdateInputSchema(): z.ZodObject<Properties<UserUpdateInput>> {
@@ -1729,16 +1482,14 @@ export function UserUpdateInputSchema(): z.ZodObject<Properties<UserUpdateInput>
     email: z.string().nullish(),
     name: z.string().nullish(),
     password: z.string().nullish(),
-    status: StatusSchema.nullish(),
-  });
+    status: StatusSchema.nullish()
+  })
 }
 
-export function UserUpdateOneRequiredWithoutCompaniesNestedInputSchema(): z.ZodObject<
-  Properties<UserUpdateOneRequiredWithoutCompaniesNestedInput>
-> {
+export function UserUpdateOneRequiredWithoutCompaniesNestedInputSchema(): z.ZodObject<Properties<UserUpdateOneRequiredWithoutCompaniesNestedInput>> {
   return z.object({
-    connect: z.lazy(() => UserWhereUniqueInputSchema().nullish()),
-  });
+    connect: z.lazy(() => UserWhereUniqueInputSchema().nullish())
+  })
 }
 
 export function UserWhereInputSchema(): z.ZodObject<Properties<UserWhereInput>> {
@@ -1756,8 +1507,8 @@ export function UserWhereInputSchema(): z.ZodObject<Properties<UserWhereInput>> 
     mediaFolders: z.lazy(() => MediaFolderListRelationFilterSchema().nullish()),
     name: z.lazy(() => StringFilterSchema().nullish()),
     status: z.lazy(() => EnumStatusFilterSchema().nullish()),
-    updatedAt: z.lazy(() => DateTimeFilterSchema().nullish()),
-  });
+    updatedAt: z.lazy(() => DateTimeFilterSchema().nullish())
+  })
 }
 
 export function UserWhereUniqueInputSchema(): z.ZodObject<Properties<UserWhereUniqueInput>> {
@@ -1765,6 +1516,6 @@ export function UserWhereUniqueInputSchema(): z.ZodObject<Properties<UserWhereUn
     email: z.string().nullish(),
     id: z.string().nullish(),
     name: z.lazy(() => StringFilterSchema().nullish()),
-    status: z.lazy(() => EnumStatusFilterSchema().nullish()),
-  });
+    status: z.lazy(() => EnumStatusFilterSchema().nullish())
+  })
 }
