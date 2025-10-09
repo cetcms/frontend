@@ -2,7 +2,8 @@ query Translations($scope: String!) {
 	translations(scope: $scope)
 }
 
-subscription HealthCheck {
+query HealthCheck {
 	healthCheck
 }
+
 

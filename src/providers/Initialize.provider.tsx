@@ -3,7 +3,8 @@ import { MantineProvider } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Loading } from 'src/components';
-import { TranslationsDocument } from 'src/graphql';
+import { HealthCheckDocument, TranslationsDocument } from 'src/graphql';
+import { SomeErrorPage } from 'src/pages/error';
 import { SetupAppOptions } from 'src/setup';
 import { useMenuStore, useThemeStore } from 'src/store';
 
@@ -81,8 +82,22 @@ export const InitializeProvider: React.FC<InitializeProviderProps> = ({ children
   const { loading: menuLoading } = useRegisterMenus(registerMenus);
   const { loading: themeLoading, theme } = useRegisterTheme(registerTheme);
   const { loading: translationsLoading } = useLoadTranslations('models');
+  const health = useQuery(HealthCheckDocument, {
+    fetchPolicy: 'network-only',
+  });
+
+  useEffect(() => {
+    const intervalId = setInterval(health.refetch, 5000);
+    return () => clearInterval(intervalId);
+  }, []);
+
   if (menuLoading || themeLoading || translationsLoading) {
     return <Loading native />;
   }
-  return <MantineProvider theme={theme}>{children}</MantineProvider>;
+
+  return (
+    <MantineProvider theme={theme}>
+      {health.data?.healthCheck !== 'ok' || health.error ? <SomeErrorPage /> : children}
+    </MantineProvider>
+  );
 };

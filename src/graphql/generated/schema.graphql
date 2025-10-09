@@ -3,7 +3,6 @@
 schema {
 	query: Query
 	mutation: Mutation
-	subscription: Subscription
 }
 
 "Indicates exactly one field must be supplied and this field must not be `null`."
@@ -622,6 +621,7 @@ type Query {
 	findSelfAdmin: Admin!
 	findSelfCompany: Company!
 	findSelfUser: User!
+	healthCheck: String!
 	helloWorld: String!
 	listAuthCompanies(name: String): [Company!]
 	logout: Boolean!
@@ -746,10 +746,6 @@ type RequestLogMinAggregate {
 
 type RequestLogSumAggregate {
 	duration: String
-}
-
-type Subscription {
-	healthCheck: String!
 }
 
 type User {
@@ -893,6 +889,7 @@ enum RequestMethod {
 	DELETE
 	GET
 	GRAPHQL
+	GRAPHQL_WS
 	HEAD
 	OPTIONS
 	PATCH
