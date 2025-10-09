@@ -18,7 +18,8 @@ export type RolePermissionsProps = InputWrapperProps & {
   value?: string[];
   onChange?: (value: string[]) => void;
   disabled?: boolean; // 组件级禁用
-  disabledActions?: string[]; // action value级禁用
+  disabledSelect?: string[]; // 禁止选中的action
+  disabledUnselect?: string[]; // 禁止取消选中的action
   permissions?: PermissionItem[];
   loading?: boolean;
 };
@@ -87,7 +88,8 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
   value = [],
   onChange,
   disabled = false,
-  disabledActions = [],
+  disabledSelect = [],
+  disabledUnselect = [],
   permissions = [],
   loading = false,
   ...props
@@ -110,7 +112,11 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
 
   const handleActionChange = (actionValue: string, checked: boolean) => {
     // 如果action被禁用，则不处理变化
-    if (disabled || disabledActions.includes(actionValue)) {
+    if (
+      disabled ||
+      (checked && disabledSelect.includes(actionValue)) ||
+      (!checked && disabledUnselect.includes(actionValue))
+    ) {
       return;
     }
 
@@ -133,17 +139,17 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
     let newCheckedValues = [...checkedValues];
 
     if (checked) {
-      // 添加所有未禁用的子项
+      // 添加所有未禁用选中的子项
       actionValues.forEach((value) => {
-        if (!newCheckedValues.includes(value) && !disabledActions.includes(value)) {
+        if (!newCheckedValues.includes(value) && !disabledSelect.includes(value)) {
           newCheckedValues.push(value);
         }
       });
     } else {
-      // 移除所有未禁用的子项
+      // 移除所有未禁用取消选中的子项
       newCheckedValues = newCheckedValues.filter((value) => {
-        // 如果action被禁用，保持原状态
-        if (disabledActions.includes(value)) {
+        // 如果action被禁用取消选中，保持原状态
+        if (disabledUnselect.includes(value)) {
           return true;
         }
         // 否则根据操作决定是否移除
@@ -174,17 +180,17 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
     let newCheckedValues = [...checkedValues];
 
     if (checked) {
-      // 添加所有未禁用的子项
+      // 添加所有未禁用选中的子项
       allActionValues.forEach((value) => {
-        if (!newCheckedValues.includes(value) && !disabledActions.includes(value)) {
+        if (!newCheckedValues.includes(value) && !disabledSelect.includes(value)) {
           newCheckedValues.push(value);
         }
       });
     } else {
-      // 移除所有未禁用的子项
+      // 移除所有未禁用取消选中的子项
       newCheckedValues = newCheckedValues.filter((value) => {
-        // 如果action被禁用，保持原状态
-        if (disabledActions.includes(value)) {
+        // 如果action被禁用取消选中，保持原状态
+        if (disabledUnselect.includes(value)) {
           return true;
         }
         // 否则根据操作决定是否移除
@@ -197,7 +203,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
     onChange?.(newCheckedValues);
   };
 
-  // 检查是否所有子项都被选中（忽略被禁用的项）
+  // 检查是否所有子项都被选中（忽略被禁用选中的项）
   const isAllChildrenChecked = (node: TreeNode): boolean => {
     if (!node.children || node.children.length === 0) {
       // 叶子节点，直接返回选中状态
@@ -206,15 +212,15 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
 
     // 非叶子节点，检查所有子节点
     return node.children.every((child) => {
-      // 如果是操作节点且被禁用，跳过检查
-      if ((!child.children || child.children.length === 0) && disabledActions.includes(child.value)) {
-        return true; // 忽略被禁用的操作
+      // 如果是操作节点且被禁用选中，跳过检查
+      if ((!child.children || child.children.length === 0) && disabledSelect.includes(child.value)) {
+        return true; // 忽略被禁用选中的操作
       }
       return isAllChildrenChecked(child);
     });
   };
 
-  // 检查是否有部分子项被选中（忽略被禁用的项）
+  // 检查是否有部分子项被选中（忽略被禁用取消选中的项）
   const isSomeChildrenChecked = (node: TreeNode): boolean => {
     if (!node.children || node.children.length === 0) {
       // 叶子节点，直接返回选中状态
@@ -223,9 +229,9 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
 
     // 非叶子节点，检查所有子节点
     return node.children.some((child) => {
-      // 如果是操作节点且被禁用，跳过检查
-      if ((!child.children || child.children.length === 0) && disabledActions.includes(child.value)) {
-        return false; // 忽略被禁用的操作
+      // 如果是操作节点且被禁用取消选中，跳过检查
+      if ((!child.children || child.children.length === 0) && disabledUnselect.includes(child.value)) {
+        return false; // 忽略被禁用取消选中的操作
       }
       return isSomeChildrenChecked(child);
     });
@@ -235,16 +241,20 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
     return nodes.map((node) => {
       // 如果是操作级别（没有子节点）
       if (!node.children || node.children.length === 0) {
-        const isActionDisabled = disabled || disabledActions.includes(node.value);
+        const isActionDisabled =
+          disabled ||
+          (checkedValues.includes(node.value) && disabledUnselect.includes(node.value)) ||
+          (!checkedValues.includes(node.value) && disabledSelect.includes(node.value));
         return (
-          <Checkbox
-            key={node.id}
-            label={node.label}
-            checked={checkedValues.includes(node.value)}
-            onChange={(event) => handleActionChange(node.value, event.currentTarget.checked)}
-            onMouseDown={(event) => event.stopPropagation()}
-            disabled={isActionDisabled}
-          />
+          <Box key={node.id} onClick={(event) => event.stopPropagation()}>
+            <Checkbox
+              label={node.label}
+              checked={checkedValues.includes(node.value)}
+              onChange={(event) => handleActionChange(node.value, event.currentTarget.checked)}
+              onMouseDown={(event) => event.stopPropagation()}
+              disabled={isActionDisabled}
+            />
+          </Box>
         );
       }
 
@@ -257,14 +267,16 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
         return (
           <Card withBorder p="xs" key={node.id}>
             <Stack gap="xs">
-              <Checkbox
-                label={node.label}
-                checked={allChecked}
-                indeterminate={indeterminate}
-                onChange={(event) => handleSubjectChange(node, event.currentTarget.checked)}
-                onMouseDown={(event) => event.stopPropagation()}
-                disabled={disabled}
-              />
+              <Box onClick={(event) => event.stopPropagation()}>
+                <Checkbox
+                  label={node.label}
+                  checked={allChecked}
+                  indeterminate={indeterminate}
+                  onChange={(event) => handleSubjectChange(node, event.currentTarget.checked)}
+                  onMouseDown={(event) => event.stopPropagation()}
+                  disabled={disabled}
+                />
+              </Box>
               <SimpleGrid spacing="xs" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
                 {renderTree(node.children)}
               </SimpleGrid>
