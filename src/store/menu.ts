@@ -121,6 +121,20 @@ export const useMenuStore = create<MenuStore>((set, get) => ({
           id: 'admin-role',
           label: '管理员角色',
           path: '/admin/roles',
+          children: [
+            {
+              id: 'admin-role-add',
+              label: '添加管理员角色',
+              path: '/admin/role/add',
+              hide: true,
+            },
+            {
+              id: 'admin-role-edit',
+              label: '编辑管理员角色',
+              path: '/admin/role/edit',
+              hide: true,
+            },
+          ],
         },
       ],
     },

@@ -9,3 +9,22 @@ query PaginateAdminRoles($take: Int, $skip: Int, $where: AdminRoleWhereInput, $o
 		}
 	}
 }
+
+query FindOneAdminRole($id: String!) {
+	findOneAdminRole(where: { id: $id }) {
+		...AdminRole
+	}
+}
+
+mutation CreateOneAdminRole($data: AdminRoleCreateInput!) {
+	createOneAdminRole(data: $data) {
+		...AdminRole
+	}
+}
+
+mutation UpdateOneAdminRole($id: String!, $data: AdminRoleUpdateInput!) {
+	updateOneAdminRole(data: $data, where: { id: $id }) {
+		...AdminRole
+	}
+}
+

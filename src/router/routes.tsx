@@ -1,6 +1,7 @@
 import { Navigate, Outlet, RouteObject } from 'react-router';
 import { AuthLayout, MainLayout } from 'src/layouts';
 import { AdminFormPage, AdminPage, AdminRolePage } from 'src/pages/admin';
+import { AdminRoleFormPage } from 'src/pages/admin/AdminRole/AdminRoleForm.page';
 import { LoginPage } from 'src/pages/auth';
 import { CompanyPage, CompanyRolePage } from 'src/pages/company';
 import { NotFoundPage } from 'src/pages/error';
@@ -42,6 +43,14 @@ const mainRoutes: RouteObject[] = [
       {
         path: 'roles',
         Component: AdminRolePage,
+      },
+      {
+        path: 'role/add',
+        Component: AdminRoleFormPage,
+      },
+      {
+        path: 'role/edit',
+        Component: AdminRoleFormPage,
       },
     ],
   },
