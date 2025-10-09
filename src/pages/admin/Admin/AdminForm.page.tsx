@@ -1,5 +1,5 @@
 import { useLazyQuery } from '@apollo/client/react';
-import { Box, LoadingOverlay } from '@mantine/core';
+import { Group, LoadingOverlay } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { Admin, FindOneAdminDocument } from 'src/graphql';
@@ -25,8 +25,8 @@ export const AdminFormPage = () => {
     return <LoadingOverlay visible />;
   }
   return (
-    <Box m="md">
+    <Group p="md" justify="start">
       <AdminForm item={data?.findOneAdmin as Admin} />
-    </Box>
+    </Group>
   );
 };
