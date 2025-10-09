@@ -1,23 +1,18 @@
 import { useMutation } from '@apollo/client/react';
-import {
-  Card,
-  Divider,
-  Grid,
-  Group,
-  LoadingOverlay,
-  Select,
-  Stack,
-  Text,
-  TextInput,
-  Textarea,
-} from '@mantine/core';
+import { Card, Divider, Grid, Group, LoadingOverlay, Select, Stack, Text, TextInput, Textarea } from '@mantine/core';
 import { Form, isNotEmpty, useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { FormPageAction, FormPageErrors } from 'src/components/FormPage';
-import { AdminRole, AdminRoleCreateInput, CreateOneAdminRoleDocument, Status, UpdateOneAdminRoleDocument } from 'src/graphql';
+import {
+  AdminRole,
+  AdminRoleCreateInput,
+  CreateOneAdminRoleDocument,
+  Status,
+  UpdateOneAdminRoleDocument,
+} from 'src/graphql';
 import { useParseApolloErrors } from 'src/hooks';
 
 export type AdminRoleFormProps = {

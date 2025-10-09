@@ -1,15 +1,14 @@
-import { useMutation, useQuery } from '@apollo/client/react';
+import { useQuery } from '@apollo/client/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DataTable } from 'src/components';
-import { PaginateAdminsDocument, PaginationFragment, Status, UpdateOneAdminDocument } from 'src/graphql';
+import { PaginateAdminsDocument, PaginationFragment, Status } from 'src/graphql';
 
 export const AdminPage = () => {
   const { t } = useTranslation('models');
   const { data, loading, refetch } = useQuery(PaginateAdminsDocument, {
     fetchPolicy: 'network-only',
   });
-  const [_] = useMutation(UpdateOneAdminDocument);
   const { paginateAdmins } = data || {};
   const pagination = (paginateAdmins?.pagination || {}) as PaginationFragment;
   const items = paginateAdmins?.items || [];
