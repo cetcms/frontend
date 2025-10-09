@@ -130,8 +130,12 @@ export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
                 label={t('AdminRole.permissions')}
                 loading={permissions.loading}
                 permissions={(permissions.data?.listAdminRolePermission?.items || []) as PermissionItem[]}
-                disabledSelect={['AdminRoleResolver:findOneAdminRole']}
-                // disabledUnselect={['AdminRoleResolver:findOneAdminRole']}
+                disabledUnselect={[
+                  'UserResolver:findOneUser',
+                  'UserResolver:paginateUsers',
+                  'UserResolver:createOneUser',
+                ]}
+                disabledSelect={['UserResolver:updateOneUser']}
                 {...form.getInputProps('permissions')}
               />
             </Grid.Col>

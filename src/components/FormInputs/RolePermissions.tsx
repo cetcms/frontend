@@ -237,6 +237,101 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
     });
   };
 
+  // 检查主题级别是否所有子项都被禁用选中
+  const isAllChildrenDisabledSelect = (node: TreeNode): boolean => {
+    if (!node.children || node.children.length === 0) {
+      return false; // 叶子节点不适用
+    }
+
+    // 检查所有子节点是否都是操作节点且都被禁用选中
+    const allAreActions = node.children.every((child) => !child.children || child.children.length === 0);
+    if (!allAreActions) {
+      return false;
+    }
+
+    // 检查所有操作节点是否都被禁用选中（在disabledSelect中且未被选中）
+    return node.children.every((child) => {
+      return disabledSelect.includes(child.value) && !checkedValues.includes(child.value);
+    });
+  };
+
+  // 检查主题级别是否所有子项都被禁用取消选中
+  const isAllChildrenDisabledUnselect = (node: TreeNode): boolean => {
+    if (!node.children || node.children.length === 0) {
+      return false; // 叶子节点不适用
+    }
+
+    // 检查所有子节点是否都是操作节点且都被禁用取消选中
+    const allAreActions = node.children.every((child) => !child.children || child.children.length === 0);
+    if (!allAreActions) {
+      return false;
+    }
+
+    // 检查所有操作节点是否都被禁用取消选中（在disabledUnselect中且已被选中）
+    return node.children.every((child) => {
+      return disabledUnselect.includes(child.value) && checkedValues.includes(child.value);
+    });
+  };
+
+  // 检查是否所有子项都实际禁用（无法更改状态）
+  const isAllChildrenActuallyDisabled = (node: TreeNode): boolean => {
+    if (!node.children || node.children.length === 0) {
+      return false; // 叶子节点不适用
+    }
+
+    // 检查所有子节点是否都是操作节点
+    const allAreActions = node.children.every((child) => !child.children || child.children.length === 0);
+    if (!allAreActions) {
+      return false;
+    }
+
+    // 检查所有操作节点是否都实际禁用
+    return node.children.every((child) => {
+      // 如果在disabledSelect中且未选中，则禁用选中
+      const isDisabledSelect = disabledSelect.includes(child.value) && !checkedValues.includes(child.value);
+      // 如果在disabledUnselect中且已选中，则禁用取消选中
+      const isDisabledUnselect = disabledUnselect.includes(child.value) && checkedValues.includes(child.value);
+      // 只有当禁用选中且禁用取消选中同时满足，或者其中一种满足且无法更改状态时才视为实际禁用
+      return isDisabledSelect || isDisabledUnselect;
+    });
+  };
+
+  // 检查模块级别是否所有子项都被禁用选中
+  const isAllModuleChildrenDisabledSelect = (node: TreeNode): boolean => {
+    if (!node.children || node.children.length === 0) {
+      return false; // 叶子节点不适用
+    }
+
+    // 检查模块下所有主题是否都被禁用选中
+    return node.children.every((subject) => {
+      return isAllChildrenDisabledSelect(subject);
+    });
+  };
+
+  // 检查模块级别是否所有子项都被禁用取消选中
+  const isAllModuleChildrenDisabledUnselect = (node: TreeNode): boolean => {
+    if (!node.children || node.children.length === 0) {
+      return false; // 叶子节点不适用
+    }
+
+    // 检查模块下所有主题是否都被禁用取消选中
+    return node.children.every((subject) => {
+      return isAllChildrenDisabledUnselect(subject);
+    });
+  };
+
+  // 检查模块级别是否所有子项都实际禁用
+  const isAllModuleChildrenActuallyDisabled = (node: TreeNode): boolean => {
+    if (!node.children || node.children.length === 0) {
+      return false; // 叶子节点不适用
+    }
+
+    // 检查模块下所有主题是否都实际禁用
+    return node.children.every((subject) => {
+      return isAllChildrenActuallyDisabled(subject);
+    });
+  };
+
   const renderTree = (nodes: TreeNode[]) => {
     return nodes.map((node) => {
       // 如果是操作级别（没有子节点）
@@ -263,6 +358,12 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
         const allChecked = isAllChildrenChecked(node);
         const someChecked = isSomeChildrenChecked(node);
         const indeterminate = someChecked && !allChecked;
+        const allDisabledSelect = isAllChildrenDisabledSelect(node);
+        const allDisabledUnselect = isAllChildrenDisabledUnselect(node);
+        const allActuallyDisabled = isAllChildrenActuallyDisabled(node);
+        // 结合原有的禁用逻辑和新的实际禁用逻辑
+        const isSubjectDisabled =
+          disabled || allActuallyDisabled || (allChecked && allDisabledUnselect) || (!allChecked && allDisabledSelect);
 
         return (
           <Card withBorder p="xs" key={node.id}>
@@ -274,7 +375,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
                   indeterminate={indeterminate}
                   onChange={(event) => handleSubjectChange(node, event.currentTarget.checked)}
                   onMouseDown={(event) => event.stopPropagation()}
-                  disabled={disabled}
+                  disabled={isSubjectDisabled}
                 />
               </Box>
               <SimpleGrid spacing="xs" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
@@ -289,6 +390,12 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
       const allChecked = isAllChildrenChecked(node);
       const someChecked = isSomeChildrenChecked(node);
       const indeterminate = someChecked && !allChecked;
+      const allDisabledSelect = isAllModuleChildrenDisabledSelect(node);
+      const allDisabledUnselect = isAllModuleChildrenDisabledUnselect(node);
+      const allActuallyDisabled = isAllModuleChildrenActuallyDisabled(node);
+      // 结合原有的禁用逻辑和新的实际禁用逻辑
+      const isModuleDisabled =
+        disabled || allActuallyDisabled || (allChecked && allDisabledUnselect) || (!allChecked && allDisabledSelect);
 
       return (
         <Accordion.Item value={node.id} key={node.id} style={{ overflow: 'hidden' }}>
@@ -304,7 +411,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
                     handleModuleChange(node, event.currentTarget.checked);
                   }}
                   onMouseDown={(event) => event.stopPropagation()}
-                  disabled={disabled}
+                  disabled={isModuleDisabled}
                 />
               </Box>
             </Accordion.Control>
