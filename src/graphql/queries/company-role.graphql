@@ -9,3 +9,22 @@ query PaginateCompanyRoles($take: Int, $skip: Int, $where: CompanyRoleWhereInput
 		}
 	}
 }
+
+query FindOneCompanyRole($id: String!) {
+	findOneCompanyRole(where: { id: $id }) {
+		...CompanyRole
+	}
+}
+
+mutation CreateOneCompanyRole($data: CompanyRoleCreateInput!) {
+	createOneCompanyRole(data: $data) {
+		...CompanyRole
+	}
+}
+
+mutation UpdateOneCompanyRole($id: String!, $data: CompanyRoleUpdateInput!) {
+	updateOneCompanyRole(data: $data, where: { id: $id }) {
+		...CompanyRole
+	}
+}
+

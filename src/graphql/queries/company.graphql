@@ -9,3 +9,22 @@ query PaginateCompanies($take: Int, $skip: Int, $where: CompanyWhereInput, $orde
 		}
 	}
 }
+
+query FindOneCompany($id: String!) {
+	findOneCompany(where: { id: $id }) {
+		...Company
+	}
+}
+
+mutation CreateOneCompany($data: CompanyCreateInput!) {
+	createOneCompany(data: $data) {
+		...Company
+	}
+}
+
+mutation UpdateOneCompany($id: String!, $data: CompanyUpdateInput!) {
+	updateOneCompany(data: $data, where: { id: $id }) {
+		...Company
+	}
+}
+
