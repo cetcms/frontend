@@ -66,3 +66,12 @@ fragment Login on Login {
 	accessToken
 	accessTimeout
 }
+
+fragment PermissionItem on PermissionItem {
+	subject
+	subjectLabel
+	group
+	action
+	actionLabel
+	targets
+}

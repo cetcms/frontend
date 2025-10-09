@@ -1,21 +1,22 @@
-import { useMutation } from '@apollo/client/react';
+import { useMutation, useQuery } from '@apollo/client/react';
 import { Card, Divider, Grid, Group, LoadingOverlay, Select, Stack, Text, TextInput, Textarea } from '@mantine/core';
 import { Form, isNotEmpty, useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-import { DatasetSelect, TransferList } from 'src/components/FormInputs';
+import { RolePermissions } from 'src/components/FormInputs/RolePermissions';
 import { FormPageAction, FormPageErrors } from 'src/components/FormPage';
 import {
   AdminRole,
   AdminRoleCreateInput,
   CreateOneAdminRoleDocument,
+  ListAdminRolePermissionDocument,
+  PermissionItem,
   Status,
   UpdateOneAdminRoleDocument,
 } from 'src/graphql';
 import { useParseApolloErrors } from 'src/hooks';
-import { RolePermissions } from "src/components/FormInputs/RolePermissions";
 
 export type AdminRoleFormProps = {
   item?: AdminRole;
@@ -29,6 +30,7 @@ export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
   const navigate = useNavigate();
   const [createAdminRole, { loading: creating }] = useMutation(CreateOneAdminRoleDocument);
   const [updateAdminRole, { loading: updating }] = useMutation(UpdateOneAdminRoleDocument);
+  const permissions = useQuery(ListAdminRolePermissionDocument);
 
   const [parseHandler, { errors, resetErrors }] = useParseApolloErrors();
 
@@ -38,6 +40,7 @@ export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
       code: item?.code || '',
       description: item?.description || '',
       status: item?.status || Status.Enabled,
+      permissions: item?.permissions || [],
     },
     validate: {
       name: isNotEmpty(t('validation:inputRequired', { field: t('AdminRole.name') })),
@@ -112,9 +115,6 @@ export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
               <Textarea label={t('AdminRole.description')} {...form.getInputProps('description')} />
             </Grid.Col>
             <Grid.Col span={2}>
-              <RolePermissions disabledActions={['AdminRoleResolver:findOneAdminRole']} />
-            </Grid.Col>
-            <Grid.Col span={2}>
               <Select
                 allowDeselect={false}
                 label={t('AdminRole.status')}
@@ -123,6 +123,15 @@ export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
                   { label: t('enum.Status.Disabled'), value: Status.Disabled },
                 ]}
                 {...form.getInputProps('status')}
+              />
+            </Grid.Col>
+            <Grid.Col span={2}>
+              <RolePermissions
+                label={t('AdminRole.permissions')}
+                loading={permissions.loading}
+                permissions={(permissions.data?.listAdminRolePermission?.items || []) as PermissionItem[]}
+                disabledActions={['AdminRoleResolver:findOneAdminRole']}
+                {...form.getInputProps('permissions')}
               />
             </Grid.Col>
           </Grid>

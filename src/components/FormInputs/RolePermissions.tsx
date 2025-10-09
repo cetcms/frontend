@@ -1,21 +1,27 @@
-import { Accordion, Card, Center, Checkbox, InputWrapper, InputWrapperProps, SimpleGrid, Stack } from '@mantine/core';
+import {
+  Accordion,
+  Box,
+  Card,
+  Center,
+  Checkbox,
+  InputWrapper,
+  InputWrapperProps,
+  LoadingOverlay,
+  SimpleGrid,
+  Stack,
+  Text,
+} from '@mantine/core';
 import React, { useEffect, useRef, useState } from 'react';
+import { PermissionItem } from 'src/graphql';
 
 export type RolePermissionsProps = InputWrapperProps & {
   value?: string[];
   onChange?: (value: string[]) => void;
   disabled?: boolean; // 组件级禁用
   disabledActions?: string[]; // action value级禁用
+  permissions?: PermissionItem[];
+  loading?: boolean;
 };
-
-interface PermissionItem {
-  subject: string;
-  subjectLabel: string;
-  group: string;
-  action: string;
-  actionLabel: string;
-  targets: any[];
-}
 
 interface TreeNode {
   id: string;
@@ -24,320 +30,6 @@ interface TreeNode {
   children?: TreeNode[];
 }
 
-export const permissions: PermissionItem[] = [
-  {
-    subject: 'UserResolver',
-    subjectLabel: '用户管理',
-    group: 'User',
-    action: 'findSelfUser',
-    actionLabel: '查询当前用户信息',
-    targets: [],
-  },
-  {
-    subject: 'UserResolver',
-    subjectLabel: '用户管理',
-    group: 'User',
-    action: 'findOneUser',
-    actionLabel: '查询单个用户',
-    targets: [],
-  },
-  {
-    subject: 'UserResolver',
-    subjectLabel: '用户管理',
-    group: 'User',
-    action: 'paginateUsers',
-    actionLabel: '分页查询用户',
-    targets: [],
-  },
-  {
-    subject: 'UserResolver',
-    subjectLabel: '用户管理',
-    group: 'User',
-    action: 'createOneUser',
-    actionLabel: '新增用户',
-    targets: [],
-  },
-  {
-    subject: 'UserResolver',
-    subjectLabel: '用户管理',
-    group: 'User',
-    action: 'updateSelfUser',
-    actionLabel: '修改当前用户信息',
-    targets: [],
-  },
-  {
-    subject: 'UserResolver',
-    subjectLabel: '用户管理',
-    group: 'User',
-    action: 'updateOneUser',
-    actionLabel: '修改用户',
-    targets: [],
-  },
-  {
-    subject: 'AdminCompanyResolver',
-    subjectLabel: '管理员企业管理',
-    group: 'Admin',
-    action: 'findOneAdminCompany',
-    actionLabel: '查询单个管理员企业关联',
-    targets: [],
-  },
-  {
-    subject: 'AdminCompanyResolver',
-    subjectLabel: '管理员企业管理',
-    group: 'Admin',
-    action: 'paginateAdminCompanies',
-    actionLabel: '分页查询管理员企业关联',
-    targets: [],
-  },
-  {
-    subject: 'AdminCompanyResolver',
-    subjectLabel: '管理员企业管理',
-    group: 'Admin',
-    action: 'createOneAdminCompany',
-    actionLabel: '新增管理员企业关联',
-    targets: [],
-  },
-  {
-    subject: 'AdminCompanyResolver',
-    subjectLabel: '管理员企业管理',
-    group: 'Admin',
-    action: 'updateOneAdminCompany',
-    actionLabel: '修改管理员企业关联',
-    targets: [],
-  },
-  {
-    subject: 'AdminCompanyResolver',
-    subjectLabel: '管理员企业管理',
-    group: 'Admin',
-    action: 'deleteAdminCompany',
-    actionLabel: '删除管理员企业关联',
-    targets: [],
-  },
-  {
-    subject: 'AdminRoleResolver',
-    subjectLabel: '管理员角色管理',
-    group: 'Admin',
-    action: 'findOneAdminRole',
-    actionLabel: '查询单个管理员角色',
-    targets: [],
-  },
-  {
-    subject: 'AdminRoleResolver',
-    subjectLabel: '管理员角色管理',
-    group: 'Admin',
-    action: 'paginateAdminRoles',
-    actionLabel: '分页查询管理员角色',
-    targets: [],
-  },
-  {
-    subject: 'AdminRoleResolver',
-    subjectLabel: '管理员角色管理',
-    group: 'Admin',
-    action: 'createOneAdminRole',
-    actionLabel: '新增管理员角色',
-    targets: [],
-  },
-  {
-    subject: 'AdminRoleResolver',
-    subjectLabel: '管理员角色管理',
-    group: 'Admin',
-    action: 'updateOneAdminRole',
-    actionLabel: '修改管理员角色',
-    targets: [],
-  },
-  {
-    subject: 'AdminRoleResolver',
-    subjectLabel: '管理员角色管理',
-    group: 'Admin',
-    action: 'listAdminRolePermissions',
-    actionLabel: '获取企业角色权限列表',
-    targets: [],
-  },
-  {
-    subject: 'AdminResolver',
-    subjectLabel: '管理员管理',
-    group: 'Admin',
-    action: 'findSelfAdmin',
-    actionLabel: '查询当前管理员信息',
-    targets: [],
-  },
-  {
-    subject: 'AdminResolver',
-    subjectLabel: '管理员管理',
-    group: 'Admin',
-    action: 'findOneAdmin',
-    actionLabel: '查询单个管理员',
-    targets: [],
-  },
-  {
-    subject: 'AdminResolver',
-    subjectLabel: '管理员管理',
-    group: 'Admin',
-    action: 'paginateAdmins',
-    actionLabel: '分页查询管理员',
-    targets: [],
-  },
-  {
-    subject: 'AdminResolver',
-    subjectLabel: '管理员管理',
-    group: 'Admin',
-    action: 'createOneAdmin',
-    actionLabel: '新增管理员',
-    targets: [],
-  },
-  {
-    subject: 'AdminResolver',
-    subjectLabel: '管理员管理',
-    group: 'Admin',
-    action: 'updateSelfAdmin',
-    actionLabel: '修改当前管理员信息',
-    targets: [],
-  },
-  {
-    subject: 'AdminResolver',
-    subjectLabel: '管理员管理',
-    group: 'Admin',
-    action: 'updateOneAdmin',
-    actionLabel: '修改管理员',
-    targets: [],
-  },
-  {
-    subject: 'AdminResolver',
-    subjectLabel: '管理员管理',
-    group: 'Admin',
-    action: 'findAdminById',
-    actionLabel: '根据ID查询管理员',
-    targets: [],
-  },
-  {
-    subject: 'AdminResolver',
-    subjectLabel: '管理员管理',
-    group: 'Admin',
-    action: 'findAdminByEmail',
-    actionLabel: '根据邮箱查询管理员',
-    targets: [],
-  },
-  {
-    subject: 'CompanyRoleResolver',
-    subjectLabel: '企业角色管理',
-    group: 'Company',
-    action: 'findOneCompanyRole',
-    actionLabel: '查询单个企业角色',
-    targets: [],
-  },
-  {
-    subject: 'CompanyRoleResolver',
-    subjectLabel: '企业角色管理',
-    group: 'Company',
-    action: 'paginateCompanyRoles',
-    actionLabel: '分页查询企业角色',
-    targets: [],
-  },
-  {
-    subject: 'CompanyRoleResolver',
-    subjectLabel: '企业角色管理',
-    group: 'Company',
-    action: 'createOneCompanyRole',
-    actionLabel: '新增企业角色',
-    targets: [],
-  },
-  {
-    subject: 'CompanyRoleResolver',
-    subjectLabel: '企业角色管理',
-    group: 'Company',
-    action: 'updateOneCompanyRole',
-    actionLabel: '修改企业角色',
-    targets: [],
-  },
-  {
-    subject: 'CompanyRoleResolver',
-    subjectLabel: '企业角色管理',
-    group: 'Company',
-    action: 'listCompanyRolePermissions',
-    actionLabel: '获取企业角色权限列表',
-    targets: [],
-  },
-  {
-    subject: 'CompanyUserResolver',
-    subjectLabel: '企业用户管理',
-    group: 'Company',
-    action: 'findOneCompanyUser',
-    actionLabel: '查询单个企业用户关联',
-    targets: [],
-  },
-  {
-    subject: 'CompanyUserResolver',
-    subjectLabel: '企业用户管理',
-    group: 'Company',
-    action: 'paginateCompanyUsers',
-    actionLabel: '分页查询企业用户关联',
-    targets: [],
-  },
-  {
-    subject: 'CompanyUserResolver',
-    subjectLabel: '企业用户管理',
-    group: 'Company',
-    action: 'createOneCompanyUser',
-    actionLabel: '新增企业用户关联',
-    targets: [],
-  },
-  {
-    subject: 'CompanyUserResolver',
-    subjectLabel: '企业用户管理',
-    group: 'Company',
-    action: 'updateOneCompanyUser',
-    actionLabel: '修改企业用户关联',
-    targets: [],
-  },
-  {
-    subject: 'CompanyResolver',
-    subjectLabel: '企业管理',
-    group: 'Company',
-    action: 'findSelfCompany',
-    actionLabel: '查询当前企业信息',
-    targets: [],
-  },
-  {
-    subject: 'CompanyResolver',
-    subjectLabel: '企业管理',
-    group: 'Company',
-    action: 'findOneCompany',
-    actionLabel: '查询单个企业',
-    targets: [],
-  },
-  {
-    subject: 'CompanyResolver',
-    subjectLabel: '企业管理',
-    group: 'Company',
-    action: 'paginateCompanies',
-    actionLabel: '分页查询企业',
-    targets: [],
-  },
-  {
-    subject: 'CompanyResolver',
-    subjectLabel: '企业管理',
-    group: 'Company',
-    action: 'createOneCompany',
-    actionLabel: '新增企业',
-    targets: [],
-  },
-  {
-    subject: 'CompanyResolver',
-    subjectLabel: '企业管理',
-    group: 'Company',
-    action: 'updateSelfCompany',
-    actionLabel: '修改当前企业信息',
-    targets: [],
-  },
-  {
-    subject: 'CompanyResolver',
-    subjectLabel: '企业管理',
-    group: 'Company',
-    action: 'updateOneCompany',
-    actionLabel: '修改企业',
-    targets: [],
-  },
-];
 /**
  * 将 permissions 转换为嵌套树结构，按照 module > subject > action 层级
  * @param permissions 权限列表
@@ -396,11 +88,17 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
   onChange,
   disabled = false,
   disabledActions = [],
+  permissions = [],
+  loading = false,
   ...props
 }) => {
-  const permissionsTree = buildPermissionTree(permissions);
+  const [permissionsTree, setPermissionsTree] = useState<TreeNode[]>([]);
   const [checkedValues, setCheckedValues] = useState<string[]>(value);
   const skipEffectRef = useRef(false);
+
+  useEffect(() => {
+    setPermissionsTree(buildPermissionTree(permissions));
+  }, [permissions]);
 
   // 当外部 value 变化时更新内部状态
   useEffect(() => {
@@ -544,6 +242,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
             label={node.label}
             checked={checkedValues.includes(node.value)}
             onChange={(event) => handleActionChange(node.value, event.currentTarget.checked)}
+            onMouseDown={(event) => event.stopPropagation()}
             disabled={isActionDisabled}
           />
         );
@@ -563,6 +262,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
                 checked={allChecked}
                 indeterminate={indeterminate}
                 onChange={(event) => handleSubjectChange(node, event.currentTarget.checked)}
+                onMouseDown={(event) => event.stopPropagation()}
                 disabled={disabled}
               />
               <SimpleGrid spacing="xs" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
@@ -582,13 +282,19 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
         <Accordion.Item value={node.id} key={node.id} style={{ overflow: 'hidden' }}>
           <Center>
             <Accordion.Control>
-              <Checkbox
-                label={node.label}
-                checked={allChecked}
-                indeterminate={indeterminate}
-                onChange={(event) => handleModuleChange(node, event.currentTarget.checked)}
-                disabled={disabled}
-              />
+              <Box onClick={(event) => event.stopPropagation()} style={{ float: 'left' }}>
+                <Checkbox
+                  label={node.label}
+                  checked={allChecked}
+                  indeterminate={indeterminate}
+                  onChange={(event) => {
+                    event.stopPropagation();
+                    handleModuleChange(node, event.currentTarget.checked);
+                  }}
+                  onMouseDown={(event) => event.stopPropagation()}
+                  disabled={disabled}
+                />
+              </Box>
             </Accordion.Control>
           </Center>
           <Accordion.Panel>
@@ -601,7 +307,18 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
 
   return (
     <InputWrapper {...props}>
-      <Accordion variant="contained">{renderTree(permissionsTree)}</Accordion>
+      {!permissionsTree?.length || loading ? (
+        <Card withBorder p="xs">
+          <LoadingOverlay visible={loading} loaderProps={{ size: 'xs' }} />
+          <Center>
+            <Text size="xs" opacity={0.5}>
+              No permissions found
+            </Text>
+          </Center>
+        </Card>
+      ) : (
+        <Accordion variant="contained">{renderTree(permissionsTree)}</Accordion>
+      )}
     </InputWrapper>
   );
 };
