@@ -5,3 +5,4 @@ export * from './Loading/Loading';
 export * from './Iconify/Iconify';
 export * from './DataTable';
 export * from './Status/Status';
+export * from './ResponsiveGrid';

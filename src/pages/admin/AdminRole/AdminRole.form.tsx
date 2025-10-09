@@ -5,7 +5,7 @@ import { notifications } from '@mantine/notifications';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-import { TransferList } from 'src/components/FormInputs';
+import { DatasetSelect, TransferList } from 'src/components/FormInputs';
 import { FormPageAction, FormPageErrors } from 'src/components/FormPage';
 import {
   AdminRole,
@@ -15,6 +15,7 @@ import {
   UpdateOneAdminRoleDocument,
 } from 'src/graphql';
 import { useParseApolloErrors } from 'src/hooks';
+import { RolePermissions } from "src/components/FormInputs/RolePermissions";
 
 export type AdminRoleFormProps = {
   item?: AdminRole;
@@ -111,7 +112,7 @@ export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
               <Textarea label={t('AdminRole.description')} {...form.getInputProps('description')} />
             </Grid.Col>
             <Grid.Col span={2}>
-              <TransferList onDataChange={() => {}} sourceItems={[]} targetItems={[]} />
+              <RolePermissions />
             </Grid.Col>
             <Grid.Col span={2}>
               <Select
