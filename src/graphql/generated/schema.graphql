@@ -1,0 +1,2137 @@
+# This file was generated. Do not edit manually.
+
+schema {
+	query: Query
+	mutation: Mutation
+}
+
+"Indicates exactly one field must be supplied and this field must not be `null`."
+directive @oneOf on INPUT_OBJECT
+
+type Admin {
+	auths: [Auth!]
+	companies: [AdminCompany!]
+	createdAt: DateTime!
+	email: String!
+	id: ID!
+	logs: [RequestLog!]
+	mediaFiles: [MediaFile!]
+	mediaFolders: [MediaFolder!]
+	name: String!
+	role: AdminRole!
+	roleId: String!
+	status: Status!
+	updatedAt: DateTime!
+}
+
+type AdminCompany {
+	admin: Admin!
+	adminId: String!
+	company: Company!
+	companyId: String!
+	createdAt: DateTime!
+	permissions: [String!]
+	updatedAt: DateTime!
+}
+
+type AdminCompanyCountAggregate {
+	_all: Int!
+	adminId: Int!
+	companyId: Int!
+	createdAt: Int!
+	permissions: Int!
+	updatedAt: Int!
+}
+
+type AdminCompanyMaxAggregate {
+	adminId: String
+	companyId: String
+	createdAt: DateTime
+	updatedAt: DateTime
+}
+
+type AdminCompanyMinAggregate {
+	adminId: String
+	companyId: String
+	createdAt: DateTime
+	updatedAt: DateTime
+}
+
+type AdminCountAggregate {
+	_all: Int!
+	createdAt: Int!
+	email: Int!
+	id: Int!
+	name: Int!
+	roleId: Int!
+	status: Int!
+	updatedAt: Int!
+}
+
+type AdminMaxAggregate {
+	createdAt: DateTime
+	email: String
+	id: String
+	name: String
+	roleId: String
+	status: Status
+	updatedAt: DateTime
+}
+
+type AdminMinAggregate {
+	createdAt: DateTime
+	email: String
+	id: String
+	name: String
+	roleId: String
+	status: Status
+	updatedAt: DateTime
+}
+
+type AdminRole {
+	admins: [Admin!]
+	code: String!
+	createdAt: DateTime!
+	description: String
+	id: ID!
+	name: String!
+	permissions: [String!]
+	status: Status!
+	updatedAt: DateTime!
+}
+
+type AdminRoleCountAggregate {
+	_all: Int!
+	code: Int!
+	createdAt: Int!
+	description: Int!
+	id: Int!
+	name: Int!
+	permissions: Int!
+	status: Int!
+	updatedAt: Int!
+}
+
+type AdminRoleMaxAggregate {
+	code: String
+	createdAt: DateTime
+	description: String
+	id: String
+	name: String
+	status: Status
+	updatedAt: DateTime
+}
+
+type AdminRoleMinAggregate {
+	code: String
+	createdAt: DateTime
+	description: String
+	id: String
+	name: String
+	status: Status
+	updatedAt: DateTime
+}
+
+type Auth {
+	admin: Admin
+	adminId: String
+	company: Company
+	companyId: String
+	createdAt: DateTime!
+	device: JSON
+	expiredAt: DateTime!
+	id: ID!
+	location: JSON
+	target: Target!
+	updatedAt: DateTime!
+	user: User
+	userId: String
+}
+
+type AuthCountAggregate {
+	_all: Int!
+	adminId: Int!
+	companyId: Int!
+	createdAt: Int!
+	device: Int!
+	expiredAt: Int!
+	id: Int!
+	location: Int!
+	target: Int!
+	updatedAt: Int!
+	userId: Int!
+}
+
+type AuthMaxAggregate {
+	adminId: String
+	companyId: String
+	createdAt: DateTime
+	expiredAt: DateTime
+	id: String
+	target: Target
+	updatedAt: DateTime
+	userId: String
+}
+
+type AuthMinAggregate {
+	adminId: String
+	companyId: String
+	createdAt: DateTime
+	expiredAt: DateTime
+	id: String
+	target: Target
+	updatedAt: DateTime
+	userId: String
+}
+
+type Company {
+	alias: String
+	code: String
+	createdAt: DateTime!
+	description: String
+	id: ID!
+	name: String!
+	status: Status!
+	updatedAt: DateTime!
+}
+
+type CompanyCountAggregate {
+	_all: Int!
+	alias: Int!
+	code: Int!
+	createdAt: Int!
+	description: Int!
+	id: Int!
+	name: Int!
+	status: Int!
+	updatedAt: Int!
+}
+
+type CompanyMaxAggregate {
+	alias: String
+	code: String
+	createdAt: DateTime
+	description: String
+	id: String
+	name: String
+	status: Status
+	updatedAt: DateTime
+}
+
+type CompanyMinAggregate {
+	alias: String
+	code: String
+	createdAt: DateTime
+	description: String
+	id: String
+	name: String
+	status: Status
+	updatedAt: DateTime
+}
+
+type CompanyRole {
+	code: String!
+	company: Company
+	companyId: String
+	createdAt: DateTime!
+	description: String
+	id: ID!
+	name: String!
+	permissions: [String!]
+	status: Status!
+	updatedAt: DateTime!
+	users: [CompanyUser!]
+}
+
+type CompanyRoleCountAggregate {
+	_all: Int!
+	code: Int!
+	companyId: Int!
+	createdAt: Int!
+	description: Int!
+	id: Int!
+	name: Int!
+	permissions: Int!
+	status: Int!
+	updatedAt: Int!
+}
+
+type CompanyRoleMaxAggregate {
+	code: String
+	companyId: String
+	createdAt: DateTime
+	description: String
+	id: String
+	name: String
+	status: Status
+	updatedAt: DateTime
+}
+
+type CompanyRoleMinAggregate {
+	code: String
+	companyId: String
+	createdAt: DateTime
+	description: String
+	id: String
+	name: String
+	status: Status
+	updatedAt: DateTime
+}
+
+type CompanyUser {
+	company: Company!
+	companyId: String!
+	createdAt: DateTime!
+	role: CompanyRole!
+	roleId: String!
+	status: Status!
+	updatedAt: DateTime!
+	user: User!
+	userId: String!
+}
+
+type CompanyUserCountAggregate {
+	_all: Int!
+	companyId: Int!
+	createdAt: Int!
+	roleId: Int!
+	status: Int!
+	updatedAt: Int!
+	userId: Int!
+}
+
+type CompanyUserMaxAggregate {
+	companyId: String
+	createdAt: DateTime
+	roleId: String
+	status: Status
+	updatedAt: DateTime
+	userId: String
+}
+
+type CompanyUserMinAggregate {
+	companyId: String
+	createdAt: DateTime
+	roleId: String
+	status: Status
+	updatedAt: DateTime
+	userId: String
+}
+
+type Login {
+	accessTimeout: Float!
+	accessToken: String!
+	accessType: String!
+	target: Target!
+}
+
+type MediaFile {
+	admin: Admin
+	adminId: String
+	company: Company
+	companyId: String
+	createdAt: DateTime!
+	description: String
+	duration: Int
+	fileHash: String!
+	fileName: String!
+	filePath: String!
+	fileSize: String!
+	folder: MediaFolder
+	folderId: String
+	height: Int
+	id: ID!
+	mediaType: MediaType!
+	metadata: JSON
+	mimeType: String!
+	originName: String!
+	ownerId: String!
+	ownerType: Target!
+	status: Status!
+	store: MediaStore!
+	updatedAt: DateTime!
+	uploadedAt: DateTime!
+	user: User
+	userId: String
+	visibility: MediaVisibility!
+	width: Int
+}
+
+type MediaFileAvgAggregate {
+	duration: Float
+	fileSize: Float
+	height: Float
+	width: Float
+}
+
+type MediaFileCountAggregate {
+	_all: Int!
+	adminId: Int!
+	companyId: Int!
+	createdAt: Int!
+	description: Int!
+	duration: Int!
+	fileHash: Int!
+	fileName: Int!
+	filePath: Int!
+	fileSize: Int!
+	folderId: Int!
+	height: Int!
+	id: Int!
+	mediaType: Int!
+	metadata: Int!
+	mimeType: Int!
+	originName: Int!
+	ownerId: Int!
+	ownerType: Int!
+	status: Int!
+	store: Int!
+	updatedAt: Int!
+	uploadedAt: Int!
+	userId: Int!
+	visibility: Int!
+	width: Int!
+}
+
+type MediaFileMaxAggregate {
+	adminId: String
+	companyId: String
+	createdAt: DateTime
+	description: String
+	duration: Int
+	fileHash: String
+	fileName: String
+	filePath: String
+	fileSize: String
+	folderId: String
+	height: Int
+	id: String
+	mediaType: MediaType
+	mimeType: String
+	originName: String
+	ownerId: String
+	ownerType: Target
+	status: Status
+	store: MediaStore
+	updatedAt: DateTime
+	uploadedAt: DateTime
+	userId: String
+	visibility: MediaVisibility
+	width: Int
+}
+
+type MediaFileMinAggregate {
+	adminId: String
+	companyId: String
+	createdAt: DateTime
+	description: String
+	duration: Int
+	fileHash: String
+	fileName: String
+	filePath: String
+	fileSize: String
+	folderId: String
+	height: Int
+	id: String
+	mediaType: MediaType
+	mimeType: String
+	originName: String
+	ownerId: String
+	ownerType: Target
+	status: Status
+	store: MediaStore
+	updatedAt: DateTime
+	uploadedAt: DateTime
+	userId: String
+	visibility: MediaVisibility
+	width: Int
+}
+
+type MediaFileSumAggregate {
+	duration: Int
+	fileSize: String
+	height: Int
+	width: Int
+}
+
+type MediaFolder {
+	admin: Admin
+	adminId: String
+	children: [MediaFolder!]
+	company: Company
+	companyId: String
+	createdAt: DateTime!
+	description: String
+	files: [MediaFile!]
+	id: ID!
+	level: Int!
+	name: String!
+	ownerId: String
+	ownerType: Target!
+	parent: MediaFolder
+	parentId: String
+	path: String!
+	status: Status!
+	updatedAt: DateTime!
+	user: User
+	userId: String
+	visibility: MediaVisibility!
+}
+
+type MediaFolderAvgAggregate {
+	level: Float
+}
+
+type MediaFolderCountAggregate {
+	_all: Int!
+	adminId: Int!
+	companyId: Int!
+	createdAt: Int!
+	description: Int!
+	id: Int!
+	level: Int!
+	name: Int!
+	ownerId: Int!
+	ownerType: Int!
+	parentId: Int!
+	path: Int!
+	status: Int!
+	updatedAt: Int!
+	userId: Int!
+	visibility: Int!
+}
+
+type MediaFolderMaxAggregate {
+	adminId: String
+	companyId: String
+	createdAt: DateTime
+	description: String
+	id: String
+	level: Int
+	name: String
+	ownerId: String
+	ownerType: Target
+	parentId: String
+	path: String
+	status: Status
+	updatedAt: DateTime
+	userId: String
+	visibility: MediaVisibility
+}
+
+type MediaFolderMinAggregate {
+	adminId: String
+	companyId: String
+	createdAt: DateTime
+	description: String
+	id: String
+	level: Int
+	name: String
+	ownerId: String
+	ownerType: Target
+	parentId: String
+	path: String
+	status: Status
+	updatedAt: DateTime
+	userId: String
+	visibility: MediaVisibility
+}
+
+type MediaFolderSumAggregate {
+	level: Int
+}
+
+type Mutation {
+	createOneAdmin(data: AdminCreateInput!): Admin!
+	createOneAdminCompany(data: AdminCompanyCreateInput!): AdminCompany!
+	createOneAdminRole(data: AdminRoleCreateInput!): AdminRole!
+	createOneCompany(data: CompanyCreateInput!): Company!
+	createOneCompanyRole(data: CompanyRoleCreateInput!): CompanyRole!
+	createOneCompanyUser(data: CompanyUserCreateInput!): CompanyUser!
+	createOneUser(data: UserCreateInput!): User!
+	deleteAdminCompany(adminId: String!, companyId: String!): Boolean!
+	login(input: LoginInput!): Login!
+	switchAuthCompany(companyId: String!): Login!
+	updateOneAdmin(data: AdminUpdateInput!, where: AdminWhereUniqueInput!): Admin!
+	updateOneAdminCompany(data: AdminCompanyUpdateInput!, where: AdminCompanyWhereUniqueInput!): AdminCompany!
+	updateOneAdminRole(data: AdminRoleUpdateInput!, where: AdminRoleWhereUniqueInput!): AdminRole!
+	updateOneCompany(data: CompanyUpdateInput!, where: CompanyWhereUniqueInput!): Company!
+	updateOneCompanyRole(data: CompanyRoleUpdateInput!, where: CompanyRoleWhereUniqueInput!): CompanyRole!
+	updateOneCompanyUser(data: CompanyUserUpdateInput!, where: CompanyUserWhereUniqueInput!): CompanyUser!
+	updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+	updateSelfAdmin(data: AdminUpdateInput!): Admin!
+	updateSelfCompany(data: CompanyUpdateInput!): Company!
+	updateSelfUser(data: UserUpdateInput!): User!
+}
+
+type PaginatedAdmin {
+	items: [Admin!]
+	pagination: Pagination
+}
+
+type PaginatedAdminCompany {
+	items: [AdminCompany!]
+	pagination: Pagination
+}
+
+type PaginatedAdminRole {
+	items: [AdminRole!]
+	pagination: Pagination
+}
+
+type PaginatedCompany {
+	items: [Company!]
+	pagination: Pagination
+}
+
+type PaginatedCompanyRole {
+	items: [CompanyRole!]
+	pagination: Pagination
+}
+
+type PaginatedCompanyUser {
+	items: [CompanyUser!]
+	pagination: Pagination
+}
+
+type PaginatedUser {
+	items: [User!]
+	pagination: Pagination
+}
+
+type Pagination {
+	page: Int!
+	skip: Int!
+	take: Int!
+	totalCount: Int!
+	totalPages: Int!
+}
+
+type Query {
+	authInfo: Auth!
+	findAdminByEmail(email: String!): Admin!
+	findAdminById(id: String!): Admin!
+	findOneAdmin(where: AdminWhereUniqueInput!): Admin!
+	findOneAdminCompany(where: AdminCompanyWhereUniqueInput!): AdminCompany!
+	findOneAdminRole(where: AdminRoleWhereUniqueInput!): AdminRole!
+	findOneCompany(where: CompanyWhereUniqueInput!): Company!
+	findOneCompanyRole(where: CompanyRoleWhereUniqueInput!): CompanyRole!
+	findOneCompanyUser(where: CompanyUserWhereUniqueInput!): CompanyUser!
+	findOneUser(where: UserWhereUniqueInput!): User!
+	findSelfAdmin: Admin!
+	findSelfCompany: Company!
+	findSelfUser: User!
+	health: String!
+	listAuthCompanies(name: String): [Company!]
+	logout: Boolean!
+	paginateAdminCompanies(cursor: AdminCompanyWhereUniqueInput, distinct: [AdminCompanyScalarFieldEnum!], orderBy: [AdminCompanyOrderByWithRelationInput!], skip: Int, take: Int, where: AdminCompanyWhereInput): PaginatedAdminCompany!
+	paginateAdminRoles(cursor: AdminRoleWhereUniqueInput, distinct: [AdminRoleScalarFieldEnum!], orderBy: [AdminRoleOrderByWithRelationInput!], skip: Int, take: Int, where: AdminRoleWhereInput): PaginatedAdminRole!
+	paginateAdmins(cursor: AdminWhereUniqueInput, distinct: [AdminScalarFieldEnum!], orderBy: [AdminOrderByWithRelationInput!], skip: Int, take: Int, where: AdminWhereInput): PaginatedAdmin!
+	paginateCompanies(cursor: CompanyWhereUniqueInput, distinct: [CompanyScalarFieldEnum!], orderBy: [CompanyOrderByWithRelationInput!], skip: Int, take: Int, where: CompanyWhereInput): PaginatedCompany!
+	paginateCompanyRoles(cursor: CompanyRoleWhereUniqueInput, distinct: [CompanyRoleScalarFieldEnum!], orderBy: [CompanyRoleOrderByWithRelationInput!], skip: Int, take: Int, where: CompanyRoleWhereInput): PaginatedCompanyRole!
+	paginateCompanyUsers(cursor: CompanyUserWhereUniqueInput, distinct: [CompanyUserScalarFieldEnum!], orderBy: [CompanyUserOrderByWithRelationInput!], skip: Int, take: Int, where: CompanyUserWhereInput): PaginatedCompanyUser!
+	paginateUsers(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): PaginatedUser!
+	refresh: Login!
+	translations(scope: String!): JSONObject!
+}
+
+type RequestLog {
+	action: String
+	admin: Admin
+	adminId: String
+	afterAt: DateTime
+	beforeAt: DateTime!
+	body: JSON
+	company: Company
+	companyId: String
+	createdAt: DateTime!
+	device: JSON
+	duration: String!
+	fingerprint: String
+	headers: JSON
+	id: ID!
+	ip: String
+	language: String
+	location: JSON
+	message: String
+	method: RequestMethod
+	params: JSON
+	query: JSON
+	recordAt: DateTime!
+	route: String
+	subject: String
+	target: Target
+	updatedAt: DateTime!
+	user: User
+	userId: String
+}
+
+type RequestLogAvgAggregate {
+	duration: Float
+}
+
+type RequestLogCountAggregate {
+	_all: Int!
+	action: Int!
+	adminId: Int!
+	afterAt: Int!
+	beforeAt: Int!
+	body: Int!
+	companyId: Int!
+	createdAt: Int!
+	device: Int!
+	duration: Int!
+	fingerprint: Int!
+	headers: Int!
+	id: Int!
+	ip: Int!
+	language: Int!
+	location: Int!
+	message: Int!
+	method: Int!
+	params: Int!
+	query: Int!
+	recordAt: Int!
+	route: Int!
+	subject: Int!
+	target: Int!
+	updatedAt: Int!
+	userId: Int!
+}
+
+type RequestLogMaxAggregate {
+	action: String
+	adminId: String
+	afterAt: DateTime
+	beforeAt: DateTime
+	companyId: String
+	createdAt: DateTime
+	duration: String
+	fingerprint: String
+	id: String
+	ip: String
+	language: String
+	message: String
+	method: RequestMethod
+	recordAt: DateTime
+	route: String
+	subject: String
+	target: Target
+	updatedAt: DateTime
+	userId: String
+}
+
+type RequestLogMinAggregate {
+	action: String
+	adminId: String
+	afterAt: DateTime
+	beforeAt: DateTime
+	companyId: String
+	createdAt: DateTime
+	duration: String
+	fingerprint: String
+	id: String
+	ip: String
+	language: String
+	message: String
+	method: RequestMethod
+	recordAt: DateTime
+	route: String
+	subject: String
+	target: Target
+	updatedAt: DateTime
+	userId: String
+}
+
+type RequestLogSumAggregate {
+	duration: String
+}
+
+type User {
+	auths: [Auth!]
+	companies: [CompanyUser!]
+	createdAt: DateTime!
+	email: String!
+	id: ID!
+	logs: [RequestLog!]
+	mediaFiles: [MediaFile!]
+	mediaFolders: [MediaFolder!]
+	name: String!
+	status: Status!
+	updatedAt: DateTime!
+}
+
+type UserCountAggregate {
+	_all: Int!
+	createdAt: Int!
+	email: Int!
+	id: Int!
+	name: Int!
+	status: Int!
+	updatedAt: Int!
+}
+
+type UserMaxAggregate {
+	createdAt: DateTime
+	email: String
+	id: String
+	name: String
+	status: Status
+	updatedAt: DateTime
+}
+
+type UserMinAggregate {
+	createdAt: DateTime
+	email: String
+	id: String
+	name: String
+	status: Status
+	updatedAt: DateTime
+}
+
+enum AdminCompanyScalarFieldEnum {
+	adminId
+	companyId
+	createdAt
+	permissions
+	updatedAt
+}
+
+enum AdminRoleScalarFieldEnum {
+	code
+	createdAt
+	description
+	id
+	name
+	permissions
+	status
+	updatedAt
+}
+
+enum AdminScalarFieldEnum {
+	createdAt
+	email
+	id
+	name
+	password
+	roleId
+	status
+	updatedAt
+}
+
+enum CompanyRoleScalarFieldEnum {
+	code
+	companyId
+	createdAt
+	description
+	id
+	name
+	permissions
+	status
+	updatedAt
+}
+
+enum CompanyScalarFieldEnum {
+	alias
+	code
+	createdAt
+	description
+	id
+	name
+	status
+	updatedAt
+}
+
+enum CompanyUserScalarFieldEnum {
+	companyId
+	createdAt
+	roleId
+	status
+	updatedAt
+	userId
+}
+
+enum MediaStore {
+	Cos
+	Local
+	Oss
+	Qiniu
+	S3
+}
+
+enum MediaType {
+	Archive
+	Audio
+	Document
+	Image
+	Other
+	Video
+}
+
+enum MediaVisibility {
+	Private
+	Public
+	Shared
+}
+
+enum NullsOrder {
+	first
+	last
+}
+
+enum QueryMode {
+	default
+	insensitive
+}
+
+enum RequestMethod {
+	DELETE
+	GET
+	GRAPHQL
+	HEAD
+	OPTIONS
+	PATCH
+	POST
+	PUT
+}
+
+enum SortOrder {
+	asc
+	desc
+}
+
+enum Status {
+	Disabled
+	Enabled
+}
+
+enum Target {
+	Admin
+	User
+}
+
+enum UserScalarFieldEnum {
+	createdAt
+	email
+	id
+	name
+	password
+	status
+	updatedAt
+}
+
+"A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format."
+scalar DateTime
+
+"The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)."
+scalar JSON
+
+"The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)."
+scalar JSONObject
+
+input AdminCompanyAdminCompanyIdxCompoundUniqueInput {
+	adminId: String!
+	companyId: String!
+}
+
+input AdminCompanyCreateInput {
+	admin: AdminCreateNestedOneWithoutCompaniesInput!
+	company: CompanyCreateNestedOneWithoutAdminsInput!
+	permissions: [String!]
+}
+
+input AdminCompanyCreateNestedManyWithoutCompanyInput {
+	connect: [AdminCompanyWhereUniqueInput!]
+}
+
+input AdminCompanyListRelationFilter {
+	every: AdminCompanyWhereInput
+	none: AdminCompanyWhereInput
+	some: AdminCompanyWhereInput
+}
+
+input AdminCompanyOrderByRelationAggregateInput {
+	_count: SortOrder
+}
+
+input AdminCompanyOrderByWithRelationInput {
+	admin: AdminOrderByWithRelationInput
+	adminId: SortOrder
+	company: CompanyOrderByWithRelationInput
+	companyId: SortOrder
+	createdAt: SortOrder
+	permissions: SortOrder
+	updatedAt: SortOrder
+}
+
+input AdminCompanyUpdateInput {
+	admin: AdminUpdateOneRequiredWithoutCompaniesNestedInput
+	company: CompanyUpdateOneRequiredWithoutAdminsNestedInput
+	permissions: [String!]
+}
+
+input AdminCompanyUpdateManyWithoutCompanyNestedInput {
+	connect: [AdminCompanyWhereUniqueInput!]
+	disconnect: [AdminCompanyWhereUniqueInput!]
+}
+
+input AdminCompanyWhereInput {
+	AND: [AdminCompanyWhereInput!]
+	NOT: [AdminCompanyWhereInput!]
+	OR: [AdminCompanyWhereInput!]
+	admin: AdminScalarRelationFilter
+	adminId: StringFilter
+	company: CompanyScalarRelationFilter
+	companyId: StringFilter
+	createdAt: DateTimeFilter
+	permissions: StringNullableListFilter
+	updatedAt: DateTimeFilter
+}
+
+input AdminCompanyWhereUniqueInput {
+	admin: AdminScalarRelationFilter
+	adminCompanyIdx: AdminCompanyAdminCompanyIdxCompoundUniqueInput
+	adminId: StringFilter
+	company: CompanyScalarRelationFilter
+	companyId: StringFilter
+	permissions: StringNullableListFilter
+}
+
+input AdminCreateInput {
+	email: String!
+	name: String!
+	password: String!
+	role: AdminRoleCreateNestedOneWithoutAdminsInput!
+	status: Status
+}
+
+input AdminCreateNestedManyWithoutRoleInput {
+	connect: [AdminWhereUniqueInput!]
+}
+
+input AdminCreateNestedOneWithoutCompaniesInput {
+	connect: AdminWhereUniqueInput
+}
+
+input AdminListRelationFilter {
+	every: AdminWhereInput
+	none: AdminWhereInput
+	some: AdminWhereInput
+}
+
+input AdminNullableScalarRelationFilter {
+	is: AdminWhereInput
+	isNot: AdminWhereInput
+}
+
+input AdminOrderByRelationAggregateInput {
+	_count: SortOrder
+}
+
+input AdminOrderByWithRelationInput {
+	auths: AuthOrderByRelationAggregateInput
+	companies: AdminCompanyOrderByRelationAggregateInput
+	createdAt: SortOrder
+	email: SortOrder
+	id: SortOrder
+	logs: RequestLogOrderByRelationAggregateInput
+	mediaFiles: MediaFileOrderByRelationAggregateInput
+	mediaFolders: MediaFolderOrderByRelationAggregateInput
+	name: SortOrder
+	role: AdminRoleOrderByWithRelationInput
+	roleId: SortOrder
+	status: SortOrder
+	updatedAt: SortOrder
+}
+
+input AdminRoleCreateInput {
+	admins: AdminCreateNestedManyWithoutRoleInput
+	code: String!
+	description: String
+	name: String!
+	permissions: [String!]
+	status: Status
+}
+
+input AdminRoleCreateNestedOneWithoutAdminsInput {
+	connect: AdminRoleWhereUniqueInput
+}
+
+input AdminRoleOrderByWithRelationInput {
+	admins: AdminOrderByRelationAggregateInput
+	code: SortOrder
+	createdAt: SortOrder
+	description: SortOrderInput
+	id: SortOrder
+	name: SortOrder
+	permissions: SortOrder
+	status: SortOrder
+	updatedAt: SortOrder
+}
+
+input AdminRoleScalarRelationFilter {
+	is: AdminRoleWhereInput
+	isNot: AdminRoleWhereInput
+}
+
+input AdminRoleUpdateInput {
+	admins: AdminUpdateManyWithoutRoleNestedInput
+	code: String
+	description: String
+	name: String
+	permissions: [String!]
+	status: Status
+}
+
+input AdminRoleUpdateOneRequiredWithoutAdminsNestedInput {
+	connect: AdminRoleWhereUniqueInput
+}
+
+input AdminRoleWhereInput {
+	AND: [AdminRoleWhereInput!]
+	NOT: [AdminRoleWhereInput!]
+	OR: [AdminRoleWhereInput!]
+	admins: AdminListRelationFilter
+	code: StringFilter
+	createdAt: DateTimeFilter
+	description: StringNullableFilter
+	id: StringFilter
+	name: StringFilter
+	permissions: StringNullableListFilter
+	status: EnumStatusFilter
+	updatedAt: DateTimeFilter
+}
+
+input AdminRoleWhereUniqueInput {
+	admins: AdminListRelationFilter
+	code: String
+	description: StringNullableFilter
+	id: String
+	name: String
+	permissions: StringNullableListFilter
+	status: EnumStatusFilter
+}
+
+input AdminScalarRelationFilter {
+	is: AdminWhereInput
+	isNot: AdminWhereInput
+}
+
+input AdminUpdateInput {
+	email: String
+	name: String
+	password: String
+	role: AdminRoleUpdateOneRequiredWithoutAdminsNestedInput
+	status: Status
+}
+
+input AdminUpdateManyWithoutRoleNestedInput {
+	connect: [AdminWhereUniqueInput!]
+	disconnect: [AdminWhereUniqueInput!]
+}
+
+input AdminUpdateOneRequiredWithoutCompaniesNestedInput {
+	connect: AdminWhereUniqueInput
+}
+
+input AdminWhereInput {
+	AND: [AdminWhereInput!]
+	NOT: [AdminWhereInput!]
+	OR: [AdminWhereInput!]
+	auths: AuthListRelationFilter
+	companies: AdminCompanyListRelationFilter
+	createdAt: DateTimeFilter
+	email: StringFilter
+	id: StringFilter
+	logs: RequestLogListRelationFilter
+	mediaFiles: MediaFileListRelationFilter
+	mediaFolders: MediaFolderListRelationFilter
+	name: StringFilter
+	role: AdminRoleScalarRelationFilter
+	roleId: StringFilter
+	status: EnumStatusFilter
+	updatedAt: DateTimeFilter
+}
+
+input AdminWhereUniqueInput {
+	email: String
+	id: String
+	name: StringFilter
+	role: AdminRoleScalarRelationFilter
+	roleId: StringFilter
+	status: EnumStatusFilter
+}
+
+input AuthCreateNestedManyWithoutCompanyInput {
+	connect: [AuthWhereUniqueInput!]
+}
+
+input AuthListRelationFilter {
+	every: AuthWhereInput
+	none: AuthWhereInput
+	some: AuthWhereInput
+}
+
+input AuthOrderByRelationAggregateInput {
+	_count: SortOrder
+}
+
+input AuthUpdateManyWithoutCompanyNestedInput {
+	connect: [AuthWhereUniqueInput!]
+	disconnect: [AuthWhereUniqueInput!]
+}
+
+input AuthWhereInput {
+	AND: [AuthWhereInput!]
+	NOT: [AuthWhereInput!]
+	OR: [AuthWhereInput!]
+	admin: AdminNullableScalarRelationFilter
+	adminId: StringNullableFilter
+	company: CompanyNullableScalarRelationFilter
+	companyId: StringNullableFilter
+	createdAt: DateTimeFilter
+	device: JsonNullableFilter
+	expiredAt: DateTimeFilter
+	fingerprint: StringNullableFilter
+	id: StringFilter
+	location: JsonNullableFilter
+	target: EnumTargetFilter
+	token: StringFilter
+	updatedAt: DateTimeFilter
+	user: UserNullableScalarRelationFilter
+	userId: StringNullableFilter
+}
+
+input AuthWhereUniqueInput {
+	admin: AdminNullableScalarRelationFilter
+	adminId: StringNullableFilter
+	company: CompanyNullableScalarRelationFilter
+	companyId: StringNullableFilter
+	device: JsonNullableFilter
+	expiredAt: DateTimeFilter
+	fingerprint: StringNullableFilter
+	id: String
+	location: JsonNullableFilter
+	target: EnumTargetFilter
+	token: StringFilter
+	user: UserNullableScalarRelationFilter
+	userId: StringNullableFilter
+}
+
+input BigIntFilter {
+	equals: String
+	gt: String
+	gte: String
+	in: [String!]
+	lt: String
+	lte: String
+	not: NestedBigIntFilter
+	notIn: [String!]
+}
+
+input CompanyCreateInput {
+	admins: AdminCompanyCreateNestedManyWithoutCompanyInput
+	alias: String
+	auths: AuthCreateNestedManyWithoutCompanyInput
+	code: String
+	description: String
+	logs: RequestLogCreateNestedManyWithoutCompanyInput
+	mediaFiles: MediaFileCreateNestedManyWithoutCompanyInput
+	mediaFolders: MediaFolderCreateNestedManyWithoutCompanyInput
+	name: String!
+	roles: CompanyRoleCreateNestedManyWithoutCompanyInput
+	status: Status
+	users: CompanyUserCreateNestedManyWithoutCompanyInput
+}
+
+input CompanyCreateNestedOneWithoutAdminsInput {
+	connect: CompanyWhereUniqueInput
+}
+
+input CompanyCreateNestedOneWithoutRolesInput {
+	connect: CompanyWhereUniqueInput
+}
+
+input CompanyCreateNestedOneWithoutUsersInput {
+	connect: CompanyWhereUniqueInput
+}
+
+input CompanyNullableScalarRelationFilter {
+	is: CompanyWhereInput
+	isNot: CompanyWhereInput
+}
+
+input CompanyOrderByWithRelationInput {
+	admins: AdminCompanyOrderByRelationAggregateInput
+	alias: SortOrderInput
+	auths: AuthOrderByRelationAggregateInput
+	code: SortOrderInput
+	createdAt: SortOrder
+	description: SortOrderInput
+	id: SortOrder
+	logs: RequestLogOrderByRelationAggregateInput
+	mediaFiles: MediaFileOrderByRelationAggregateInput
+	mediaFolders: MediaFolderOrderByRelationAggregateInput
+	name: SortOrder
+	roles: CompanyRoleOrderByRelationAggregateInput
+	status: SortOrder
+	updatedAt: SortOrder
+	users: CompanyUserOrderByRelationAggregateInput
+}
+
+input CompanyRoleCompanyRoleIdxCompoundUniqueInput {
+	code: String!
+	companyId: String!
+}
+
+input CompanyRoleCreateInput {
+	code: String!
+	company: CompanyCreateNestedOneWithoutRolesInput
+	description: String
+	name: String!
+	permissions: [String!]
+	status: Status
+}
+
+input CompanyRoleCreateNestedManyWithoutCompanyInput {
+	connect: [CompanyRoleWhereUniqueInput!]
+}
+
+input CompanyRoleCreateNestedOneWithoutUsersInput {
+	connect: CompanyRoleWhereUniqueInput
+}
+
+input CompanyRoleListRelationFilter {
+	every: CompanyRoleWhereInput
+	none: CompanyRoleWhereInput
+	some: CompanyRoleWhereInput
+}
+
+input CompanyRoleOrderByRelationAggregateInput {
+	_count: SortOrder
+}
+
+input CompanyRoleOrderByWithRelationInput {
+	code: SortOrder
+	company: CompanyOrderByWithRelationInput
+	companyId: SortOrderInput
+	createdAt: SortOrder
+	description: SortOrderInput
+	id: SortOrder
+	name: SortOrder
+	permissions: SortOrder
+	status: SortOrder
+	updatedAt: SortOrder
+	users: CompanyUserOrderByRelationAggregateInput
+}
+
+input CompanyRoleScalarRelationFilter {
+	is: CompanyRoleWhereInput
+	isNot: CompanyRoleWhereInput
+}
+
+input CompanyRoleUpdateInput {
+	code: String
+	company: CompanyUpdateOneWithoutRolesNestedInput
+	description: String
+	name: String
+	permissions: [String!]
+	status: Status
+}
+
+input CompanyRoleUpdateManyWithoutCompanyNestedInput {
+	connect: [CompanyRoleWhereUniqueInput!]
+	disconnect: [CompanyRoleWhereUniqueInput!]
+}
+
+input CompanyRoleUpdateOneRequiredWithoutUsersNestedInput {
+	connect: CompanyRoleWhereUniqueInput
+}
+
+input CompanyRoleWhereInput {
+	AND: [CompanyRoleWhereInput!]
+	NOT: [CompanyRoleWhereInput!]
+	OR: [CompanyRoleWhereInput!]
+	code: StringFilter
+	company: CompanyNullableScalarRelationFilter
+	companyId: StringNullableFilter
+	createdAt: DateTimeFilter
+	description: StringNullableFilter
+	id: StringFilter
+	name: StringFilter
+	permissions: StringNullableListFilter
+	status: EnumStatusFilter
+	updatedAt: DateTimeFilter
+	users: CompanyUserListRelationFilter
+}
+
+input CompanyRoleWhereUniqueInput {
+	code: StringFilter
+	company: CompanyNullableScalarRelationFilter
+	companyId: StringNullableFilter
+	companyRoleIdx: CompanyRoleCompanyRoleIdxCompoundUniqueInput
+	description: StringNullableFilter
+	id: String
+	name: StringFilter
+	permissions: StringNullableListFilter
+	status: EnumStatusFilter
+	users: CompanyUserListRelationFilter
+}
+
+input CompanyScalarRelationFilter {
+	is: CompanyWhereInput
+	isNot: CompanyWhereInput
+}
+
+input CompanyUpdateInput {
+	admins: AdminCompanyUpdateManyWithoutCompanyNestedInput
+	alias: String
+	auths: AuthUpdateManyWithoutCompanyNestedInput
+	code: String
+	description: String
+	logs: RequestLogUpdateManyWithoutCompanyNestedInput
+	mediaFiles: MediaFileUpdateManyWithoutCompanyNestedInput
+	mediaFolders: MediaFolderUpdateManyWithoutCompanyNestedInput
+	name: String
+	roles: CompanyRoleUpdateManyWithoutCompanyNestedInput
+	status: Status
+	users: CompanyUserUpdateManyWithoutCompanyNestedInput
+}
+
+input CompanyUpdateOneRequiredWithoutAdminsNestedInput {
+	connect: CompanyWhereUniqueInput
+}
+
+input CompanyUpdateOneRequiredWithoutUsersNestedInput {
+	connect: CompanyWhereUniqueInput
+}
+
+input CompanyUpdateOneWithoutRolesNestedInput {
+	connect: CompanyWhereUniqueInput
+	disconnect: CompanyWhereInput
+}
+
+input CompanyUserCompanyUserIdxCompoundUniqueInput {
+	companyId: String!
+	userId: String!
+}
+
+input CompanyUserCreateInput {
+	company: CompanyCreateNestedOneWithoutUsersInput!
+	role: CompanyRoleCreateNestedOneWithoutUsersInput!
+	status: Status
+	user: UserCreateNestedOneWithoutCompaniesInput!
+}
+
+input CompanyUserCreateNestedManyWithoutCompanyInput {
+	connect: [CompanyUserWhereUniqueInput!]
+}
+
+input CompanyUserListRelationFilter {
+	every: CompanyUserWhereInput
+	none: CompanyUserWhereInput
+	some: CompanyUserWhereInput
+}
+
+input CompanyUserOrderByRelationAggregateInput {
+	_count: SortOrder
+}
+
+input CompanyUserOrderByWithRelationInput {
+	company: CompanyOrderByWithRelationInput
+	companyId: SortOrder
+	createdAt: SortOrder
+	role: CompanyRoleOrderByWithRelationInput
+	roleId: SortOrder
+	status: SortOrder
+	updatedAt: SortOrder
+	user: UserOrderByWithRelationInput
+	userId: SortOrder
+}
+
+input CompanyUserUpdateInput {
+	company: CompanyUpdateOneRequiredWithoutUsersNestedInput
+	role: CompanyRoleUpdateOneRequiredWithoutUsersNestedInput
+	status: Status
+	user: UserUpdateOneRequiredWithoutCompaniesNestedInput
+}
+
+input CompanyUserUpdateManyWithoutCompanyNestedInput {
+	connect: [CompanyUserWhereUniqueInput!]
+	disconnect: [CompanyUserWhereUniqueInput!]
+}
+
+input CompanyUserWhereInput {
+	AND: [CompanyUserWhereInput!]
+	NOT: [CompanyUserWhereInput!]
+	OR: [CompanyUserWhereInput!]
+	company: CompanyScalarRelationFilter
+	companyId: StringFilter
+	createdAt: DateTimeFilter
+	role: CompanyRoleScalarRelationFilter
+	roleId: StringFilter
+	status: EnumStatusFilter
+	updatedAt: DateTimeFilter
+	user: UserScalarRelationFilter
+	userId: StringFilter
+}
+
+input CompanyUserWhereUniqueInput {
+	company: CompanyScalarRelationFilter
+	companyId: StringFilter
+	companyUserIdx: CompanyUserCompanyUserIdxCompoundUniqueInput
+	role: CompanyRoleScalarRelationFilter
+	roleId: StringFilter
+	status: EnumStatusFilter
+	user: UserScalarRelationFilter
+	userId: StringFilter
+}
+
+input CompanyWhereInput {
+	AND: [CompanyWhereInput!]
+	NOT: [CompanyWhereInput!]
+	OR: [CompanyWhereInput!]
+	admins: AdminCompanyListRelationFilter
+	alias: StringNullableFilter
+	auths: AuthListRelationFilter
+	code: StringNullableFilter
+	createdAt: DateTimeFilter
+	description: StringNullableFilter
+	id: StringFilter
+	logs: RequestLogListRelationFilter
+	mediaFiles: MediaFileListRelationFilter
+	mediaFolders: MediaFolderListRelationFilter
+	name: StringFilter
+	roles: CompanyRoleListRelationFilter
+	status: EnumStatusFilter
+	updatedAt: DateTimeFilter
+	users: CompanyUserListRelationFilter
+}
+
+input CompanyWhereUniqueInput {
+	admins: AdminCompanyListRelationFilter
+	alias: StringNullableFilter
+	auths: AuthListRelationFilter
+	code: String
+	description: StringNullableFilter
+	id: String
+	logs: RequestLogListRelationFilter
+	mediaFiles: MediaFileListRelationFilter
+	mediaFolders: MediaFolderListRelationFilter
+	name: String
+	roles: CompanyRoleListRelationFilter
+	status: EnumStatusFilter
+	users: CompanyUserListRelationFilter
+}
+
+input DateTimeFilter {
+	equals: DateTime
+	gt: DateTime
+	gte: DateTime
+	in: [DateTime!]
+	lt: DateTime
+	lte: DateTime
+	not: NestedDateTimeFilter
+	notIn: [DateTime!]
+}
+
+input DateTimeNullableFilter {
+	equals: DateTime
+	gt: DateTime
+	gte: DateTime
+	in: [DateTime!]
+	lt: DateTime
+	lte: DateTime
+	not: NestedDateTimeNullableFilter
+	notIn: [DateTime!]
+}
+
+input EnumMediaStoreFilter {
+	equals: MediaStore
+	in: [MediaStore!]
+	not: NestedEnumMediaStoreFilter
+	notIn: [MediaStore!]
+}
+
+input EnumMediaTypeFilter {
+	equals: MediaType
+	in: [MediaType!]
+	not: NestedEnumMediaTypeFilter
+	notIn: [MediaType!]
+}
+
+input EnumMediaVisibilityFilter {
+	equals: MediaVisibility
+	in: [MediaVisibility!]
+	not: NestedEnumMediaVisibilityFilter
+	notIn: [MediaVisibility!]
+}
+
+input EnumRequestMethodNullableFilter {
+	equals: RequestMethod
+	in: [RequestMethod!]
+	not: NestedEnumRequestMethodNullableFilter
+	notIn: [RequestMethod!]
+}
+
+input EnumStatusFilter {
+	equals: Status
+	in: [Status!]
+	not: NestedEnumStatusFilter
+	notIn: [Status!]
+}
+
+input EnumTargetFilter {
+	equals: Target
+	in: [Target!]
+	not: NestedEnumTargetFilter
+	notIn: [Target!]
+}
+
+input EnumTargetNullableFilter {
+	equals: Target
+	in: [Target!]
+	not: NestedEnumTargetNullableFilter
+	notIn: [Target!]
+}
+
+input IntFilter {
+	equals: Int
+	gt: Int
+	gte: Int
+	in: [Int!]
+	lt: Int
+	lte: Int
+	not: NestedIntFilter
+	notIn: [Int!]
+}
+
+input IntNullableFilter {
+	equals: Int
+	gt: Int
+	gte: Int
+	in: [Int!]
+	lt: Int
+	lte: Int
+	not: NestedIntNullableFilter
+	notIn: [Int!]
+}
+
+input JsonNullableFilter {
+	array_contains: JSON
+	array_ends_with: JSON
+	array_starts_with: JSON
+	equals: JSON
+	gt: JSON
+	gte: JSON
+	lt: JSON
+	lte: JSON
+	mode: QueryMode
+	not: JSON
+	path: [String!]
+	string_contains: String
+	string_ends_with: String
+	string_starts_with: String
+}
+
+input LoginInput {
+	account: String!
+	companyId: String
+	password: String!
+	target: Target = User
+}
+
+input MediaFileCreateNestedManyWithoutCompanyInput {
+	connect: [MediaFileWhereUniqueInput!]
+}
+
+input MediaFileFileHashIdxCompoundUniqueInput {
+	companyId: String!
+	fileHash: String!
+}
+
+input MediaFileListRelationFilter {
+	every: MediaFileWhereInput
+	none: MediaFileWhereInput
+	some: MediaFileWhereInput
+}
+
+input MediaFileOrderByRelationAggregateInput {
+	_count: SortOrder
+}
+
+input MediaFileUpdateManyWithoutCompanyNestedInput {
+	connect: [MediaFileWhereUniqueInput!]
+	disconnect: [MediaFileWhereUniqueInput!]
+}
+
+input MediaFileWhereInput {
+	AND: [MediaFileWhereInput!]
+	NOT: [MediaFileWhereInput!]
+	OR: [MediaFileWhereInput!]
+	admin: AdminNullableScalarRelationFilter
+	adminId: StringNullableFilter
+	company: CompanyNullableScalarRelationFilter
+	companyId: StringNullableFilter
+	createdAt: DateTimeFilter
+	description: StringNullableFilter
+	duration: IntNullableFilter
+	fileHash: StringFilter
+	fileName: StringFilter
+	filePath: StringFilter
+	fileSize: BigIntFilter
+	folder: MediaFolderNullableScalarRelationFilter
+	folderId: StringNullableFilter
+	height: IntNullableFilter
+	id: StringFilter
+	mediaType: EnumMediaTypeFilter
+	metadata: JsonNullableFilter
+	mimeType: StringFilter
+	originName: StringFilter
+	ownerId: StringFilter
+	ownerType: EnumTargetFilter
+	status: EnumStatusFilter
+	store: EnumMediaStoreFilter
+	updatedAt: DateTimeFilter
+	uploadedAt: DateTimeFilter
+	user: UserNullableScalarRelationFilter
+	userId: StringNullableFilter
+	visibility: EnumMediaVisibilityFilter
+	width: IntNullableFilter
+}
+
+input MediaFileWhereUniqueInput {
+	admin: AdminNullableScalarRelationFilter
+	adminId: StringNullableFilter
+	company: CompanyNullableScalarRelationFilter
+	companyId: StringNullableFilter
+	description: StringNullableFilter
+	duration: IntNullableFilter
+	fileHash: StringFilter
+	fileHashIdx: MediaFileFileHashIdxCompoundUniqueInput
+	fileName: StringFilter
+	filePath: StringFilter
+	fileSize: BigIntFilter
+	folder: MediaFolderNullableScalarRelationFilter
+	folderId: StringNullableFilter
+	height: IntNullableFilter
+	id: String
+	mediaType: EnumMediaTypeFilter
+	metadata: JsonNullableFilter
+	mimeType: StringFilter
+	originName: StringFilter
+	ownerId: StringFilter
+	ownerType: EnumTargetFilter
+	status: EnumStatusFilter
+	store: EnumMediaStoreFilter
+	uploadedAt: DateTimeFilter
+	user: UserNullableScalarRelationFilter
+	userId: StringNullableFilter
+	visibility: EnumMediaVisibilityFilter
+	width: IntNullableFilter
+}
+
+input MediaFolderCreateNestedManyWithoutCompanyInput {
+	connect: [MediaFolderWhereUniqueInput!]
+}
+
+input MediaFolderFolderPathIdxCompoundUniqueInput {
+	companyId: String!
+	path: String!
+}
+
+input MediaFolderListRelationFilter {
+	every: MediaFolderWhereInput
+	none: MediaFolderWhereInput
+	some: MediaFolderWhereInput
+}
+
+input MediaFolderNullableScalarRelationFilter {
+	is: MediaFolderWhereInput
+	isNot: MediaFolderWhereInput
+}
+
+input MediaFolderOrderByRelationAggregateInput {
+	_count: SortOrder
+}
+
+input MediaFolderUpdateManyWithoutCompanyNestedInput {
+	connect: [MediaFolderWhereUniqueInput!]
+	disconnect: [MediaFolderWhereUniqueInput!]
+}
+
+input MediaFolderWhereInput {
+	AND: [MediaFolderWhereInput!]
+	NOT: [MediaFolderWhereInput!]
+	OR: [MediaFolderWhereInput!]
+	admin: AdminNullableScalarRelationFilter
+	adminId: StringNullableFilter
+	children: MediaFolderListRelationFilter
+	company: CompanyNullableScalarRelationFilter
+	companyId: StringNullableFilter
+	createdAt: DateTimeFilter
+	description: StringNullableFilter
+	files: MediaFileListRelationFilter
+	id: StringFilter
+	level: IntFilter
+	name: StringFilter
+	ownerId: StringNullableFilter
+	ownerType: EnumTargetFilter
+	parent: MediaFolderNullableScalarRelationFilter
+	parentId: StringNullableFilter
+	path: StringFilter
+	status: EnumStatusFilter
+	updatedAt: DateTimeFilter
+	user: UserNullableScalarRelationFilter
+	userId: StringNullableFilter
+	visibility: EnumMediaVisibilityFilter
+}
+
+input MediaFolderWhereUniqueInput {
+	admin: AdminNullableScalarRelationFilter
+	adminId: StringNullableFilter
+	children: MediaFolderListRelationFilter
+	company: CompanyNullableScalarRelationFilter
+	companyId: StringNullableFilter
+	description: StringNullableFilter
+	folderPathIdx: MediaFolderFolderPathIdxCompoundUniqueInput
+	id: String
+	level: IntFilter
+	name: StringFilter
+	ownerId: StringNullableFilter
+	ownerType: EnumTargetFilter
+	parent: MediaFolderNullableScalarRelationFilter
+	parentId: StringNullableFilter
+	path: StringFilter
+	status: EnumStatusFilter
+	user: UserNullableScalarRelationFilter
+	userId: StringNullableFilter
+	visibility: EnumMediaVisibilityFilter
+}
+
+input NestedBigIntFilter {
+	equals: String
+	gt: String
+	gte: String
+	in: [String!]
+	lt: String
+	lte: String
+	not: NestedBigIntFilter
+	notIn: [String!]
+}
+
+input NestedDateTimeFilter {
+	equals: DateTime
+	gt: DateTime
+	gte: DateTime
+	in: [DateTime!]
+	lt: DateTime
+	lte: DateTime
+	not: NestedDateTimeFilter
+	notIn: [DateTime!]
+}
+
+input NestedDateTimeNullableFilter {
+	equals: DateTime
+	gt: DateTime
+	gte: DateTime
+	in: [DateTime!]
+	lt: DateTime
+	lte: DateTime
+	not: NestedDateTimeNullableFilter
+	notIn: [DateTime!]
+}
+
+input NestedEnumMediaStoreFilter {
+	equals: MediaStore
+	in: [MediaStore!]
+	not: NestedEnumMediaStoreFilter
+	notIn: [MediaStore!]
+}
+
+input NestedEnumMediaTypeFilter {
+	equals: MediaType
+	in: [MediaType!]
+	not: NestedEnumMediaTypeFilter
+	notIn: [MediaType!]
+}
+
+input NestedEnumMediaVisibilityFilter {
+	equals: MediaVisibility
+	in: [MediaVisibility!]
+	not: NestedEnumMediaVisibilityFilter
+	notIn: [MediaVisibility!]
+}
+
+input NestedEnumRequestMethodNullableFilter {
+	equals: RequestMethod
+	in: [RequestMethod!]
+	not: NestedEnumRequestMethodNullableFilter
+	notIn: [RequestMethod!]
+}
+
+input NestedEnumStatusFilter {
+	equals: Status
+	in: [Status!]
+	not: NestedEnumStatusFilter
+	notIn: [Status!]
+}
+
+input NestedEnumTargetFilter {
+	equals: Target
+	in: [Target!]
+	not: NestedEnumTargetFilter
+	notIn: [Target!]
+}
+
+input NestedEnumTargetNullableFilter {
+	equals: Target
+	in: [Target!]
+	not: NestedEnumTargetNullableFilter
+	notIn: [Target!]
+}
+
+input NestedIntFilter {
+	equals: Int
+	gt: Int
+	gte: Int
+	in: [Int!]
+	lt: Int
+	lte: Int
+	not: NestedIntFilter
+	notIn: [Int!]
+}
+
+input NestedIntNullableFilter {
+	equals: Int
+	gt: Int
+	gte: Int
+	in: [Int!]
+	lt: Int
+	lte: Int
+	not: NestedIntNullableFilter
+	notIn: [Int!]
+}
+
+input NestedStringFilter {
+	contains: String
+	endsWith: String
+	equals: String
+	gt: String
+	gte: String
+	in: [String!]
+	lt: String
+	lte: String
+	not: NestedStringFilter
+	notIn: [String!]
+	startsWith: String
+}
+
+input NestedStringNullableFilter {
+	contains: String
+	endsWith: String
+	equals: String
+	gt: String
+	gte: String
+	in: [String!]
+	lt: String
+	lte: String
+	not: NestedStringNullableFilter
+	notIn: [String!]
+	startsWith: String
+}
+
+input RequestLogCreateNestedManyWithoutCompanyInput {
+	connect: [RequestLogWhereUniqueInput!]
+}
+
+input RequestLogListRelationFilter {
+	every: RequestLogWhereInput
+	none: RequestLogWhereInput
+	some: RequestLogWhereInput
+}
+
+input RequestLogOrderByRelationAggregateInput {
+	_count: SortOrder
+}
+
+input RequestLogUpdateManyWithoutCompanyNestedInput {
+	connect: [RequestLogWhereUniqueInput!]
+	disconnect: [RequestLogWhereUniqueInput!]
+}
+
+input RequestLogWhereInput {
+	AND: [RequestLogWhereInput!]
+	NOT: [RequestLogWhereInput!]
+	OR: [RequestLogWhereInput!]
+	action: StringNullableFilter
+	admin: AdminNullableScalarRelationFilter
+	adminId: StringNullableFilter
+	afterAt: DateTimeNullableFilter
+	beforeAt: DateTimeFilter
+	body: JsonNullableFilter
+	company: CompanyNullableScalarRelationFilter
+	companyId: StringNullableFilter
+	createdAt: DateTimeFilter
+	device: JsonNullableFilter
+	duration: BigIntFilter
+	fingerprint: StringNullableFilter
+	headers: JsonNullableFilter
+	id: StringFilter
+	ip: StringNullableFilter
+	language: StringNullableFilter
+	location: JsonNullableFilter
+	message: StringNullableFilter
+	method: EnumRequestMethodNullableFilter
+	params: JsonNullableFilter
+	query: JsonNullableFilter
+	recordAt: DateTimeFilter
+	route: StringNullableFilter
+	subject: StringNullableFilter
+	target: EnumTargetNullableFilter
+	updatedAt: DateTimeFilter
+	user: UserNullableScalarRelationFilter
+	userId: StringNullableFilter
+}
+
+input RequestLogWhereUniqueInput {
+	action: StringNullableFilter
+	admin: AdminNullableScalarRelationFilter
+	adminId: StringNullableFilter
+	afterAt: DateTimeNullableFilter
+	beforeAt: DateTimeFilter
+	body: JsonNullableFilter
+	company: CompanyNullableScalarRelationFilter
+	companyId: StringNullableFilter
+	device: JsonNullableFilter
+	duration: BigIntFilter
+	fingerprint: StringNullableFilter
+	headers: JsonNullableFilter
+	id: String
+	ip: StringNullableFilter
+	language: StringNullableFilter
+	location: JsonNullableFilter
+	message: StringNullableFilter
+	method: EnumRequestMethodNullableFilter
+	params: JsonNullableFilter
+	query: JsonNullableFilter
+	recordAt: DateTimeFilter
+	route: StringNullableFilter
+	subject: StringNullableFilter
+	target: EnumTargetNullableFilter
+	user: UserNullableScalarRelationFilter
+	userId: StringNullableFilter
+}
+
+input SortOrderInput {
+	nulls: NullsOrder
+	sort: SortOrder!
+}
+
+input StringFilter {
+	contains: String
+	endsWith: String
+	equals: String
+	gt: String
+	gte: String
+	in: [String!]
+	lt: String
+	lte: String
+	mode: QueryMode
+	not: NestedStringFilter
+	notIn: [String!]
+	startsWith: String
+}
+
+input StringNullableFilter {
+	contains: String
+	endsWith: String
+	equals: String
+	gt: String
+	gte: String
+	in: [String!]
+	lt: String
+	lte: String
+	mode: QueryMode
+	not: NestedStringNullableFilter
+	notIn: [String!]
+	startsWith: String
+}
+
+input StringNullableListFilter {
+	equals: [String!]
+	has: String
+	hasEvery: [String!]
+	hasSome: [String!]
+	isEmpty: Boolean
+}
+
+input UserCreateInput {
+	email: String!
+	name: String!
+	password: String!
+	status: Status
+}
+
+input UserCreateNestedOneWithoutCompaniesInput {
+	connect: UserWhereUniqueInput
+}
+
+input UserNullableScalarRelationFilter {
+	is: UserWhereInput
+	isNot: UserWhereInput
+}
+
+input UserOrderByWithRelationInput {
+	auths: AuthOrderByRelationAggregateInput
+	companies: CompanyUserOrderByRelationAggregateInput
+	createdAt: SortOrder
+	email: SortOrder
+	id: SortOrder
+	logs: RequestLogOrderByRelationAggregateInput
+	mediaFiles: MediaFileOrderByRelationAggregateInput
+	mediaFolders: MediaFolderOrderByRelationAggregateInput
+	name: SortOrder
+	status: SortOrder
+	updatedAt: SortOrder
+}
+
+input UserScalarRelationFilter {
+	is: UserWhereInput
+	isNot: UserWhereInput
+}
+
+input UserUpdateInput {
+	email: String
+	name: String
+	password: String
+	status: Status
+}
+
+input UserUpdateOneRequiredWithoutCompaniesNestedInput {
+	connect: UserWhereUniqueInput
+}
+
+input UserWhereInput {
+	AND: [UserWhereInput!]
+	NOT: [UserWhereInput!]
+	OR: [UserWhereInput!]
+	auths: AuthListRelationFilter
+	companies: CompanyUserListRelationFilter
+	createdAt: DateTimeFilter
+	email: StringFilter
+	id: StringFilter
+	logs: RequestLogListRelationFilter
+	mediaFiles: MediaFileListRelationFilter
+	mediaFolders: MediaFolderListRelationFilter
+	name: StringFilter
+	status: EnumStatusFilter
+	updatedAt: DateTimeFilter
+}
+
+input UserWhereUniqueInput {
+	email: String
+	id: String
+	name: StringFilter
+	status: EnumStatusFilter
+}
