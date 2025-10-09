@@ -36,7 +36,7 @@ export const SideNavbar = ({ onCollapse, width }: SideNavbarProps) => {
    * 有子菜单时展开，无子菜单时收起
    */
   useEffect(() => {
-    const hasChildren = Boolean(activeItem?.children?.length);
+    const hasChildren = Boolean(activeItem?.children?.filter((child) => !child.hide)?.length);
     onCollapse?.(!hasChildren);
   }, [activeItem, onCollapse]);
 

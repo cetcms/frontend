@@ -2,13 +2,6 @@ import { MenuItem } from 'src/store';
 
 export default function registerMenus(menus: MenuItem[]) {
   menus.push({
-    id: 'website',
-    label: '用户管理',
-    icon: 'solar:users-group-rounded-line-duotone',
-    path: '/user',
-  });
-
-  menus.push({
     id: 'media',
     label: '媒体资源',
     icon: 'solar:folder-open-line-duotone',

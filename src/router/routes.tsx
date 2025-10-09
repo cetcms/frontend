@@ -10,6 +10,7 @@ import { NotFoundPage } from 'src/pages/error';
 import { DashboardPage, DevelopPage } from 'src/pages/home';
 import { MediaPage } from 'src/pages/media';
 import { UserPage } from 'src/pages/user';
+import { UserFormPage } from 'src/pages/user/User/UserForm.page';
 
 import { AuthGuard, GuestGuard } from './guards';
 
@@ -93,6 +94,28 @@ const mainRoutes: RouteObject[] = [
   {
     path: 'user',
     Component: UserPage,
+  },
+  {
+    path: 'user',
+    Component: Outlet,
+    children: [
+      {
+        index: true,
+        element: <Navigate to="list" />,
+      },
+      {
+        path: 'list',
+        Component: UserPage,
+      },
+      {
+        path: 'add',
+        Component: UserFormPage,
+      },
+      {
+        path: 'edit',
+        Component: UserFormPage,
+      },
+    ],
   },
   {
     path: 'media',

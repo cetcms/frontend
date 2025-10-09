@@ -9,3 +9,22 @@ query PaginateUsers($take: Int, $skip: Int, $where: UserWhereInput, $orderBy: [U
 		}
 	}
 }
+
+query FindOneUser($id: String!) {
+	findOneUser(where: { id: $id }) {
+		...User
+	}
+}
+
+mutation CreateOneUser($data: UserCreateInput!) {
+	createOneUser(data: $data) {
+		...User
+	}
+}
+
+mutation UpdateOneUser($id: String!, $data: UserUpdateInput!) {
+	updateOneUser(data: $data, where: { id: $id }) {
+		...User
+	}
+}
+

@@ -73,7 +73,7 @@ export const useMenuStore = create<MenuStore>((set, get) => ({
       id: 'company',
       label: '企业管理',
       icon: 'solar:medal-ribbons-star-line-duotone',
-      path: '/company',
+      path: '/company/list',
       children: [
         {
           id: 'company-list',
@@ -119,7 +119,7 @@ export const useMenuStore = create<MenuStore>((set, get) => ({
       id: 'admin',
       label: '系统成员',
       icon: 'solar:user-id-line-duotone',
-      path: '/admin',
+      path: '/admin/list',
       children: [
         {
           id: 'admin-list',
@@ -158,6 +158,26 @@ export const useMenuStore = create<MenuStore>((set, get) => ({
               hide: true,
             },
           ],
+        },
+      ],
+    },
+    {
+      id: 'website',
+      label: '用户管理',
+      icon: 'solar:users-group-rounded-line-duotone',
+      path: '/user/list',
+      children: [
+        {
+          id: 'user-list-add',
+          label: '添加用户',
+          path: '/user/add',
+          hide: true,
+        },
+        {
+          id: 'user-list-edit',
+          label: '编辑用户',
+          path: '/user/edit',
+          hide: true,
         },
       ],
     },
