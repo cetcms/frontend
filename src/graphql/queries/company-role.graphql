@@ -28,3 +28,14 @@ mutation UpdateOneCompanyRole($id: String!, $data: CompanyRoleUpdateInput!) {
 	}
 }
 
+query ListCompanyRolePermissions {
+	listCompanyRolePermissions {
+		subject
+		subjectLabel
+		module
+		action
+		actionLabel
+		targets
+	}
+}
+

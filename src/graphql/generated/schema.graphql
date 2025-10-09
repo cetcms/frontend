@@ -607,6 +607,15 @@ type Pagination {
 	totalPages: Int!
 }
 
+type PermissionInfo {
+	action: String!
+	actionLabel: String!
+	module: String!
+	subject: String!
+	subjectLabel: String!
+	targets: [Target!]!
+}
+
 type Query {
 	authInfo: Auth!
 	findAdminByEmail(email: String!): Admin!
@@ -623,7 +632,9 @@ type Query {
 	findSelfUser: User!
 	healthCheck: String!
 	helloWorld: String!
+	listAdminRolePermissions: [PermissionInfo!]!
 	listAuthCompanies(name: String): [Company!]
+	listCompanyRolePermissions: [PermissionInfo!]!
 	logout: Boolean!
 	paginateAdminCompanies(cursor: AdminCompanyWhereUniqueInput, distinct: [AdminCompanyScalarFieldEnum!], orderBy: [AdminCompanyOrderByWithRelationInput!], skip: Int, take: Int, where: AdminCompanyWhereInput): PaginatedAdminCompany!
 	paginateAdminRoles(cursor: AdminRoleWhereUniqueInput, distinct: [AdminRoleScalarFieldEnum!], orderBy: [AdminRoleOrderByWithRelationInput!], skip: Int, take: Int, where: AdminRoleWhereInput): PaginatedAdminRole!

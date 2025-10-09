@@ -5,6 +5,7 @@ import { notifications } from '@mantine/notifications';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
+import { TransferList } from 'src/components/FormInputs';
 import { FormPageAction, FormPageErrors } from 'src/components/FormPage';
 import {
   AdminRole,
@@ -109,7 +110,10 @@ export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
             <Grid.Col span={2}>
               <Textarea label={t('AdminRole.description')} {...form.getInputProps('description')} />
             </Grid.Col>
-            <Grid.Col span={1}>
+            <Grid.Col span={2}>
+              <TransferList onDataChange={() => {}} sourceItems={[]} targetItems={[]} />
+            </Grid.Col>
+            <Grid.Col span={2}>
               <Select
                 allowDeselect={false}
                 label={t('AdminRole.status')}

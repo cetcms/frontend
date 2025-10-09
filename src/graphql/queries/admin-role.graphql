@@ -28,3 +28,14 @@ mutation UpdateOneAdminRole($id: String!, $data: AdminRoleUpdateInput!) {
 	}
 }
 
+query ListAdminRolePermissions {
+	listAdminRolePermissions {
+		subject
+		subjectLabel
+		module
+		action
+		actionLabel
+		targets
+	}
+}
+
