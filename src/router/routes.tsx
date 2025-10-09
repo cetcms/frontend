@@ -4,6 +4,8 @@ import { AdminFormPage, AdminPage, AdminRolePage } from 'src/pages/admin';
 import { AdminRoleFormPage } from 'src/pages/admin/AdminRole/AdminRoleForm.page';
 import { LoginPage } from 'src/pages/auth';
 import { CompanyPage, CompanyRolePage } from 'src/pages/company';
+import { CompanyFormPage } from 'src/pages/company/Company/CompanyForm.page';
+import { CompanyRoleFormPage } from 'src/pages/company/CompanyRole/CompanyRoleForm.page';
 import { NotFoundPage } from 'src/pages/error';
 import { DashboardPage, DevelopPage } from 'src/pages/home';
 import { MediaPage } from 'src/pages/media';
@@ -67,8 +69,24 @@ const mainRoutes: RouteObject[] = [
         Component: CompanyPage,
       },
       {
+        path: 'add',
+        Component: CompanyFormPage,
+      },
+      {
+        path: 'edit',
+        Component: CompanyFormPage,
+      },
+      {
         path: 'roles',
         Component: CompanyRolePage,
+      },
+      {
+        path: 'role/add',
+        Component: CompanyRoleFormPage,
+      },
+      {
+        path: 'role/edit',
+        Component: CompanyRoleFormPage,
       },
     ],
   },

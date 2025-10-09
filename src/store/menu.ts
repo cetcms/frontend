@@ -79,11 +79,39 @@ export const useMenuStore = create<MenuStore>((set, get) => ({
           id: 'company-list',
           label: '公司列表',
           path: '/company/list',
+          children: [
+            {
+              id: 'company-list-add',
+              label: '添加公司',
+              path: '/company/add',
+              hide: true,
+            },
+            {
+              id: 'company-list-edit',
+              label: '编辑公司',
+              path: '/company/edit',
+              hide: true,
+            },
+          ],
         },
         {
           id: 'company-role',
           label: '公司角色',
           path: '/company/roles',
+          children: [
+            {
+              id: 'company-role-add',
+              label: '添加公司角色',
+              path: '/company/role/add',
+              hide: true,
+            },
+            {
+              id: 'company-role-edit',
+              label: '编辑公司角色',
+              path: '/company/role/edit',
+              hide: true,
+            },
+          ],
         },
       ],
     },
