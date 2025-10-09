@@ -9,14 +9,14 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "generate": "graphql-codegen --config=./codegen.config.mjs --watch",
-    "lint": "npm run eslint && npm run stylelint",
+    "lint": "pnpm eslint && pnpm stylelint",
     "eslint": "eslint . --cache  --fix",
     "stylelint": "stylelint '**/*.css' --cache",
     "prettier": "prettier --check \"**/*.{ts,tsx}\"",
     "prettier:write": "prettier --write \"**/*.{ts,tsx}\"",
     "vitest": "vitest run",
     "vitest:watch": "vitest",
-    "test": "npm run typecheck && npm run prettier && npm run lint && npm run vitest && npm run build",
+    "test": "pnpm typecheck && pnpm prettier && pnpm lint && pnpm vitest && pnpm build",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build"
   },
@@ -114,5 +114,6 @@
     "vite": "^7.1.5",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.4"
-  }
+  },
+  "packageManager": "pnpm@10.17.1"
 }

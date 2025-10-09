@@ -3,6 +3,7 @@
 schema {
 	query: Query
 	mutation: Mutation
+	subscription: Subscription
 }
 
 "Indicates exactly one field must be supplied and this field must not be `null`."
@@ -621,7 +622,7 @@ type Query {
 	findSelfAdmin: Admin!
 	findSelfCompany: Company!
 	findSelfUser: User!
-	health: String!
+	helloWorld: String!
 	listAuthCompanies(name: String): [Company!]
 	logout: Boolean!
 	paginateAdminCompanies(cursor: AdminCompanyWhereUniqueInput, distinct: [AdminCompanyScalarFieldEnum!], orderBy: [AdminCompanyOrderByWithRelationInput!], skip: Int, take: Int, where: AdminCompanyWhereInput): PaginatedAdminCompany!
@@ -745,6 +746,10 @@ type RequestLogMinAggregate {
 
 type RequestLogSumAggregate {
 	duration: String
+}
+
+type Subscription {
+	healthCheck: String!
 }
 
 type User {
