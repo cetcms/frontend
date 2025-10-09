@@ -112,7 +112,7 @@ export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
               <Textarea label={t('AdminRole.description')} {...form.getInputProps('description')} />
             </Grid.Col>
             <Grid.Col span={2}>
-              <RolePermissions />
+              <RolePermissions disabledActions={['AdminRoleResolver:findOneAdminRole']} />
             </Grid.Col>
             <Grid.Col span={2}>
               <Select

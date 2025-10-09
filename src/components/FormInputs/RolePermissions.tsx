@@ -1,7 +1,12 @@
 import { Accordion, Card, Center, Checkbox, InputWrapper, InputWrapperProps, SimpleGrid, Stack } from '@mantine/core';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-export type RolePermissionsProps = InputWrapperProps & {};
+export type RolePermissionsProps = InputWrapperProps & {
+  value?: string[];
+  onChange?: (value: string[]) => void;
+  disabled?: boolean; // 组件级禁用
+  disabledActions?: string[]; // action value级禁用
+};
 
 interface PermissionItem {
   subject: string;
@@ -386,44 +391,217 @@ export const buildPermissionTree = (permissions: PermissionItem[]): TreeNode[] =
   return Object.values(moduleMap);
 };
 
-// 测试函数，用于验证构建树的方法是否正确
-export const testBuildPermissionTree = () => {
-  const tree = buildPermissionTree(permissions);
-  console.log('Permission Tree:', tree);
-};
+export const RolePermissions: React.FC<RolePermissionsProps> = ({
+  value = [],
+  onChange,
+  disabled = false,
+  disabledActions = [],
+  ...props
+}) => {
+  const permissionsTree = buildPermissionTree(permissions);
+  const [checkedValues, setCheckedValues] = useState<string[]>(value);
+  const skipEffectRef = useRef(false);
 
-testBuildPermissionTree();
+  // 当外部 value 变化时更新内部状态
+  useEffect(() => {
+    if (!skipEffectRef.current) {
+      setCheckedValues(value);
+    }
+    skipEffectRef.current = false;
+  }, [value]);
 
-export const RolePermissions: React.FC<RolePermissionsProps> = () => {
+  const handleActionChange = (actionValue: string, checked: boolean) => {
+    // 如果action被禁用，则不处理变化
+    if (disabled || disabledActions.includes(actionValue)) {
+      return;
+    }
+
+    const newCheckedValues = checked
+      ? [...checkedValues, actionValue]
+      : checkedValues.filter((value) => value !== actionValue);
+
+    skipEffectRef.current = true;
+    setCheckedValues(newCheckedValues);
+    onChange?.(newCheckedValues);
+  };
+
+  const handleSubjectChange = (subjectNode: TreeNode, checked: boolean) => {
+    // 如果组件被禁用，则不处理变化
+    if (disabled) {
+      return;
+    }
+
+    const actionValues = subjectNode.children?.map((child) => child.value) || [];
+    let newCheckedValues = [...checkedValues];
+
+    if (checked) {
+      // 添加所有未禁用的子项
+      actionValues.forEach((value) => {
+        if (!newCheckedValues.includes(value) && !disabledActions.includes(value)) {
+          newCheckedValues.push(value);
+        }
+      });
+    } else {
+      // 移除所有未禁用的子项
+      newCheckedValues = newCheckedValues.filter((value) => {
+        // 如果action被禁用，保持原状态
+        if (disabledActions.includes(value)) {
+          return true;
+        }
+        // 否则根据操作决定是否移除
+        return !actionValues.includes(value);
+      });
+    }
+
+    skipEffectRef.current = true;
+    setCheckedValues(newCheckedValues);
+    onChange?.(newCheckedValues);
+  };
+
+  const handleModuleChange = (moduleNode: TreeNode, checked: boolean) => {
+    // 如果组件被禁用，则不处理变化
+    if (disabled) {
+      return;
+    }
+
+    const allActionValues: string[] = [];
+
+    // 获取模块下所有操作
+    moduleNode.children?.forEach((subject) => {
+      subject.children?.forEach((action) => {
+        allActionValues.push(action.value);
+      });
+    });
+
+    let newCheckedValues = [...checkedValues];
+
+    if (checked) {
+      // 添加所有未禁用的子项
+      allActionValues.forEach((value) => {
+        if (!newCheckedValues.includes(value) && !disabledActions.includes(value)) {
+          newCheckedValues.push(value);
+        }
+      });
+    } else {
+      // 移除所有未禁用的子项
+      newCheckedValues = newCheckedValues.filter((value) => {
+        // 如果action被禁用，保持原状态
+        if (disabledActions.includes(value)) {
+          return true;
+        }
+        // 否则根据操作决定是否移除
+        return !allActionValues.includes(value);
+      });
+    }
+
+    skipEffectRef.current = true;
+    setCheckedValues(newCheckedValues);
+    onChange?.(newCheckedValues);
+  };
+
+  // 检查是否所有子项都被选中（忽略被禁用的项）
+  const isAllChildrenChecked = (node: TreeNode): boolean => {
+    if (!node.children || node.children.length === 0) {
+      // 叶子节点，直接返回选中状态
+      return checkedValues.includes(node.value);
+    }
+
+    // 非叶子节点，检查所有子节点
+    return node.children.every((child) => {
+      // 如果是操作节点且被禁用，跳过检查
+      if ((!child.children || child.children.length === 0) && disabledActions.includes(child.value)) {
+        return true; // 忽略被禁用的操作
+      }
+      return isAllChildrenChecked(child);
+    });
+  };
+
+  // 检查是否有部分子项被选中（忽略被禁用的项）
+  const isSomeChildrenChecked = (node: TreeNode): boolean => {
+    if (!node.children || node.children.length === 0) {
+      // 叶子节点，直接返回选中状态
+      return checkedValues.includes(node.value);
+    }
+
+    // 非叶子节点，检查所有子节点
+    return node.children.some((child) => {
+      // 如果是操作节点且被禁用，跳过检查
+      if ((!child.children || child.children.length === 0) && disabledActions.includes(child.value)) {
+        return false; // 忽略被禁用的操作
+      }
+      return isSomeChildrenChecked(child);
+    });
+  };
+
+  const renderTree = (nodes: TreeNode[]) => {
+    return nodes.map((node) => {
+      // 如果是操作级别（没有子节点）
+      if (!node.children || node.children.length === 0) {
+        const isActionDisabled = disabled || disabledActions.includes(node.value);
+        return (
+          <Checkbox
+            key={node.id}
+            label={node.label}
+            checked={checkedValues.includes(node.value)}
+            onChange={(event) => handleActionChange(node.value, event.currentTarget.checked)}
+            disabled={isActionDisabled}
+          />
+        );
+      }
+
+      // 如果是主题级别（有操作子节点）
+      if (node.children.every((child) => !child.children || child.children.length === 0)) {
+        const allChecked = isAllChildrenChecked(node);
+        const someChecked = isSomeChildrenChecked(node);
+        const indeterminate = someChecked && !allChecked;
+
+        return (
+          <Card withBorder p="xs" key={node.id}>
+            <Stack gap="xs">
+              <Checkbox
+                label={node.label}
+                checked={allChecked}
+                indeterminate={indeterminate}
+                onChange={(event) => handleSubjectChange(node, event.currentTarget.checked)}
+                disabled={disabled}
+              />
+              <SimpleGrid spacing="xs" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
+                {renderTree(node.children)}
+              </SimpleGrid>
+            </Stack>
+          </Card>
+        );
+      }
+
+      // 如果是模块级别（有主题子节点）
+      const allChecked = isAllChildrenChecked(node);
+      const someChecked = isSomeChildrenChecked(node);
+      const indeterminate = someChecked && !allChecked;
+
+      return (
+        <Accordion.Item value={node.id} key={node.id} style={{ overflow: 'hidden' }}>
+          <Center>
+            <Accordion.Control>
+              <Checkbox
+                label={node.label}
+                checked={allChecked}
+                indeterminate={indeterminate}
+                onChange={(event) => handleModuleChange(node, event.currentTarget.checked)}
+                disabled={disabled}
+              />
+            </Accordion.Control>
+          </Center>
+          <Accordion.Panel>
+            <Stack gap="xs">{renderTree(node.children || [])}</Stack>
+          </Accordion.Panel>
+        </Accordion.Item>
+      );
+    });
+  };
+
   return (
-    <InputWrapper>
-      <Accordion variant="contained">
-        {['Module1', 'Module2'].map((module, index) => (
-          <Accordion.Item value={module} key={index} style={{ overflow: 'hidden' }}>
-            <Center>
-              <Accordion.Control>
-                <Checkbox defaultChecked label={module} />
-              </Accordion.Control>
-            </Center>
-            <Accordion.Panel>
-              <Stack gap="xs">
-                {['Subject1', 'Subject2'].map((subject, index) => (
-                  <Card withBorder p="xs" key={index}>
-                    <Stack gap="xs">
-                      <Checkbox defaultChecked label={subject} indeterminate />
-                      <SimpleGrid spacing="xs" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
-                        {['Action1', 'Action2'].map((action, index) => (
-                          <Checkbox defaultChecked label={action} key={index} />
-                        ))}
-                      </SimpleGrid>
-                    </Stack>
-                  </Card>
-                ))}
-              </Stack>
-            </Accordion.Panel>
-          </Accordion.Item>
-        ))}
-      </Accordion>
+    <InputWrapper {...props}>
+      <Accordion variant="contained">{renderTree(permissionsTree)}</Accordion>
     </InputWrapper>
   );
 };
