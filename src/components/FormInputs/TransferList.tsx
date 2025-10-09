@@ -7,6 +7,9 @@ import {
   Combobox,
   Divider,
   Group,
+  InputWrapper,
+  InputWrapperProps,
+  Paper,
   ScrollArea,
   Stack,
   TextInput,
@@ -122,7 +125,7 @@ const RenderList = <T extends Record<string, any>>({
   );
 };
 
-export interface TransferListProps<T = any> {
+export type TransferListProps<T = any> = InputWrapperProps & {
   onDataChange: (sourceItems: T[], targetItems: T[]) => void;
   searchFilter?: (items: T[], search: string) => T[];
   optionRender?: (item: T) => React.ReactNode;
@@ -131,7 +134,9 @@ export interface TransferListProps<T = any> {
   idAccessor?: string;
   sourceItems: T[];
   targetItems: T[];
-}
+  value?: T[];
+  onChange?: (value: T[]) => void;
+};
 
 export const TransferList = <T extends Record<string, any>>({
   sourceItems,
@@ -142,6 +147,9 @@ export const TransferList = <T extends Record<string, any>>({
   targetBottomSection,
   sourceBottomSection,
   idAccessor = 'id',
+  value,
+  onChange,
+  ...others
 }: TransferListProps<T>) => {
   const [selectedSourceItems, setSelectedSourceItems] = useState<T[]>([]);
   const [selectedTargetItems, setSelectedTargetItems] = useState<T[]>([]);
@@ -168,6 +176,10 @@ export const TransferList = <T extends Record<string, any>>({
     );
     const newTargetItems = [...targetItems, ...items];
     onDataChange(newSourceItems, newTargetItems);
+    // 如果提供了 onChange 回调，则调用它
+    if (onChange) {
+      onChange(newTargetItems);
+    }
   };
 
   const handleTransferToSource = (items: T[]) => {
@@ -176,39 +188,47 @@ export const TransferList = <T extends Record<string, any>>({
     );
     const newSourceItems = [...sourceItems, ...items];
     onDataChange(newSourceItems, newTargetItems);
+    // 如果提供了 onChange 回调，则调用它
+    if (onChange) {
+      onChange(newTargetItems);
+    }
   };
 
   return (
-    <Group wrap="nowrap">
-      <RenderList
-        data={sourceData}
-        direction="right"
-        selectedItems={selectedSourceItems}
-        onSelectedItemsChange={setSelectedSourceItems}
-        onSelectAll={() => {
-          if (selectedSourceItems.length === sourceItems.length) {
-            setSelectedSourceItems([]);
-          } else {
-            setSelectedSourceItems(sourceItems);
-          }
-        }}
-        onTransfer={handleTransferToTarget}
-      />
-      <Divider orientation="vertical" />
-      <RenderList
-        data={targetData}
-        direction="left"
-        selectedItems={selectedTargetItems}
-        onSelectedItemsChange={setSelectedTargetItems}
-        onSelectAll={() => {
-          if (selectedTargetItems.length === targetItems.length) {
-            setSelectedTargetItems([]);
-          } else {
-            setSelectedTargetItems(targetItems);
-          }
-        }}
-        onTransfer={handleTransferToSource}
-      />
-    </Group>
+    <InputWrapper {...others}>
+      <Card p="xs" withBorder>
+        <Group wrap="nowrap">
+          <RenderList
+            data={sourceData}
+            direction="right"
+            selectedItems={selectedSourceItems}
+            onSelectedItemsChange={setSelectedSourceItems}
+            onSelectAll={() => {
+              if (selectedSourceItems.length === sourceItems.length) {
+                setSelectedSourceItems([]);
+              } else {
+                setSelectedSourceItems(sourceItems);
+              }
+            }}
+            onTransfer={handleTransferToTarget}
+          />
+          <Divider orientation="vertical" />
+          <RenderList
+            data={targetData}
+            direction="left"
+            selectedItems={selectedTargetItems}
+            onSelectedItemsChange={setSelectedTargetItems}
+            onSelectAll={() => {
+              if (selectedTargetItems.length === targetItems.length) {
+                setSelectedTargetItems([]);
+              } else {
+                setSelectedTargetItems(targetItems);
+              }
+            }}
+            onTransfer={handleTransferToSource}
+          />
+        </Group>
+      </Card>
+    </InputWrapper>
   );
 };
