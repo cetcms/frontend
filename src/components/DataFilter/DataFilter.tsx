@@ -1,21 +1,19 @@
-import { Button, Group, SegmentedControl, Popover } from '@mantine/core';
+import { Button, Group, SegmentedControl } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { IconFilter2Search } from '@tabler/icons-react';
 import React, { useState } from 'react';
 
 import { FieldConfig } from './filter.types';
 import { createNewFilter, generatePrismaFilter, getDefaultOperator } from './filter.utils';
 import { FilterItem } from './FilterItem';
 
-export interface FilterButtonProps {
+export interface DataFilterProps {
   fields?: FieldConfig[];
   onFilterChange?: (filter: any) => void;
   size?: 'xs' | 'sm';
+  onClose?: () => void;
 }
 
-export const FilterButton: React.FC<FilterButtonProps> = ({ fields = [], onFilterChange, size = 'xs' }) => {
-  const [opened, setOpened] = useState(false);
-
+export const DataFilter: React.FC<DataFilterProps> = ({ fields = [], onFilterChange, size = 'xs', onClose }) => {
   // 获取字段列表
   const [filterFields, setFilterFields] = useState<Array<{ id: number; field: string; operator: string; value: any }>>(
     []
@@ -109,7 +107,9 @@ export const FilterButton: React.FC<FilterButtonProps> = ({ fields = [], onFilte
     if (onFilterChange) {
       onFilterChange(prismaFilter);
     }
-    setOpened(false);
+    if (onClose) {
+      onClose();
+    }
   };
 
   // 重置过滤器
@@ -126,54 +126,42 @@ export const FilterButton: React.FC<FilterButtonProps> = ({ fields = [], onFilte
   const hasValidFilters = filterFields.length > 0 && filterFields.some((filter) => filter.field);
 
   return (
-    <Popover withArrow trapFocus opened={opened} onChange={setOpened} position="bottom-start" shadow="md">
-      <Popover.Target>
-        <Button
-          variant="default"
-          disabled={!fields.length}
-          leftSection={<IconFilter2Search size={14} />}
-          onClick={() => setOpened((o) => !o)}
-        >
-          过滤
+    <>
+      {/* 添加逻辑操作符选择器 */}
+      <Group gap={size}>
+        <Button w="130" disabled={!fields.length} size={size} variant="default" onClick={addFilter}>
+          添加条件
         </Button>
-      </Popover.Target>
-      <Popover.Dropdown>
-        {/* 添加逻辑操作符选择器 */}
-        <Group gap={size}>
-          <Button w="130" disabled={!fields.length} size={size} variant="default" onClick={addFilter}>
-            添加条件
-          </Button>
-          <SegmentedControl
-            size={size}
-            w="130"
-            value={logicOperator}
-            disabled={!hasValidFilters}
-            style={{ outline: '1px solid var(--app-shell-border-color)', outlineOffset: '-1px' }}
-            onChange={(value) => setLogicOperator(value as 'AND' | 'OR')}
-            data={[
-              { label: 'AND (且)', value: 'AND' },
-              { label: 'OR (或)', value: 'OR' },
-            ]}
-          />
-          <Button w="130" size={size} variant="filled" onClick={applyFilter} disabled={!hasValidFilters}>
-            应用过滤
-          </Button>
-          <Button size={size} variant="light" onClick={resetFilter} disabled={!hasValidFilters}>
-            重置
-          </Button>
-        </Group>
+        <SegmentedControl
+          size={size}
+          w="130"
+          value={logicOperator}
+          disabled={!hasValidFilters}
+          style={{ outline: '1px solid var(--app-shell-border-color)', outlineOffset: '-1px' }}
+          onChange={(value) => setLogicOperator(value as 'AND' | 'OR')}
+          data={[
+            { label: 'AND (且)', value: 'AND' },
+            { label: 'OR (或)', value: 'OR' },
+          ]}
+        />
+        <Button w="130" size={size} variant="filled" onClick={applyFilter} disabled={!hasValidFilters}>
+          应用过滤
+        </Button>
+        <Button size={size} variant="light" onClick={resetFilter} disabled={!hasValidFilters}>
+          重置
+        </Button>
+      </Group>
 
-        {filterFields.map((filter) => (
-          <FilterItem
-            key={filter.id}
-            filter={filter}
-            fields={fields}
-            size={size}
-            onUpdate={updateFilter}
-            onRemove={removeFilter}
-          />
-        ))}
-      </Popover.Dropdown>
-    </Popover>
+      {filterFields.map((filter) => (
+        <FilterItem
+          key={filter.id}
+          filter={filter}
+          fields={fields}
+          size={size}
+          onUpdate={updateFilter}
+          onRemove={removeFilter}
+        />
+      ))}
+    </>
   );
 };

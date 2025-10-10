@@ -1,4 +1,4 @@
-import { Button, Group, Select, TextInput, NumberInput, SegmentedControl, MultiSelect, Checkbox } from '@mantine/core';
+import { Button, Group, Select, TextInput, NumberInput, SegmentedControl, MultiSelect } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
 import React from 'react';
 
