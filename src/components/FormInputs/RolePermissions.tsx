@@ -12,6 +12,7 @@ import {
   Text,
 } from '@mantine/core';
 import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { PermissionItem } from 'src/graphql';
 
 export type RolePermissionsProps = InputWrapperProps & {
@@ -94,6 +95,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
   loading = false,
   ...props
 }) => {
+  const { t } = useTranslation('permissions');
   const [permissionsTree, setPermissionsTree] = useState<TreeNode[]>([]);
   const [checkedValues, setCheckedValues] = useState<string[]>(value);
   const skipEffectRef = useRef(false);
@@ -357,7 +359,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
         return (
           <Box key={node.id} onClick={(event) => event.stopPropagation()}>
             <Checkbox
-              label={node.label}
+              label={t(`action.${node.value.replace(':', '.')}`)}
               checked={checkedValues.includes(node.value)}
               onChange={(event) => handleActionChange(node.value, event.currentTarget.checked)}
               onMouseDown={(event) => event.stopPropagation()}
@@ -384,7 +386,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
             <Stack gap="xs">
               <Box onClick={(event) => event.stopPropagation()}>
                 <Checkbox
-                  label={node.label}
+                  label={t(`subject.${node.value}`)}
                   checked={allChecked}
                   indeterminate={indeterminate}
                   onChange={(event) => handleSubjectChange(node, event.currentTarget.checked)}
@@ -417,7 +419,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
             <Accordion.Control>
               <Box onClick={(event) => event.stopPropagation()} style={{ float: 'left' }}>
                 <Checkbox
-                  label={node.label}
+                  label={t(`group.${node.value}`)}
                   checked={allChecked}
                   indeterminate={indeterminate}
                   onChange={(event) => {

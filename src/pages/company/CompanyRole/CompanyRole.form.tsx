@@ -1,15 +1,18 @@
-import { useMutation } from '@apollo/client/react';
+import { useMutation, useQuery } from '@apollo/client/react';
 import { Card, Divider, Grid, Group, LoadingOverlay, Select, Stack, Text, TextInput, Textarea } from '@mantine/core';
 import { Form, isNotEmpty, useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
+import { RolePermissions } from 'src/components/FormInputs/RolePermissions';
 import { FormPageAction, FormPageErrors } from 'src/components/FormPage';
 import {
   CompanyRole,
   CompanyRoleCreateInput,
   CreateOneCompanyRoleDocument,
+  ListCompanyRolePermissionDocument,
+  PermissionItem,
   Status,
   UpdateOneCompanyRoleDocument,
 } from 'src/graphql';
@@ -27,6 +30,11 @@ export const CompanyRoleForm: React.FC<CompanyRoleFormProps> = ({ item }) => {
   const navigate = useNavigate();
   const [createCompanyRole, { loading: creating }] = useMutation(CreateOneCompanyRoleDocument);
   const [updateCompanyRole, { loading: updating }] = useMutation(UpdateOneCompanyRoleDocument);
+  const permissions = useQuery(ListCompanyRolePermissionDocument, {
+    variables: {
+      where: item?.id ? { id: item?.id } : undefined,
+    },
+  });
 
   const [parseHandler, { errors, resetErrors }] = useParseApolloErrors();
 
@@ -36,6 +44,7 @@ export const CompanyRoleForm: React.FC<CompanyRoleFormProps> = ({ item }) => {
       code: item?.code || '',
       description: item?.description || '',
       status: item?.status || Status.Enabled,
+      permissions: item?.permissions || [],
     },
     validate: {
       name: isNotEmpty(t('validation:inputRequired', { field: t('CompanyRole.name') })),
@@ -52,6 +61,7 @@ export const CompanyRoleForm: React.FC<CompanyRoleFormProps> = ({ item }) => {
       code: form.values.code,
       description: form.values.description,
       status: form.values.status,
+      permissions: form.values.permissions,
     };
     if (item) {
       updateCompanyRole({
@@ -109,7 +119,7 @@ export const CompanyRoleForm: React.FC<CompanyRoleFormProps> = ({ item }) => {
             <Grid.Col span={2}>
               <Textarea label={t('CompanyRole.description')} {...form.getInputProps('description')} />
             </Grid.Col>
-            <Grid.Col span={1}>
+            <Grid.Col span={2}>
               <Select
                 allowDeselect={false}
                 label={t('CompanyRole.status')}
@@ -118,6 +128,16 @@ export const CompanyRoleForm: React.FC<CompanyRoleFormProps> = ({ item }) => {
                   { label: t('enum.Status.Disabled'), value: Status.Disabled },
                 ]}
                 {...form.getInputProps('status')}
+              />
+            </Grid.Col>
+            <Grid.Col span={2}>
+              <RolePermissions
+                label={t('CompanyRole.permissions')}
+                loading={permissions.loading}
+                permissions={(permissions.data?.listCompanyRolePermission?.items || []) as PermissionItem[]}
+                allowUnselect={permissions.data?.listCompanyRolePermission?.allowUnselect}
+                allowSelect={permissions.data?.listCompanyRolePermission?.allowSelect}
+                {...form.getInputProps('permissions')}
               />
             </Grid.Col>
           </Grid>

@@ -61,6 +61,7 @@ export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
       code: form.values.code,
       description: form.values.description,
       status: form.values.status,
+      permissions: form.values.permissions,
     };
     if (item) {
       updateAdminRole({

@@ -30,7 +30,8 @@ type AdminCompany {
 	company: Company!
 	companyId: String!
 	createdAt: DateTime!
-	permissions: [String!]
+	role: CompanyRole!
+	roleId: String!
 	updatedAt: DateTime!
 }
 
@@ -39,7 +40,7 @@ type AdminCompanyCountAggregate {
 	adminId: Int!
 	companyId: Int!
 	createdAt: Int!
-	permissions: Int!
+	roleId: Int!
 	updatedAt: Int!
 }
 
@@ -47,6 +48,7 @@ type AdminCompanyMaxAggregate {
 	adminId: String
 	companyId: String
 	createdAt: DateTime
+	roleId: String
 	updatedAt: DateTime
 }
 
@@ -54,6 +56,7 @@ type AdminCompanyMinAggregate {
 	adminId: String
 	companyId: String
 	createdAt: DateTime
+	roleId: String
 	updatedAt: DateTime
 }
 
@@ -230,6 +233,7 @@ type CompanyMinAggregate {
 }
 
 type CompanyRole {
+	admins: [AdminCompany!]
 	code: String!
 	company: Company
 	companyId: String
@@ -640,7 +644,7 @@ type Query {
 	helloWorld: String!
 	listAdminRolePermission(where: AdminRoleWhereUniqueInput): PermissionInfo!
 	listAuthCompanies(name: String): [Company!]
-	listCompanyRolePermission(where: CompanyRoleWhereUniqueInput): [PermissionInfo!]!
+	listCompanyRolePermission(where: CompanyRoleWhereUniqueInput): PermissionInfo!
 	logout: Boolean!
 	paginateAdminCompanies(cursor: AdminCompanyWhereUniqueInput, distinct: [AdminCompanyScalarFieldEnum!], orderBy: [AdminCompanyOrderByWithRelationInput!], skip: Int, take: Int, where: AdminCompanyWhereInput): PaginatedAdminCompany!
 	paginateAdminRoles(cursor: AdminRoleWhereUniqueInput, distinct: [AdminRoleScalarFieldEnum!], orderBy: [AdminRoleOrderByWithRelationInput!], skip: Int, take: Int, where: AdminRoleWhereInput): PaginatedAdminRole!
@@ -811,7 +815,7 @@ enum AdminCompanyScalarFieldEnum {
 	adminId
 	companyId
 	createdAt
-	permissions
+	roleId
 	updatedAt
 }
 
@@ -956,7 +960,7 @@ input AdminCompanyAdminCompanyIdxCompoundUniqueInput {
 input AdminCompanyCreateInput {
 	admin: AdminCreateNestedOneWithoutCompaniesInput!
 	company: CompanyCreateNestedOneWithoutAdminsInput!
-	permissions: [String!]
+	role: CompanyRoleCreateNestedOneWithoutAdminsInput!
 }
 
 input AdminCompanyCreateNestedManyWithoutCompanyInput {
@@ -979,14 +983,15 @@ input AdminCompanyOrderByWithRelationInput {
 	company: CompanyOrderByWithRelationInput
 	companyId: SortOrder
 	createdAt: SortOrder
-	permissions: SortOrder
+	role: CompanyRoleOrderByWithRelationInput
+	roleId: SortOrder
 	updatedAt: SortOrder
 }
 
 input AdminCompanyUpdateInput {
 	admin: AdminUpdateOneRequiredWithoutCompaniesNestedInput
 	company: CompanyUpdateOneRequiredWithoutAdminsNestedInput
-	permissions: [String!]
+	role: CompanyRoleUpdateOneRequiredWithoutAdminsNestedInput
 }
 
 input AdminCompanyUpdateManyWithoutCompanyNestedInput {
@@ -1003,7 +1008,8 @@ input AdminCompanyWhereInput {
 	company: CompanyScalarRelationFilter
 	companyId: StringFilter
 	createdAt: DateTimeFilter
-	permissions: StringNullableListFilter
+	role: CompanyRoleScalarRelationFilter
+	roleId: StringFilter
 	updatedAt: DateTimeFilter
 }
 
@@ -1013,7 +1019,8 @@ input AdminCompanyWhereUniqueInput {
 	adminId: StringFilter
 	company: CompanyScalarRelationFilter
 	companyId: StringFilter
-	permissions: StringNullableListFilter
+	role: CompanyRoleScalarRelationFilter
+	roleId: StringFilter
 }
 
 input AdminCreateInput {
@@ -1316,6 +1323,10 @@ input CompanyRoleCreateNestedManyWithoutCompanyInput {
 	connect: [CompanyRoleWhereUniqueInput!]
 }
 
+input CompanyRoleCreateNestedOneWithoutAdminsInput {
+	connect: CompanyRoleWhereUniqueInput
+}
+
 input CompanyRoleCreateNestedOneWithoutUsersInput {
 	connect: CompanyRoleWhereUniqueInput
 }
@@ -1331,6 +1342,7 @@ input CompanyRoleOrderByRelationAggregateInput {
 }
 
 input CompanyRoleOrderByWithRelationInput {
+	admins: AdminCompanyOrderByRelationAggregateInput
 	code: SortOrder
 	company: CompanyOrderByWithRelationInput
 	companyId: SortOrderInput
@@ -1363,6 +1375,10 @@ input CompanyRoleUpdateManyWithoutCompanyNestedInput {
 	disconnect: [CompanyRoleWhereUniqueInput!]
 }
 
+input CompanyRoleUpdateOneRequiredWithoutAdminsNestedInput {
+	connect: CompanyRoleWhereUniqueInput
+}
+
 input CompanyRoleUpdateOneRequiredWithoutUsersNestedInput {
 	connect: CompanyRoleWhereUniqueInput
 }
@@ -1371,6 +1387,7 @@ input CompanyRoleWhereInput {
 	AND: [CompanyRoleWhereInput!]
 	NOT: [CompanyRoleWhereInput!]
 	OR: [CompanyRoleWhereInput!]
+	admins: AdminCompanyListRelationFilter
 	code: StringFilter
 	company: CompanyNullableScalarRelationFilter
 	companyId: StringNullableFilter
@@ -1385,6 +1402,7 @@ input CompanyRoleWhereInput {
 }
 
 input CompanyRoleWhereUniqueInput {
+	admins: AdminCompanyListRelationFilter
 	code: StringFilter
 	company: CompanyNullableScalarRelationFilter
 	companyId: StringNullableFilter

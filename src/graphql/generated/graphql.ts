@@ -46,7 +46,8 @@ export type AdminCompany = {
   company: Company;
   companyId: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
-  permissions?: Maybe<Array<Scalars['String']['output']>>;
+  role: CompanyRole;
+  roleId: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -61,14 +62,14 @@ export type AdminCompanyCountAggregate = {
   adminId: Scalars['Int']['output'];
   companyId: Scalars['Int']['output'];
   createdAt: Scalars['Int']['output'];
-  permissions: Scalars['Int']['output'];
+  roleId: Scalars['Int']['output'];
   updatedAt: Scalars['Int']['output'];
 };
 
 export type AdminCompanyCreateInput = {
   admin: AdminCreateNestedOneWithoutCompaniesInput;
   company: CompanyCreateNestedOneWithoutAdminsInput;
-  permissions?: InputMaybe<Array<Scalars['String']['input']>>;
+  role: CompanyRoleCreateNestedOneWithoutAdminsInput;
 };
 
 export type AdminCompanyCreateNestedManyWithoutCompanyInput = {
@@ -86,6 +87,7 @@ export type AdminCompanyMaxAggregate = {
   adminId?: Maybe<Scalars['String']['output']>;
   companyId?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
+  roleId?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
@@ -94,6 +96,7 @@ export type AdminCompanyMinAggregate = {
   adminId?: Maybe<Scalars['String']['output']>;
   companyId?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
+  roleId?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
@@ -107,7 +110,8 @@ export type AdminCompanyOrderByWithRelationInput = {
   company?: InputMaybe<CompanyOrderByWithRelationInput>;
   companyId?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
-  permissions?: InputMaybe<SortOrder>;
+  role?: InputMaybe<CompanyRoleOrderByWithRelationInput>;
+  roleId?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
 
@@ -115,14 +119,14 @@ export enum AdminCompanyScalarFieldEnum {
   AdminId = 'adminId',
   CompanyId = 'companyId',
   CreatedAt = 'createdAt',
-  Permissions = 'permissions',
+  RoleId = 'roleId',
   UpdatedAt = 'updatedAt'
 }
 
 export type AdminCompanyUpdateInput = {
   admin?: InputMaybe<AdminUpdateOneRequiredWithoutCompaniesNestedInput>;
   company?: InputMaybe<CompanyUpdateOneRequiredWithoutAdminsNestedInput>;
-  permissions?: InputMaybe<Array<Scalars['String']['input']>>;
+  role?: InputMaybe<CompanyRoleUpdateOneRequiredWithoutAdminsNestedInput>;
 };
 
 export type AdminCompanyUpdateManyWithoutCompanyNestedInput = {
@@ -139,7 +143,8 @@ export type AdminCompanyWhereInput = {
   company?: InputMaybe<CompanyScalarRelationFilter>;
   companyId?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  permissions?: InputMaybe<StringNullableListFilter>;
+  role?: InputMaybe<CompanyRoleScalarRelationFilter>;
+  roleId?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
 };
 
@@ -149,7 +154,8 @@ export type AdminCompanyWhereUniqueInput = {
   adminId?: InputMaybe<StringFilter>;
   company?: InputMaybe<CompanyScalarRelationFilter>;
   companyId?: InputMaybe<StringFilter>;
-  permissions?: InputMaybe<StringNullableListFilter>;
+  role?: InputMaybe<CompanyRoleScalarRelationFilter>;
+  roleId?: InputMaybe<StringFilter>;
 };
 
 export type AdminCountAggregate = {
@@ -645,6 +651,7 @@ export type CompanyOrderByWithRelationInput = {
 
 export type CompanyRole = {
   __typename?: 'CompanyRole';
+  admins?: Maybe<Array<AdminCompany>>;
   code: Scalars['String']['output'];
   company?: Maybe<Company>;
   companyId?: Maybe<Scalars['String']['output']>;
@@ -690,6 +697,10 @@ export type CompanyRoleCreateNestedManyWithoutCompanyInput = {
   connect?: InputMaybe<Array<CompanyRoleWhereUniqueInput>>;
 };
 
+export type CompanyRoleCreateNestedOneWithoutAdminsInput = {
+  connect?: InputMaybe<CompanyRoleWhereUniqueInput>;
+};
+
 export type CompanyRoleCreateNestedOneWithoutUsersInput = {
   connect?: InputMaybe<CompanyRoleWhereUniqueInput>;
 };
@@ -729,6 +740,7 @@ export type CompanyRoleOrderByRelationAggregateInput = {
 };
 
 export type CompanyRoleOrderByWithRelationInput = {
+  admins?: InputMaybe<AdminCompanyOrderByRelationAggregateInput>;
   code?: InputMaybe<SortOrder>;
   company?: InputMaybe<CompanyOrderByWithRelationInput>;
   companyId?: InputMaybe<SortOrderInput>;
@@ -773,6 +785,10 @@ export type CompanyRoleUpdateManyWithoutCompanyNestedInput = {
   disconnect?: InputMaybe<Array<CompanyRoleWhereUniqueInput>>;
 };
 
+export type CompanyRoleUpdateOneRequiredWithoutAdminsNestedInput = {
+  connect?: InputMaybe<CompanyRoleWhereUniqueInput>;
+};
+
 export type CompanyRoleUpdateOneRequiredWithoutUsersNestedInput = {
   connect?: InputMaybe<CompanyRoleWhereUniqueInput>;
 };
@@ -781,6 +797,7 @@ export type CompanyRoleWhereInput = {
   AND?: InputMaybe<Array<CompanyRoleWhereInput>>;
   NOT?: InputMaybe<Array<CompanyRoleWhereInput>>;
   OR?: InputMaybe<Array<CompanyRoleWhereInput>>;
+  admins?: InputMaybe<AdminCompanyListRelationFilter>;
   code?: InputMaybe<StringFilter>;
   company?: InputMaybe<CompanyNullableScalarRelationFilter>;
   companyId?: InputMaybe<StringNullableFilter>;
@@ -795,6 +812,7 @@ export type CompanyRoleWhereInput = {
 };
 
 export type CompanyRoleWhereUniqueInput = {
+  admins?: InputMaybe<AdminCompanyListRelationFilter>;
   code?: InputMaybe<StringFilter>;
   company?: InputMaybe<CompanyNullableScalarRelationFilter>;
   companyId?: InputMaybe<StringNullableFilter>;
@@ -1917,7 +1935,7 @@ export type Query = {
   helloWorld: Scalars['String']['output'];
   listAdminRolePermission: PermissionInfo;
   listAuthCompanies?: Maybe<Array<Company>>;
-  listCompanyRolePermission: Array<PermissionInfo>;
+  listCompanyRolePermission: PermissionInfo;
   logout: Scalars['Boolean']['output'];
   paginateAdminCompanies: PaginatedAdminCompany;
   paginateAdminRoles: PaginatedAdminRole;
@@ -2695,10 +2713,10 @@ export type ListCompanyRolePermissionQueryVariables = Exact<{
 }>;
 
 
-export type ListCompanyRolePermissionQuery = { __typename?: 'Query', listCompanyRolePermission: Array<{ __typename?: 'PermissionInfo', allowUnselect: Array<string>, allowSelect: Array<string>, items: Array<(
+export type ListCompanyRolePermissionQuery = { __typename?: 'Query', listCompanyRolePermission: { __typename?: 'PermissionInfo', allowUnselect: Array<string>, allowSelect: Array<string>, items: Array<(
       { __typename?: 'PermissionItem' }
       & { ' $fragmentRefs'?: { 'PermissionItemFragment': PermissionItemFragment } }
-    )> }> };
+    )> } };
 
 export type PaginateCompaniesQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']['input']>;

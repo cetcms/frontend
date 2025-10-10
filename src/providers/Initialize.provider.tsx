@@ -81,7 +81,8 @@ export const InitializeProvider: React.FC<InitializeProviderProps> = ({ children
   const { registerMenus, registerTheme } = setupOptions || {};
   const { loading: menuLoading } = useRegisterMenus(registerMenus);
   const { loading: themeLoading, theme } = useRegisterTheme(registerTheme);
-  const { loading: translationsLoading } = useLoadTranslations('models');
+  const modelsI18n = useLoadTranslations('models');
+  const permissionsI18n = useLoadTranslations('permissions');
   const health = useQuery(HealthCheckDocument, {
     fetchPolicy: 'network-only',
   });
@@ -91,7 +92,7 @@ export const InitializeProvider: React.FC<InitializeProviderProps> = ({ children
     return () => clearInterval(intervalId);
   }, []);
 
-  if (menuLoading || themeLoading || translationsLoading) {
+  if (menuLoading || themeLoading || modelsI18n.loading || permissionsI18n.loading) {
     return <Loading native />;
   }
 
