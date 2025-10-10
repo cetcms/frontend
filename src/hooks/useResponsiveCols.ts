@@ -1,13 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
+
 import { useResizeObserver } from './useResizeObserver';
 
 export interface ResponsiveColsOptions {
   minWidth: number;
 }
 
-export const useResponsiveCols = ({
-  minWidth,
-}: ResponsiveColsOptions): [React.MutableRefObject<null>, number] => {
+export const useResponsiveCols = ({ minWidth }: ResponsiveColsOptions): [React.MutableRefObject<null>, number] => {
   const [cols, setCols] = useState(0);
   const [ref, rect] = useResizeObserver();
   useEffect(() => {

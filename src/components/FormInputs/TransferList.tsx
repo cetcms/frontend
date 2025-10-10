@@ -9,7 +9,6 @@ import {
   Group,
   InputWrapper,
   InputWrapperProps,
-  Paper,
   ScrollArea,
   Stack,
   TextInput,

@@ -1,9 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-export const useResizeObserver = (): [
-  React.Ref<null>,
-  DOMRectReadOnly | undefined,
-] => {
+export const useResizeObserver = (): [React.Ref<null>, DOMRectReadOnly | undefined] => {
   const ref = useRef(null);
   const [rect, setRect] = useState<DOMRectReadOnly>();
   useEffect(() => {

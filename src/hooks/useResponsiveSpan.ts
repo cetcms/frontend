@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 import { useResizeObserver } from './useResizeObserver';
 
 export interface ResponsiveColumnOptions {
