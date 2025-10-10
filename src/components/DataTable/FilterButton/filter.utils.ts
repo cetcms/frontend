@@ -56,6 +56,14 @@ export const getOperatorsByFieldType = (fieldType: FieldConfig['type']) => {
         { value: 'in', label: '在...之中' },
         { value: 'notIn', label: '不在...之中' },
       ];
+    case 'array':
+      return [
+        { value: 'equals', label: '等于' },
+        { value: 'has', label: '包含元素' },
+        { value: 'hasEvery', label: '包含所有元素' },
+        { value: 'hasSome', label: '包含某些元素' },
+        { value: 'isEmpty', label: '为空' },
+      ];
     default:
       return Object.entries(OPERATORS).map(([value, label]) => ({ value, label }));
   }
@@ -76,12 +84,13 @@ export const createNewFilter = (fields: FieldConfig[]) => {
 
   const defaultOperator = getDefaultOperator(firstField.type);
   // 对于 in 和 notIn 操作符，初始值应该是空数组
-  const initialValue = defaultOperator === 'in' || defaultOperator === 'notIn' ? [] : '';
+  const initialValue =
+    defaultOperator === 'in' || defaultOperator === 'notIn' ? [] : defaultOperator === 'isEmpty' ? true : '';
   return { id: Date.now(), field: firstField.accessor, operator: defaultOperator, value: initialValue };
 };
 
 // 生成 Prisma 查询结构
-export const generatePrismaFilter = (filterFields: any[], logicOperator: 'AND' | 'OR') => {
+export const generatePrismaFilter = (filterFields: any[], logicOperator: 'AND' | 'OR', fields: FieldConfig[] = []) => {
   const where: any = {};
 
   // 只有当有过滤条件时才添加逻辑操作符
@@ -91,9 +100,38 @@ export const generatePrismaFilter = (filterFields: any[], logicOperator: 'AND' |
     filterFields.forEach((filter) => {
       if (filter.field) {
         const condition: any = {};
+        const fieldConfig = fields.find((f) => f.accessor === filter.field); // 获取字段配置
 
+        // 处理 array 类型字段
+        if (fieldConfig && fieldConfig.type === 'array') {
+          switch (filter.operator) {
+            case 'isEmpty':
+              // isEmpty 操作符只需要布尔值
+              condition[filter.operator] = filter.value;
+              break;
+            case 'has':
+              // has 操作符需要单个值
+              condition[filter.operator] = filter.value;
+              break;
+            default:
+              // equals, hasEvery, hasSome 操作符需要数组值
+              // 处理逗号分隔的字符串值
+              if (typeof filter.value === 'string') {
+                condition[filter.operator] = filter.value
+                  .split(',')
+                  .map((item: string) => item.trim())
+                  .filter((item: string) => item !== '');
+              } else if (Array.isArray(filter.value)) {
+                condition[filter.operator] = filter.value;
+              } else if (filter.value) {
+                condition[filter.operator] = [filter.value];
+              } else {
+                condition[filter.operator] = [];
+              }
+          }
+        }
         // 处理 in 和 notIn 操作符，确保值是数组
-        if (filter.operator === 'in' || filter.operator === 'notIn') {
+        else if (filter.operator === 'in' || filter.operator === 'notIn') {
           // 确保值是数组格式
           if (Array.isArray(filter.value)) {
             condition[filter.operator] = filter.value;

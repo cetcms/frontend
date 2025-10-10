@@ -54,19 +54,37 @@ export const FilterButton: React.FC<FilterButtonProps> = ({ fields = [], onFilte
           if (fieldConfig) {
             const defaultOperator = getDefaultOperator(fieldConfig.type);
             // 对于 in 和 notIn 操作符，值应该是数组
-            const newValue = defaultOperator === 'in' || defaultOperator === 'notIn' ? [] : '';
+            const newValue =
+              defaultOperator === 'in' || defaultOperator === 'notIn' ? [] : defaultOperator === 'isEmpty' ? true : '';
             return { ...filter, [property]: value, operator: defaultOperator, value: newValue };
           }
         }
-        // 如果更改的是操作符，需要检查是否为 in/notIn 来调整值的类型
+        // 如果更改的是操作符，需要检查操作符类型来调整值的类型
         else if (property === 'operator') {
-          // 如果新操作符是 in 或 notIn，而当前值不是数组，则将值转换为数组
-          if ((value === 'in' || value === 'notIn') && !Array.isArray(filter.value)) {
-            return { ...filter, [property]: value, value: [] };
-          }
-          // 如果新操作符不是 in 或 notIn，而当前值是数组，则取第一个值或空字符串
-          else if (value !== 'in' && value !== 'notIn' && Array.isArray(filter.value)) {
-            return { ...filter, [property]: value, value: filter.value.length > 0 ? filter.value[0] : '' };
+          const fieldConfig = fields.find((f) => f.accessor === filter.field);
+          if (fieldConfig) {
+            // 处理 array 类型字段
+            if (fieldConfig.type === 'array') {
+              switch (value) {
+                case 'isEmpty':
+                  // isEmpty 操作符需要布尔值
+                  return { ...filter, [property]: value, value: true };
+                default:
+                  // 所有其他操作符使用字符串值
+                  return { ...filter, [property]: value, value: Array.isArray(filter.value) ? '' : filter.value };
+              }
+            }
+            // 处理 in/notIn 操作符
+            else if (value === 'in' || value === 'notIn') {
+              // 如果新操作符是 in 或 notIn，而当前值不是数组，则将值转换为数组
+              if (!Array.isArray(filter.value)) {
+                return { ...filter, [property]: value, value: [] };
+              }
+            }
+            // 如果新操作符不是 in 或 notIn，而当前值是数组，则取第一个值或空字符串
+            else if (value !== 'in' && value !== 'notIn' && Array.isArray(filter.value)) {
+              return { ...filter, [property]: value, value: filter.value.length > 0 ? filter.value[0] : '' };
+            }
           }
         }
         return { ...filter, [property]: value };
@@ -87,7 +105,7 @@ export const FilterButton: React.FC<FilterButtonProps> = ({ fields = [], onFilte
       return;
     }
 
-    const prismaFilter = generatePrismaFilter(filterFields, logicOperator);
+    const prismaFilter = generatePrismaFilter(filterFields, logicOperator, fields);
     if (onFilterChange) {
       onFilterChange(prismaFilter);
     }

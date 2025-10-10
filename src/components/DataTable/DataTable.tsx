@@ -24,6 +24,7 @@ export type DataTableProps = {
   viewRoute?: ActionColumnProps['viewRoute'];
   onChangeRequest?: (params: RequestParams) => void;
   onDeleteItem?: (item: any) => any;
+  render?: (record: any, index: number) => React.ReactNode;
   columns: Array<
     DataTableColumn & {
       type?: FieldConfig['type'];
@@ -121,6 +122,7 @@ export const DataTable: React.FC<DataTableProps> = ({
         title: String(col.title),
         accessor: col.accessor,
         type: col.type,
+        options: col.options,
       });
     }
     return res;

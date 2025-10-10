@@ -1,10 +1,10 @@
-import { ActionIcon, Group, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Badge, Group, Text, Tooltip } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconClock, IconHash } from '@tabler/icons-react';
 import { useCopyToClipboard } from '@uidotdev/usehooks';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
-import { DataTableProps, Status } from 'src/components';
+import { DataTableProps } from 'src/components';
 
 export const columnsHandler = (columns: DataTableProps['columns']) => {
   return columns.map((column) => {
@@ -27,10 +27,17 @@ export const columnsHandler = (columns: DataTableProps['columns']) => {
       return column;
     }
 
-    if (column.accessor === 'status') {
+    if (column.type === 'enum') {
       column.width = 150;
       column.textAlign = 'center';
-      column.render = (item: any) => <Status status={item.status} />;
+      column.render = (item: any) => {
+        const option = column.options?.find((option: any) => option.value === item[column.accessor]);
+        return (
+          <Badge color={option?.color} variant="light">
+            {option?.label}
+          </Badge>
+        );
+      };
       return column;
     }
 

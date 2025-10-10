@@ -1,7 +1,8 @@
 import { useQuery } from '@apollo/client/react';
+import { Badge } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { DataTable } from 'src/components';
-import { PaginateCompanyRolesDocument, PaginationFragment, Status } from 'src/graphql';
+import { AdminRole, PaginateCompanyRolesDocument, PaginationFragment, Status } from 'src/graphql';
 
 export const CompanyRolePage = () => {
   const { t } = useTranslation('models');
@@ -40,6 +41,17 @@ export const CompanyRolePage = () => {
           accessor: 'code',
           title: t('CompanyRole.code'),
           type: 'string',
+        },
+        {
+          accessor: 'permissions',
+          title: t('AdminRole.permissions'),
+          type: 'array',
+          textAlign: 'center',
+          width: '120px',
+          render(_item) {
+            const item: AdminRole = _item as any;
+            return <Badge variant="light">{item.permissions?.length || 0} 项</Badge>;
+          },
         },
         {
           accessor: 'status',

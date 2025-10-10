@@ -1,4 +1,4 @@
-import { Button, Group, Select, TextInput, NumberInput, SegmentedControl, MultiSelect } from '@mantine/core';
+import { Button, Group, Select, TextInput, NumberInput, SegmentedControl, MultiSelect, Checkbox } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
 import React from 'react';
 
@@ -107,6 +107,37 @@ export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, on
             clearable
           />
         );
+      }
+
+      case 'array': {
+        // 根据操作符类型决定使用哪种输入控件
+        switch (filter.operator) {
+          case 'isEmpty':
+            // isEmpty 使用与boolean类型相同的输入控件
+            return (
+              <SegmentedControl
+                w={size === 'xs' ? 130 : 200}
+                size={size}
+                onChange={(value) => onUpdate(filter.id, 'value', value === 'true')}
+                value={filter.value.toString()}
+                data={[
+                  { label: 'False', value: 'false' },
+                  { label: 'True', value: 'true' },
+                ]}
+              />
+            );
+          default:
+            // 所有其他操作符使用逗号分隔的文本输入框
+            return (
+              <TextInput
+                w={size === 'xs' ? 130 : 200}
+                size={size}
+                placeholder="多个值用逗号分隔"
+                value={Array.isArray(filter.value) ? filter.value.join(', ') : filter.value}
+                onChange={(e) => onUpdate(filter.id, 'value', e.target.value)}
+              />
+            );
+        }
       }
 
       default: // string 类型

@@ -1,30 +1,28 @@
 import { useQuery } from '@apollo/client/react';
+import { Badge } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { DataTable } from 'src/components';
-import { PaginateAdminRolesDocument, PaginationFragment, Status } from 'src/graphql';
+import { AdminRole, PaginateAdminRolesDocument, PaginationFragment, Status } from 'src/graphql';
 
 export const AdminRolePage = () => {
   const { t } = useTranslation('models');
-  const { data, loading, refetch } = useQuery(PaginateAdminRolesDocument, {
+  const adminRoles = useQuery(PaginateAdminRolesDocument, {
     fetchPolicy: 'network-only',
   });
-  const { paginateAdminRoles } = data || {};
-  const pagination = (paginateAdminRoles?.pagination || {}) as PaginationFragment;
-  const items = paginateAdminRoles?.items || [];
   return (
     <DataTable
       editRoute={{ path: '/admin/role/edit', paramFields: { id: 'id' } }}
       addRoutePath="/admin/role/add"
       onChangeRequest={(params) => {
-        refetch({
+        adminRoles.refetch({
           take: params.take,
           skip: params.skip,
           where: params.where,
         });
       }}
-      loading={loading}
-      pagination={pagination}
-      records={items}
+      loading={adminRoles.loading}
+      pagination={adminRoles.data?.paginateAdminRoles?.pagination as PaginationFragment}
+      records={adminRoles.data?.paginateAdminRoles?.items || []}
       columns={[
         {
           accessor: 'id',
@@ -40,6 +38,16 @@ export const AdminRolePage = () => {
           accessor: 'code',
           title: t('AdminRole.code'),
           type: 'string',
+        },
+        {
+          accessor: 'permissions',
+          title: t('AdminRole.permissions'),
+          type: 'array',
+          textAlign: 'center',
+          render(_item) {
+            const item: AdminRole = _item as any;
+            return <Badge variant="light">{item.permissions?.length || 0} 项</Badge>;
+          },
         },
         {
           accessor: 'status',
