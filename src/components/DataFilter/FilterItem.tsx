@@ -2,7 +2,7 @@ import { Button, Group, Select } from '@mantine/core';
 import React from 'react';
 
 import { StringInput, NumberInput, DateInput, BooleanInput, EnumInput, ArrayInput } from './components';
-import { FieldConfig } from './types';
+import { FilterFieldConfig } from './types';
 import { getOperatorsByFieldType } from './utils';
 
 interface FilterItemProps {
@@ -12,7 +12,7 @@ interface FilterItemProps {
     operator: string;
     value: any;
   };
-  fields: FieldConfig[];
+  fields: FilterFieldConfig[];
   size: 'xs' | 'sm';
   onUpdate: (id: number, property: string, value: any) => void;
   onRemove: (id: number) => void;

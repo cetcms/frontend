@@ -1,4 +1,4 @@
-import { FieldConfig } from './types';
+import { FilterFieldConfig } from './types';
 
 // Prisma 查询操作符映射
 export const OPERATORS: Record<string, string> = {
@@ -20,7 +20,7 @@ export const OPERATORS: Record<string, string> = {
 };
 
 // 根据字段类型获取可用操作符
-export const getOperatorsByFieldType = (fieldType: FieldConfig['type']) => {
+export const getOperatorsByFieldType = (fieldType: FilterFieldConfig['type']) => {
   switch (fieldType) {
     case 'string':
       return [
@@ -74,13 +74,13 @@ export const getOperatorsByFieldType = (fieldType: FieldConfig['type']) => {
 };
 
 // 获取指定字段类型的默认操作符
-export const getDefaultOperator = (fieldType: FieldConfig['type']) => {
+export const getDefaultOperator = (fieldType: FilterFieldConfig['type']) => {
   const operators = getOperatorsByFieldType(fieldType);
   return operators.length > 0 ? operators[0].value : 'equals';
 };
 
 // 创建新的过滤条件项
-export const createNewFilter = (fields: FieldConfig[]) => {
+export const createNewFilter = (fields: FilterFieldConfig[]) => {
   const firstField = fields[0];
   if (!firstField) {
     return { id: Date.now(), field: '', operator: 'equals', value: '' };
@@ -94,7 +94,11 @@ export const createNewFilter = (fields: FieldConfig[]) => {
 };
 
 // 生成 Prisma 查询结构
-export const generatePrismaFilter = (filterFields: any[], logicOperator: 'AND' | 'OR', fields: FieldConfig[] = []) => {
+export const generatePrismaFilter = (
+  filterFields: any[],
+  logicOperator: 'AND' | 'OR',
+  fields: FilterFieldConfig[] = []
+) => {
   const where: any = {};
 
   // 只有当有过滤条件时才添加逻辑操作符

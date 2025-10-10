@@ -2,13 +2,13 @@ import { Button, Popover } from '@mantine/core';
 import { IconFilter2Search } from '@tabler/icons-react';
 import React, { useState } from 'react';
 
-import { DataFilter, DataFilterProps } from '../DataFilter';
-import { FilterItemConfig } from '../DataFilter/types';
+import { FilterItemConfig, DataFilter, DataFilterProps } from '../DataFilter';
 
 export interface FilterButtonProps {
   fields?: DataFilterProps['fields'];
   onFilterChange?: DataFilterProps['onFilterChange'];
   size?: 'xs' | 'sm';
+  config?: FilterItemConfig;
 }
 
 export const FilterButton: React.FC<FilterButtonProps> = ({ fields = [], onFilterChange, size = 'xs' }) => {

@@ -1,13 +1,13 @@
 import { Select, MultiSelect } from '@mantine/core';
 import React from 'react';
 
-import { FieldConfig } from '../types';
+import { FilterFieldConfig } from '../types';
 
 interface EnumInputProps {
   value: string | string[];
   onChange: (value: string | string[] | null) => void;
   size: 'xs' | 'sm';
-  fieldConfig: FieldConfig;
+  fieldConfig: FilterFieldConfig;
   operator: string;
   placeholder?: string;
 }

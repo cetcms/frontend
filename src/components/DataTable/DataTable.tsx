@@ -4,10 +4,11 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pagination, PaginationFragment } from 'src/graphql';
 
+import { FilterFieldConfig } from '../DataFilter';
+
 import { ActionColumn, ActionColumnProps } from './ActionColumn';
 import { columnsHandler } from './columns.handler';
 import { DataToolbar } from './DataToolbar';
-import { FieldConfig } from './FilterButton';
 
 export type RequestParams = {
   page: number;
@@ -27,8 +28,8 @@ export type DataTableProps = {
   render?: (record: any, index: number) => React.ReactNode;
   columns: Array<
     DataTableColumn & {
-      type?: FieldConfig['type'];
-      options?: FieldConfig['options'];
+      type?: FilterFieldConfig['type'];
+      options?: FilterFieldConfig['options'];
     }
   >;
 } & MDataTableProps;
@@ -116,7 +117,7 @@ export const DataTable: React.FC<DataTableProps> = ({
     });
   }
 
-  const filterFields = props.columns.reduce((res: FieldConfig[], col) => {
+  const filterFields = props.columns.reduce((res: FilterFieldConfig[], col) => {
     if (col.type) {
       res.push({
         title: String(col.title),

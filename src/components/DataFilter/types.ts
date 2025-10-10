@@ -1,7 +1,7 @@
 // 定义字段类型
 import { MantineColor } from '@mantine/core';
 
-export interface FieldConfig {
+export interface FilterFieldConfig {
   accessor: string;
   title: string;
   type: 'string' | 'number' | 'enum' | 'date' | 'boolean' | 'array';

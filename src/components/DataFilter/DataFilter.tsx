@@ -3,11 +3,11 @@ import { useForm } from '@mantine/form';
 import React, { useState, useEffect } from 'react';
 
 import { FilterItem } from './FilterItem';
-import { FieldConfig, FilterItemConfig } from './types';
+import { FilterFieldConfig, FilterItemConfig } from './types';
 import { createNewFilter, generatePrismaFilter, getDefaultOperator } from './utils';
 
 export interface DataFilterProps {
-  fields?: FieldConfig[];
+  fields?: FilterFieldConfig[];
   onFilterChange?: (filter: any) => void;
   size?: 'xs' | 'sm';
   onClose?: () => void;
@@ -17,15 +17,15 @@ export interface DataFilterProps {
   setLogicOperator?: React.Dispatch<React.SetStateAction<'AND' | 'OR'>>;
 }
 
-export const DataFilter: React.FC<DataFilterProps> = ({ 
-  fields = [], 
-  onFilterChange, 
-  size = 'xs', 
+export const DataFilter: React.FC<DataFilterProps> = ({
+  fields = [],
+  onFilterChange,
+  size = 'xs',
   onClose,
   filterFields: externalFilterFields,
   setFilterFields: setExternalFilterFields,
   logicOperator: externalLogicOperator,
-  setLogicOperator: setExternalLogicOperator
+  setLogicOperator: setExternalLogicOperator,
 }) => {
   // 获取字段列表
   const [internalFilterFields, setInternalFilterFields] = useState<FilterItemConfig[]>([]);
