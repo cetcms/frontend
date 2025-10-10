@@ -30,7 +30,11 @@ export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
   const navigate = useNavigate();
   const [createAdminRole, { loading: creating }] = useMutation(CreateOneAdminRoleDocument);
   const [updateAdminRole, { loading: updating }] = useMutation(UpdateOneAdminRoleDocument);
-  const permissions = useQuery(ListAdminRolePermissionDocument);
+  const permissions = useQuery(ListAdminRolePermissionDocument, {
+    variables: {
+      where: item?.id ? { id: item?.id } : undefined,
+    },
+  });
 
   const [parseHandler, { errors, resetErrors }] = useParseApolloErrors();
 
@@ -130,13 +134,8 @@ export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
                 label={t('AdminRole.permissions')}
                 loading={permissions.loading}
                 permissions={(permissions.data?.listAdminRolePermission?.items || []) as PermissionItem[]}
-                enabledUnselect={[
-                  'UserResolver:findOneUser',
-                  'UserResolver:paginateUsers',
-                  'UserResolver:createOneUser',
-                  'UserResolver:updateOneUser',
-                ]}
-                enabledSelect={[]}
+                allowUnselect={permissions.data?.listAdminRolePermission?.allowUnselect}
+                allowSelect={permissions.data?.listAdminRolePermission?.allowSelect}
                 {...form.getInputProps('permissions')}
               />
             </Grid.Col>

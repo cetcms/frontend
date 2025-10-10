@@ -28,13 +28,13 @@ mutation UpdateOneAdminRole($id: String!, $data: AdminRoleUpdateInput!) {
 	}
 }
 
-query ListAdminRolePermission {
-	listAdminRolePermission {
+query ListAdminRolePermission($where: AdminRoleWhereUniqueInput) {
+	listAdminRolePermission(where: $where) {
+		allowUnselect
+		allowSelect
 		items {
 			...PermissionItem
 		}
-		disabledSelect
-		disabledUnselect
 	}
 }
 

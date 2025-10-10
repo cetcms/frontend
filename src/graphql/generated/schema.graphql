@@ -608,8 +608,8 @@ type Pagination {
 }
 
 type PermissionInfo {
-	disabledSelect: [String!]!
-	disabledUnselect: [String!]!
+	allowSelect: [String!]!
+	allowUnselect: [String!]!
 	items: [PermissionItem!]!
 }
 

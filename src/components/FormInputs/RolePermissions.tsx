@@ -18,8 +18,8 @@ export type RolePermissionsProps = InputWrapperProps & {
   value?: string[];
   onChange?: (value: string[]) => void;
   disabled?: boolean; // 组件级禁用
-  enabledSelect?: string[]; // 允许选中的action
-  enabledUnselect?: string[]; // 允许取消选中的action
+  allowSelect?: string[]; // 允许选中的action
+  allowUnselect?: string[]; // 允许取消选中的action
   permissions?: PermissionItem[];
   loading?: boolean;
 };
@@ -88,8 +88,8 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
   value = [],
   onChange,
   disabled = false,
-  enabledSelect = undefined,
-  enabledUnselect = undefined,
+  allowSelect = undefined,
+  allowUnselect = undefined,
   permissions = [],
   loading = false,
   ...props
@@ -114,8 +114,8 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
     // 如果action被禁用，则不处理变化
     if (
       disabled ||
-      (checked && enabledSelect !== undefined && !enabledSelect.includes(actionValue)) ||
-      (!checked && enabledUnselect !== undefined && !enabledUnselect.includes(actionValue))
+      (checked && allowSelect !== undefined && !allowSelect.includes(actionValue)) ||
+      (!checked && allowUnselect !== undefined && !allowUnselect.includes(actionValue))
     ) {
       return;
     }
@@ -141,7 +141,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
     if (checked) {
       // 添加所有允许选中的子项
       actionValues.forEach((value) => {
-        if (!newCheckedValues.includes(value) && (enabledSelect === undefined || enabledSelect.includes(value))) {
+        if (!newCheckedValues.includes(value) && (allowSelect === undefined || allowSelect.includes(value))) {
           newCheckedValues.push(value);
         }
       });
@@ -149,7 +149,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
       // 移除所有允许取消选中的子项
       newCheckedValues = newCheckedValues.filter((value) => {
         // 如果action不允许取消选中，保持原状态
-        if (enabledUnselect !== undefined && !enabledUnselect.includes(value)) {
+        if (allowUnselect !== undefined && !allowUnselect.includes(value)) {
           return true;
         }
         // 否则根据操作决定是否移除
@@ -182,7 +182,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
     if (checked) {
       // 添加所有允许选中的子项
       allActionValues.forEach((value) => {
-        if (!newCheckedValues.includes(value) && (enabledSelect === undefined || enabledSelect.includes(value))) {
+        if (!newCheckedValues.includes(value) && (allowSelect === undefined || allowSelect.includes(value))) {
           newCheckedValues.push(value);
         }
       });
@@ -190,7 +190,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
       // 移除所有允许取消选中的子项
       newCheckedValues = newCheckedValues.filter((value) => {
         // 如果action不允许取消选中，保持原状态
-        if (enabledUnselect !== undefined && !enabledUnselect.includes(value)) {
+        if (allowUnselect !== undefined && !allowUnselect.includes(value)) {
           return true;
         }
         // 否则根据操作决定是否移除
@@ -251,14 +251,14 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
       return false;
     }
 
-    // 当enabledSelect未定义时，表示所有都可以选中，所以没有禁用选中的项
-    if (enabledSelect === undefined) {
+    // 当allowSelect未定义时，表示所有都可以选中，所以没有禁用选中的项
+    if (allowSelect === undefined) {
       return false;
     }
 
-    // 检查所有操作节点是否都被禁用选中（不在enabledSelect中且未被选中）
+    // 检查所有操作节点是否都被禁用选中（不在allowSelect中且未被选中）
     return node.children.every((child) => {
-      return !enabledSelect.includes(child.value) && !checkedValues.includes(child.value);
+      return !allowSelect.includes(child.value) && !checkedValues.includes(child.value);
     });
   };
 
@@ -274,14 +274,14 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
       return false;
     }
 
-    // 当enabledUnselect未定义时，表示所有都可以取消选中，所以没有禁用取消选中的项
-    if (enabledUnselect === undefined) {
+    // 当allowUnselect未定义时，表示所有都可以取消选中，所以没有禁用取消选中的项
+    if (allowUnselect === undefined) {
       return false;
     }
 
-    // 检查所有操作节点是否都被禁用取消选中（不在enabledUnselect中且已被选中）
+    // 检查所有操作节点是否都被禁用取消选中（不在allowUnselect中且已被选中）
     return node.children.every((child) => {
-      return !enabledUnselect.includes(child.value) && checkedValues.includes(child.value);
+      return !allowUnselect.includes(child.value) && checkedValues.includes(child.value);
     });
   };
 
@@ -299,12 +299,12 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
 
     // 检查所有操作节点是否都实际禁用
     return node.children.every((child) => {
-      // 如果enabledSelect定义了但不包含该值，且未选中，则禁用选中
+      // 如果allowSelect定义了但不包含该值，且未选中，则禁用选中
       const isDisabledSelect =
-        enabledSelect !== undefined && !enabledSelect.includes(child.value) && !checkedValues.includes(child.value);
-      // 如果enabledUnselect定义了但不包含该值，且已选中，则禁用取消选中
+        allowSelect !== undefined && !allowSelect.includes(child.value) && !checkedValues.includes(child.value);
+      // 如果allowUnselect定义了但不包含该值，且已选中，则禁用取消选中
       const isDisabledUnselect =
-        enabledUnselect !== undefined && !enabledUnselect.includes(child.value) && checkedValues.includes(child.value);
+        allowUnselect !== undefined && !allowUnselect.includes(child.value) && checkedValues.includes(child.value);
       // 只有当禁用选中且禁用取消选中同时满足，或者其中一种满足且无法更改状态时才视为实际禁用
       return isDisabledSelect || isDisabledUnselect;
     });
@@ -352,10 +352,8 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
       if (!node.children || node.children.length === 0) {
         const isActionDisabled =
           disabled ||
-          (checkedValues.includes(node.value) &&
-            enabledUnselect !== undefined &&
-            !enabledUnselect.includes(node.value)) ||
-          (!checkedValues.includes(node.value) && enabledSelect !== undefined && !enabledSelect.includes(node.value));
+          (checkedValues.includes(node.value) && allowUnselect !== undefined && !allowUnselect.includes(node.value)) ||
+          (!checkedValues.includes(node.value) && allowSelect !== undefined && !allowSelect.includes(node.value));
         return (
           <Box key={node.id} onClick={(event) => event.stopPropagation()}>
             <Checkbox
