@@ -1,9 +1,9 @@
 import { Button, Group, SegmentedControl } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { FilterItem } from './FilterItem';
-import { FieldConfig } from './types';
+import { FieldConfig, FilterItemConfig } from './types';
 import { createNewFilter, generatePrismaFilter, getDefaultOperator } from './utils';
 
 export interface DataFilterProps {
@@ -11,22 +11,42 @@ export interface DataFilterProps {
   onFilterChange?: (filter: any) => void;
   size?: 'xs' | 'sm';
   onClose?: () => void;
+  filterFields?: FilterItemConfig[];
+  setFilterFields?: React.Dispatch<React.SetStateAction<FilterItemConfig[]>>;
+  logicOperator?: 'AND' | 'OR';
+  setLogicOperator?: React.Dispatch<React.SetStateAction<'AND' | 'OR'>>;
 }
 
-export const DataFilter: React.FC<DataFilterProps> = ({ fields = [], onFilterChange, size = 'xs', onClose }) => {
+export const DataFilter: React.FC<DataFilterProps> = ({ 
+  fields = [], 
+  onFilterChange, 
+  size = 'xs', 
+  onClose,
+  filterFields: externalFilterFields,
+  setFilterFields: setExternalFilterFields,
+  logicOperator: externalLogicOperator,
+  setLogicOperator: setExternalLogicOperator
+}) => {
   // 获取字段列表
-  const [filterFields, setFilterFields] = useState<Array<{ id: number; field: string; operator: string; value: any }>>(
-    []
-  );
+  const [internalFilterFields, setInternalFilterFields] = useState<FilterItemConfig[]>([]);
+  const filterFields = externalFilterFields ?? internalFilterFields;
+  const setFilterFields = setExternalFilterFields ?? setInternalFilterFields;
 
   // 添加逻辑操作符状态 (AND/OR)
-  const [logicOperator, setLogicOperator] = useState<'AND' | 'OR'>('AND');
+  const [internalLogicOperator, setInternalLogicOperator] = useState<'AND' | 'OR'>('AND');
+  const logicOperator = externalLogicOperator ?? internalLogicOperator;
+  const setLogicOperator = setExternalLogicOperator ?? setInternalLogicOperator;
 
   const form = useForm({
     initialValues: {
       filters: filterFields,
     },
   });
+
+  // 当filterFields变化时更新表单值
+  useEffect(() => {
+    form.setValues({ filters: filterFields });
+  }, [filterFields]);
 
   // 添加新的过滤条件
   const addFilter = () => {

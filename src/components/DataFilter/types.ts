@@ -8,3 +8,11 @@ export interface FieldConfig {
   options?: { label: string; value: string; color?: MantineColor }[];
   operator?: string;
 }
+
+// 定义过滤器项类型
+export interface FilterItemConfig {
+  id: number;
+  field: string;
+  operator: string;
+  value: any;
+}

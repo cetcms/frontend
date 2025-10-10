@@ -1,7 +1,7 @@
-import { Button, Group, Select, TextInput, NumberInput, SegmentedControl, MultiSelect } from '@mantine/core';
-import { DateTimePicker } from '@mantine/dates';
+import { Button, Group, Select } from '@mantine/core';
 import React from 'react';
 
+import { StringInput, NumberInput, DateInput, BooleanInput, EnumInput, ArrayInput } from './components';
 import { FieldConfig } from './types';
 import { getOperatorsByFieldType } from './utils';
 
@@ -30,12 +30,11 @@ export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, on
   const renderValueInput = () => {
     if (!fieldConfig) {
       return (
-        <TextInput
-          w={size === 'xs' ? 130 : 200}
+        <StringInput
           size={size}
-          placeholder="值"
           value={filter.value}
-          onChange={(e) => onUpdate(filter.id, 'value', e.target.value)}
+          onChange={(value) => onUpdate(filter.id, 'value', value)}
+          operator={filter.operator}
         />
       );
     }
@@ -43,111 +42,55 @@ export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, on
     switch (fieldConfig.type) {
       case 'number':
         return (
-          <NumberInput
-            w={size === 'xs' ? 130 : 200}
-            size={size}
-            placeholder="值"
-            value={filter.value}
-            onChange={(value) => onUpdate(filter.id, 'value', value)}
-          />
+          <NumberInput size={size} value={filter.value} onChange={(value) => onUpdate(filter.id, 'value', value)} />
         );
 
       case 'date':
         return (
-          <DateTimePicker
-            w={size === 'xs' ? 130 : 200}
+          <DateInput
             size={size}
-            placeholder="值"
-            popoverProps={{ withinPortal: false }}
             value={filter.value ? new Date(filter.value) : null}
-            onChange={(value: any) => onUpdate(filter.id, 'value', value)}
+            onChange={(value) => onUpdate(filter.id, 'value', value)}
           />
         );
 
       case 'boolean':
         return (
-          <SegmentedControl
-            w={size === 'xs' ? 130 : 200}
+          <BooleanInput
             size={size}
-            onChange={(value) => onUpdate(filter.id, 'value', value)}
-            data={[
-              { label: 'False', value: 'false' },
-              { label: 'True', value: 'true' },
-            ]}
+            value={filter.value.toString()}
+            onChange={(value) => onUpdate(filter.id, 'value', value === 'true')}
           />
         );
 
-      case 'enum': {
-        // 检查操作符是否为 in 或 notIn，以决定是使用 MultiSelect 还是 Select
-        const isMultiSelect = filter.operator === 'in' || filter.operator === 'notIn';
-
-        if (isMultiSelect) {
-          return (
-            <MultiSelect
-              w={size === 'xs' ? 130 : 200}
-              size={size}
-              placeholder="值"
-              data={fieldConfig.options || []}
-              value={Array.isArray(filter.value) ? filter.value : filter.value ? [filter.value] : []}
-              comboboxProps={{ withinPortal: false }}
-              onChange={(value) => onUpdate(filter.id, 'value', value)}
-              clearable
-            />
-          );
-        }
+      case 'enum':
         return (
-          <Select
-            w={size === 'xs' ? 130 : 200}
+          <EnumInput
             size={size}
-            placeholder="值"
-            data={fieldConfig.options || []}
             value={filter.value}
-            comboboxProps={{ withinPortal: false }}
             onChange={(value) => onUpdate(filter.id, 'value', value)}
-            clearable
+            fieldConfig={fieldConfig}
+            operator={filter.operator}
           />
         );
-      }
 
-      case 'array': {
-        // 根据操作符类型决定使用哪种输入控件
-        switch (filter.operator) {
-          case 'isEmpty':
-            // isEmpty 使用与boolean类型相同的输入控件
-            return (
-              <SegmentedControl
-                w={size === 'xs' ? 130 : 200}
-                size={size}
-                onChange={(value) => onUpdate(filter.id, 'value', value === 'true')}
-                value={filter.value.toString()}
-                data={[
-                  { label: 'False', value: 'false' },
-                  { label: 'True', value: 'true' },
-                ]}
-              />
-            );
-          default:
-            // 所有其他操作符使用逗号分隔的文本输入框
-            return (
-              <TextInput
-                w={size === 'xs' ? 130 : 200}
-                size={size}
-                placeholder="多个值用逗号分隔"
-                value={Array.isArray(filter.value) ? filter.value.join(', ') : filter.value}
-                onChange={(e) => onUpdate(filter.id, 'value', e.target.value)}
-              />
-            );
-        }
-      }
+      case 'array':
+        return (
+          <ArrayInput
+            size={size}
+            value={filter.value}
+            onChange={(value) => onUpdate(filter.id, 'value', value)}
+            operator={filter.operator}
+          />
+        );
 
       default: // string 类型
         return (
-          <TextInput
-            w={size === 'xs' ? 130 : 200}
+          <StringInput
             size={size}
-            placeholder="值"
             value={filter.value}
-            onChange={(e) => onUpdate(filter.id, 'value', e.target.value)}
+            onChange={(value) => onUpdate(filter.id, 'value', value)}
+            operator={filter.operator}
           />
         );
     }

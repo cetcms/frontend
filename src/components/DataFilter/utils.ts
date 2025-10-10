@@ -13,6 +13,10 @@ export const OPERATORS: Record<string, string> = {
   in: '在...之中',
   not: '不等于',
   notIn: '不在...之中',
+  has: '包含元素',
+  hasEvery: '包含所有元素',
+  hasSome: '包含某些元素',
+  isEmpty: '为空',
 };
 
 // 根据字段类型获取可用操作符
