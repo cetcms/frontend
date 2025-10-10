@@ -2,8 +2,8 @@ import { Button, Group, Select, TextInput, NumberInput, SegmentedControl, MultiS
 import { DateTimePicker } from '@mantine/dates';
 import React from 'react';
 
-import { FieldConfig } from './filter.types';
-import { getOperatorsByFieldType } from './filter.utils';
+import { FieldConfig } from './types';
+import { getOperatorsByFieldType } from './utils';
 
 interface FilterItemProps {
   filter: {

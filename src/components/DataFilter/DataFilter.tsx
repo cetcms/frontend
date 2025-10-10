@@ -2,9 +2,9 @@ import { Button, Group, SegmentedControl } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React, { useState } from 'react';
 
-import { FieldConfig } from './filter.types';
-import { createNewFilter, generatePrismaFilter, getDefaultOperator } from './filter.utils';
 import { FilterItem } from './FilterItem';
+import { FieldConfig } from './types';
+import { createNewFilter, generatePrismaFilter, getDefaultOperator } from './utils';
 
 export interface DataFilterProps {
   fields?: FieldConfig[];

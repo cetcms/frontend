@@ -1,4 +1,4 @@
-import { FieldConfig } from './filter.types';
+import { FieldConfig } from './types';
 
 // Prisma 查询操作符映射
 export const OPERATORS: Record<string, string> = {
