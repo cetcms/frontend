@@ -1,5 +1,6 @@
 // 定义字段类型
 import { MantineColor } from '@mantine/core';
+import React from 'react';
 
 export interface FilterFieldConfig {
   accessor: string;
@@ -15,4 +16,11 @@ export interface FilterItemConfig {
   field: string;
   operator: string;
   value: any;
+}
+
+export interface FilterFieldType<T> {
+  component: React.FC<T>;
+  defaultOperator: string;
+  operators: Array<{ label: string; value: string }>;
+  genPrismaWhere: (items: FilterItemConfig[], fields: FilterFieldConfig[]) => any;
 }

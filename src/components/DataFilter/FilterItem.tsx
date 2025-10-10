@@ -1,9 +1,8 @@
 import { Button, Group, Select } from '@mantine/core';
 import React from 'react';
 
-import { StringInput, NumberInput, DateInput, BooleanInput, EnumInput, ArrayInput } from './components';
+import * as FieldTypes from './inputs';
 import { FilterFieldConfig } from './types';
-import { getOperatorsByFieldType } from './utils';
 
 interface FilterItemProps {
   filter: {
@@ -29,6 +28,8 @@ export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, on
   // 渲染适合字段类型的输入控件
   const renderValueInput = () => {
     if (!fieldConfig) {
+      // 默认使用 String 类型
+      const StringInput = FieldTypes.StringType.component;
       return (
         <StringInput
           size={size}
@@ -39,13 +40,17 @@ export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, on
       );
     }
 
+    // 根据字段类型渲染相应的输入组件
     switch (fieldConfig.type) {
-      case 'number':
+      case 'number': {
+        const NumberInput = FieldTypes.NumberType.component;
         return (
           <NumberInput size={size} value={filter.value} onChange={(value) => onUpdate(filter.id, 'value', value)} />
         );
+      }
 
-      case 'date':
+      case 'date': {
+        const DateInput = FieldTypes.DateType.component;
         return (
           <DateInput
             size={size}
@@ -53,17 +58,17 @@ export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, on
             onChange={(value) => onUpdate(filter.id, 'value', value)}
           />
         );
+      }
 
-      case 'boolean':
+      case 'boolean': {
+        const BooleanInput = FieldTypes.BooleanType.component;
         return (
-          <BooleanInput
-            size={size}
-            value={filter.value.toString()}
-            onChange={(value) => onUpdate(filter.id, 'value', value === 'true')}
-          />
+          <BooleanInput size={size} value={filter.value} onChange={(value) => onUpdate(filter.id, 'value', value)} />
         );
+      }
 
-      case 'enum':
+      case 'enum': {
+        const EnumInput = FieldTypes.EnumType.component;
         return (
           <EnumInput
             size={size}
@@ -73,8 +78,10 @@ export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, on
             operator={filter.operator}
           />
         );
+      }
 
-      case 'array':
+      case 'array': {
+        const ArrayInput = FieldTypes.ArrayType.component;
         return (
           <ArrayInput
             size={size}
@@ -83,8 +90,11 @@ export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, on
             operator={filter.operator}
           />
         );
+      }
 
-      default: // string 类型
+      default: {
+        // string 类型
+        const StringInput = FieldTypes.StringType.component;
         return (
           <StringInput
             size={size}
@@ -93,6 +103,27 @@ export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, on
             operator={filter.operator}
           />
         );
+      }
+    }
+  };
+
+  // 获取字段类型对应的操作符
+  const getOperators = () => {
+    if (!fieldConfig) return [];
+
+    switch (fieldConfig.type) {
+      case 'number':
+        return FieldTypes.NumberType.operators;
+      case 'date':
+        return FieldTypes.DateType.operators;
+      case 'boolean':
+        return FieldTypes.BooleanType.operators;
+      case 'enum':
+        return FieldTypes.EnumType.operators;
+      case 'array':
+        return FieldTypes.ArrayType.operators;
+      default:
+        return FieldTypes.StringType.operators;
     }
   };
 
@@ -119,12 +150,7 @@ export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, on
         value={filter.operator}
         comboboxProps={{ withinPortal: false }}
         onChange={(value) => onUpdate(filter.id, 'operator', value)}
-        data={(() => {
-          if (fieldConfig) {
-            return getOperatorsByFieldType(fieldConfig.type);
-          }
-          return [];
-        })()}
+        data={getOperators()}
       />
       {renderValueInput()}
       <Button size={size} variant="light" color="red" onClick={() => onRemove(filter.id)}>

@@ -1,7 +1,7 @@
 import { Select, MultiSelect } from '@mantine/core';
 import React from 'react';
 
-import { FilterFieldConfig } from '../types';
+import { FilterFieldType, FilterItemConfig, FilterFieldConfig } from '../types';
 
 interface EnumInputProps {
   value: string | string[];
@@ -12,7 +12,7 @@ interface EnumInputProps {
   placeholder?: string;
 }
 
-export const EnumInput: React.FC<EnumInputProps> = ({
+const EnumInputComponent: React.FC<EnumInputProps> = ({
   value,
   onChange,
   size,
@@ -50,4 +50,38 @@ export const EnumInput: React.FC<EnumInputProps> = ({
       clearable
     />
   );
+};
+
+// Enum 类型字段的操作符
+const enumOperators = [
+  { value: 'equals', label: '等于' },
+  { value: 'not', label: '不等于' },
+  { value: 'in', label: '在...之中' },
+  { value: 'notIn', label: '不在...之中' },
+];
+
+// 生成 Prisma 查询条件
+const genPrismaWhere = (items: FilterItemConfig[], fields: FilterFieldConfig[]) => {
+  return items.map((item) => {
+    const condition: any = {};
+
+    // 处理 in 和 notIn 操作符，确保值是数组
+    if ((item.operator === 'in' || item.operator === 'notIn') && !Array.isArray(item.value)) {
+      condition[item.operator] = item.value ? [item.value] : [];
+    } else {
+      condition[item.operator] = item.value;
+    }
+
+    return {
+      [item.field]: condition,
+    };
+  });
+};
+
+// Enum 字段类型的完整配置
+export const EnumType: FilterFieldType<EnumInputProps> = {
+  component: EnumInputComponent,
+  defaultOperator: 'equals',
+  operators: enumOperators,
+  genPrismaWhere,
 };

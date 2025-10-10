@@ -3,8 +3,9 @@ import { useForm } from '@mantine/form';
 import React, { useState, useEffect } from 'react';
 
 import { FilterItem } from './FilterItem';
+import * as FieldTypes from './inputs';
 import { FilterFieldConfig, FilterItemConfig } from './types';
-import { createNewFilter, generatePrismaFilter, getDefaultOperator } from './utils';
+import { createNewFilter, generatePrismaFilter } from './utils';
 
 export interface DataFilterProps {
   fields?: FilterFieldConfig[];
@@ -70,7 +71,28 @@ export const DataFilter: React.FC<DataFilterProps> = ({
         if (property === 'field') {
           const fieldConfig = fields.find((f) => f.accessor === value);
           if (fieldConfig) {
-            const defaultOperator = getDefaultOperator(fieldConfig.type);
+            // 获取字段类型对应的默认操作符
+            let defaultOperator = 'equals';
+            switch (fieldConfig.type) {
+              case 'number':
+                defaultOperator = FieldTypes.NumberType.defaultOperator;
+                break;
+              case 'date':
+                defaultOperator = FieldTypes.DateType.defaultOperator;
+                break;
+              case 'boolean':
+                defaultOperator = FieldTypes.BooleanType.defaultOperator;
+                break;
+              case 'enum':
+                defaultOperator = FieldTypes.EnumType.defaultOperator;
+                break;
+              case 'array':
+                defaultOperator = FieldTypes.ArrayType.defaultOperator;
+                break;
+              default:
+                defaultOperator = FieldTypes.StringType.defaultOperator;
+            }
+
             // 对于 in 和 notIn 操作符，值应该是数组
             const newValue =
               defaultOperator === 'in' || defaultOperator === 'notIn' ? [] : defaultOperator === 'isEmpty' ? true : '';

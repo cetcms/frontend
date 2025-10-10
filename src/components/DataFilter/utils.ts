@@ -1,4 +1,5 @@
-import { FilterFieldConfig } from './types';
+import * as FieldTypes from './inputs';
+import { FilterFieldConfig, FilterItemConfig } from './types';
 
 // Prisma 查询操作符映射
 export const OPERATORS: Record<string, string> = {
@@ -19,64 +20,22 @@ export const OPERATORS: Record<string, string> = {
   isEmpty: '为空',
 };
 
-// 根据字段类型获取可用操作符
-export const getOperatorsByFieldType = (fieldType: FilterFieldConfig['type']) => {
-  switch (fieldType) {
-    case 'string':
-      return [
-        { value: 'contains', label: '包含' },
-        { value: 'equals', label: '等于' },
-        { value: 'startsWith', label: '以...开始' },
-        { value: 'endsWith', label: '以...结束' },
-        { value: 'not', label: '不等于' },
-      ];
-    case 'number':
-      return [
-        { value: 'equals', label: '等于' },
-        { value: 'gt', label: '大于' },
-        { value: 'gte', label: '大于等于' },
-        { value: 'lt', label: '小于' },
-        { value: 'lte', label: '小于等于' },
-        { value: 'not', label: '不等于' },
-      ];
-    case 'date':
-      return [
-        { value: 'equals', label: '等于' },
-        { value: 'gt', label: '晚于' },
-        { value: 'gte', label: '晚于等于' },
-        { value: 'lt', label: '早于' },
-        { value: 'lte', label: '早于等于' },
-        { value: 'not', label: '不等于' },
-      ];
-    case 'boolean':
-      return [
-        { value: 'equals', label: '等于' },
-        { value: 'not', label: '不等于' },
-      ];
-    case 'enum':
-      return [
-        { value: 'equals', label: '等于' },
-        { value: 'not', label: '不等于' },
-        { value: 'in', label: '在...之中' },
-        { value: 'notIn', label: '不在...之中' },
-      ];
-    case 'array':
-      return [
-        { value: 'equals', label: '等于' },
-        { value: 'has', label: '包含元素' },
-        { value: 'hasEvery', label: '包含所有元素' },
-        { value: 'hasSome', label: '包含某些元素' },
-        { value: 'isEmpty', label: '为空' },
-      ];
-    default:
-      return Object.entries(OPERATORS).map(([value, label]) => ({ value, label }));
-  }
-};
-
 // 获取指定字段类型的默认操作符
 export const getDefaultOperator = (fieldType: FilterFieldConfig['type']) => {
-  const operators = getOperatorsByFieldType(fieldType);
-  return operators.length > 0 ? operators[0].value : 'equals';
+  switch (fieldType) {
+    case 'number':
+      return FieldTypes.NumberType.defaultOperator;
+    case 'date':
+      return FieldTypes.DateType.defaultOperator;
+    case 'boolean':
+      return FieldTypes.BooleanType.defaultOperator;
+    case 'enum':
+      return FieldTypes.EnumType.defaultOperator;
+    case 'array':
+      return FieldTypes.ArrayType.defaultOperator;
+    default:
+      return FieldTypes.StringType.defaultOperator;
+  }
 };
 
 // 创建新的过滤条件项
@@ -95,7 +54,7 @@ export const createNewFilter = (fields: FilterFieldConfig[]) => {
 
 // 生成 Prisma 查询结构
 export const generatePrismaFilter = (
-  filterFields: any[],
+  filterFields: FilterItemConfig[],
   logicOperator: 'AND' | 'OR',
   fields: FilterFieldConfig[] = []
 ) => {
@@ -105,59 +64,47 @@ export const generatePrismaFilter = (
   if (filterFields.some((filter) => filter.field)) {
     where[logicOperator] = [];
 
+    // 按字段类型分组过滤条件
+    const groupedFilters: Record<string, FilterItemConfig[]> = {};
+
     filterFields.forEach((filter) => {
       if (filter.field) {
-        const condition: any = {};
-        const fieldConfig = fields.find((f) => f.accessor === filter.field); // 获取字段配置
+        const fieldConfig = fields.find((f) => f.accessor === filter.field);
+        const fieldType = fieldConfig ? fieldConfig.type : 'string';
+        const key = fieldType;
 
-        // 处理 array 类型字段
-        if (fieldConfig && fieldConfig.type === 'array') {
-          switch (filter.operator) {
-            case 'isEmpty':
-              // isEmpty 操作符只需要布尔值
-              condition[filter.operator] = filter.value;
-              break;
-            case 'has':
-              // has 操作符需要单个值
-              condition[filter.operator] = filter.value;
-              break;
-            default:
-              // equals, hasEvery, hasSome 操作符需要数组值
-              // 处理逗号分隔的字符串值
-              if (typeof filter.value === 'string') {
-                condition[filter.operator] = filter.value
-                  .split(',')
-                  .map((item: string) => item.trim())
-                  .filter((item: string) => item !== '');
-              } else if (Array.isArray(filter.value)) {
-                condition[filter.operator] = filter.value;
-              } else if (filter.value) {
-                condition[filter.operator] = [filter.value];
-              } else {
-                condition[filter.operator] = [];
-              }
-          }
+        if (!groupedFilters[key]) {
+          groupedFilters[key] = [];
         }
-        // 处理 in 和 notIn 操作符，确保值是数组
-        else if (filter.operator === 'in' || filter.operator === 'notIn') {
-          // 确保值是数组格式
-          if (Array.isArray(filter.value)) {
-            condition[filter.operator] = filter.value;
-          } else if (filter.value) {
-            // 如果不是数组但有值，转换为单元素数组
-            condition[filter.operator] = [filter.value];
-          } else {
-            // 如果没有值，使用空数组
-            condition[filter.operator] = [];
-          }
-        } else {
-          condition[filter.operator] = filter.value;
-        }
-
-        where[logicOperator].push({
-          [filter.field]: condition,
-        });
+        groupedFilters[key].push(filter);
       }
+    });
+
+    // 为每种字段类型生成查询条件
+    Object.entries(groupedFilters).forEach(([fieldType, items]) => {
+      let prismaConditions: any[] = [];
+
+      switch (fieldType) {
+        case 'number':
+          prismaConditions = FieldTypes.NumberType.genPrismaWhere(items, fields);
+          break;
+        case 'date':
+          prismaConditions = FieldTypes.DateType.genPrismaWhere(items, fields);
+          break;
+        case 'boolean':
+          prismaConditions = FieldTypes.BooleanType.genPrismaWhere(items, fields);
+          break;
+        case 'enum':
+          prismaConditions = FieldTypes.EnumType.genPrismaWhere(items, fields);
+          break;
+        case 'array':
+          prismaConditions = FieldTypes.ArrayType.genPrismaWhere(items, fields);
+          break;
+        default:
+          prismaConditions = FieldTypes.StringType.genPrismaWhere(items, fields);
+      }
+
+      where[logicOperator].push(...prismaConditions);
     });
 
     // 如果没有有效条件，删除逻辑操作符键
