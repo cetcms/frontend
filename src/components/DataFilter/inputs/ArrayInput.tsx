@@ -1,17 +1,15 @@
 import { TextInput, SegmentedControl } from '@mantine/core';
 import React from 'react';
 
-import { FilterFieldType, FilterItemConfig, FilterFieldConfig } from '../types';
+import { FilterFieldType, FilterItemConfig, FilterFieldConfig, FilterFieldInputProps } from '../types';
 
-interface ArrayInputProps {
-  value: string | boolean;
-  onChange: (value: string | boolean) => void;
-  size: 'xs' | 'sm';
-  operator: string;
-  placeholder?: string;
-}
-
-const ArrayInputComponent: React.FC<ArrayInputProps> = ({ value, onChange, size, operator, placeholder = '值' }) => {
+const ArrayInputComponent: React.FC<FilterFieldInputProps> = ({
+  value,
+  onChange,
+  size,
+  operator,
+  placeholder = '值',
+}) => {
   // 根据操作符类型决定使用哪种输入控件
   switch (operator) {
     case 'isEmpty':
@@ -89,7 +87,7 @@ const genPrismaWhere = (items: FilterItemConfig[], fields: FilterFieldConfig[]) 
 };
 
 // Array 字段类型的完整配置
-export const ArrayType: FilterFieldType<ArrayInputProps> = {
+export const ArrayType: FilterFieldType = {
   component: ArrayInputComponent,
   defaultOperator: 'has',
   operators: arrayOperators,

@@ -1,5 +1,4 @@
-import * as FieldTypes from './inputs';
-import { FilterFieldConfig, FilterItemConfig } from './types';
+import { FieldTypes, FilterFieldConfig, FilterItemConfig } from './types';
 
 // Prisma 查询操作符映射
 export const OPERATORS: Record<string, string> = {
@@ -22,20 +21,8 @@ export const OPERATORS: Record<string, string> = {
 
 // 获取指定字段类型的默认操作符
 export const getDefaultOperator = (fieldType: FilterFieldConfig['type']) => {
-  switch (fieldType) {
-    case 'number':
-      return FieldTypes.NumberType.defaultOperator;
-    case 'date':
-      return FieldTypes.DateType.defaultOperator;
-    case 'boolean':
-      return FieldTypes.BooleanType.defaultOperator;
-    case 'enum':
-      return FieldTypes.EnumType.defaultOperator;
-    case 'array':
-      return FieldTypes.ArrayType.defaultOperator;
-    default:
-      return FieldTypes.StringType.defaultOperator;
-  }
+  const fieldTypeDef = FieldTypes[fieldType] || FieldTypes.string;
+  return fieldTypeDef.defaultOperator;
 };
 
 // 创建新的过滤条件项
@@ -70,8 +57,8 @@ export const generatePrismaFilter = (
     filterFields.forEach((filter) => {
       if (filter.field) {
         const fieldConfig = fields.find((f) => f.accessor === filter.field);
-        const fieldType = fieldConfig ? fieldConfig.type : 'string';
-        const key = fieldType;
+
+        const key = fieldConfig ? fieldConfig.type : 'string';
 
         if (!groupedFilters[key]) {
           groupedFilters[key] = [];
@@ -82,28 +69,8 @@ export const generatePrismaFilter = (
 
     // 为每种字段类型生成查询条件
     Object.entries(groupedFilters).forEach(([fieldType, items]) => {
-      let prismaConditions: any[] = [];
-
-      switch (fieldType) {
-        case 'number':
-          prismaConditions = FieldTypes.NumberType.genPrismaWhere(items, fields);
-          break;
-        case 'date':
-          prismaConditions = FieldTypes.DateType.genPrismaWhere(items, fields);
-          break;
-        case 'boolean':
-          prismaConditions = FieldTypes.BooleanType.genPrismaWhere(items, fields);
-          break;
-        case 'enum':
-          prismaConditions = FieldTypes.EnumType.genPrismaWhere(items, fields);
-          break;
-        case 'array':
-          prismaConditions = FieldTypes.ArrayType.genPrismaWhere(items, fields);
-          break;
-        default:
-          prismaConditions = FieldTypes.StringType.genPrismaWhere(items, fields);
-      }
-
+      const fieldTypeDef = FieldTypes[fieldType] || FieldTypes.string;
+      const prismaConditions = fieldTypeDef.genPrismaWhere(items, fields);
       where[logicOperator].push(...prismaConditions);
     });
 

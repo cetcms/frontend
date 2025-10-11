@@ -1,16 +1,9 @@
 import { NumberInput as MantineNumberInput } from '@mantine/core';
 import React from 'react';
 
-import { FilterFieldType, FilterItemConfig, FilterFieldConfig } from '../types';
+import { FilterFieldType, FilterItemConfig, FilterFieldConfig, FilterFieldInputProps } from '../types';
 
-interface NumberInputProps {
-  value: number | undefined;
-  onChange: (value: number | string) => void;
-  size: 'xs' | 'sm';
-  placeholder?: string;
-}
-
-const NumberInputComponent: React.FC<NumberInputProps> = ({ value, onChange, size, placeholder = '值' }) => {
+const NumberInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChange, size, placeholder = '值' }) => {
   return (
     <MantineNumberInput
       w={size === 'xs' ? 130 : 200}
@@ -44,7 +37,7 @@ const genPrismaWhere = (items: FilterItemConfig[], fields: FilterFieldConfig[]) 
 };
 
 // Number 字段类型的完整配置
-export const NumberType: FilterFieldType<NumberInputProps> = {
+export const NumberType: FilterFieldType = {
   component: NumberInputComponent,
   defaultOperator: 'equals',
   operators: numberOperators,

@@ -1,15 +1,10 @@
 import { SegmentedControl } from '@mantine/core';
 import React from 'react';
 
-import { FilterFieldType, FilterItemConfig, FilterFieldConfig } from '../types';
+import { FilterFieldType, FilterItemConfig, FilterFieldConfig, FilterFieldInputProps } from '../types';
 
-interface BooleanInputProps {
-  value: boolean;
-  onChange: (value: boolean) => void;
-  size: 'xs' | 'sm';
-}
 
-const BooleanInputComponent: React.FC<BooleanInputProps> = ({ value, onChange, size }) => {
+const BooleanInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChange, size }) => {
   return (
     <SegmentedControl
       w={size === 'xs' ? 130 : 200}
@@ -42,7 +37,7 @@ const genPrismaWhere = (items: FilterItemConfig[], fields: FilterFieldConfig[]) 
 };
 
 // Boolean 字段类型的完整配置
-export const BooleanType: FilterFieldType<BooleanInputProps> = {
+export const BooleanType: FilterFieldType = {
   component: BooleanInputComponent,
   defaultOperator: 'equals',
   operators: booleanOperators,

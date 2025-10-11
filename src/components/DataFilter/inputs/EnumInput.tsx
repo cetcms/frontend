@@ -1,22 +1,13 @@
 import { Select, MultiSelect } from '@mantine/core';
 import React from 'react';
 
-import { FilterFieldType, FilterItemConfig, FilterFieldConfig } from '../types';
+import { FilterFieldType, FilterItemConfig, FilterFieldConfig, FilterFieldInputProps } from '../types';
 
-interface EnumInputProps {
-  value: string | string[];
-  onChange: (value: string | string[] | null) => void;
-  size: 'xs' | 'sm';
-  fieldConfig: FilterFieldConfig;
-  operator: string;
-  placeholder?: string;
-}
-
-const EnumInputComponent: React.FC<EnumInputProps> = ({
+const EnumInputComponent: React.FC<FilterFieldInputProps> = ({
   value,
   onChange,
   size,
-  fieldConfig,
+  options,
   operator,
   placeholder = '值',
 }) => {
@@ -29,7 +20,7 @@ const EnumInputComponent: React.FC<EnumInputProps> = ({
         w={size === 'xs' ? 130 : 200}
         size={size}
         placeholder={placeholder}
-        data={fieldConfig.options || []}
+        data={options || []}
         value={Array.isArray(value) ? value : value ? [value] : []}
         comboboxProps={{ withinPortal: false }}
         onChange={onChange}
@@ -43,7 +34,7 @@ const EnumInputComponent: React.FC<EnumInputProps> = ({
       w={size === 'xs' ? 130 : 200}
       size={size}
       placeholder={placeholder}
-      data={fieldConfig.options || []}
+      data={options || []}
       value={value as string}
       comboboxProps={{ withinPortal: false }}
       onChange={(value) => onChange(value)}
@@ -79,7 +70,7 @@ const genPrismaWhere = (items: FilterItemConfig[], fields: FilterFieldConfig[]) 
 };
 
 // Enum 字段类型的完整配置
-export const EnumType: FilterFieldType<EnumInputProps> = {
+export const EnumType: FilterFieldType = {
   component: EnumInputComponent,
   defaultOperator: 'equals',
   operators: enumOperators,

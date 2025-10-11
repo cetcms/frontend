@@ -1,25 +1,14 @@
 import { TextInput } from '@mantine/core';
 import React from 'react';
 
-import { FilterFieldType, FilterItemConfig, FilterFieldConfig } from '../types';
+import { FilterFieldType, FilterItemConfig, FilterFieldConfig, FilterFieldInputProps } from '../types';
 
-interface StringInputProps {
-  value: string;
-  onChange: (value: string) => void;
-  size: 'xs' | 'sm';
-  placeholder?: string;
-  operator: string;
-}
-
-const StringInputComponent: React.FC<StringInputProps> = ({ value, onChange, size, placeholder = '值', operator }) => {
-  // 对于数组操作符，处理逗号分隔的值
-  const isCommaSeparated = ['in', 'notIn'].includes(operator);
-
+const StringInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChange, size, placeholder = '值' }) => {
   return (
     <TextInput
       w={size === 'xs' ? 130 : 200}
       size={size}
-      placeholder={isCommaSeparated ? '多个值用逗号分隔' : placeholder}
+      placeholder={placeholder}
       value={value}
       onChange={(e) => onChange(e.target.value)}
     />
@@ -47,7 +36,7 @@ const genPrismaWhere = (items: FilterItemConfig[], fields: FilterFieldConfig[]) 
 };
 
 // String 字段类型的完整配置
-export const StringType: FilterFieldType<StringInputProps> = {
+export const StringType: FilterFieldType = {
   component: StringInputComponent,
   defaultOperator: 'contains',
   operators: stringOperators,
