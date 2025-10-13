@@ -134,11 +134,27 @@ export function useUpload({ onError, onDone, value, defaultValue, path }: Upload
         if (!data?.uploadFile) {
           throw new Error(t('upload.error.upload'));
         }
+
+        // 成功后：更新远程URL，同时回收本地ObjectURL以降低内存占用
+        const prevUrl = starting.url;
+        if (prevUrl && prevUrl.startsWith('blob:')) {
+          try {
+            URL.revokeObjectURL(prevUrl);
+          } catch {
+            // noop
+          }
+        }
+
+        // 安全获取上传后的文件信息与远程URL
+        const uploadedInfo = data.uploadFile as unknown as MediaFile;
+        const remoteUrl = uploadedInfo?.url ?? starting.url;
+
         const doneItem: FileItem = {
           ...starting,
           progress: 100,
           status: 'done',
-          info: data.uploadFile,
+          url: remoteUrl,
+          info: uploadedInfo,
         };
         setById(doneItem);
         if (onDone) {
