@@ -1,5 +1,7 @@
 import { MediaFile } from 'src/graphql';
 
+export type UploadValueType = MediaFile | MediaFile[] | string | string[] | null;
+
 export interface FileItem {
   file: File;
   progress: number;

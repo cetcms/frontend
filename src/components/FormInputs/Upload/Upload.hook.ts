@@ -5,18 +5,19 @@ import { useTranslation } from 'react-i18next';
 import { ListMediaFilesDocument, MediaFile, MediaStore, UploadFileDocument } from 'src/graphql';
 import { UAParser } from 'ua-parser-js';
 
-import { FileItem } from './Upload.interface';
+import { FileItem, UploadValueType } from './Upload.interface';
 
 export interface UploadOptions {
   onError?: (error: Error, item: FileItem, index: number) => void;
   onDone?: (item: FileItem, index: number) => void;
-  value?: Array<string> | Array<MediaFile>;
-  defaultValue?: Array<string> | Array<MediaFile>;
+  value?: UploadValueType;
+  defaultValue?: UploadValueType;
   path?: string;
   store?: MediaStore;
+  maxFiles?: number;
 }
 
-export function useUpload({ onError, onDone, value, defaultValue, path }: UploadOptions) {
+export function useUpload({ onError, onDone, value, defaultValue, path, maxFiles }: UploadOptions) {
   const [fileItems, handleFileItems] = useListState<FileItem>();
   const [uploadFile] = useMutation(UploadFileDocument);
   const [initializedRef, setInitializedRef] = React.useState(false);
@@ -29,13 +30,28 @@ export function useUpload({ onError, onDone, value, defaultValue, path }: Upload
     itemsRef.current = fileItems;
   }, [fileItems]);
 
-  let ids: Array<string> = [];
-  const valueItems = value || defaultValue || [];
-  if (valueItems.length > 0 && typeof valueItems[0] === 'object') {
-    ids = (valueItems as Array<MediaFile>).map((item) => item.id);
-  } else if (valueItems.length > 0 && typeof valueItems[0] === 'string') {
-    ids = valueItems as Array<string>;
-  }
+  // 统一将输入值规范化为 ID 列表，支持 string、string[]、MediaFile、MediaFile[]
+  const normalizeToIdList = (input?: UploadValueType): string[] => {
+    if (!input) return [];
+    if (typeof input === 'string') return input ? [input] : [];
+    if (Array.isArray(input)) {
+      if (input.length === 0) return [];
+      const first = input[0];
+      if (typeof first === 'object' && first) {
+        return (input as MediaFile[]).map((it) => it.id).filter((id): id is string => Boolean(id));
+      }
+      return (input as string[]).filter((id): id is string => Boolean(id));
+    }
+    // 单个 MediaFile
+    if (typeof input === 'object' && input) {
+      return input.id ? [input.id] : [];
+    }
+    return [];
+  };
+
+  const singleMode = !maxFiles || maxFiles <= 1;
+  const idsRaw: string[] = normalizeToIdList(value ?? defaultValue);
+  const ids: string[] = singleMode ? idsRaw.slice(0, 1) : idsRaw;
   // 查询用于获取MediaFile数据的hook
   const { data: mediaFilesData, loading: fetching } = useQuery(ListMediaFilesDocument, {
     skip: !ids.length,
@@ -51,13 +67,40 @@ export function useUpload({ onError, onDone, value, defaultValue, path }: Upload
     }
 
     const initialItems: FileItem[] = [];
-    const initialValue = value || defaultValue;
+    const initialValue = value ?? defaultValue;
 
-    if (initialValue && initialValue.length > 0) {
-      // 处理已有的MediaFile对象
-      if (initialValue.length > 0 && typeof initialValue[0] === 'object') {
-        const mediaFiles = initialValue as MediaFile[];
-        mediaFiles.forEach((mediaFile) => {
+    // 若传入的是 MediaFile 或 MediaFile[]，直接使用它们初始化
+    if (Array.isArray(initialValue) && initialValue.length > 0 && typeof initialValue[0] === 'object') {
+      const mediaFiles = singleMode ? (initialValue as MediaFile[]).slice(0, 1) : (initialValue as MediaFile[]);
+      for (const mediaFile of mediaFiles) {
+        initialItems.push({
+          file: new File([], mediaFile.fileName),
+          progress: 100,
+          status: 'done',
+          id: mediaFile.id,
+          url: mediaFile.url,
+          info: mediaFile,
+        });
+      }
+    } else if (initialValue && typeof initialValue === 'object') {
+      const mediaFile = initialValue as MediaFile;
+      initialItems.push({
+        file: new File([], mediaFile.fileName),
+        progress: 100,
+        status: 'done',
+        id: mediaFile.id,
+        url: mediaFile.url,
+        info: mediaFile,
+      });
+    }
+
+    // 合并从 API 获取的 MediaFile 数据
+    if (mediaFilesData?.listMediaFiles) {
+      const seen = new Set(initialItems.map((it) => it.id));
+      const items = mediaFilesData.listMediaFiles as MediaFile[];
+      for (const mediaFile of items) {
+        if (singleMode && initialItems.length >= 1) break;
+        if (!seen.has(mediaFile.id)) {
           initialItems.push({
             file: new File([], mediaFile.fileName),
             progress: 100,
@@ -66,35 +109,20 @@ export function useUpload({ onError, onDone, value, defaultValue, path }: Upload
             url: mediaFile.url,
             info: mediaFile,
           });
-        });
-      }
-
-      // 处理从API获取的MediaFile数据
-      if (mediaFilesData?.listMediaFiles) {
-        const items = mediaFilesData.listMediaFiles as MediaFile[];
-        items.forEach((mediaFile) => {
-          // 检查是否已经添加过该文件
-          if (!initialItems.some((item) => item.id === mediaFile.id)) {
-            initialItems.push({
-              file: new File([], mediaFile.fileName),
-              progress: 100,
-              status: 'done',
-              id: mediaFile.id,
-              url: mediaFile.url,
-              info: mediaFile,
-            });
+          if (mediaFile.id) {
+            seen.add(mediaFile.id);
           }
-        });
-      }
-
-      if (initialItems.length > 0) {
-        handleFileItems.setState(initialItems);
-        setInitializedRef(true);
+        }
       }
     }
 
+    if (initialItems.length > 0) {
+      handleFileItems.setState(initialItems);
+      setInitializedRef(true);
+    }
+
     setLoading(false);
-  }, [value, defaultValue, mediaFilesData, handleFileItems, initializedRef]);
+  }, [value, defaultValue, mediaFilesData, handleFileItems, initializedRef, singleMode]);
 
   // 简单并发限制，防止一次性过多上传导致不稳定
   const MAX_CONCURRENCY = 3;
@@ -156,27 +184,16 @@ export function useUpload({ onError, onDone, value, defaultValue, path }: Upload
           url: remoteUrl,
           info: uploadedInfo,
         };
+
         setById(doneItem);
         if (onDone) {
           onDone(doneItem, startIdx);
         }
-      } catch (err: any) {
-        // 安全解析错误信息，避免 JSON.parse 崩溃
-        let parsed: any = null;
-        try {
-          parsed = typeof err?.message === 'string' ? JSON.parse(err.message) : null;
-        } catch {
-          parsed = null;
-        }
-        const message = parsed?.message || err?.message || t('upload.error.upload');
-        const failedItem: FileItem = {
-          ...item,
-          status: 'failed',
-          error: String(message),
-        };
-        setById(failedItem);
+      } catch (error) {
+        const failed: FileItem = { ...item, status: 'failed', error: (error as Error).message };
+        setById(failed);
         if (onError) {
-          onError(new Error(String(message)), failedItem, startIdx);
+          onError(error as Error, item, startIdx);
         }
       } finally {
         activeCountRef.current = Math.max(0, activeCountRef.current - 1);

@@ -11,7 +11,7 @@ import * as uuid from 'uuid';
 import { Dropzone } from './Dropzone';
 import { PreviewItem } from './PreviewItem';
 import { useUpload } from './Upload.hook';
-import { FileItem } from './Upload.interface';
+import { FileItem, UploadValueType } from './Upload.interface';
 import classes from './Upload.module.scss';
 
 const fileHelper = new FileHelper();
@@ -19,12 +19,13 @@ const fileHelper = new FileHelper();
 export type UploadProps = Omit<InputWrapperProps, 'children'> & {
   maxSize?: number;
   maxFiles?: number;
+  value?: UploadValueType;
+  defaultValue?: UploadValueType;
+  onChange?: (value: UploadValueType) => void;
+  outputType?: 'id' | 'object';
   allowType?: MediaType[];
   path?: string;
   store?: MediaStore;
-  value?: Array<string> | Array<MediaFile>;
-  defaultValue?: Array<string> | Array<MediaFile>;
-  onChange?: (value: Array<FileItem>) => void;
   disabled?: boolean;
 };
 
@@ -39,6 +40,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
     value,
     defaultValue,
     onChange,
+    outputType = 'id',
     disabled = false,
     ...inputWrapperProps
   } = props;
@@ -65,13 +67,46 @@ export const Upload: React.FC<UploadProps> = (props) => {
     defaultValue,
     path,
     store,
+    maxFiles,
   });
 
-  useEffect(() => {
-    if (!loading) {
-      onChange?.(fileItems.filter((item) => item.status === 'done'));
+  const inferOutputType = (): 'id' | 'object' => {
+    const input = value ?? defaultValue;
+    if (!input) return 'id';
+    if (Array.isArray(input)) {
+      return input.length > 0 && typeof input[0] === 'object' ? 'object' : 'id';
     }
-  }, [fileItems, loading]);
+    return typeof input === 'object' ? 'object' : 'id';
+  };
+  const effectiveOutputType: 'id' | 'object' = outputType ?? inferOutputType();
+
+  // Unified output handling for single/multiple and object/id modes
+  useEffect(() => {
+    if (loading || !onChange) return;
+
+    const doneItems = fileItems.filter((item) => item.status === 'done');
+    const isSingle = !maxFiles || maxFiles <= 1;
+
+    if (effectiveOutputType === 'object') {
+      if (isSingle) {
+        const payload = (doneItems[0]?.info as MediaFile) || null;
+        onChange(payload);
+      } else {
+        const payload = doneItems.map((item) => item.info as MediaFile);
+        onChange(payload as Array<MediaFile>);
+      }
+      return;
+    }
+
+    if (isSingle) {
+      const id = doneItems[0]?.info?.id ?? null;
+      onChange(id);
+      return;
+    }
+
+    const payload = doneItems.map((item) => item.info.id).filter(Boolean) as string[];
+    onChange(payload);
+  }, [fileItems, loading, maxFiles, effectiveOutputType, onChange]);
 
   const multiple = maxFiles ? maxFiles > 1 : false;
   const showDropzone =

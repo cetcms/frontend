@@ -1,4 +1,4 @@
-import { ActionIcon, Grid, Image, Text } from '@mantine/core';
+import { ActionIcon, Box, Group, Image, Text } from '@mantine/core';
 import { IconRefresh, IconX } from '@tabler/icons-react';
 import cx from 'clsx';
 import { filesize } from 'filesize';
@@ -75,7 +75,7 @@ export const PreviewItem: React.FC<{
   };
 
   return (
-    <Grid className={classes.previewItem} columns={24}>
+    <Box className={classes.previewItem}>
       <div
         className={cx(classes.uploadProgressBase, {
           [classes.uploadProgressProgress]: item.status === 'progress',
@@ -84,95 +84,86 @@ export const PreviewItem: React.FC<{
         })}
         style={{ width: `${item.progress}%` }}
       />
-      <Grid.Col span={{ base: 24, md: 6 }}>
-        <div className={classes.itemImage}>
-          <div className={classes.itemPreviewContent}>
-            {info.mediaType === MediaType.Image && item.url ? (
-              <Image key={index} src={item.url} />
-            ) : isPDF && item.url ? (
-              <iframe
-                src={item.url}
-                title={info.fileName || 'pdf'}
-                style={{ width: '100%', height: '100%', border: 0 }}
-              />
-            ) : info.mediaType === MediaType.Video && item.url ? (
-              <video src={item.url} controls style={{ width: '100%', height: '100%', objectFit: 'contain' }}>
-                <track kind="captions" />
-              </video>
-            ) : info.mediaType === MediaType.Audio && item.url ? (
-              <audio src={item.url} controls style={{ width: '95%' }}>
-                <track kind="captions" />
-              </audio>
-            ) : isText && textPreview ? (
-              <pre>{textPreview}</pre>
-            ) : (
-              <Iconify icon={getFallbackIcon()} fontSize={48} />
+      <Group justify="space-between" gap={0}>
+        <Group w="calc(100% - 50px)" wrap="nowrap">
+          <div className={classes.itemImage}>
+            <div className={classes.itemPreviewContent}>
+              {info.mediaType === MediaType.Image && item.url ? (
+                <Image key={index} src={item.url} />
+              ) : isPDF && item.url ? (
+                <iframe
+                  src={item.url}
+                  title={info.fileName || 'pdf'}
+                  style={{ width: '100%', height: '100%', border: 0 }}
+                />
+              ) : info.mediaType === MediaType.Video && item.url ? (
+                <video src={item.url} controls style={{ width: '100%', height: '100%', objectFit: 'contain' }}>
+                  <track kind="captions" />
+                </video>
+              ) : info.mediaType === MediaType.Audio && item.url ? (
+                <audio src={item.url} controls style={{ width: '95%' }}>
+                  <track kind="captions" />
+                </audio>
+              ) : isText && textPreview ? (
+                <pre>{textPreview}</pre>
+              ) : (
+                <Iconify icon={getFallbackIcon()} fontSize={48} />
+              )}
+            </div>
+            <Text
+              className={cx(classes.itemStatus, {
+                [classes.itemStatusDone]: item.status === 'done',
+                [classes.itemStatusFailed]: item.status === 'failed',
+                [classes.itemStatusProgress]: item.status === 'progress',
+                [classes.itemStatusPending]: item.status === 'pending',
+              })}
+              size="xs"
+            >
+              {t(`upload.status.${item.status}`)}
+            </Text>
+            {item.status === 'failed' && (
+              <ActionIcon
+                variant="filled"
+                aria-label={t('upload.preview.retry')}
+                className={classes.retryButton}
+                disabled={disabled}
+                onClick={() => !disabled && onRetry(index)}
+              >
+                <IconRefresh style={{ width: '70%', height: '70%' }} stroke={1.5} />
+              </ActionIcon>
             )}
           </div>
-          <Text
-            className={cx(classes.itemStatus, {
-              [classes.itemStatusDone]: item.status === 'done',
-              [classes.itemStatusFailed]: item.status === 'failed',
-              [classes.itemStatusProgress]: item.status === 'progress',
-              [classes.itemStatusPending]: item.status === 'pending',
-            })}
-            size="xs"
+          <div className={classes.itemInfo}>
+            <Text size="sm" className={classes.infoName} component="div" lineClamp={1}>
+              {info.fileName}
+            </Text>
+            <Text size="xs" opacity={0.5} lineClamp={1}>
+              <strong>{t('upload.preview.size')}</strong>
+              <span>{filesize(Number(info.fileSize || 0))}</span>
+            </Text>
+            <Text size="xs" opacity={0.5} lineClamp={1}>
+              <strong>{t('upload.preview.type')}</strong>
+              <span>{info.mimeType}</span>
+            </Text>
+          </div>
+        </Group>
+        <Group w="50px" justify="center">
+          <ActionIcon
+            variant="subtle"
+            color="red"
+            aria-label={t('upload.preview.remove')}
+            disabled={disabled}
+            onClick={() => !disabled && onRemove(index)}
           >
-            {t(`upload.status.${item.status}`)}
-          </Text>
-          {item.status === 'failed' && (
-            <ActionIcon
-              variant="filled"
-              aria-label={t('upload.preview.retry')}
-              className={classes.retryButton}
-              disabled={disabled}
-              onClick={() => !disabled && onRetry(index)}
-            >
-              <IconRefresh style={{ width: '70%', height: '70%' }} stroke={1.5} />
-            </ActionIcon>
-          )}
-        </div>
-      </Grid.Col>
-      <Grid.Col span={{ base: 24, md: 15 }} style={{ alignItems: 'center', display: 'flex' }}>
-        <div className={classes.itemInfo}>
-          <Text size="sm" className={classes.infoName} component="div" lineClamp={1}>
-            {info.fileName}
-          </Text>
-          <Text size="xs" opacity={0.5}>
-            <strong>{t('upload.preview.size')}</strong>
-            <span>{filesize(Number(info.fileSize || 0))}</span>
-          </Text>
-          <Text size="xs" opacity={0.5}>
-            <strong>{t('upload.preview.type')}</strong>
-            <span>{info.mimeType}</span>
-          </Text>
-        </div>
-      </Grid.Col>
-      <Grid.Col
-        span={{ base: 24, md: 3 }}
-        style={{
-          alignItems: 'center',
-          display: 'flex',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          gap: 5,
-        }}
-      >
-        <ActionIcon
-          variant="subtle"
-          color="red"
-          aria-label={t('upload.preview.remove')}
-          disabled={disabled}
-          onClick={() => !disabled && onRemove(index)}
-        >
-          <IconX stroke={1.5} />
-        </ActionIcon>
-      </Grid.Col>
+            <IconX stroke={1.5} />
+          </ActionIcon>
+        </Group>
+      </Group>
       {item.error && (
         <Text className={classes.infoError} fw={700} size="sm">
           {t(item.error ?? 'upload.preview.error')}
         </Text>
       )}
-    </Grid>
+    </Box>
   );
 };

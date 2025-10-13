@@ -177,7 +177,14 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
             </Grid.Col>
             <Grid.Col span={1} />
             <Grid.Col span={2}>
-              <Upload maxFiles={10} label={t('Admin.avatar')} path="system/avatar" />
+              <Upload
+                label={t('Admin.avatar')}
+                path="system/avatar"
+                outputType="id"
+                onChange={(items) => {
+                  console.log(items);
+                }}
+              />
             </Grid.Col>
           </Grid>
           <Divider mt="md" variant="dashed" />
