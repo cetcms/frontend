@@ -7,7 +7,7 @@ import { ArrayType, BooleanType, DateType, EnumType, NumberType, StringType } fr
 export interface FilterFieldConfig {
   accessor: string;
   title: string;
-  type: 'string' | 'number' | 'enum' | 'date' | 'boolean' | 'array';
+  type: 'string' | 'number' | 'enum' | 'date' | 'boolean' | 'array' | 'image';
   options?: { label: string; value: string; color?: MantineColor }[];
   operator?: string;
 }

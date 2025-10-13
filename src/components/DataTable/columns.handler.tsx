@@ -1,4 +1,4 @@
-import { ActionIcon, Badge, Group, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Badge, Group, Text, Tooltip, Image, HoverCard } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconClock, IconHash } from '@tabler/icons-react';
 import { useCopyToClipboard } from '@uidotdev/usehooks';
@@ -25,6 +25,21 @@ export const columnsHandler = (columns: DataTableProps['columns']) => {
         );
       };
       return column;
+    }
+
+    if (column.type === 'image') {
+      column.width = 100;
+      column.textAlign = 'center';
+      column.render = (item: any) => (
+        <HoverCard width={300} position="bottom" withArrow shadow="md" openDelay={100} closeDelay={100}>
+          <HoverCard.Target>
+            <Image src={item[column.accessor]} radius="xs" fit="contain" width={30} height={30} />
+          </HoverCard.Target>
+          <HoverCard.Dropdown p="xs">
+            <Image src={item[column.accessor]} radius="sm" fit="contain" width={300} height={300} />
+          </HoverCard.Dropdown>
+        </HoverCard>
+      );
     }
 
     if (column.type === 'enum') {
