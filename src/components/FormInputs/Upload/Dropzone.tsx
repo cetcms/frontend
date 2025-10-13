@@ -21,12 +21,14 @@ export const Dropzone: React.FC<DropzoneProps & { allowType?: MediaType[] }> = (
   const { t } = useTranslation(['components']);
   const openRef = useRef<() => void>(null);
   const accept = props.accept ?? fileHelper.getAcceptMimeTypesFor(props.allowType);
+  const disabled = props.disabled ?? false;
   return (
     <div className={classes.wrapper}>
       <MantineDropzone
         radius="md"
         className={classes.dropzone}
         {...props}
+        disabled={disabled}
         accept={accept}
         onReject={(files) => {
           files.forEach((file) => {
@@ -76,7 +78,15 @@ export const Dropzone: React.FC<DropzoneProps & { allowType?: MediaType[] }> = (
       </MantineDropzone>
 
       <Box className={classes.controls}>
-        <Button variant="default" radius="xl" onClick={() => openRef.current && openRef.current()}>
+        <Button
+          variant="default"
+          radius="xl"
+          disabled={disabled}
+          onClick={() => {
+            if (disabled) return;
+            if (openRef.current) openRef.current();
+          }}
+        >
           {t('upload.dropzone.select', { fileManagerName })}
         </Button>
         {/*<Button variant={'default'} radius="xl" onClick={() => logger.log('upload')}>

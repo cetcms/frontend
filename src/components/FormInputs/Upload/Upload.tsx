@@ -1,4 +1,4 @@
-import { Center, Loader, rem } from '@mantine/core';
+import { Center, Loader, InputWrapper, InputWrapperProps, rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import React, { useEffect } from 'react';
@@ -16,7 +16,7 @@ import classes from './Upload.module.scss';
 
 const fileHelper = new FileHelper();
 
-export interface UploadProps {
+export type UploadProps = Omit<InputWrapperProps, 'children'> & {
   maxSize?: number;
   maxFiles?: number;
   allowType?: MediaType[];
@@ -25,10 +25,23 @@ export interface UploadProps {
   value?: Array<string> | Array<MediaFile>;
   defaultValue?: Array<string> | Array<MediaFile>;
   onChange?: (value: Array<FileItem>) => void;
-}
+  disabled?: boolean;
+};
 
 export const Upload: React.FC<UploadProps> = (props) => {
   const { t } = useTranslation(['components']);
+  const {
+    maxSize,
+    maxFiles,
+    allowType,
+    path,
+    store,
+    value,
+    defaultValue,
+    onChange,
+    disabled = false,
+    ...inputWrapperProps
+  } = props;
   const { fileItems, handleFileItems, loading } = useUpload({
     onError: (_error, item) => {
       notifications.show({
@@ -48,22 +61,21 @@ export const Upload: React.FC<UploadProps> = (props) => {
         icon: <IconCheck style={{ width: rem(18), height: rem(18) }} />,
       });
     },
-    value: props.value,
-    defaultValue: props.defaultValue,
-    path: props.path,
-    store: props.store,
+    value,
+    defaultValue,
+    path,
+    store,
   });
 
   useEffect(() => {
     if (!loading) {
-      props.onChange?.(fileItems.filter((item) => item.status === 'done'));
+      onChange?.(fileItems.filter((item) => item.status === 'done'));
     }
   }, [fileItems, loading]);
 
-  const multiple = props.maxFiles ? props.maxFiles > 1 : false;
+  const multiple = maxFiles ? maxFiles > 1 : false;
   const showDropzone =
-    Boolean(multiple && props.maxFiles && fileItems.length < props.maxFiles) ||
-    Boolean(!multiple && fileItems.length < 1);
+    Boolean(multiple && maxFiles && fileItems.length < maxFiles) || Boolean(!multiple && fileItems.length < 1);
 
   if (loading) {
     return (
@@ -74,104 +86,113 @@ export const Upload: React.FC<UploadProps> = (props) => {
   }
 
   return (
-    <>
-      {showDropzone && (
-        <Dropzone
-          multiple={multiple}
-          maxSize={props.maxSize}
-          allowType={props.allowType}
-          onDrop={(files) => {
-            const allowedFiles: File[] = [];
-            const rejectedFiles: File[] = [];
-            for (const file of files) {
-              if (fileHelper.isFileAllowed(file, props.allowType)) {
-                allowedFiles.push(file);
-              } else {
-                rejectedFiles.push(file);
+    <InputWrapper {...inputWrapperProps}>
+      <>
+        {showDropzone && (
+          <Dropzone
+            disabled={disabled}
+            multiple={multiple}
+            maxSize={maxSize}
+            allowType={allowType}
+            onDrop={(files) => {
+              if (disabled) return;
+              const allowedFiles: File[] = [];
+              const rejectedFiles: File[] = [];
+              for (const file of files) {
+                if (fileHelper.isFileAllowed(file, allowType)) {
+                  allowedFiles.push(file);
+                } else {
+                  rejectedFiles.push(file);
+                }
               }
-            }
 
-            if (rejectedFiles.length > 0) {
-              rejectedFiles.forEach((file) => {
+              if (rejectedFiles.length > 0) {
+                rejectedFiles.forEach((file) => {
+                  notifications.show({
+                    title: `${file.name}`,
+                    message: t('upload.dropzone.invalid_type'),
+                    position: 'top-right',
+                  });
+                });
+              }
+
+              const items: FileItem[] = [];
+              for (const file of allowedFiles) {
+                const url = URL.createObjectURL(file);
+                items.push({
+                  file,
+                  url,
+                  progress: 0,
+                  status: 'pending',
+                  error: undefined,
+                  id: uuid.v4(),
+                  info: {
+                    url,
+                    store: store || MediaStore.Local,
+                    fileName: file.name,
+                    fileSize: String(file.size),
+                    mimeType: file.type,
+                    extension: file.name.split('.').pop() || '',
+                    mediaType: fileHelper.getMediaType(file.type),
+                  },
+                });
+              }
+
+              let next = [...items, ...fileItems];
+              if (maxFiles && next.length > maxFiles) {
+                next = next.slice(0, maxFiles);
                 notifications.show({
-                  title: `${file.name}`,
-                  message: t('upload.dropzone.invalid_type'),
+                  title: t('upload.notification.limit'),
+                  message: t('upload.notification.limit_tip', { maxFiles }),
                   position: 'top-right',
                 });
-              });
-            }
-
-            const items: FileItem[] = [];
-            for (const file of allowedFiles) {
-              const url = URL.createObjectURL(file);
-              items.push({
-                file,
-                url,
-                progress: 0,
-                status: 'pending',
-                error: undefined,
-                id: uuid.v4(),
-                info: {
-                  url,
-                  store: props.store || MediaStore.Local,
-                  fileName: file.name,
-                  fileSize: String(file.size),
-                  mimeType: file.type,
-                  extension: file.name.split('.').pop() || '',
-                  mediaType: fileHelper.getMediaType(file.type),
-                },
-              });
-            }
-
-            let next = [...items, ...fileItems];
-            if (props.maxFiles && next.length > props.maxFiles) {
-              next = next.slice(0, props.maxFiles);
-              notifications.show({
-                title: t('upload.notification.limit'),
-                message: t('upload.notification.limit_tip', { maxFiles: props.maxFiles }),
-                position: 'top-right',
-              });
-            }
-            handleFileItems.setState(next);
-          }}
-        />
-      )}
-      <List
-        values={fileItems}
-        onChange={({ oldIndex, newIndex }) => handleFileItems.reorder({ from: oldIndex, to: newIndex })}
-        renderList={({ children, props }) => (
-          <div {...props} className={classes.listWrapper}>
-            {children}
-          </div>
+              }
+              handleFileItems.setState(next);
+            }}
+          />
         )}
-        renderItem={({ value, props, index }) => (
-          <div {...props} key={props.key} className={classes.listItem}>
-            <PreviewItem
-              item={value}
-              index={index || 0}
-              onRemove={(idx) => {
-                const item = fileItems[idx];
-                if (item?.url && item.url.startsWith('blob:')) {
-                  try {
-                    URL.revokeObjectURL(item.url);
-                  } catch {
-                    // noop
+        <List
+          values={fileItems}
+          onChange={
+            disabled ? () => {} : ({ oldIndex, newIndex }) => handleFileItems.reorder({ from: oldIndex, to: newIndex })
+          }
+          renderList={({ children, props }) => (
+            <div {...props} className={classes.listWrapper}>
+              {children}
+            </div>
+          )}
+          renderItem={({ value, props, index }) => (
+            <div {...props} key={props.key} className={classes.listItem}>
+              <PreviewItem
+                disabled={disabled}
+                item={value}
+                index={index || 0}
+                onRemove={(idx) => {
+                  if (disabled) return;
+                  const item = fileItems[idx];
+                  if (item?.url && item.url.startsWith('blob:')) {
+                    try {
+                      URL.revokeObjectURL(item.url);
+                    } catch {
+                      // noop
+                    }
                   }
-                }
-                handleFileItems.remove(idx);
-              }}
-              onRetry={(idx) => {
-                handleFileItems.setItem(idx, {
-                  ...value,
-                  status: 'pending',
-                  progress: 0,
-                  error: undefined,
-                });
-              }}
-            />
-          </div>
-        )}
-      />
-    </>
+                  handleFileItems.remove(idx);
+                }}
+                onRetry={(idx) => {
+                  if (disabled) return;
+                  handleFileItems.setItem(idx, {
+                    ...value,
+                    status: 'pending',
+                    progress: 0,
+                    error: undefined,
+                  });
+                }}
+              />
+            </div>
+          )}
+        />
+      </>
+    </InputWrapper>
   );
 };

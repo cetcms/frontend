@@ -1,5 +1,5 @@
-import { ActionIcon, CloseButton, Grid, Image, Text } from '@mantine/core';
-import { IconRefresh } from '@tabler/icons-react';
+import { ActionIcon, Grid, Image, Text } from '@mantine/core';
+import { IconRefresh, IconX } from '@tabler/icons-react';
 import cx from 'clsx';
 import { filesize } from 'filesize';
 import React from 'react';
@@ -15,7 +15,8 @@ export const PreviewItem: React.FC<{
   index: number;
   onRemove: (index: number) => void;
   onRetry: (index: number) => void;
-}> = ({ item, index, onRemove, onRetry }) => {
+  disabled?: boolean;
+}> = ({ item, index, onRemove, onRetry, disabled = false }) => {
   const info = item.info;
   const { t } = useTranslation(['components']);
 
@@ -83,7 +84,7 @@ export const PreviewItem: React.FC<{
         })}
         style={{ width: `${item.progress}%` }}
       />
-      <Grid.Col span={6}>
+      <Grid.Col span={{ base: 24, md: 6 }}>
         <div className={classes.itemImage}>
           <div className={classes.itemPreviewContent}>
             {info.mediaType === MediaType.Image && item.url ? (
@@ -124,14 +125,15 @@ export const PreviewItem: React.FC<{
               variant="filled"
               aria-label={t('upload.preview.retry')}
               className={classes.retryButton}
-              onClick={() => onRetry(index)}
+              disabled={disabled}
+              onClick={() => !disabled && onRetry(index)}
             >
               <IconRefresh style={{ width: '70%', height: '70%' }} stroke={1.5} />
             </ActionIcon>
           )}
         </div>
       </Grid.Col>
-      <Grid.Col span={15} style={{ alignItems: 'center', display: 'flex' }}>
+      <Grid.Col span={{ base: 24, md: 15 }} style={{ alignItems: 'center', display: 'flex' }}>
         <div className={classes.itemInfo}>
           <Text size="sm" className={classes.infoName} component="div" lineClamp={1}>
             {info.fileName}
@@ -147,7 +149,7 @@ export const PreviewItem: React.FC<{
         </div>
       </Grid.Col>
       <Grid.Col
-        span={3}
+        span={{ base: 24, md: 3 }}
         style={{
           alignItems: 'center',
           display: 'flex',
@@ -156,7 +158,15 @@ export const PreviewItem: React.FC<{
           gap: 5,
         }}
       >
-        <CloseButton onClick={() => onRemove(index)} aria-label={t('upload.preview.remove')} />
+        <ActionIcon
+          variant="subtle"
+          color="red"
+          aria-label={t('upload.preview.remove')}
+          disabled={disabled}
+          onClick={() => !disabled && onRemove(index)}
+        >
+          <IconX stroke={1.5} />
+        </ActionIcon>
       </Grid.Col>
       {item.error && (
         <Text className={classes.infoError} fw={700} size="sm">
