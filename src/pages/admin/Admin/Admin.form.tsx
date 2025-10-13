@@ -46,6 +46,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
       status: item?.status || Status.Enabled,
       password: '',
       confirmPassword: '',
+      avatar: item?.avatar || '',
       role: item ? { connect: { id: item?.roleId } } : { connect: { id: '' } },
     },
     validate: {
@@ -90,6 +91,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
       password: form.values.password,
       role: form.values.role,
       status: form.values.status,
+      avatar: form.values.avatar,
     };
     if (item) {
       updateAdmin({
@@ -181,9 +183,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
                 label={t('Admin.avatar')}
                 path="system/avatar"
                 outputType="id"
-                onChange={(items) => {
-                  console.log(items);
-                }}
+                {...form.getInputProps('avatar')}
               />
             </Grid.Col>
           </Grid>

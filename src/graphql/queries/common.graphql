@@ -1,5 +1,5 @@
-query Translations($scope: String!) {
-	translations(scope: $scope)
+query Translations($scopes: [String!]!) {
+	translations(scopes: $scopes)
 }
 
 query HealthCheck {

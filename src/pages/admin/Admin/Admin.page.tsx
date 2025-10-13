@@ -33,6 +33,11 @@ export const AdminPage = () => {
           type: 'string',
         },
         {
+          accessor: 'avatarUrl',
+          title: t('Admin.email'),
+          type: 'image',
+        },
+        {
           accessor: 'email',
           title: t('Admin.email'),
           type: 'string',

@@ -22,13 +22,19 @@ export const ActionAccount = () => {
       >
         <Menu.Target>
           <ActionIcon ml={8} variant="transparent" radius="xl" style={{ overflow: 'visible' }}>
-            <Avatar style={{ cursor: 'pointer' }} variant="filled" radius="xl" src="-" alt="it's me" />
+            <Avatar
+              src={admin?.avatarUrl || user?.avatarUrl}
+              style={{ cursor: 'pointer' }}
+              variant="filled"
+              radius="xl"
+              alt="it's me"
+            />
           </ActionIcon>
         </Menu.Target>
         <Menu.Dropdown>
           <Menu.Item rightSection={<IconChevronRight style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}>
             <Group>
-              <Avatar radius="xl" src="-" />
+              <Avatar radius="xl" src={admin?.avatarUrl || user?.avatarUrl} />
               <div>
                 <Text fw={500}>{admin?.name || user?.name || '--'}</Text>
                 <Text size="xs" c="dimmed">

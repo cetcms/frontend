@@ -80,33 +80,60 @@ export const Upload: React.FC<UploadProps> = (props) => {
   };
   const effectiveOutputType: 'id' | 'object' = outputType ?? inferOutputType();
 
+  // Keep latest onChange in a ref to avoid dependency loop
+  const onChangeRef = React.useRef(onChange);
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
+
   // Unified output handling for single/multiple and object/id modes
   useEffect(() => {
-    if (loading || !onChange) return;
+    if (loading) return;
 
     const doneItems = fileItems.filter((item) => item.status === 'done');
     const isSingle = !maxFiles || maxFiles <= 1;
 
+    let nextValue: UploadValueType = null;
     if (effectiveOutputType === 'object') {
       if (isSingle) {
-        const payload = (doneItems[0]?.info as MediaFile) || null;
-        onChange(payload);
+        nextValue = (doneItems[0]?.info as MediaFile) || null;
       } else {
-        const payload = doneItems.map((item) => item.info as MediaFile);
-        onChange(payload as Array<MediaFile>);
+        nextValue = doneItems.map((item) => item.info as MediaFile) as Array<MediaFile>;
       }
-      return;
-    }
-
-    if (isSingle) {
+    } else if (isSingle) {
       const id = doneItems[0]?.info?.id ?? null;
-      onChange(id);
-      return;
+      nextValue = id;
+    } else {
+      nextValue = doneItems.map((item) => item.info.id).filter(Boolean) as string[];
     }
 
-    const payload = doneItems.map((item) => item.info.id).filter(Boolean) as string[];
-    onChange(payload);
-  }, [fileItems, loading, maxFiles, effectiveOutputType, onChange]);
+    // Prevent infinite loop: only emit when value actually changed
+    const equals = (a: UploadValueType, b: UploadValueType): boolean => {
+      if (a === b) return true;
+      // Treat empty string and null as equal for single id mode
+      if ((a === '' && b === null) || (a === null && b === '')) return true;
+      if (Array.isArray(a) && Array.isArray(b)) {
+        if (a.length !== b.length) return false;
+        const aSorted = [...a].map((v) => (typeof v === 'object' ? (v as MediaFile).id : v)).sort();
+        const bSorted = [...b].map((v) => (typeof v === 'object' ? (v as MediaFile).id : v)).sort();
+        return aSorted.every((v, i) => v === bSorted[i]);
+      }
+      if (typeof a === 'object' && a && typeof b === 'object' && b) {
+        return (a as MediaFile).id === (b as MediaFile).id;
+      }
+      if (typeof a === 'object' && a && (typeof b === 'string' || b === null)) {
+        return (a as MediaFile).id === b;
+      }
+      if (typeof b === 'object' && b && (typeof a === 'string' || a === null)) {
+        return (b as MediaFile).id === a;
+      }
+      return false;
+    };
+
+    if (!equals(value ?? null, nextValue) && onChangeRef.current) {
+      onChangeRef.current(nextValue);
+    }
+  }, [fileItems, loading, maxFiles, effectiveOutputType, value]);
 
   const multiple = maxFiles ? maxFiles > 1 : false;
   const showDropzone =

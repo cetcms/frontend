@@ -10,6 +10,8 @@ directive @oneOf on INPUT_OBJECT
 
 type Admin {
 	auths: [Auth!]
+	avatar: String
+	avatarUrl: String!
 	companies: [AdminCompany!]
 	createdAt: DateTime!
 	email: String!
@@ -64,6 +66,7 @@ type AdminCompanyMinAggregate {
 
 type AdminCountAggregate {
 	_all: Int!
+	avatar: Int!
 	createdAt: Int!
 	email: Int!
 	id: Int!
@@ -74,6 +77,7 @@ type AdminCountAggregate {
 }
 
 type AdminMaxAggregate {
+	avatar: String
 	createdAt: DateTime
 	email: String
 	id: String
@@ -84,6 +88,7 @@ type AdminMaxAggregate {
 }
 
 type AdminMinAggregate {
+	avatar: String
 	createdAt: DateTime
 	email: String
 	id: String
@@ -195,6 +200,8 @@ type Company {
 	createdAt: DateTime!
 	description: String
 	id: ID!
+	logo: String
+	logoUrl: String!
 	name: String!
 	notificationRecipients: [NotificationRecipient!]
 	notifications: [Notification!]
@@ -209,6 +216,7 @@ type CompanyCountAggregate {
 	createdAt: Int!
 	description: Int!
 	id: Int!
+	logo: Int!
 	name: Int!
 	status: Int!
 	updatedAt: Int!
@@ -220,6 +228,7 @@ type CompanyMaxAggregate {
 	createdAt: DateTime
 	description: String
 	id: String
+	logo: String
 	name: String
 	status: Status
 	updatedAt: DateTime
@@ -231,6 +240,7 @@ type CompanyMinAggregate {
 	createdAt: DateTime
 	description: String
 	id: String
+	logo: String
 	name: String
 	status: Status
 	updatedAt: DateTime
@@ -820,7 +830,7 @@ type Query {
 	paginateNotifications(cursor: NotificationWhereUniqueInput, distinct: [NotificationScalarFieldEnum!], orderBy: [NotificationOrderByWithRelationInput!], skip: Int, take: Int, where: NotificationWhereInput): PaginatedNotification!
 	paginateUsers(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): PaginatedUser!
 	refresh: Login!
-	translations(scope: String!): JSONObject!
+	translations(scopes: [String!]!): JSONObject!
 }
 
 type RequestLog {
@@ -937,6 +947,8 @@ type RequestLogSumAggregate {
 
 type User {
 	auths: [Auth!]
+	avatar: String
+	avatarUrl: String!
 	companies: [CompanyUser!]
 	createdAt: DateTime!
 	email: String!
@@ -947,12 +959,14 @@ type User {
 	name: String!
 	notificationRecipients: [NotificationRecipient!]
 	notifications: [Notification!]
+	role: CompanyRole!
 	status: Status!
 	updatedAt: DateTime!
 }
 
 type UserCountAggregate {
 	_all: Int!
+	avatar: Int!
 	createdAt: Int!
 	email: Int!
 	id: Int!
@@ -962,6 +976,7 @@ type UserCountAggregate {
 }
 
 type UserMaxAggregate {
+	avatar: String
 	createdAt: DateTime
 	email: String
 	id: String
@@ -971,6 +986,7 @@ type UserMaxAggregate {
 }
 
 type UserMinAggregate {
+	avatar: String
 	createdAt: DateTime
 	email: String
 	id: String
@@ -999,6 +1015,7 @@ enum AdminRoleScalarFieldEnum {
 }
 
 enum AdminScalarFieldEnum {
+	avatar
 	createdAt
 	email
 	id
@@ -1027,6 +1044,7 @@ enum CompanyScalarFieldEnum {
 	createdAt
 	description
 	id
+	logo
 	name
 	status
 	updatedAt
@@ -1172,6 +1190,7 @@ enum Target {
 }
 
 enum UserScalarFieldEnum {
+	avatar
 	createdAt
 	email
 	id
@@ -1265,6 +1284,7 @@ input AdminCompanyWhereUniqueInput {
 }
 
 input AdminCreateInput {
+	avatar: String
 	email: String!
 	name: String!
 	notificationRecipients: NotificationRecipientCreateNestedManyWithoutAdminInput
@@ -1299,6 +1319,7 @@ input AdminOrderByRelationAggregateInput {
 
 input AdminOrderByWithRelationInput {
 	auths: AuthOrderByRelationAggregateInput
+	avatar: SortOrderInput
 	companies: AdminCompanyOrderByRelationAggregateInput
 	createdAt: SortOrder
 	email: SortOrder
@@ -1389,6 +1410,7 @@ input AdminScalarRelationFilter {
 }
 
 input AdminUpdateInput {
+	avatar: String
 	email: String
 	name: String
 	notificationRecipients: NotificationRecipientUpdateManyWithoutAdminNestedInput
@@ -1412,6 +1434,7 @@ input AdminWhereInput {
 	NOT: [AdminWhereInput!]
 	OR: [AdminWhereInput!]
 	auths: AuthListRelationFilter
+	avatar: StringNullableFilter
 	companies: AdminCompanyListRelationFilter
 	createdAt: DateTimeFilter
 	email: StringFilter
@@ -1429,6 +1452,7 @@ input AdminWhereInput {
 }
 
 input AdminWhereUniqueInput {
+	avatar: StringNullableFilter
 	email: String
 	id: String
 	name: StringFilter
@@ -1517,6 +1541,7 @@ input CompanyCreateInput {
 	auths: AuthCreateNestedManyWithoutCompanyInput
 	code: String
 	description: String
+	logo: String
 	logs: RequestLogCreateNestedManyWithoutCompanyInput
 	mediaFiles: MediaFileCreateNestedManyWithoutCompanyInput
 	mediaFolders: MediaFolderCreateNestedManyWithoutCompanyInput
@@ -1553,6 +1578,7 @@ input CompanyOrderByWithRelationInput {
 	createdAt: SortOrder
 	description: SortOrderInput
 	id: SortOrder
+	logo: SortOrderInput
 	logs: RequestLogOrderByRelationAggregateInput
 	mediaFiles: MediaFileOrderByRelationAggregateInput
 	mediaFolders: MediaFolderOrderByRelationAggregateInput
@@ -1686,6 +1712,7 @@ input CompanyUpdateInput {
 	auths: AuthUpdateManyWithoutCompanyNestedInput
 	code: String
 	description: String
+	logo: String
 	logs: RequestLogUpdateManyWithoutCompanyNestedInput
 	mediaFiles: MediaFileUpdateManyWithoutCompanyNestedInput
 	mediaFolders: MediaFolderUpdateManyWithoutCompanyNestedInput
@@ -1797,6 +1824,7 @@ input CompanyWhereInput {
 	createdAt: DateTimeFilter
 	description: StringNullableFilter
 	id: StringFilter
+	logo: StringNullableFilter
 	logs: RequestLogListRelationFilter
 	mediaFiles: MediaFileListRelationFilter
 	mediaFolders: MediaFolderListRelationFilter
@@ -1816,6 +1844,7 @@ input CompanyWhereUniqueInput {
 	code: String
 	description: StringNullableFilter
 	id: String
+	logo: StringNullableFilter
 	logs: RequestLogListRelationFilter
 	mediaFiles: MediaFileListRelationFilter
 	mediaFolders: MediaFolderListRelationFilter
@@ -2734,6 +2763,7 @@ input StringNullableListFilter {
 }
 
 input UserCreateInput {
+	avatar: String
 	email: String!
 	name: String!
 	notificationRecipients: NotificationRecipientCreateNestedManyWithoutUserInput
@@ -2753,6 +2783,7 @@ input UserNullableScalarRelationFilter {
 
 input UserOrderByWithRelationInput {
 	auths: AuthOrderByRelationAggregateInput
+	avatar: SortOrderInput
 	companies: CompanyUserOrderByRelationAggregateInput
 	createdAt: SortOrder
 	email: SortOrder
@@ -2773,6 +2804,7 @@ input UserScalarRelationFilter {
 }
 
 input UserUpdateInput {
+	avatar: String
 	email: String
 	name: String
 	notificationRecipients: NotificationRecipientUpdateManyWithoutUserNestedInput
@@ -2790,6 +2822,7 @@ input UserWhereInput {
 	NOT: [UserWhereInput!]
 	OR: [UserWhereInput!]
 	auths: AuthListRelationFilter
+	avatar: StringNullableFilter
 	companies: CompanyUserListRelationFilter
 	createdAt: DateTimeFilter
 	email: StringFilter
@@ -2805,6 +2838,7 @@ input UserWhereInput {
 }
 
 input UserWhereUniqueInput {
+	avatar: StringNullableFilter
 	email: String
 	id: String
 	name: StringFilter

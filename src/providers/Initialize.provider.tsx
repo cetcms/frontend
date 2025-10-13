@@ -13,14 +13,17 @@ export interface InitializeProviderProps {
   setupOptions?: SetupAppOptions;
 }
 
-const useLoadTranslations = (scope: string) => {
+const useLoadTranslations = (scopes: string[]) => {
   const { i18n } = useTranslation();
   const { data, loading } = useQuery(TranslationsDocument, {
-    variables: { scope },
+    variables: { scopes },
   });
   useEffect(() => {
     if (data?.translations) {
-      i18n.addResourceBundle(i18n.language, scope, data.translations);
+      for (const scope in data?.translations) {
+        const translations = data.translations[scope] || {};
+        i18n.addResourceBundle(i18n.language, scope, translations);
+      }
     }
   }, [data]);
   return { loading };
@@ -81,8 +84,7 @@ export const InitializeProvider: React.FC<InitializeProviderProps> = ({ children
   const { registerMenus, registerTheme } = setupOptions || {};
   const { loading: menuLoading } = useRegisterMenus(registerMenus);
   const { loading: themeLoading, theme } = useRegisterTheme(registerTheme);
-  const modelsI18n = useLoadTranslations('models');
-  const permissionsI18n = useLoadTranslations('permissions');
+  const { loading: translationLoading } = useLoadTranslations(['models', 'permissions']);
   const health = useQuery(HealthCheckDocument, {
     fetchPolicy: 'network-only',
   });
@@ -92,7 +94,7 @@ export const InitializeProvider: React.FC<InitializeProviderProps> = ({ children
     return () => clearInterval(intervalId);
   }, []);
 
-  if (menuLoading || themeLoading || modelsI18n.loading || permissionsI18n.loading) {
+  if (menuLoading || themeLoading || translationLoading) {
     return <Loading native />;
   }
 
