@@ -38,12 +38,12 @@ export const PreviewItem: React.FC<{
             })}
             size="xs"
           >
-            {item.status}
+            {t(`upload.status.${item.status}`)}
           </Text>
           {item.status === 'failed' && (
             <ActionIcon
               variant="filled"
-              aria-label="Retry"
+              aria-label={t('upload.preview.retry')}
               className={classes.retryButton}
               onClick={() => onRetry(index)}
             >

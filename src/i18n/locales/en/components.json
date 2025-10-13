@@ -1,1 +1,41 @@
-{}
+{
+  "upload": {
+    "notification": {
+      "failed": "Upload failed",
+      "success": "Upload succeeded",
+      "limit": "Upload limit reached",
+      "limit_tip": "You can upload up to {{maxFiles}} files"
+    },
+    "dropzone": {
+      "accept": "Release to upload files",
+      "reject": "Some files are not allowed",
+      "idle": "Drag & drop files here or click to select",
+      "tip": "Supports common file types; please follow the upload rules.",
+      "too_large": "File is too large (max {{maxSize}})",
+      "invalid_type": "Invalid file type",
+      "too_many_files": "Too many files selected",
+      "select": "Select from {{fileManagerName}}"
+    },
+    "preview": {
+      "size": "Size: ",
+      "type": "Type: ",
+      "remove": "Remove",
+      "error": "Failed to upload the file",
+      "retry": "Retry"
+    },
+    "status": {
+      "pending": "Pending",
+      "progress": "Uploading",
+      "failed": "Failed",
+      "done": "Uploaded"
+    },
+    "error": {
+      "upload": "Upload failed"
+    },
+    "fileManager": {
+      "explorer": "Explorer",
+      "finder": "Finder",
+      "file_manager": "File Manager"
+    }
+  }
+}

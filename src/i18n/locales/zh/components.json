@@ -1,1 +1,41 @@
-{}
+{
+  "upload": {
+    "notification": {
+      "failed": "上传失败",
+      "success": "上传成功",
+      "limit": "已达到上传数量限制",
+      "limit_tip": "最多可上传 {{maxFiles}} 个文件"
+    },
+    "dropzone": {
+      "accept": "释放鼠标开始上传",
+      "reject": "部分文件不允许上传",
+      "idle": "拖拽文件到此处或点击选择",
+      "tip": "支持常见文件类型，请遵守上传规则。",
+      "too_large": "文件过大（最大 {{maxSize}}）",
+      "invalid_type": "文件类型不合法",
+      "too_many_files": "选择的文件数量过多",
+      "select": "从 {{fileManagerName}} 选择"
+    },
+    "preview": {
+      "size": "大小：",
+      "type": "类型：",
+      "remove": "移除",
+      "error": "文件上传失败",
+      "retry": "重试"
+    },
+    "status": {
+      "pending": "等待中",
+      "progress": "上传中",
+      "failed": "失败",
+      "done": "已上传"
+    },
+    "error": {
+      "upload": "上传失败"
+    },
+    "fileManager": {
+      "explorer": "资源管理器",
+      "finder": "访达",
+      "file_manager": "文件管理器"
+    }
+  }
+}

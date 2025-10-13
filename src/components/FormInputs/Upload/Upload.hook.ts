@@ -21,7 +21,7 @@ export function useUpload({ onError, onDone, value, defaultValue, path }: Upload
   const [uploadFile] = useMutation(UploadFileDocument);
   const [initializedRef, setInitializedRef] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
-  const { t } = useTranslation();
+  const { t } = useTranslation(['components']);
 
   // 保持对最新 fileItems 的引用，用于在上传过程中按id定位当前索引，避免错位更新
   const itemsRef = React.useRef<FileItem[]>([]);
@@ -132,7 +132,7 @@ export function useUpload({ onError, onDone, value, defaultValue, path }: Upload
           },
         });
         if (!data?.uploadFile) {
-          throw new Error(t('common:upload.error.upload'));
+          throw new Error(t('upload.error.upload'));
         }
         const doneItem: FileItem = {
           ...starting,
@@ -152,7 +152,7 @@ export function useUpload({ onError, onDone, value, defaultValue, path }: Upload
         } catch {
           parsed = null;
         }
-        const message = parsed?.message || err?.message || t('common:upload.error.upload');
+        const message = parsed?.message || err?.message || t('upload.error.upload');
         const failedItem: FileItem = {
           ...item,
           status: 'failed',
@@ -181,10 +181,11 @@ export function useFileManagerName() {
   const ua = new UAParser();
   const os = ua.getOS();
   const name = os.name?.toLowerCase();
+  const { t } = useTranslation(['components']);
   if (name?.includes('win')) {
-    return 'Explorer'; // Windows 系统
+    return t('upload.fileManager.explorer');
   } else if (name?.includes('mac')) {
-    return 'Finder'; // macOS 系统
+    return t('upload.fileManager.finder');
   }
-  return 'File Manager'; // 其他系统
+  return t('upload.fileManager.file_manager');
 }
