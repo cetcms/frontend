@@ -1,11 +1,10 @@
 import { Center, Loader, rem } from '@mantine/core';
-import { DropzoneProps } from '@mantine/dropzone';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { List } from 'react-movable';
-import { MediaFile, MediaStore } from 'src/graphql';
+import { MediaFile, MediaStore, MediaType } from 'src/graphql';
 import { FileHelper } from 'src/utils/file-helper';
 import * as uuid from 'uuid';
 
@@ -20,7 +19,7 @@ const fileHelper = new FileHelper();
 export interface UploadProps {
   maxSize?: number;
   maxFiles?: number;
-  accept?: DropzoneProps['accept'];
+  allowType?: MediaType[];
   path?: string;
   store?: MediaStore;
   value?: Array<string> | Array<MediaFile>;
@@ -80,11 +79,29 @@ export const Upload: React.FC<UploadProps> = (props) => {
         <Dropzone
           multiple={multiple}
           maxSize={props.maxSize}
-          accept={props.accept}
           onDrop={(files) => {
-            const items: FileItem[] = [];
+            const allowedFiles: File[] = [];
+            const rejectedFiles: File[] = [];
             for (const file of files) {
-              // 使用 ObjectURL 生成预览，替代Base64以提升性能
+              if (fileHelper.isFileAllowed(file, props.allowType)) {
+                allowedFiles.push(file);
+              } else {
+                rejectedFiles.push(file);
+              }
+            }
+
+            if (rejectedFiles.length > 0) {
+              rejectedFiles.forEach((file) => {
+                notifications.show({
+                  title: `${file.name}`,
+                  message: t('upload.dropzone.invalid_type'),
+                  position: 'top-right',
+                });
+              });
+            }
+
+            const items: FileItem[] = [];
+            for (const file of allowedFiles) {
               const url = URL.createObjectURL(file);
               items.push({
                 file,
@@ -105,7 +122,6 @@ export const Upload: React.FC<UploadProps> = (props) => {
               });
             }
 
-            // 新文件置顶，顺序为: 新 -> 旧
             let next = [...items, ...fileItems];
             if (props.maxFiles && next.length > props.maxFiles) {
               next = next.slice(0, props.maxFiles);
@@ -134,7 +150,6 @@ export const Upload: React.FC<UploadProps> = (props) => {
               index={index || 0}
               onRemove={(idx) => {
                 const item = fileItems[idx];
-                // 移除时回收ObjectURL，避免内存泄漏
                 if (item?.url && item.url.startsWith('blob:')) {
                   try {
                     URL.revokeObjectURL(item.url);
