@@ -23,6 +23,12 @@ export function useUpload({ onError, onDone, value, defaultValue, path }: Upload
   const [loading, setLoading] = React.useState(true);
   const { t } = useTranslation();
 
+  // 保持对最新 fileItems 的引用，用于在上传过程中按id定位当前索引，避免错位更新
+  const itemsRef = React.useRef<FileItem[]>([]);
+  useEffect(() => {
+    itemsRef.current = fileItems;
+  }, [fileItems]);
+
   let ids: Array<string> = [];
   const valueItems = value || defaultValue || [];
   if (valueItems.length > 0 && typeof valueItems[0] === 'object') {
@@ -90,20 +96,34 @@ export function useUpload({ onError, onDone, value, defaultValue, path }: Upload
     setLoading(false);
   }, [value, defaultValue, mediaFilesData, handleFileItems, initializedRef]);
 
+  // 简单并发限制，防止一次性过多上传导致不稳定
+  const MAX_CONCURRENCY = 3;
+  const activeCountRef = React.useRef(0);
+
   // 处理待上传的文件
   useEffect(() => {
     const pendingItems: FileItem[] = [];
-    const itemsIndex: Record<string, number> = {};
-    fileItems.forEach((item, index) => {
-      itemsIndex[item.id] = index;
+    fileItems.forEach((item) => {
       if (item.status === 'pending') {
         pendingItems.push(item);
       }
     });
 
-    const runUpload = async (item: FileItem, index: number) => {
-      item.status = 'progress';
-      handleFileItems.setItem(index, item);
+    const setById = (updatedItem: FileItem) => {
+      const idx = itemsRef.current.findIndex((it) => it.id === updatedItem.id);
+      if (idx !== -1) {
+        handleFileItems.setItem(idx, updatedItem);
+      }
+    };
+
+    const runUpload = async (item: FileItem) => {
+      // 在开始前再次确认索引位置
+      const startIdx = itemsRef.current.findIndex((it) => it.id === item.id);
+      if (startIdx === -1) return;
+      const starting: FileItem = { ...item, status: 'progress' };
+      handleFileItems.setItem(startIdx, starting);
+      activeCountRef.current++;
+
       try {
         const { data } = await uploadFile({
           variables: {
@@ -114,27 +134,43 @@ export function useUpload({ onError, onDone, value, defaultValue, path }: Upload
         if (!data?.uploadFile) {
           throw new Error(t('common:upload.error.upload'));
         }
-        item.progress = 100;
-        item.status = 'done';
-        item.info = data.uploadFile;
-        handleFileItems.setItem(index, item);
+        const doneItem: FileItem = {
+          ...starting,
+          progress: 100,
+          status: 'done',
+          info: data.uploadFile,
+        };
+        setById(doneItem);
         if (onDone) {
-          onDone(item, index);
+          onDone(doneItem, startIdx);
         }
       } catch (err: any) {
-        const error = JSON.parse(err.message);
-        item.status = 'failed';
-        item.error = error?.message || String(error);
-        handleFileItems.setItem(index, item);
-        if (onError) {
-          onError(error as Error, item, index);
+        // 安全解析错误信息，避免 JSON.parse 崩溃
+        let parsed: any = null;
+        try {
+          parsed = typeof err?.message === 'string' ? JSON.parse(err.message) : null;
+        } catch {
+          parsed = null;
         }
+        const message = parsed?.message || err?.message || t('common:upload.error.upload');
+        const failedItem: FileItem = {
+          ...item,
+          status: 'failed',
+          error: String(message),
+        };
+        setById(failedItem);
+        if (onError) {
+          onError(new Error(String(message)), failedItem, startIdx);
+        }
+      } finally {
+        activeCountRef.current = Math.max(0, activeCountRef.current - 1);
       }
     };
 
+    // 启动上传：受并发限制
     pendingItems.forEach((item) => {
-      const index = itemsIndex[item.id];
-      runUpload(item, index);
+      if (activeCountRef.current >= MAX_CONCURRENCY) return;
+      runUpload(item);
     });
   }, [fileItems, uploadFile, path, t, onDone, onError, handleFileItems]);
 

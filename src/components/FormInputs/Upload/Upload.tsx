@@ -81,10 +81,11 @@ export const Upload: React.FC<UploadProps> = (props) => {
           multiple={multiple}
           maxSize={props.maxSize}
           accept={props.accept}
-          onDrop={async (files) => {
+          onDrop={(files) => {
             const items: FileItem[] = [];
             for (const file of files) {
-              const url = await fileHelper.toBase64Url(file);
+              // 使用 ObjectURL 生成预览，替代Base64以提升性能
+              const url = URL.createObjectURL(file);
               items.push({
                 file,
                 url,
@@ -104,17 +105,17 @@ export const Upload: React.FC<UploadProps> = (props) => {
               });
             }
 
-            const allItems = [...items.reverse(), ...fileItems].reverse();
-            if (props.maxFiles && allItems.length > props.maxFiles) {
-              handleFileItems.setState(allItems.slice(0, props.maxFiles).reverse());
+            // 新文件置顶，顺序为: 新 -> 旧
+            let next = [...items, ...fileItems];
+            if (props.maxFiles && next.length > props.maxFiles) {
+              next = next.slice(0, props.maxFiles);
               notifications.show({
                 title: t('upload.notification.limit'),
                 message: t('upload.notification.limit_tip', { maxFiles: props.maxFiles }),
                 position: 'top-right',
               });
-            } else {
-              handleFileItems.setState(allItems.reverse());
             }
+            handleFileItems.setState(next);
           }}
         />
       )}
@@ -131,9 +132,20 @@ export const Upload: React.FC<UploadProps> = (props) => {
             <PreviewItem
               item={value}
               index={index || 0}
-              onRemove={(index) => handleFileItems.remove(index)}
-              onRetry={(index) => {
-                handleFileItems.setItem(index, {
+              onRemove={(idx) => {
+                const item = fileItems[idx];
+                // 移除时回收ObjectURL，避免内存泄漏
+                if (item?.url && item.url.startsWith('blob:')) {
+                  try {
+                    URL.revokeObjectURL(item.url);
+                  } catch {
+                    // noop
+                  }
+                }
+                handleFileItems.remove(idx);
+              }}
+              onRetry={(idx) => {
+                handleFileItems.setItem(idx, {
                   ...value,
                   status: 'pending',
                   progress: 0,

@@ -26,16 +26,20 @@ export const Dropzone: React.FC<DropzoneProps> = (props) => {
         onReject={(files) => {
           files.forEach((file) => {
             const error = file.errors[0];
-            const maxSize = props.maxSize;
-            if (error.code === 'file-too-large' && maxSize) {
-              error.message = error.message.replace(`${maxSize}`, filesize(maxSize));
+            let message = error?.message || '';
+            if (error?.code === 'file-too-large' && props.maxSize) {
+              message = t('upload.dropzone.too_large', { maxSize: filesize(props.maxSize) });
+            } else if (error?.code === 'file-invalid-type') {
+              message = t('upload.dropzone.invalid_type');
+            } else if (error?.code === 'too-many-files') {
+              message = t('upload.dropzone.too_many_files');
             }
 
-            logger.error(error.message);
+            logger.error(message || error?.message);
 
             notifications.show({
               title: `${file.file.name}`,
-              message: error.message,
+              message: message || error?.message,
               position: 'top-right',
             });
           });
@@ -70,7 +74,7 @@ export const Dropzone: React.FC<DropzoneProps> = (props) => {
         <Button variant="default" radius="xl" onClick={() => openRef.current && openRef.current()}>
           {t('upload.dropzone.select', { fileManagerName })}
         </Button>
-        {/*<Button variant={'default'} radius="xl" onClick={() => logger.log('upload')}>*/}
+        {/*<Button variant={'default'} radius="xl" onClick={() => logger.log('upload')}>
         {/*  Select Media*/}
         {/*</Button>*/}
       </Box>
