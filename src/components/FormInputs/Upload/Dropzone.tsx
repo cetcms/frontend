@@ -5,24 +5,29 @@ import { IconCloudUpload, IconDownload, IconX } from '@tabler/icons-react';
 import { filesize } from 'filesize';
 import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { MediaType } from 'src/graphql';
+import { FileHelper } from 'src/utils/file-helper';
 import { Logger } from 'src/utils/logger';
 
 import { useFileManagerName } from './Upload.hook';
 import classes from './Upload.module.scss';
 
 const logger = new Logger('Dropzone');
+const fileHelper = new FileHelper();
 
-export const Dropzone: React.FC<DropzoneProps> = (props) => {
+export const Dropzone: React.FC<DropzoneProps & { allowType?: MediaType[] }> = (props) => {
   const theme = useMantineTheme();
   const fileManagerName = useFileManagerName();
   const { t } = useTranslation(['components']);
   const openRef = useRef<() => void>(null);
+  const accept = props.accept ?? fileHelper.getAcceptMimeTypesFor(props.allowType);
   return (
     <div className={classes.wrapper}>
       <MantineDropzone
         radius="md"
         className={classes.dropzone}
         {...props}
+        accept={accept}
         onReject={(files) => {
           files.forEach((file) => {
             const error = file.errors[0];

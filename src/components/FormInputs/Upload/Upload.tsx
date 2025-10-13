@@ -79,6 +79,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
         <Dropzone
           multiple={multiple}
           maxSize={props.maxSize}
+          allowType={props.allowType}
           onDrop={(files) => {
             const allowedFiles: File[] = [];
             const rejectedFiles: File[] = [];
