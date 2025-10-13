@@ -9,6 +9,7 @@ export const ActionAccount = () => {
   // const theme = useMantineTheme();
   const { clearLogin, clearAuth, auth } = useAuthStore();
   const [logout, { loading }] = useLazyQuery(LogoutDocument);
+  const { user, admin } = auth || {};
   return (
     <Group justify="center">
       <Menu
@@ -28,11 +29,10 @@ export const ActionAccount = () => {
           <Menu.Item rightSection={<IconChevronRight style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}>
             <Group>
               <Avatar radius="xl" src="-" />
-
               <div>
-                <Text fw={500}>{auth?.admin?.name || '--'}</Text>
+                <Text fw={500}>{admin?.name || user?.name || '--'}</Text>
                 <Text size="xs" c="dimmed">
-                  {auth?.admin?.email || '--'}
+                  {admin?.email || user?.email || '--'}
                 </Text>
               </div>
             </Group>

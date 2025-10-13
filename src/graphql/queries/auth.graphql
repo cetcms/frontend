@@ -46,5 +46,11 @@ query AuthInfo {
 		device
 		location
 		target
+		admin {
+			...Admin
+		}
+		user {
+			...User
+		}
 	}
 }

@@ -6,3 +6,4 @@ export * from './Iconify/Iconify';
 export * from './DataTable';
 export * from './DataFilter';
 export * from './Status/Status';
+export * from './Upload/Upload';

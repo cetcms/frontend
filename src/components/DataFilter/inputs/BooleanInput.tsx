@@ -3,7 +3,6 @@ import React from 'react';
 
 import { FilterFieldType, FilterItemConfig, FilterFieldConfig, FilterFieldInputProps } from '../types';
 
-
 const BooleanInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChange, size }) => {
   return (
     <SegmentedControl
@@ -26,7 +25,7 @@ const booleanOperators = [
 ];
 
 // 生成 Prisma 查询条件
-const genPrismaWhere = (items: FilterItemConfig[], fields: FilterFieldConfig[]) => {
+const genPrismaWhere = (items: FilterItemConfig[], _fields: FilterFieldConfig[]) => {
   return items.map((item) => {
     const condition: any = {};
     condition[item.operator] = item.value;

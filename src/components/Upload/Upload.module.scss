@@ -1,0 +1,164 @@
+@use 'src/styles/base' as *;
+
+.wrapper {
+  position: relative;
+  margin-bottom: rem(30px);
+}
+
+.dropzone {
+  border-width: rem(1px);
+  padding-bottom: rem(50px);
+}
+
+.controls {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 50%);
+  display: flex;
+  gap: rem(10px);
+}
+
+.removeButton {
+  position: absolute;
+  right: rem(5px);
+  top: rem(5px);
+  z-index: 1;
+}
+
+.listWrapper {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.listItem {
+  z-index: 9999;
+  margin-bottom: var(--mantine-spacing-xs);
+}
+
+.previewItem {
+  border-radius: var(--mantine-radius-md);
+  border: rem(1px) solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5));
+  padding: rem(5px);
+  background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-5));
+  position: relative;
+  overflow: hidden;
+
+  & > div > div {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.uploadProgressBase {
+  position: absolute !important;
+  z-index: 0 !important;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  border: 2px solid transparent;
+  background-color: var(--mantine-color-primary-6);
+  border-radius: var(--mantine-radius-md);
+  box-shadow: inset 0 0 0 transparent;
+  opacity: 0.4;
+}
+
+.uploadProgressProgress {
+  transition: width 0.3s ease-in-out;
+}
+
+.uploadProgressFailed {
+  width: 100% !important;
+  background-color: transparent;
+  border-color: var(--mantine-color-red-6);
+  box-shadow: inset 0 0 70px var(--mantine-color-red-6);
+  opacity: 0.6;
+}
+
+.uploadProgressDone {
+  width: 100% !important;
+  background-color: transparent;
+  opacity: 0.6;
+}
+
+.itemImage {
+  width: 100%;
+  padding-bottom: 100%;
+  position: relative;
+  border-radius: var(--mantine-radius-md);
+  overflow: hidden;
+  border: rem(1px) solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5));
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    max-width: 100%;
+    max-height: 100%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.itemInfo {
+  width: 100%;
+  max-height: 100%;
+  position: relative;
+}
+
+.retryButton {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  z-index: 1;
+  transform: translate(50%, -50%);
+}
+
+.itemStatus {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  text-align: center;
+  width: 100%;
+  text-transform: uppercase;
+  color: white;
+}
+.itemStatusDone {
+  background: var(--mantine-color-green-6);
+}
+.itemStatusFailed {
+  background: var(--mantine-color-red-6);
+}
+.itemStatusProgress {
+  background: var(--mantine-color-primary-6);
+}
+.itemStatusPending {
+  background: var(--mantine-color-gray-6);
+}
+
+.infoError {
+  background-color: var(--mantine-color-red-6);
+  color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  opacity: 0.5;
+  z-index: 1;
+}
+
+.infoName {
+  display: flex;
+  max-height: 3em;
+  margin-bottom: rem(5px);
+  align-items: center;
+  overflow: hidden;
+  strong {
+    display: flex;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

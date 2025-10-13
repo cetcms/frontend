@@ -20,6 +20,8 @@ export type Scalars = {
   JSON: { input: any; output: any; }
   /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSONObject: { input: any; output: any; }
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: { input: any; output: any; }
 };
 
 export type Admin = {
@@ -33,6 +35,8 @@ export type Admin = {
   mediaFiles?: Maybe<Array<MediaFile>>;
   mediaFolders?: Maybe<Array<MediaFolder>>;
   name: Scalars['String']['output'];
+  notificationRecipients?: Maybe<Array<NotificationRecipient>>;
+  notifications?: Maybe<Array<Notification>>;
   role: AdminRole;
   roleId: Scalars['String']['output'];
   status: Status;
@@ -173,6 +177,8 @@ export type AdminCountAggregate = {
 export type AdminCreateInput = {
   email: Scalars['String']['input'];
   name: Scalars['String']['input'];
+  notificationRecipients?: InputMaybe<NotificationRecipientCreateNestedManyWithoutAdminInput>;
+  notifications?: InputMaybe<NotificationCreateNestedManyWithoutAdminInput>;
   password: Scalars['String']['input'];
   role: AdminRoleCreateNestedOneWithoutAdminsInput;
   status?: InputMaybe<Status>;
@@ -233,6 +239,8 @@ export type AdminOrderByWithRelationInput = {
   mediaFiles?: InputMaybe<MediaFileOrderByRelationAggregateInput>;
   mediaFolders?: InputMaybe<MediaFolderOrderByRelationAggregateInput>;
   name?: InputMaybe<SortOrder>;
+  notificationRecipients?: InputMaybe<NotificationRecipientOrderByRelationAggregateInput>;
+  notifications?: InputMaybe<NotificationOrderByRelationAggregateInput>;
   role?: InputMaybe<AdminRoleOrderByWithRelationInput>;
   roleId?: InputMaybe<SortOrder>;
   status?: InputMaybe<SortOrder>;
@@ -385,6 +393,8 @@ export type AdminScalarRelationFilter = {
 export type AdminUpdateInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  notificationRecipients?: InputMaybe<NotificationRecipientUpdateManyWithoutAdminNestedInput>;
+  notifications?: InputMaybe<NotificationUpdateManyWithoutAdminNestedInput>;
   password?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<AdminRoleUpdateOneRequiredWithoutAdminsNestedInput>;
   status?: InputMaybe<Status>;
@@ -412,6 +422,8 @@ export type AdminWhereInput = {
   mediaFiles?: InputMaybe<MediaFileListRelationFilter>;
   mediaFolders?: InputMaybe<MediaFolderListRelationFilter>;
   name?: InputMaybe<StringFilter>;
+  notificationRecipients?: InputMaybe<NotificationRecipientListRelationFilter>;
+  notifications?: InputMaybe<NotificationListRelationFilter>;
   role?: InputMaybe<AdminRoleScalarRelationFilter>;
   roleId?: InputMaybe<StringFilter>;
   status?: InputMaybe<EnumStatusFilter>;
@@ -422,6 +434,8 @@ export type AdminWhereUniqueInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<StringFilter>;
+  notificationRecipients?: InputMaybe<NotificationRecipientListRelationFilter>;
+  notifications?: InputMaybe<NotificationListRelationFilter>;
   role?: InputMaybe<AdminRoleScalarRelationFilter>;
   roleId?: InputMaybe<StringFilter>;
   status?: InputMaybe<EnumStatusFilter>;
@@ -550,6 +564,11 @@ export type BigIntFilter = {
   notIn?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
+export type BoolFilter = {
+  equals?: InputMaybe<Scalars['Boolean']['input']>;
+  not?: InputMaybe<NestedBoolFilter>;
+};
+
 export type Company = {
   __typename?: 'Company';
   alias?: Maybe<Scalars['String']['output']>;
@@ -558,6 +577,8 @@ export type Company = {
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
+  notificationRecipients?: Maybe<Array<NotificationRecipient>>;
+  notifications?: Maybe<Array<Notification>>;
   status: Status;
   updatedAt: Scalars['DateTime']['output'];
 };
@@ -585,6 +606,8 @@ export type CompanyCreateInput = {
   mediaFiles?: InputMaybe<MediaFileCreateNestedManyWithoutCompanyInput>;
   mediaFolders?: InputMaybe<MediaFolderCreateNestedManyWithoutCompanyInput>;
   name: Scalars['String']['input'];
+  notificationRecipients?: InputMaybe<NotificationRecipientCreateNestedManyWithoutCompanyInput>;
+  notifications?: InputMaybe<NotificationCreateNestedManyWithoutCompanyInput>;
   roles?: InputMaybe<CompanyRoleCreateNestedManyWithoutCompanyInput>;
   status?: InputMaybe<Status>;
   users?: InputMaybe<CompanyUserCreateNestedManyWithoutCompanyInput>;
@@ -643,6 +666,8 @@ export type CompanyOrderByWithRelationInput = {
   mediaFiles?: InputMaybe<MediaFileOrderByRelationAggregateInput>;
   mediaFolders?: InputMaybe<MediaFolderOrderByRelationAggregateInput>;
   name?: InputMaybe<SortOrder>;
+  notificationRecipients?: InputMaybe<NotificationRecipientOrderByRelationAggregateInput>;
+  notifications?: InputMaybe<NotificationOrderByRelationAggregateInput>;
   roles?: InputMaybe<CompanyRoleOrderByRelationAggregateInput>;
   status?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -851,6 +876,8 @@ export type CompanyUpdateInput = {
   mediaFiles?: InputMaybe<MediaFileUpdateManyWithoutCompanyNestedInput>;
   mediaFolders?: InputMaybe<MediaFolderUpdateManyWithoutCompanyNestedInput>;
   name?: InputMaybe<Scalars['String']['input']>;
+  notificationRecipients?: InputMaybe<NotificationRecipientUpdateManyWithoutCompanyNestedInput>;
+  notifications?: InputMaybe<NotificationUpdateManyWithoutCompanyNestedInput>;
   roles?: InputMaybe<CompanyRoleUpdateManyWithoutCompanyNestedInput>;
   status?: InputMaybe<Status>;
   users?: InputMaybe<CompanyUserUpdateManyWithoutCompanyNestedInput>;
@@ -1013,6 +1040,8 @@ export type CompanyWhereInput = {
   mediaFiles?: InputMaybe<MediaFileListRelationFilter>;
   mediaFolders?: InputMaybe<MediaFolderListRelationFilter>;
   name?: InputMaybe<StringFilter>;
+  notificationRecipients?: InputMaybe<NotificationRecipientListRelationFilter>;
+  notifications?: InputMaybe<NotificationListRelationFilter>;
   roles?: InputMaybe<CompanyRoleListRelationFilter>;
   status?: InputMaybe<EnumStatusFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
@@ -1030,6 +1059,8 @@ export type CompanyWhereUniqueInput = {
   mediaFiles?: InputMaybe<MediaFileListRelationFilter>;
   mediaFolders?: InputMaybe<MediaFolderListRelationFilter>;
   name?: InputMaybe<Scalars['String']['input']>;
+  notificationRecipients?: InputMaybe<NotificationRecipientListRelationFilter>;
+  notifications?: InputMaybe<NotificationListRelationFilter>;
   roles?: InputMaybe<CompanyRoleListRelationFilter>;
   status?: InputMaybe<EnumStatusFilter>;
   users?: InputMaybe<CompanyUserListRelationFilter>;
@@ -1076,6 +1107,41 @@ export type EnumMediaVisibilityFilter = {
   in?: InputMaybe<Array<MediaVisibility>>;
   not?: InputMaybe<NestedEnumMediaVisibilityFilter>;
   notIn?: InputMaybe<Array<MediaVisibility>>;
+};
+
+export type EnumNotificationPrivacyFilter = {
+  equals?: InputMaybe<NotificationPrivacy>;
+  in?: InputMaybe<Array<NotificationPrivacy>>;
+  not?: InputMaybe<NestedEnumNotificationPrivacyFilter>;
+  notIn?: InputMaybe<Array<NotificationPrivacy>>;
+};
+
+export type EnumNotificationReceiverFilter = {
+  equals?: InputMaybe<NotificationReceiver>;
+  in?: InputMaybe<Array<NotificationReceiver>>;
+  not?: InputMaybe<NestedEnumNotificationReceiverFilter>;
+  notIn?: InputMaybe<Array<NotificationReceiver>>;
+};
+
+export type EnumNotificationSenderFilter = {
+  equals?: InputMaybe<NotificationSender>;
+  in?: InputMaybe<Array<NotificationSender>>;
+  not?: InputMaybe<NestedEnumNotificationSenderFilter>;
+  notIn?: InputMaybe<Array<NotificationSender>>;
+};
+
+export type EnumNotificationTypeFilter = {
+  equals?: InputMaybe<NotificationType>;
+  in?: InputMaybe<Array<NotificationType>>;
+  not?: InputMaybe<NestedEnumNotificationTypeFilter>;
+  notIn?: InputMaybe<Array<NotificationType>>;
+};
+
+export type EnumOwnerFilter = {
+  equals?: InputMaybe<Owner>;
+  in?: InputMaybe<Array<Owner>>;
+  not?: InputMaybe<NestedEnumOwnerFilter>;
+  notIn?: InputMaybe<Array<Owner>>;
 };
 
 export type EnumRequestMethodNullableFilter = {
@@ -1128,6 +1194,23 @@ export type IntNullableFilter = {
   notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
+export type JsonFilter = {
+  array_contains?: InputMaybe<Scalars['JSON']['input']>;
+  array_ends_with?: InputMaybe<Scalars['JSON']['input']>;
+  array_starts_with?: InputMaybe<Scalars['JSON']['input']>;
+  equals?: InputMaybe<Scalars['JSON']['input']>;
+  gt?: InputMaybe<Scalars['JSON']['input']>;
+  gte?: InputMaybe<Scalars['JSON']['input']>;
+  lt?: InputMaybe<Scalars['JSON']['input']>;
+  lte?: InputMaybe<Scalars['JSON']['input']>;
+  mode?: InputMaybe<QueryMode>;
+  not?: InputMaybe<Scalars['JSON']['input']>;
+  path?: InputMaybe<Array<Scalars['String']['input']>>;
+  string_contains?: InputMaybe<Scalars['String']['input']>;
+  string_ends_with?: InputMaybe<Scalars['String']['input']>;
+  string_starts_with?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type JsonNullableFilter = {
   array_contains?: InputMaybe<Scalars['JSON']['input']>;
   array_ends_with?: InputMaybe<Scalars['JSON']['input']>;
@@ -1169,28 +1252,32 @@ export type MediaFile = {
   createdAt: Scalars['DateTime']['output'];
   description?: Maybe<Scalars['String']['output']>;
   duration?: Maybe<Scalars['Int']['output']>;
+  extension: Scalars['String']['output'];
   fileHash: Scalars['String']['output'];
   fileName: Scalars['String']['output'];
-  filePath: Scalars['String']['output'];
   fileSize: Scalars['String']['output'];
-  folder?: Maybe<MediaFolder>;
-  folderId?: Maybe<Scalars['String']['output']>;
+  folder: MediaFolder;
+  folderId: Scalars['String']['output'];
   height?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
   mediaType: MediaType;
   metadata?: Maybe<Scalars['JSON']['output']>;
   mimeType: Scalars['String']['output'];
-  originName: Scalars['String']['output'];
-  ownerId: Scalars['String']['output'];
-  ownerType: Target;
+  owner: Owner;
   status: Status;
   store: MediaStore;
   updatedAt: Scalars['DateTime']['output'];
-  uploadedAt: Scalars['DateTime']['output'];
+  url: Scalars['String']['output'];
   user?: Maybe<User>;
   userId?: Maybe<Scalars['String']['output']>;
   visibility: MediaVisibility;
   width?: Maybe<Scalars['Int']['output']>;
+};
+
+export type MediaFileAdminFileIdxCompoundUniqueInput = {
+  adminId: Scalars['String']['input'];
+  fileName: Scalars['String']['input'];
+  folderId: Scalars['String']['input'];
 };
 
 export type MediaFileAvgAggregate = {
@@ -1201,6 +1288,12 @@ export type MediaFileAvgAggregate = {
   width?: Maybe<Scalars['Float']['output']>;
 };
 
+export type MediaFileCompanyFileIdxCompoundUniqueInput = {
+  companyId: Scalars['String']['input'];
+  fileName: Scalars['String']['input'];
+  folderId: Scalars['String']['input'];
+};
+
 export type MediaFileCountAggregate = {
   __typename?: 'MediaFileCountAggregate';
   _all: Scalars['Int']['output'];
@@ -1209,9 +1302,9 @@ export type MediaFileCountAggregate = {
   createdAt: Scalars['Int']['output'];
   description: Scalars['Int']['output'];
   duration: Scalars['Int']['output'];
+  extension: Scalars['Int']['output'];
   fileHash: Scalars['Int']['output'];
   fileName: Scalars['Int']['output'];
-  filePath: Scalars['Int']['output'];
   fileSize: Scalars['Int']['output'];
   folderId: Scalars['Int']['output'];
   height: Scalars['Int']['output'];
@@ -1219,13 +1312,10 @@ export type MediaFileCountAggregate = {
   mediaType: Scalars['Int']['output'];
   metadata: Scalars['Int']['output'];
   mimeType: Scalars['Int']['output'];
-  originName: Scalars['Int']['output'];
-  ownerId: Scalars['Int']['output'];
-  ownerType: Scalars['Int']['output'];
+  owner: Scalars['Int']['output'];
   status: Scalars['Int']['output'];
   store: Scalars['Int']['output'];
   updatedAt: Scalars['Int']['output'];
-  uploadedAt: Scalars['Int']['output'];
   userId: Scalars['Int']['output'];
   visibility: Scalars['Int']['output'];
   width: Scalars['Int']['output'];
@@ -1233,11 +1323,6 @@ export type MediaFileCountAggregate = {
 
 export type MediaFileCreateNestedManyWithoutCompanyInput = {
   connect?: InputMaybe<Array<MediaFileWhereUniqueInput>>;
-};
-
-export type MediaFileFileHashIdxCompoundUniqueInput = {
-  companyId: Scalars['String']['input'];
-  fileHash: Scalars['String']['input'];
 };
 
 export type MediaFileListRelationFilter = {
@@ -1253,22 +1338,19 @@ export type MediaFileMaxAggregate = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   duration?: Maybe<Scalars['Int']['output']>;
+  extension?: Maybe<Scalars['String']['output']>;
   fileHash?: Maybe<Scalars['String']['output']>;
   fileName?: Maybe<Scalars['String']['output']>;
-  filePath?: Maybe<Scalars['String']['output']>;
   fileSize?: Maybe<Scalars['String']['output']>;
   folderId?: Maybe<Scalars['String']['output']>;
   height?: Maybe<Scalars['Int']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   mediaType?: Maybe<MediaType>;
   mimeType?: Maybe<Scalars['String']['output']>;
-  originName?: Maybe<Scalars['String']['output']>;
-  ownerId?: Maybe<Scalars['String']['output']>;
-  ownerType?: Maybe<Target>;
+  owner?: Maybe<Owner>;
   status?: Maybe<Status>;
   store?: Maybe<MediaStore>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  uploadedAt?: Maybe<Scalars['DateTime']['output']>;
   userId?: Maybe<Scalars['String']['output']>;
   visibility?: Maybe<MediaVisibility>;
   width?: Maybe<Scalars['Int']['output']>;
@@ -1281,22 +1363,19 @@ export type MediaFileMinAggregate = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   duration?: Maybe<Scalars['Int']['output']>;
+  extension?: Maybe<Scalars['String']['output']>;
   fileHash?: Maybe<Scalars['String']['output']>;
   fileName?: Maybe<Scalars['String']['output']>;
-  filePath?: Maybe<Scalars['String']['output']>;
   fileSize?: Maybe<Scalars['String']['output']>;
   folderId?: Maybe<Scalars['String']['output']>;
   height?: Maybe<Scalars['Int']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   mediaType?: Maybe<MediaType>;
   mimeType?: Maybe<Scalars['String']['output']>;
-  originName?: Maybe<Scalars['String']['output']>;
-  ownerId?: Maybe<Scalars['String']['output']>;
-  ownerType?: Maybe<Target>;
+  owner?: Maybe<Owner>;
   status?: Maybe<Status>;
   store?: Maybe<MediaStore>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  uploadedAt?: Maybe<Scalars['DateTime']['output']>;
   userId?: Maybe<Scalars['String']['output']>;
   visibility?: Maybe<MediaVisibility>;
   width?: Maybe<Scalars['Int']['output']>;
@@ -1319,6 +1398,12 @@ export type MediaFileUpdateManyWithoutCompanyNestedInput = {
   disconnect?: InputMaybe<Array<MediaFileWhereUniqueInput>>;
 };
 
+export type MediaFileUserFileIdxCompoundUniqueInput = {
+  fileName: Scalars['String']['input'];
+  folderId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+};
+
 export type MediaFileWhereInput = {
   AND?: InputMaybe<Array<MediaFileWhereInput>>;
   NOT?: InputMaybe<Array<MediaFileWhereInput>>;
@@ -1330,24 +1415,21 @@ export type MediaFileWhereInput = {
   createdAt?: InputMaybe<DateTimeFilter>;
   description?: InputMaybe<StringNullableFilter>;
   duration?: InputMaybe<IntNullableFilter>;
+  extension?: InputMaybe<StringFilter>;
   fileHash?: InputMaybe<StringFilter>;
   fileName?: InputMaybe<StringFilter>;
-  filePath?: InputMaybe<StringFilter>;
   fileSize?: InputMaybe<BigIntFilter>;
-  folder?: InputMaybe<MediaFolderNullableScalarRelationFilter>;
-  folderId?: InputMaybe<StringNullableFilter>;
+  folder?: InputMaybe<MediaFolderScalarRelationFilter>;
+  folderId?: InputMaybe<StringFilter>;
   height?: InputMaybe<IntNullableFilter>;
   id?: InputMaybe<StringFilter>;
   mediaType?: InputMaybe<EnumMediaTypeFilter>;
   metadata?: InputMaybe<JsonNullableFilter>;
   mimeType?: InputMaybe<StringFilter>;
-  originName?: InputMaybe<StringFilter>;
-  ownerId?: InputMaybe<StringFilter>;
-  ownerType?: InputMaybe<EnumTargetFilter>;
+  owner?: InputMaybe<EnumOwnerFilter>;
   status?: InputMaybe<EnumStatusFilter>;
   store?: InputMaybe<EnumMediaStoreFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
-  uploadedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserNullableScalarRelationFilter>;
   userId?: InputMaybe<StringNullableFilter>;
   visibility?: InputMaybe<EnumMediaVisibilityFilter>;
@@ -1356,30 +1438,29 @@ export type MediaFileWhereInput = {
 
 export type MediaFileWhereUniqueInput = {
   admin?: InputMaybe<AdminNullableScalarRelationFilter>;
+  adminFileIdx?: InputMaybe<MediaFileAdminFileIdxCompoundUniqueInput>;
   adminId?: InputMaybe<StringNullableFilter>;
   company?: InputMaybe<CompanyNullableScalarRelationFilter>;
+  companyFileIdx?: InputMaybe<MediaFileCompanyFileIdxCompoundUniqueInput>;
   companyId?: InputMaybe<StringNullableFilter>;
   description?: InputMaybe<StringNullableFilter>;
   duration?: InputMaybe<IntNullableFilter>;
+  extension?: InputMaybe<StringFilter>;
   fileHash?: InputMaybe<StringFilter>;
-  fileHashIdx?: InputMaybe<MediaFileFileHashIdxCompoundUniqueInput>;
   fileName?: InputMaybe<StringFilter>;
-  filePath?: InputMaybe<StringFilter>;
   fileSize?: InputMaybe<BigIntFilter>;
-  folder?: InputMaybe<MediaFolderNullableScalarRelationFilter>;
-  folderId?: InputMaybe<StringNullableFilter>;
+  folder?: InputMaybe<MediaFolderScalarRelationFilter>;
+  folderId?: InputMaybe<StringFilter>;
   height?: InputMaybe<IntNullableFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
   mediaType?: InputMaybe<EnumMediaTypeFilter>;
   metadata?: InputMaybe<JsonNullableFilter>;
   mimeType?: InputMaybe<StringFilter>;
-  originName?: InputMaybe<StringFilter>;
-  ownerId?: InputMaybe<StringFilter>;
-  ownerType?: InputMaybe<EnumTargetFilter>;
+  owner?: InputMaybe<EnumOwnerFilter>;
   status?: InputMaybe<EnumStatusFilter>;
   store?: InputMaybe<EnumMediaStoreFilter>;
-  uploadedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserNullableScalarRelationFilter>;
+  userFileIdx?: InputMaybe<MediaFileUserFileIdxCompoundUniqueInput>;
   userId?: InputMaybe<StringNullableFilter>;
   visibility?: InputMaybe<EnumMediaVisibilityFilter>;
   width?: InputMaybe<IntNullableFilter>;
@@ -1393,13 +1474,12 @@ export type MediaFolder = {
   company?: Maybe<Company>;
   companyId?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
+  depth: Scalars['Int']['output'];
   description?: Maybe<Scalars['String']['output']>;
   files?: Maybe<Array<MediaFile>>;
   id: Scalars['ID']['output'];
-  level: Scalars['Int']['output'];
   name: Scalars['String']['output'];
-  ownerId?: Maybe<Scalars['String']['output']>;
-  ownerType: Target;
+  owner: Owner;
   parent?: Maybe<MediaFolder>;
   parentId?: Maybe<Scalars['String']['output']>;
   path: Scalars['String']['output'];
@@ -1407,12 +1487,33 @@ export type MediaFolder = {
   updatedAt: Scalars['DateTime']['output'];
   user?: Maybe<User>;
   userId?: Maybe<Scalars['String']['output']>;
-  visibility: MediaVisibility;
+};
+
+export type MediaFolderAdminFolderNameIdxCompoundUniqueInput = {
+  adminId: Scalars['String']['input'];
+  depth: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+};
+
+export type MediaFolderAdminFolderPathIdxCompoundUniqueInput = {
+  adminId: Scalars['String']['input'];
+  path: Scalars['String']['input'];
 };
 
 export type MediaFolderAvgAggregate = {
   __typename?: 'MediaFolderAvgAggregate';
-  level?: Maybe<Scalars['Float']['output']>;
+  depth?: Maybe<Scalars['Float']['output']>;
+};
+
+export type MediaFolderCompanyFolderNameIdxCompoundUniqueInput = {
+  companyId: Scalars['String']['input'];
+  depth: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+};
+
+export type MediaFolderCompanyFolderPathIdxCompoundUniqueInput = {
+  companyId: Scalars['String']['input'];
+  path: Scalars['String']['input'];
 };
 
 export type MediaFolderCountAggregate = {
@@ -1421,27 +1522,20 @@ export type MediaFolderCountAggregate = {
   adminId: Scalars['Int']['output'];
   companyId: Scalars['Int']['output'];
   createdAt: Scalars['Int']['output'];
+  depth: Scalars['Int']['output'];
   description: Scalars['Int']['output'];
   id: Scalars['Int']['output'];
-  level: Scalars['Int']['output'];
   name: Scalars['Int']['output'];
-  ownerId: Scalars['Int']['output'];
-  ownerType: Scalars['Int']['output'];
+  owner: Scalars['Int']['output'];
   parentId: Scalars['Int']['output'];
   path: Scalars['Int']['output'];
   status: Scalars['Int']['output'];
   updatedAt: Scalars['Int']['output'];
   userId: Scalars['Int']['output'];
-  visibility: Scalars['Int']['output'];
 };
 
 export type MediaFolderCreateNestedManyWithoutCompanyInput = {
   connect?: InputMaybe<Array<MediaFolderWhereUniqueInput>>;
-};
-
-export type MediaFolderFolderPathIdxCompoundUniqueInput = {
-  companyId: Scalars['String']['input'];
-  path: Scalars['String']['input'];
 };
 
 export type MediaFolderListRelationFilter = {
@@ -1455,18 +1549,16 @@ export type MediaFolderMaxAggregate = {
   adminId?: Maybe<Scalars['String']['output']>;
   companyId?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
+  depth?: Maybe<Scalars['Int']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
-  level?: Maybe<Scalars['Int']['output']>;
   name?: Maybe<Scalars['String']['output']>;
-  ownerId?: Maybe<Scalars['String']['output']>;
-  ownerType?: Maybe<Target>;
+  owner?: Maybe<Owner>;
   parentId?: Maybe<Scalars['String']['output']>;
   path?: Maybe<Scalars['String']['output']>;
   status?: Maybe<Status>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   userId?: Maybe<Scalars['String']['output']>;
-  visibility?: Maybe<MediaVisibility>;
 };
 
 export type MediaFolderMinAggregate = {
@@ -1474,18 +1566,16 @@ export type MediaFolderMinAggregate = {
   adminId?: Maybe<Scalars['String']['output']>;
   companyId?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
+  depth?: Maybe<Scalars['Int']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
-  level?: Maybe<Scalars['Int']['output']>;
   name?: Maybe<Scalars['String']['output']>;
-  ownerId?: Maybe<Scalars['String']['output']>;
-  ownerType?: Maybe<Target>;
+  owner?: Maybe<Owner>;
   parentId?: Maybe<Scalars['String']['output']>;
   path?: Maybe<Scalars['String']['output']>;
   status?: Maybe<Status>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   userId?: Maybe<Scalars['String']['output']>;
-  visibility?: Maybe<MediaVisibility>;
 };
 
 export type MediaFolderNullableScalarRelationFilter = {
@@ -1497,14 +1587,30 @@ export type MediaFolderOrderByRelationAggregateInput = {
   _count?: InputMaybe<SortOrder>;
 };
 
+export type MediaFolderScalarRelationFilter = {
+  is?: InputMaybe<MediaFolderWhereInput>;
+  isNot?: InputMaybe<MediaFolderWhereInput>;
+};
+
 export type MediaFolderSumAggregate = {
   __typename?: 'MediaFolderSumAggregate';
-  level?: Maybe<Scalars['Int']['output']>;
+  depth?: Maybe<Scalars['Int']['output']>;
 };
 
 export type MediaFolderUpdateManyWithoutCompanyNestedInput = {
   connect?: InputMaybe<Array<MediaFolderWhereUniqueInput>>;
   disconnect?: InputMaybe<Array<MediaFolderWhereUniqueInput>>;
+};
+
+export type MediaFolderUserFolderNameIdxCompoundUniqueInput = {
+  depth: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+};
+
+export type MediaFolderUserFolderPathIdxCompoundUniqueInput = {
+  path: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
 };
 
 export type MediaFolderWhereInput = {
@@ -1517,13 +1623,12 @@ export type MediaFolderWhereInput = {
   company?: InputMaybe<CompanyNullableScalarRelationFilter>;
   companyId?: InputMaybe<StringNullableFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  depth?: InputMaybe<IntFilter>;
   description?: InputMaybe<StringNullableFilter>;
   files?: InputMaybe<MediaFileListRelationFilter>;
   id?: InputMaybe<StringFilter>;
-  level?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringFilter>;
-  ownerId?: InputMaybe<StringNullableFilter>;
-  ownerType?: InputMaybe<EnumTargetFilter>;
+  owner?: InputMaybe<EnumOwnerFilter>;
   parent?: InputMaybe<MediaFolderNullableScalarRelationFilter>;
   parentId?: InputMaybe<StringNullableFilter>;
   path?: InputMaybe<StringFilter>;
@@ -1531,29 +1636,31 @@ export type MediaFolderWhereInput = {
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserNullableScalarRelationFilter>;
   userId?: InputMaybe<StringNullableFilter>;
-  visibility?: InputMaybe<EnumMediaVisibilityFilter>;
 };
 
 export type MediaFolderWhereUniqueInput = {
   admin?: InputMaybe<AdminNullableScalarRelationFilter>;
+  adminFolderNameIdx?: InputMaybe<MediaFolderAdminFolderNameIdxCompoundUniqueInput>;
+  adminFolderPathIdx?: InputMaybe<MediaFolderAdminFolderPathIdxCompoundUniqueInput>;
   adminId?: InputMaybe<StringNullableFilter>;
   children?: InputMaybe<MediaFolderListRelationFilter>;
   company?: InputMaybe<CompanyNullableScalarRelationFilter>;
+  companyFolderNameIdx?: InputMaybe<MediaFolderCompanyFolderNameIdxCompoundUniqueInput>;
+  companyFolderPathIdx?: InputMaybe<MediaFolderCompanyFolderPathIdxCompoundUniqueInput>;
   companyId?: InputMaybe<StringNullableFilter>;
+  depth?: InputMaybe<IntFilter>;
   description?: InputMaybe<StringNullableFilter>;
-  folderPathIdx?: InputMaybe<MediaFolderFolderPathIdxCompoundUniqueInput>;
   id?: InputMaybe<Scalars['String']['input']>;
-  level?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringFilter>;
-  ownerId?: InputMaybe<StringNullableFilter>;
-  ownerType?: InputMaybe<EnumTargetFilter>;
+  owner?: InputMaybe<EnumOwnerFilter>;
   parent?: InputMaybe<MediaFolderNullableScalarRelationFilter>;
   parentId?: InputMaybe<StringNullableFilter>;
   path?: InputMaybe<StringFilter>;
   status?: InputMaybe<EnumStatusFilter>;
   user?: InputMaybe<UserNullableScalarRelationFilter>;
+  userFolderNameIdx?: InputMaybe<MediaFolderUserFolderNameIdxCompoundUniqueInput>;
+  userFolderPathIdx?: InputMaybe<MediaFolderUserFolderPathIdxCompoundUniqueInput>;
   userId?: InputMaybe<StringNullableFilter>;
-  visibility?: InputMaybe<EnumMediaVisibilityFilter>;
 };
 
 export enum MediaStore {
@@ -1601,6 +1708,7 @@ export type Mutation = {
   updateSelfAdmin: Admin;
   updateSelfCompany: Company;
   updateSelfUser: User;
+  uploadFile: MediaFile;
 };
 
 
@@ -1711,6 +1819,13 @@ export type MutationUpdateSelfUserArgs = {
   data: UserUpdateInput;
 };
 
+
+export type MutationUploadFileArgs = {
+  file: Scalars['Upload']['input'];
+  folderPath: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type NestedBigIntFilter = {
   equals?: InputMaybe<Scalars['String']['input']>;
   gt?: InputMaybe<Scalars['String']['input']>;
@@ -1720,6 +1835,11 @@ export type NestedBigIntFilter = {
   lte?: InputMaybe<Scalars['String']['input']>;
   not?: InputMaybe<NestedBigIntFilter>;
   notIn?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type NestedBoolFilter = {
+  equals?: InputMaybe<Scalars['Boolean']['input']>;
+  not?: InputMaybe<NestedBoolFilter>;
 };
 
 export type NestedDateTimeFilter = {
@@ -1763,6 +1883,41 @@ export type NestedEnumMediaVisibilityFilter = {
   in?: InputMaybe<Array<MediaVisibility>>;
   not?: InputMaybe<NestedEnumMediaVisibilityFilter>;
   notIn?: InputMaybe<Array<MediaVisibility>>;
+};
+
+export type NestedEnumNotificationPrivacyFilter = {
+  equals?: InputMaybe<NotificationPrivacy>;
+  in?: InputMaybe<Array<NotificationPrivacy>>;
+  not?: InputMaybe<NestedEnumNotificationPrivacyFilter>;
+  notIn?: InputMaybe<Array<NotificationPrivacy>>;
+};
+
+export type NestedEnumNotificationReceiverFilter = {
+  equals?: InputMaybe<NotificationReceiver>;
+  in?: InputMaybe<Array<NotificationReceiver>>;
+  not?: InputMaybe<NestedEnumNotificationReceiverFilter>;
+  notIn?: InputMaybe<Array<NotificationReceiver>>;
+};
+
+export type NestedEnumNotificationSenderFilter = {
+  equals?: InputMaybe<NotificationSender>;
+  in?: InputMaybe<Array<NotificationSender>>;
+  not?: InputMaybe<NestedEnumNotificationSenderFilter>;
+  notIn?: InputMaybe<Array<NotificationSender>>;
+};
+
+export type NestedEnumNotificationTypeFilter = {
+  equals?: InputMaybe<NotificationType>;
+  in?: InputMaybe<Array<NotificationType>>;
+  not?: InputMaybe<NestedEnumNotificationTypeFilter>;
+  notIn?: InputMaybe<Array<NotificationType>>;
+};
+
+export type NestedEnumOwnerFilter = {
+  equals?: InputMaybe<Owner>;
+  in?: InputMaybe<Array<Owner>>;
+  not?: InputMaybe<NestedEnumOwnerFilter>;
+  notIn?: InputMaybe<Array<Owner>>;
 };
 
 export type NestedEnumRequestMethodNullableFilter = {
@@ -1843,9 +1998,484 @@ export type NestedStringNullableFilter = {
   startsWith?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type Notification = {
+  __typename?: 'Notification';
+  admin?: Maybe<Admin>;
+  adminId?: Maybe<Scalars['String']['output']>;
+  category?: Maybe<Scalars['String']['output']>;
+  company?: Maybe<Company>;
+  companyId?: Maybe<Scalars['String']['output']>;
+  content: Scalars['JSON']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  options?: Maybe<Scalars['JSON']['output']>;
+  priority: Scalars['Int']['output'];
+  privacy: NotificationPrivacy;
+  receiver?: Maybe<Array<Scalars['String']['output']>>;
+  recipients?: Maybe<Array<NotificationRecipient>>;
+  sender: NotificationSender;
+  senderId?: Maybe<Scalars['String']['output']>;
+  sentAt: Scalars['DateTime']['output'];
+  status: Status;
+  title?: Maybe<Scalars['JSON']['output']>;
+  type: NotificationType;
+  updatedAt: Scalars['DateTime']['output'];
+  user?: Maybe<User>;
+  userId?: Maybe<Scalars['String']['output']>;
+};
+
+export type NotificationAvgAggregate = {
+  __typename?: 'NotificationAvgAggregate';
+  priority?: Maybe<Scalars['Float']['output']>;
+};
+
+export type NotificationCountAggregate = {
+  __typename?: 'NotificationCountAggregate';
+  _all: Scalars['Int']['output'];
+  adminId: Scalars['Int']['output'];
+  category: Scalars['Int']['output'];
+  companyId: Scalars['Int']['output'];
+  content: Scalars['Int']['output'];
+  createdAt: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  options: Scalars['Int']['output'];
+  priority: Scalars['Int']['output'];
+  privacy: Scalars['Int']['output'];
+  receiver: Scalars['Int']['output'];
+  sender: Scalars['Int']['output'];
+  senderId: Scalars['Int']['output'];
+  sentAt: Scalars['Int']['output'];
+  status: Scalars['Int']['output'];
+  title: Scalars['Int']['output'];
+  type: Scalars['Int']['output'];
+  updatedAt: Scalars['Int']['output'];
+  userId: Scalars['Int']['output'];
+};
+
+export type NotificationCreateNestedManyWithoutAdminInput = {
+  connect?: InputMaybe<Array<NotificationWhereUniqueInput>>;
+};
+
+export type NotificationCreateNestedManyWithoutCompanyInput = {
+  connect?: InputMaybe<Array<NotificationWhereUniqueInput>>;
+};
+
+export type NotificationCreateNestedManyWithoutUserInput = {
+  connect?: InputMaybe<Array<NotificationWhereUniqueInput>>;
+};
+
+export type NotificationListRelationFilter = {
+  every?: InputMaybe<NotificationWhereInput>;
+  none?: InputMaybe<NotificationWhereInput>;
+  some?: InputMaybe<NotificationWhereInput>;
+};
+
+export type NotificationMaxAggregate = {
+  __typename?: 'NotificationMaxAggregate';
+  adminId?: Maybe<Scalars['String']['output']>;
+  category?: Maybe<Scalars['String']['output']>;
+  companyId?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  priority?: Maybe<Scalars['Int']['output']>;
+  privacy?: Maybe<NotificationPrivacy>;
+  sender?: Maybe<NotificationSender>;
+  senderId?: Maybe<Scalars['String']['output']>;
+  sentAt?: Maybe<Scalars['DateTime']['output']>;
+  status?: Maybe<Status>;
+  type?: Maybe<NotificationType>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
+};
+
+export type NotificationMinAggregate = {
+  __typename?: 'NotificationMinAggregate';
+  adminId?: Maybe<Scalars['String']['output']>;
+  category?: Maybe<Scalars['String']['output']>;
+  companyId?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  priority?: Maybe<Scalars['Int']['output']>;
+  privacy?: Maybe<NotificationPrivacy>;
+  sender?: Maybe<NotificationSender>;
+  senderId?: Maybe<Scalars['String']['output']>;
+  sentAt?: Maybe<Scalars['DateTime']['output']>;
+  status?: Maybe<Status>;
+  type?: Maybe<NotificationType>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
+};
+
+export type NotificationOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type NotificationOrderByWithRelationInput = {
+  admin?: InputMaybe<AdminOrderByWithRelationInput>;
+  adminId?: InputMaybe<SortOrderInput>;
+  category?: InputMaybe<SortOrderInput>;
+  company?: InputMaybe<CompanyOrderByWithRelationInput>;
+  companyId?: InputMaybe<SortOrderInput>;
+  content?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  options?: InputMaybe<SortOrderInput>;
+  priority?: InputMaybe<SortOrder>;
+  privacy?: InputMaybe<SortOrder>;
+  receiver?: InputMaybe<SortOrder>;
+  recipients?: InputMaybe<NotificationRecipientOrderByRelationAggregateInput>;
+  sender?: InputMaybe<SortOrder>;
+  senderId?: InputMaybe<SortOrderInput>;
+  sentAt?: InputMaybe<SortOrder>;
+  status?: InputMaybe<SortOrder>;
+  title?: InputMaybe<SortOrderInput>;
+  type?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user?: InputMaybe<UserOrderByWithRelationInput>;
+  userId?: InputMaybe<SortOrderInput>;
+};
+
+export enum NotificationPrivacy {
+  Private = 'Private',
+  Public = 'Public'
+}
+
+export enum NotificationReceiver {
+  Admin = 'Admin',
+  Company = 'Company',
+  User = 'User'
+}
+
+export type NotificationRecipient = {
+  __typename?: 'NotificationRecipient';
+  admin?: Maybe<Admin>;
+  adminId?: Maybe<Scalars['String']['output']>;
+  archivedAt?: Maybe<Scalars['DateTime']['output']>;
+  company?: Maybe<Company>;
+  companyId?: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['DateTime']['output'];
+  deletedAt?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  isArchived: Scalars['Boolean']['output'];
+  isDeleted: Scalars['Boolean']['output'];
+  isRead: Scalars['Boolean']['output'];
+  notification: Notification;
+  notificationId: Scalars['String']['output'];
+  readAt?: Maybe<Scalars['DateTime']['output']>;
+  receiver: NotificationReceiver;
+  receiverId: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+  user?: Maybe<User>;
+  userId?: Maybe<Scalars['String']['output']>;
+};
+
+export type NotificationRecipientCountAggregate = {
+  __typename?: 'NotificationRecipientCountAggregate';
+  _all: Scalars['Int']['output'];
+  adminId: Scalars['Int']['output'];
+  archivedAt: Scalars['Int']['output'];
+  companyId: Scalars['Int']['output'];
+  createdAt: Scalars['Int']['output'];
+  deletedAt: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  isArchived: Scalars['Int']['output'];
+  isDeleted: Scalars['Int']['output'];
+  isRead: Scalars['Int']['output'];
+  notificationId: Scalars['Int']['output'];
+  readAt: Scalars['Int']['output'];
+  receiver: Scalars['Int']['output'];
+  receiverId: Scalars['Int']['output'];
+  updatedAt: Scalars['Int']['output'];
+  userId: Scalars['Int']['output'];
+};
+
+export type NotificationRecipientCreateNestedManyWithoutAdminInput = {
+  connect?: InputMaybe<Array<NotificationRecipientWhereUniqueInput>>;
+};
+
+export type NotificationRecipientCreateNestedManyWithoutCompanyInput = {
+  connect?: InputMaybe<Array<NotificationRecipientWhereUniqueInput>>;
+};
+
+export type NotificationRecipientCreateNestedManyWithoutUserInput = {
+  connect?: InputMaybe<Array<NotificationRecipientWhereUniqueInput>>;
+};
+
+export type NotificationRecipientListRelationFilter = {
+  every?: InputMaybe<NotificationRecipientWhereInput>;
+  none?: InputMaybe<NotificationRecipientWhereInput>;
+  some?: InputMaybe<NotificationRecipientWhereInput>;
+};
+
+export type NotificationRecipientMaxAggregate = {
+  __typename?: 'NotificationRecipientMaxAggregate';
+  adminId?: Maybe<Scalars['String']['output']>;
+  archivedAt?: Maybe<Scalars['DateTime']['output']>;
+  companyId?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  deletedAt?: Maybe<Scalars['DateTime']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  isArchived?: Maybe<Scalars['Boolean']['output']>;
+  isDeleted?: Maybe<Scalars['Boolean']['output']>;
+  isRead?: Maybe<Scalars['Boolean']['output']>;
+  notificationId?: Maybe<Scalars['String']['output']>;
+  readAt?: Maybe<Scalars['DateTime']['output']>;
+  receiver?: Maybe<NotificationReceiver>;
+  receiverId?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
+};
+
+export type NotificationRecipientMinAggregate = {
+  __typename?: 'NotificationRecipientMinAggregate';
+  adminId?: Maybe<Scalars['String']['output']>;
+  archivedAt?: Maybe<Scalars['DateTime']['output']>;
+  companyId?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  deletedAt?: Maybe<Scalars['DateTime']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  isArchived?: Maybe<Scalars['Boolean']['output']>;
+  isDeleted?: Maybe<Scalars['Boolean']['output']>;
+  isRead?: Maybe<Scalars['Boolean']['output']>;
+  notificationId?: Maybe<Scalars['String']['output']>;
+  readAt?: Maybe<Scalars['DateTime']['output']>;
+  receiver?: Maybe<NotificationReceiver>;
+  receiverId?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
+};
+
+export type NotificationRecipientOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type NotificationRecipientOrderByWithRelationInput = {
+  admin?: InputMaybe<AdminOrderByWithRelationInput>;
+  adminId?: InputMaybe<SortOrderInput>;
+  archivedAt?: InputMaybe<SortOrderInput>;
+  company?: InputMaybe<CompanyOrderByWithRelationInput>;
+  companyId?: InputMaybe<SortOrderInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  deletedAt?: InputMaybe<SortOrderInput>;
+  id?: InputMaybe<SortOrder>;
+  isArchived?: InputMaybe<SortOrder>;
+  isDeleted?: InputMaybe<SortOrder>;
+  isRead?: InputMaybe<SortOrder>;
+  notification?: InputMaybe<NotificationOrderByWithRelationInput>;
+  notificationId?: InputMaybe<SortOrder>;
+  readAt?: InputMaybe<SortOrderInput>;
+  receiver?: InputMaybe<SortOrder>;
+  receiverId?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user?: InputMaybe<UserOrderByWithRelationInput>;
+  userId?: InputMaybe<SortOrderInput>;
+};
+
+export type NotificationRecipientReceiverIdxCompoundUniqueInput = {
+  notificationId: Scalars['String']['input'];
+  receiver: NotificationReceiver;
+  receiverId: Scalars['String']['input'];
+};
+
+export enum NotificationRecipientScalarFieldEnum {
+  AdminId = 'adminId',
+  ArchivedAt = 'archivedAt',
+  CompanyId = 'companyId',
+  CreatedAt = 'createdAt',
+  DeletedAt = 'deletedAt',
+  Id = 'id',
+  IsArchived = 'isArchived',
+  IsDeleted = 'isDeleted',
+  IsRead = 'isRead',
+  NotificationId = 'notificationId',
+  ReadAt = 'readAt',
+  Receiver = 'receiver',
+  ReceiverId = 'receiverId',
+  UpdatedAt = 'updatedAt',
+  UserId = 'userId'
+}
+
+export type NotificationRecipientUpdateManyWithoutAdminNestedInput = {
+  connect?: InputMaybe<Array<NotificationRecipientWhereUniqueInput>>;
+  disconnect?: InputMaybe<Array<NotificationRecipientWhereUniqueInput>>;
+};
+
+export type NotificationRecipientUpdateManyWithoutCompanyNestedInput = {
+  connect?: InputMaybe<Array<NotificationRecipientWhereUniqueInput>>;
+  disconnect?: InputMaybe<Array<NotificationRecipientWhereUniqueInput>>;
+};
+
+export type NotificationRecipientUpdateManyWithoutUserNestedInput = {
+  connect?: InputMaybe<Array<NotificationRecipientWhereUniqueInput>>;
+  disconnect?: InputMaybe<Array<NotificationRecipientWhereUniqueInput>>;
+};
+
+export type NotificationRecipientWhereInput = {
+  AND?: InputMaybe<Array<NotificationRecipientWhereInput>>;
+  NOT?: InputMaybe<Array<NotificationRecipientWhereInput>>;
+  OR?: InputMaybe<Array<NotificationRecipientWhereInput>>;
+  admin?: InputMaybe<AdminNullableScalarRelationFilter>;
+  adminId?: InputMaybe<StringNullableFilter>;
+  archivedAt?: InputMaybe<DateTimeNullableFilter>;
+  company?: InputMaybe<CompanyNullableScalarRelationFilter>;
+  companyId?: InputMaybe<StringNullableFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  deletedAt?: InputMaybe<DateTimeNullableFilter>;
+  id?: InputMaybe<StringFilter>;
+  isArchived?: InputMaybe<BoolFilter>;
+  isDeleted?: InputMaybe<BoolFilter>;
+  isRead?: InputMaybe<BoolFilter>;
+  notification?: InputMaybe<NotificationScalarRelationFilter>;
+  notificationId?: InputMaybe<StringFilter>;
+  readAt?: InputMaybe<DateTimeNullableFilter>;
+  receiver?: InputMaybe<EnumNotificationReceiverFilter>;
+  receiverId?: InputMaybe<StringFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  user?: InputMaybe<UserNullableScalarRelationFilter>;
+  userId?: InputMaybe<StringNullableFilter>;
+};
+
+export type NotificationRecipientWhereUniqueInput = {
+  admin?: InputMaybe<AdminNullableScalarRelationFilter>;
+  adminId?: InputMaybe<StringNullableFilter>;
+  archivedAt?: InputMaybe<DateTimeNullableFilter>;
+  company?: InputMaybe<CompanyNullableScalarRelationFilter>;
+  companyId?: InputMaybe<StringNullableFilter>;
+  deletedAt?: InputMaybe<DateTimeNullableFilter>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  isArchived?: InputMaybe<BoolFilter>;
+  isDeleted?: InputMaybe<BoolFilter>;
+  isRead?: InputMaybe<BoolFilter>;
+  notification?: InputMaybe<NotificationScalarRelationFilter>;
+  notificationId?: InputMaybe<StringFilter>;
+  readAt?: InputMaybe<DateTimeNullableFilter>;
+  receiver?: InputMaybe<EnumNotificationReceiverFilter>;
+  receiverId?: InputMaybe<StringFilter>;
+  receiverIdx?: InputMaybe<NotificationRecipientReceiverIdxCompoundUniqueInput>;
+  user?: InputMaybe<UserNullableScalarRelationFilter>;
+  userId?: InputMaybe<StringNullableFilter>;
+};
+
+export enum NotificationScalarFieldEnum {
+  AdminId = 'adminId',
+  Category = 'category',
+  CompanyId = 'companyId',
+  Content = 'content',
+  CreatedAt = 'createdAt',
+  Id = 'id',
+  Options = 'options',
+  Priority = 'priority',
+  Privacy = 'privacy',
+  Receiver = 'receiver',
+  Sender = 'sender',
+  SenderId = 'senderId',
+  SentAt = 'sentAt',
+  Status = 'status',
+  Title = 'title',
+  Type = 'type',
+  UpdatedAt = 'updatedAt',
+  UserId = 'userId'
+}
+
+export type NotificationScalarRelationFilter = {
+  is?: InputMaybe<NotificationWhereInput>;
+  isNot?: InputMaybe<NotificationWhereInput>;
+};
+
+export enum NotificationSender {
+  Admin = 'Admin',
+  Company = 'Company',
+  System = 'System',
+  User = 'User'
+}
+
+export type NotificationSumAggregate = {
+  __typename?: 'NotificationSumAggregate';
+  priority?: Maybe<Scalars['Int']['output']>;
+};
+
+export enum NotificationType {
+  Alert = 'Alert',
+  Confirm = 'Confirm',
+  Message = 'Message',
+  Prompt = 'Prompt'
+}
+
+export type NotificationUpdateManyWithoutAdminNestedInput = {
+  connect?: InputMaybe<Array<NotificationWhereUniqueInput>>;
+  disconnect?: InputMaybe<Array<NotificationWhereUniqueInput>>;
+};
+
+export type NotificationUpdateManyWithoutCompanyNestedInput = {
+  connect?: InputMaybe<Array<NotificationWhereUniqueInput>>;
+  disconnect?: InputMaybe<Array<NotificationWhereUniqueInput>>;
+};
+
+export type NotificationUpdateManyWithoutUserNestedInput = {
+  connect?: InputMaybe<Array<NotificationWhereUniqueInput>>;
+  disconnect?: InputMaybe<Array<NotificationWhereUniqueInput>>;
+};
+
+export type NotificationWhereInput = {
+  AND?: InputMaybe<Array<NotificationWhereInput>>;
+  NOT?: InputMaybe<Array<NotificationWhereInput>>;
+  OR?: InputMaybe<Array<NotificationWhereInput>>;
+  admin?: InputMaybe<AdminNullableScalarRelationFilter>;
+  adminId?: InputMaybe<StringNullableFilter>;
+  category?: InputMaybe<StringNullableFilter>;
+  company?: InputMaybe<CompanyNullableScalarRelationFilter>;
+  companyId?: InputMaybe<StringNullableFilter>;
+  content?: InputMaybe<JsonFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<StringFilter>;
+  options?: InputMaybe<JsonNullableFilter>;
+  priority?: InputMaybe<IntFilter>;
+  privacy?: InputMaybe<EnumNotificationPrivacyFilter>;
+  receiver?: InputMaybe<StringNullableListFilter>;
+  recipients?: InputMaybe<NotificationRecipientListRelationFilter>;
+  sender?: InputMaybe<EnumNotificationSenderFilter>;
+  senderId?: InputMaybe<StringNullableFilter>;
+  sentAt?: InputMaybe<DateTimeFilter>;
+  status?: InputMaybe<EnumStatusFilter>;
+  title?: InputMaybe<JsonNullableFilter>;
+  type?: InputMaybe<EnumNotificationTypeFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  user?: InputMaybe<UserNullableScalarRelationFilter>;
+  userId?: InputMaybe<StringNullableFilter>;
+};
+
+export type NotificationWhereUniqueInput = {
+  admin?: InputMaybe<AdminNullableScalarRelationFilter>;
+  adminId?: InputMaybe<StringNullableFilter>;
+  category?: InputMaybe<StringNullableFilter>;
+  company?: InputMaybe<CompanyNullableScalarRelationFilter>;
+  companyId?: InputMaybe<StringNullableFilter>;
+  content?: InputMaybe<JsonFilter>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  options?: InputMaybe<JsonNullableFilter>;
+  priority?: InputMaybe<IntFilter>;
+  privacy?: InputMaybe<EnumNotificationPrivacyFilter>;
+  receiver?: InputMaybe<StringNullableListFilter>;
+  recipients?: InputMaybe<NotificationRecipientListRelationFilter>;
+  sender?: InputMaybe<EnumNotificationSenderFilter>;
+  senderId?: InputMaybe<StringNullableFilter>;
+  sentAt?: InputMaybe<DateTimeFilter>;
+  status?: InputMaybe<EnumStatusFilter>;
+  title?: InputMaybe<JsonNullableFilter>;
+  type?: InputMaybe<EnumNotificationTypeFilter>;
+  user?: InputMaybe<UserNullableScalarRelationFilter>;
+  userId?: InputMaybe<StringNullableFilter>;
+};
+
 export enum NullsOrder {
   First = 'first',
   Last = 'last'
+}
+
+export enum Owner {
+  Admin = 'Admin',
+  Company = 'Company',
+  User = 'User'
 }
 
 export type PaginatedAdmin = {
@@ -1881,6 +2511,18 @@ export type PaginatedCompanyRole = {
 export type PaginatedCompanyUser = {
   __typename?: 'PaginatedCompanyUser';
   items?: Maybe<Array<CompanyUser>>;
+  pagination?: Maybe<Pagination>;
+};
+
+export type PaginatedNotification = {
+  __typename?: 'PaginatedNotification';
+  items?: Maybe<Array<Notification>>;
+  pagination?: Maybe<Pagination>;
+};
+
+export type PaginatedNotificationRecipient = {
+  __typename?: 'PaginatedNotificationRecipient';
+  items?: Maybe<Array<NotificationRecipient>>;
   pagination?: Maybe<Pagination>;
 };
 
@@ -1936,6 +2578,8 @@ export type Query = {
   listAdminRolePermission: PermissionInfo;
   listAuthCompanies?: Maybe<Array<Company>>;
   listCompanyRolePermission: PermissionInfo;
+  listMediaFiles: Array<MediaFile>;
+  listSelfNotifications: Array<Notification>;
   logout: Scalars['Boolean']['output'];
   paginateAdminCompanies: PaginatedAdminCompany;
   paginateAdminRoles: PaginatedAdminRole;
@@ -1943,6 +2587,8 @@ export type Query = {
   paginateCompanies: PaginatedCompany;
   paginateCompanyRoles: PaginatedCompanyRole;
   paginateCompanyUsers: PaginatedCompanyUser;
+  paginateNotificationRecipes: PaginatedNotificationRecipient;
+  paginateNotifications: PaginatedNotification;
   paginateUsers: PaginatedUser;
   refresh: Login;
   translations: Scalars['JSONObject']['output'];
@@ -2009,6 +2655,11 @@ export type QueryListCompanyRolePermissionArgs = {
 };
 
 
+export type QueryListMediaFilesArgs = {
+  fileIds: Array<Scalars['String']['input']>;
+};
+
+
 export type QueryPaginateAdminCompaniesArgs = {
   cursor?: InputMaybe<AdminCompanyWhereUniqueInput>;
   distinct?: InputMaybe<Array<AdminCompanyScalarFieldEnum>>;
@@ -2066,6 +2717,26 @@ export type QueryPaginateCompanyUsersArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   take?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<CompanyUserWhereInput>;
+};
+
+
+export type QueryPaginateNotificationRecipesArgs = {
+  cursor?: InputMaybe<NotificationRecipientWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NotificationRecipientScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NotificationRecipientOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<NotificationRecipientWhereInput>;
+};
+
+
+export type QueryPaginateNotificationsArgs = {
+  cursor?: InputMaybe<NotificationWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NotificationScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NotificationOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<NotificationWhereInput>;
 };
 
 
@@ -2369,6 +3040,8 @@ export type User = {
   mediaFiles?: Maybe<Array<MediaFile>>;
   mediaFolders?: Maybe<Array<MediaFolder>>;
   name: Scalars['String']['output'];
+  notificationRecipients?: Maybe<Array<NotificationRecipient>>;
+  notifications?: Maybe<Array<Notification>>;
   status: Status;
   updatedAt: Scalars['DateTime']['output'];
 };
@@ -2387,6 +3060,8 @@ export type UserCountAggregate = {
 export type UserCreateInput = {
   email: Scalars['String']['input'];
   name: Scalars['String']['input'];
+  notificationRecipients?: InputMaybe<NotificationRecipientCreateNestedManyWithoutUserInput>;
+  notifications?: InputMaybe<NotificationCreateNestedManyWithoutUserInput>;
   password: Scalars['String']['input'];
   status?: InputMaybe<Status>;
 };
@@ -2430,6 +3105,8 @@ export type UserOrderByWithRelationInput = {
   mediaFiles?: InputMaybe<MediaFileOrderByRelationAggregateInput>;
   mediaFolders?: InputMaybe<MediaFolderOrderByRelationAggregateInput>;
   name?: InputMaybe<SortOrder>;
+  notificationRecipients?: InputMaybe<NotificationRecipientOrderByRelationAggregateInput>;
+  notifications?: InputMaybe<NotificationOrderByRelationAggregateInput>;
   status?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
@@ -2452,6 +3129,8 @@ export type UserScalarRelationFilter = {
 export type UserUpdateInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  notificationRecipients?: InputMaybe<NotificationRecipientUpdateManyWithoutUserNestedInput>;
+  notifications?: InputMaybe<NotificationUpdateManyWithoutUserNestedInput>;
   password?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Status>;
 };
@@ -2473,6 +3152,8 @@ export type UserWhereInput = {
   mediaFiles?: InputMaybe<MediaFileListRelationFilter>;
   mediaFolders?: InputMaybe<MediaFolderListRelationFilter>;
   name?: InputMaybe<StringFilter>;
+  notificationRecipients?: InputMaybe<NotificationRecipientListRelationFilter>;
+  notifications?: InputMaybe<NotificationListRelationFilter>;
   status?: InputMaybe<EnumStatusFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
 };
@@ -2481,6 +3162,8 @@ export type UserWhereUniqueInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<StringFilter>;
+  notificationRecipients?: InputMaybe<NotificationRecipientListRelationFilter>;
+  notifications?: InputMaybe<NotificationListRelationFilter>;
   status?: InputMaybe<EnumStatusFilter>;
 };
 
@@ -2499,6 +3182,8 @@ export type UserFragment = { __typename?: 'User', id: string, createdAt: any, up
 export type LoginFragment = { __typename?: 'Login', target: Target, accessType: string, accessToken: string, accessTimeout: number } & { ' $fragmentName'?: 'LoginFragment' };
 
 export type PermissionItemFragment = { __typename?: 'PermissionItem', subject: string, subjectLabel: string, group: string, action: string, actionLabel: string, targets: Array<Target> } & { ' $fragmentName'?: 'PermissionItemFragment' };
+
+export type MediaFileFragment = { __typename?: 'MediaFile', id: string, createdAt: any, updatedAt: any, status: Status, store: MediaStore, mediaType: MediaType, mimeType: string, fileName: string, fileHash: string, fileSize: string, width?: number | null, height?: number | null, duration?: number | null, metadata?: any | null, description?: string | null, extension: string, folderId: string, owner: Owner, adminId?: string | null, userId?: string | null, companyId?: string | null, visibility: MediaVisibility, url: string } & { ' $fragmentName'?: 'MediaFileFragment' };
 
 export type PaginateAdminRolesQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']['input']>;
@@ -2647,7 +3332,13 @@ export type ListAuthCompaniesQuery = { __typename?: 'Query', listAuthCompanies?:
 export type AuthInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AuthInfoQuery = { __typename?: 'Query', authInfo: { __typename?: 'Auth', id: string, createdAt: any, updatedAt: any, expiredAt: any, adminId?: string | null, userId?: string | null, companyId?: string | null, device?: any | null, location?: any | null, target: Target } };
+export type AuthInfoQuery = { __typename?: 'Query', authInfo: { __typename?: 'Auth', id: string, createdAt: any, updatedAt: any, expiredAt: any, adminId?: string | null, userId?: string | null, companyId?: string | null, device?: any | null, location?: any | null, target: Target, admin?: (
+      { __typename?: 'Admin' }
+      & { ' $fragmentRefs'?: { 'AdminFragment': AdminFragment } }
+    ) | null, user?: (
+      { __typename?: 'User' }
+      & { ' $fragmentRefs'?: { 'UserFragment': UserFragment } }
+    ) | null } };
 
 export type TranslationsQueryVariables = Exact<{
   scope: Scalars['String']['input'];
@@ -2765,6 +3456,32 @@ export type UpdateOneCompanyMutation = { __typename?: 'Mutation', updateOneCompa
     & { ' $fragmentRefs'?: { 'CompanyFragment': CompanyFragment } }
   ) };
 
+export type UploadFileMutationVariables = Exact<{
+  file: Scalars['Upload']['input'];
+  folderPath: Scalars['String']['input'];
+}>;
+
+
+export type UploadFileMutation = { __typename?: 'Mutation', uploadFile: (
+    { __typename?: 'MediaFile' }
+    & { ' $fragmentRefs'?: { 'MediaFileFragment': MediaFileFragment } }
+  ) };
+
+export type ListMediaFilesQueryVariables = Exact<{
+  fileIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
+}>;
+
+
+export type ListMediaFilesQuery = { __typename?: 'Query', listMediaFiles: Array<(
+    { __typename?: 'MediaFile' }
+    & { ' $fragmentRefs'?: { 'MediaFileFragment': MediaFileFragment } }
+  )> };
+
+export type ListSelfNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ListSelfNotificationsQuery = { __typename?: 'Query', listSelfNotifications: Array<{ __typename?: 'Notification', id: string, createdAt: any, updatedAt: any, sentAt: any, title?: any | null, content: any, options?: any | null, status: Status, priority: number, category?: string | null, senderId?: string | null, sender: NotificationSender, receiver?: Array<string> | null, privacy: NotificationPrivacy, adminId?: string | null, userId?: string | null, companyId?: string | null, type: NotificationType }> };
+
 export type PaginateUsersQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
@@ -2820,6 +3537,7 @@ export const CompanyRoleFragmentDoc = {"kind":"Document","definitions":[{"kind":
 export const UserFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"User"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]} as unknown as DocumentNode<UserFragment, unknown>;
 export const LoginFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Login"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Login"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"accessType"}},{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"accessTimeout"}}]}}]} as unknown as DocumentNode<LoginFragment, unknown>;
 export const PermissionItemFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PermissionItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PermissionItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"subject"}},{"kind":"Field","name":{"kind":"Name","value":"subjectLabel"}},{"kind":"Field","name":{"kind":"Name","value":"group"}},{"kind":"Field","name":{"kind":"Name","value":"action"}},{"kind":"Field","name":{"kind":"Name","value":"actionLabel"}},{"kind":"Field","name":{"kind":"Name","value":"targets"}}]}}]} as unknown as DocumentNode<PermissionItemFragment, unknown>;
+export const MediaFileFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MediaFile"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MediaFile"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"store"}},{"kind":"Field","name":{"kind":"Name","value":"mediaType"}},{"kind":"Field","name":{"kind":"Name","value":"mimeType"}},{"kind":"Field","name":{"kind":"Name","value":"fileName"}},{"kind":"Field","name":{"kind":"Name","value":"fileHash"}},{"kind":"Field","name":{"kind":"Name","value":"fileSize"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"extension"}},{"kind":"Field","name":{"kind":"Name","value":"folderId"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"adminId"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"companyId"}},{"kind":"Field","name":{"kind":"Name","value":"visibility"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]} as unknown as DocumentNode<MediaFileFragment, unknown>;
 export const PaginateAdminRolesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PaginateAdminRoles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AdminRoleWhereInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AdminRoleOrderByWithRelationInput"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"paginateAdminRoles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"AdminRole"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Pagination"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AdminRole"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AdminRole"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Pagination"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"take"}},{"kind":"Field","name":{"kind":"Name","value":"skip"}},{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"totalPages"}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]} as unknown as DocumentNode<PaginateAdminRolesQuery, PaginateAdminRolesQueryVariables>;
 export const FindOneAdminRoleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FindOneAdminRole"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findOneAdminRole"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"AdminRole"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AdminRole"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AdminRole"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"}}]}}]} as unknown as DocumentNode<FindOneAdminRoleQuery, FindOneAdminRoleQueryVariables>;
 export const CreateOneAdminRoleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateOneAdminRole"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AdminRoleCreateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createOneAdminRole"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"AdminRole"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AdminRole"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AdminRole"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"}}]}}]} as unknown as DocumentNode<CreateOneAdminRoleMutation, CreateOneAdminRoleMutationVariables>;
@@ -2834,7 +3552,7 @@ export const RefreshDocument = {"kind":"Document","definitions":[{"kind":"Operat
 export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Login"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Login"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Login"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"accessType"}},{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"accessTimeout"}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
 export const SwitchAuthCompanyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SwitchAuthCompany"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"companyId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"switchAuthCompany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"companyId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"companyId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Login"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Login"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Login"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"accessType"}},{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"accessTimeout"}}]}}]} as unknown as DocumentNode<SwitchAuthCompanyMutation, SwitchAuthCompanyMutationVariables>;
 export const ListAuthCompaniesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ListAuthCompanies"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"listAuthCompanies"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"alias"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]} as unknown as DocumentNode<ListAuthCompaniesQuery, ListAuthCompaniesQueryVariables>;
-export const AuthInfoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AuthInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"authInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"expiredAt"}},{"kind":"Field","name":{"kind":"Name","value":"adminId"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"companyId"}},{"kind":"Field","name":{"kind":"Name","value":"device"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"target"}}]}}]}}]} as unknown as DocumentNode<AuthInfoQuery, AuthInfoQueryVariables>;
+export const AuthInfoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AuthInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"authInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"expiredAt"}},{"kind":"Field","name":{"kind":"Name","value":"adminId"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"companyId"}},{"kind":"Field","name":{"kind":"Name","value":"device"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"admin"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Admin"}}]}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"User"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Admin"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Admin"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"roleId"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"User"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]} as unknown as DocumentNode<AuthInfoQuery, AuthInfoQueryVariables>;
 export const TranslationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Translations"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"scope"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"translations"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"scope"},"value":{"kind":"Variable","name":{"kind":"Name","value":"scope"}}}]}]}}]} as unknown as DocumentNode<TranslationsQuery, TranslationsQueryVariables>;
 export const HealthCheckDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"HealthCheck"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"healthCheck"}}]}}]} as unknown as DocumentNode<HealthCheckQuery, HealthCheckQueryVariables>;
 export const PaginateCompanyRolesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PaginateCompanyRoles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"CompanyRoleWhereInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CompanyRoleOrderByWithRelationInput"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"paginateCompanyRoles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CompanyRole"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Pagination"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CompanyRole"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CompanyRole"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"}},{"kind":"Field","name":{"kind":"Name","value":"companyId"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Pagination"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"take"}},{"kind":"Field","name":{"kind":"Name","value":"skip"}},{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"totalPages"}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]} as unknown as DocumentNode<PaginateCompanyRolesQuery, PaginateCompanyRolesQueryVariables>;
@@ -2846,6 +3564,9 @@ export const PaginateCompaniesDocument = {"kind":"Document","definitions":[{"kin
 export const FindOneCompanyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FindOneCompany"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findOneCompany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Company"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Company"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Company"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"alias"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]} as unknown as DocumentNode<FindOneCompanyQuery, FindOneCompanyQueryVariables>;
 export const CreateOneCompanyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateOneCompany"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CompanyCreateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createOneCompany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Company"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Company"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Company"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"alias"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]} as unknown as DocumentNode<CreateOneCompanyMutation, CreateOneCompanyMutationVariables>;
 export const UpdateOneCompanyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateOneCompany"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CompanyUpdateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateOneCompany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Company"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Company"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Company"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"alias"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]} as unknown as DocumentNode<UpdateOneCompanyMutation, UpdateOneCompanyMutationVariables>;
+export const UploadFileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UploadFile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"file"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Upload"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"folderPath"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uploadFile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"file"},"value":{"kind":"Variable","name":{"kind":"Name","value":"file"}}},{"kind":"Argument","name":{"kind":"Name","value":"folderPath"},"value":{"kind":"Variable","name":{"kind":"Name","value":"folderPath"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MediaFile"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MediaFile"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MediaFile"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"store"}},{"kind":"Field","name":{"kind":"Name","value":"mediaType"}},{"kind":"Field","name":{"kind":"Name","value":"mimeType"}},{"kind":"Field","name":{"kind":"Name","value":"fileName"}},{"kind":"Field","name":{"kind":"Name","value":"fileHash"}},{"kind":"Field","name":{"kind":"Name","value":"fileSize"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"extension"}},{"kind":"Field","name":{"kind":"Name","value":"folderId"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"adminId"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"companyId"}},{"kind":"Field","name":{"kind":"Name","value":"visibility"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]} as unknown as DocumentNode<UploadFileMutation, UploadFileMutationVariables>;
+export const ListMediaFilesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ListMediaFiles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fileIds"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"listMediaFiles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fileIds"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fileIds"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MediaFile"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MediaFile"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MediaFile"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"store"}},{"kind":"Field","name":{"kind":"Name","value":"mediaType"}},{"kind":"Field","name":{"kind":"Name","value":"mimeType"}},{"kind":"Field","name":{"kind":"Name","value":"fileName"}},{"kind":"Field","name":{"kind":"Name","value":"fileHash"}},{"kind":"Field","name":{"kind":"Name","value":"fileSize"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"extension"}},{"kind":"Field","name":{"kind":"Name","value":"folderId"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"adminId"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"companyId"}},{"kind":"Field","name":{"kind":"Name","value":"visibility"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]} as unknown as DocumentNode<ListMediaFilesQuery, ListMediaFilesQueryVariables>;
+export const ListSelfNotificationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ListSelfNotifications"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"listSelfNotifications"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"sentAt"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"options"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"priority"}},{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"senderId"}},{"kind":"Field","name":{"kind":"Name","value":"sender"}},{"kind":"Field","name":{"kind":"Name","value":"receiver"}},{"kind":"Field","name":{"kind":"Name","value":"privacy"}},{"kind":"Field","name":{"kind":"Name","value":"adminId"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"companyId"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]}}]} as unknown as DocumentNode<ListSelfNotificationsQuery, ListSelfNotificationsQueryVariables>;
 export const PaginateUsersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PaginateUsers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"UserWhereInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserOrderByWithRelationInput"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"paginateUsers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"User"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Pagination"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"User"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Pagination"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"take"}},{"kind":"Field","name":{"kind":"Name","value":"skip"}},{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"totalPages"}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]} as unknown as DocumentNode<PaginateUsersQuery, PaginateUsersQueryVariables>;
 export const FindOneUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FindOneUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findOneUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"User"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"User"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]} as unknown as DocumentNode<FindOneUserQuery, FindOneUserQueryVariables>;
 export const CreateOneUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateOneUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserCreateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createOneUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"User"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"User"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]} as unknown as DocumentNode<CreateOneUserMutation, CreateOneUserMutationVariables>;

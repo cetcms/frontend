@@ -1,0 +1,79 @@
+import { Box, Button, Group, rem, Text, useMantineTheme } from '@mantine/core';
+import { DropzoneProps, Dropzone as MantineDropzone } from '@mantine/dropzone';
+import { notifications } from '@mantine/notifications';
+import { IconCloudUpload, IconDownload, IconX } from '@tabler/icons-react';
+import { filesize } from 'filesize';
+import React, { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Logger } from 'src/utils/logger';
+
+import { useFileManagerName } from './Upload.hook';
+import classes from './Upload.module.scss';
+
+const logger = new Logger('Dropzone');
+
+export const Dropzone: React.FC<DropzoneProps> = (props) => {
+  const theme = useMantineTheme();
+  const fileManagerName = useFileManagerName();
+  const { t } = useTranslation(['components']);
+  const openRef = useRef<() => void>(null);
+  return (
+    <div className={classes.wrapper}>
+      <MantineDropzone
+        radius="md"
+        className={classes.dropzone}
+        {...props}
+        onReject={(files) => {
+          files.forEach((file) => {
+            const error = file.errors[0];
+            const maxSize = props.maxSize;
+            if (error.code === 'file-too-large' && maxSize) {
+              error.message = error.message.replace(`${maxSize}`, filesize(maxSize));
+            }
+
+            logger.error(error.message);
+
+            notifications.show({
+              title: `${file.file.name}`,
+              message: error.message,
+              position: 'top-right',
+            });
+          });
+        }}
+        openRef={openRef}
+      >
+        <div style={{ pointerEvents: 'none' }}>
+          <Group justify="center">
+            <MantineDropzone.Accept>
+              <IconDownload style={{ width: rem(50), height: rem(50) }} color={theme.colors.blue[6]} stroke={1.5} />
+            </MantineDropzone.Accept>
+            <MantineDropzone.Reject>
+              <IconX style={{ width: rem(50), height: rem(50) }} color={theme.colors.red[6]} stroke={1.5} />
+            </MantineDropzone.Reject>
+            <MantineDropzone.Idle>
+              <IconCloudUpload style={{ width: rem(50), height: rem(50) }} stroke={1.5} />
+            </MantineDropzone.Idle>
+          </Group>
+
+          <Text ta="center" fw={700} fz="md" component="div">
+            <MantineDropzone.Accept>{t('upload.dropzone.accept')}</MantineDropzone.Accept>
+            <MantineDropzone.Reject>{t('upload.dropzone.reject')}</MantineDropzone.Reject>
+            <MantineDropzone.Idle>{t('upload.dropzone.idle')}</MantineDropzone.Idle>
+          </Text>
+          <Text ta="center" fz="sm" mt="xs" opacity={0.5}>
+            {t('upload.dropzone.tip')}
+          </Text>
+        </div>
+      </MantineDropzone>
+
+      <Box className={classes.controls}>
+        <Button variant="default" radius="xl" onClick={() => openRef.current && openRef.current()}>
+          {t('upload.dropzone.select', { fileManagerName })}
+        </Button>
+        {/*<Button variant={'default'} radius="xl" onClick={() => logger.log('upload')}>*/}
+        {/*  Select Media*/}
+        {/*</Button>*/}
+      </Box>
+    </div>
+  );
+};

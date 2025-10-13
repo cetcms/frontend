@@ -60,4 +60,8 @@ export const initializeI18n = async () => {
   return i18n;
 };
 
+export const localeOutput = (value: any) => {
+  return value[i18n.language];
+};
+
 export default i18n;

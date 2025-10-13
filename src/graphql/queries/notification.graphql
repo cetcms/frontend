@@ -1,0 +1,22 @@
+query ListSelfNotifications {
+	listSelfNotifications {
+		id
+		createdAt
+		updatedAt
+		sentAt
+		title
+		content
+		options
+		status
+		priority
+		category
+		senderId
+		sender
+		receiver
+		privacy
+		adminId
+		userId
+		companyId
+		type
+	}
+}

@@ -18,6 +18,8 @@ type Admin {
 	mediaFiles: [MediaFile!]
 	mediaFolders: [MediaFolder!]
 	name: String!
+	notificationRecipients: [NotificationRecipient!]
+	notifications: [Notification!]
 	role: AdminRole!
 	roleId: String!
 	status: Status!
@@ -194,6 +196,8 @@ type Company {
 	description: String
 	id: ID!
 	name: String!
+	notificationRecipients: [NotificationRecipient!]
+	notifications: [Notification!]
 	status: Status!
 	updatedAt: DateTime!
 }
@@ -337,24 +341,22 @@ type MediaFile {
 	createdAt: DateTime!
 	description: String
 	duration: Int
+	extension: String!
 	fileHash: String!
 	fileName: String!
-	filePath: String!
 	fileSize: String!
-	folder: MediaFolder
-	folderId: String
+	folder: MediaFolder!
+	folderId: String!
 	height: Int
 	id: ID!
 	mediaType: MediaType!
 	metadata: JSON
 	mimeType: String!
-	originName: String!
-	ownerId: String!
-	ownerType: Target!
+	owner: Owner!
 	status: Status!
 	store: MediaStore!
 	updatedAt: DateTime!
-	uploadedAt: DateTime!
+	url: String!
 	user: User
 	userId: String
 	visibility: MediaVisibility!
@@ -375,9 +377,9 @@ type MediaFileCountAggregate {
 	createdAt: Int!
 	description: Int!
 	duration: Int!
+	extension: Int!
 	fileHash: Int!
 	fileName: Int!
-	filePath: Int!
 	fileSize: Int!
 	folderId: Int!
 	height: Int!
@@ -385,13 +387,10 @@ type MediaFileCountAggregate {
 	mediaType: Int!
 	metadata: Int!
 	mimeType: Int!
-	originName: Int!
-	ownerId: Int!
-	ownerType: Int!
+	owner: Int!
 	status: Int!
 	store: Int!
 	updatedAt: Int!
-	uploadedAt: Int!
 	userId: Int!
 	visibility: Int!
 	width: Int!
@@ -403,22 +402,19 @@ type MediaFileMaxAggregate {
 	createdAt: DateTime
 	description: String
 	duration: Int
+	extension: String
 	fileHash: String
 	fileName: String
-	filePath: String
 	fileSize: String
 	folderId: String
 	height: Int
 	id: String
 	mediaType: MediaType
 	mimeType: String
-	originName: String
-	ownerId: String
-	ownerType: Target
+	owner: Owner
 	status: Status
 	store: MediaStore
 	updatedAt: DateTime
-	uploadedAt: DateTime
 	userId: String
 	visibility: MediaVisibility
 	width: Int
@@ -430,22 +426,19 @@ type MediaFileMinAggregate {
 	createdAt: DateTime
 	description: String
 	duration: Int
+	extension: String
 	fileHash: String
 	fileName: String
-	filePath: String
 	fileSize: String
 	folderId: String
 	height: Int
 	id: String
 	mediaType: MediaType
 	mimeType: String
-	originName: String
-	ownerId: String
-	ownerType: Target
+	owner: Owner
 	status: Status
 	store: MediaStore
 	updatedAt: DateTime
-	uploadedAt: DateTime
 	userId: String
 	visibility: MediaVisibility
 	width: Int
@@ -465,13 +458,12 @@ type MediaFolder {
 	company: Company
 	companyId: String
 	createdAt: DateTime!
+	depth: Int!
 	description: String
 	files: [MediaFile!]
 	id: ID!
-	level: Int!
 	name: String!
-	ownerId: String
-	ownerType: Target!
+	owner: Owner!
 	parent: MediaFolder
 	parentId: String
 	path: String!
@@ -479,11 +471,10 @@ type MediaFolder {
 	updatedAt: DateTime!
 	user: User
 	userId: String
-	visibility: MediaVisibility!
 }
 
 type MediaFolderAvgAggregate {
-	level: Float
+	depth: Float
 }
 
 type MediaFolderCountAggregate {
@@ -491,58 +482,52 @@ type MediaFolderCountAggregate {
 	adminId: Int!
 	companyId: Int!
 	createdAt: Int!
+	depth: Int!
 	description: Int!
 	id: Int!
-	level: Int!
 	name: Int!
-	ownerId: Int!
-	ownerType: Int!
+	owner: Int!
 	parentId: Int!
 	path: Int!
 	status: Int!
 	updatedAt: Int!
 	userId: Int!
-	visibility: Int!
 }
 
 type MediaFolderMaxAggregate {
 	adminId: String
 	companyId: String
 	createdAt: DateTime
+	depth: Int
 	description: String
 	id: String
-	level: Int
 	name: String
-	ownerId: String
-	ownerType: Target
+	owner: Owner
 	parentId: String
 	path: String
 	status: Status
 	updatedAt: DateTime
 	userId: String
-	visibility: MediaVisibility
 }
 
 type MediaFolderMinAggregate {
 	adminId: String
 	companyId: String
 	createdAt: DateTime
+	depth: Int
 	description: String
 	id: String
-	level: Int
 	name: String
-	ownerId: String
-	ownerType: Target
+	owner: Owner
 	parentId: String
 	path: String
 	status: Status
 	updatedAt: DateTime
 	userId: String
-	visibility: MediaVisibility
 }
 
 type MediaFolderSumAggregate {
-	level: Int
+	depth: Int
 }
 
 type Mutation {
@@ -566,6 +551,173 @@ type Mutation {
 	updateSelfAdmin(data: AdminUpdateInput!): Admin!
 	updateSelfCompany(data: CompanyUpdateInput!): Company!
 	updateSelfUser(data: UserUpdateInput!): User!
+	uploadFile(file: Upload!, folderPath: String!, name: String): MediaFile!
+}
+
+type Notification {
+	admin: Admin
+	adminId: String
+	category: String
+	company: Company
+	companyId: String
+	content: JSON!
+	createdAt: DateTime!
+	id: ID!
+	options: JSON
+	priority: Int!
+	privacy: NotificationPrivacy!
+	receiver: [String!]
+	recipients: [NotificationRecipient!]
+	sender: NotificationSender!
+	senderId: String
+	sentAt: DateTime!
+	status: Status!
+	title: JSON
+	type: NotificationType!
+	updatedAt: DateTime!
+	user: User
+	userId: String
+}
+
+type NotificationAvgAggregate {
+	priority: Float
+}
+
+type NotificationCountAggregate {
+	_all: Int!
+	adminId: Int!
+	category: Int!
+	companyId: Int!
+	content: Int!
+	createdAt: Int!
+	id: Int!
+	options: Int!
+	priority: Int!
+	privacy: Int!
+	receiver: Int!
+	sender: Int!
+	senderId: Int!
+	sentAt: Int!
+	status: Int!
+	title: Int!
+	type: Int!
+	updatedAt: Int!
+	userId: Int!
+}
+
+type NotificationMaxAggregate {
+	adminId: String
+	category: String
+	companyId: String
+	createdAt: DateTime
+	id: String
+	priority: Int
+	privacy: NotificationPrivacy
+	sender: NotificationSender
+	senderId: String
+	sentAt: DateTime
+	status: Status
+	type: NotificationType
+	updatedAt: DateTime
+	userId: String
+}
+
+type NotificationMinAggregate {
+	adminId: String
+	category: String
+	companyId: String
+	createdAt: DateTime
+	id: String
+	priority: Int
+	privacy: NotificationPrivacy
+	sender: NotificationSender
+	senderId: String
+	sentAt: DateTime
+	status: Status
+	type: NotificationType
+	updatedAt: DateTime
+	userId: String
+}
+
+type NotificationRecipient {
+	admin: Admin
+	adminId: String
+	archivedAt: DateTime
+	company: Company
+	companyId: String
+	createdAt: DateTime!
+	deletedAt: DateTime
+	id: ID!
+	isArchived: Boolean!
+	isDeleted: Boolean!
+	isRead: Boolean!
+	notification: Notification!
+	notificationId: String!
+	readAt: DateTime
+	receiver: NotificationReceiver!
+	receiverId: String!
+	updatedAt: DateTime!
+	user: User
+	userId: String
+}
+
+type NotificationRecipientCountAggregate {
+	_all: Int!
+	adminId: Int!
+	archivedAt: Int!
+	companyId: Int!
+	createdAt: Int!
+	deletedAt: Int!
+	id: Int!
+	isArchived: Int!
+	isDeleted: Int!
+	isRead: Int!
+	notificationId: Int!
+	readAt: Int!
+	receiver: Int!
+	receiverId: Int!
+	updatedAt: Int!
+	userId: Int!
+}
+
+type NotificationRecipientMaxAggregate {
+	adminId: String
+	archivedAt: DateTime
+	companyId: String
+	createdAt: DateTime
+	deletedAt: DateTime
+	id: String
+	isArchived: Boolean
+	isDeleted: Boolean
+	isRead: Boolean
+	notificationId: String
+	readAt: DateTime
+	receiver: NotificationReceiver
+	receiverId: String
+	updatedAt: DateTime
+	userId: String
+}
+
+type NotificationRecipientMinAggregate {
+	adminId: String
+	archivedAt: DateTime
+	companyId: String
+	createdAt: DateTime
+	deletedAt: DateTime
+	id: String
+	isArchived: Boolean
+	isDeleted: Boolean
+	isRead: Boolean
+	notificationId: String
+	readAt: DateTime
+	receiver: NotificationReceiver
+	receiverId: String
+	updatedAt: DateTime
+	userId: String
+}
+
+type NotificationSumAggregate {
+	priority: Int
 }
 
 type PaginatedAdmin {
@@ -595,6 +747,16 @@ type PaginatedCompanyRole {
 
 type PaginatedCompanyUser {
 	items: [CompanyUser!]
+	pagination: Pagination
+}
+
+type PaginatedNotification {
+	items: [Notification!]
+	pagination: Pagination
+}
+
+type PaginatedNotificationRecipient {
+	items: [NotificationRecipient!]
 	pagination: Pagination
 }
 
@@ -645,6 +807,8 @@ type Query {
 	listAdminRolePermission(where: AdminRoleWhereUniqueInput): PermissionInfo!
 	listAuthCompanies(name: String): [Company!]
 	listCompanyRolePermission(where: CompanyRoleWhereUniqueInput): PermissionInfo!
+	listMediaFiles(fileIds: [String!]!): [MediaFile!]!
+	listSelfNotifications: [Notification!]!
 	logout: Boolean!
 	paginateAdminCompanies(cursor: AdminCompanyWhereUniqueInput, distinct: [AdminCompanyScalarFieldEnum!], orderBy: [AdminCompanyOrderByWithRelationInput!], skip: Int, take: Int, where: AdminCompanyWhereInput): PaginatedAdminCompany!
 	paginateAdminRoles(cursor: AdminRoleWhereUniqueInput, distinct: [AdminRoleScalarFieldEnum!], orderBy: [AdminRoleOrderByWithRelationInput!], skip: Int, take: Int, where: AdminRoleWhereInput): PaginatedAdminRole!
@@ -652,6 +816,8 @@ type Query {
 	paginateCompanies(cursor: CompanyWhereUniqueInput, distinct: [CompanyScalarFieldEnum!], orderBy: [CompanyOrderByWithRelationInput!], skip: Int, take: Int, where: CompanyWhereInput): PaginatedCompany!
 	paginateCompanyRoles(cursor: CompanyRoleWhereUniqueInput, distinct: [CompanyRoleScalarFieldEnum!], orderBy: [CompanyRoleOrderByWithRelationInput!], skip: Int, take: Int, where: CompanyRoleWhereInput): PaginatedCompanyRole!
 	paginateCompanyUsers(cursor: CompanyUserWhereUniqueInput, distinct: [CompanyUserScalarFieldEnum!], orderBy: [CompanyUserOrderByWithRelationInput!], skip: Int, take: Int, where: CompanyUserWhereInput): PaginatedCompanyUser!
+	paginateNotificationRecipes(cursor: NotificationRecipientWhereUniqueInput, distinct: [NotificationRecipientScalarFieldEnum!], orderBy: [NotificationRecipientOrderByWithRelationInput!], skip: Int, take: Int, where: NotificationRecipientWhereInput): PaginatedNotificationRecipient!
+	paginateNotifications(cursor: NotificationWhereUniqueInput, distinct: [NotificationScalarFieldEnum!], orderBy: [NotificationOrderByWithRelationInput!], skip: Int, take: Int, where: NotificationWhereInput): PaginatedNotification!
 	paginateUsers(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): PaginatedUser!
 	refresh: Login!
 	translations(scope: String!): JSONObject!
@@ -779,6 +945,8 @@ type User {
 	mediaFiles: [MediaFile!]
 	mediaFolders: [MediaFolder!]
 	name: String!
+	notificationRecipients: [NotificationRecipient!]
+	notifications: [Notification!]
 	status: Status!
 	updatedAt: DateTime!
 }
@@ -896,9 +1064,79 @@ enum MediaVisibility {
 	Shared
 }
 
+enum NotificationPrivacy {
+	Private
+	Public
+}
+
+enum NotificationReceiver {
+	Admin
+	Company
+	User
+}
+
+enum NotificationRecipientScalarFieldEnum {
+	adminId
+	archivedAt
+	companyId
+	createdAt
+	deletedAt
+	id
+	isArchived
+	isDeleted
+	isRead
+	notificationId
+	readAt
+	receiver
+	receiverId
+	updatedAt
+	userId
+}
+
+enum NotificationScalarFieldEnum {
+	adminId
+	category
+	companyId
+	content
+	createdAt
+	id
+	options
+	priority
+	privacy
+	receiver
+	sender
+	senderId
+	sentAt
+	status
+	title
+	type
+	updatedAt
+	userId
+}
+
+enum NotificationSender {
+	Admin
+	Company
+	System
+	User
+}
+
+enum NotificationType {
+	Alert
+	Confirm
+	Message
+	Prompt
+}
+
 enum NullsOrder {
 	first
 	last
+}
+
+enum Owner {
+	Admin
+	Company
+	User
 }
 
 enum QueryMode {
@@ -951,6 +1189,9 @@ scalar JSON
 
 "The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)."
 scalar JSONObject
+
+"The `Upload` scalar type represents a file upload."
+scalar Upload
 
 input AdminCompanyAdminCompanyIdxCompoundUniqueInput {
 	adminId: String!
@@ -1026,6 +1267,8 @@ input AdminCompanyWhereUniqueInput {
 input AdminCreateInput {
 	email: String!
 	name: String!
+	notificationRecipients: NotificationRecipientCreateNestedManyWithoutAdminInput
+	notifications: NotificationCreateNestedManyWithoutAdminInput
 	password: String!
 	role: AdminRoleCreateNestedOneWithoutAdminsInput!
 	status: Status
@@ -1064,6 +1307,8 @@ input AdminOrderByWithRelationInput {
 	mediaFiles: MediaFileOrderByRelationAggregateInput
 	mediaFolders: MediaFolderOrderByRelationAggregateInput
 	name: SortOrder
+	notificationRecipients: NotificationRecipientOrderByRelationAggregateInput
+	notifications: NotificationOrderByRelationAggregateInput
 	role: AdminRoleOrderByWithRelationInput
 	roleId: SortOrder
 	status: SortOrder
@@ -1146,6 +1391,8 @@ input AdminScalarRelationFilter {
 input AdminUpdateInput {
 	email: String
 	name: String
+	notificationRecipients: NotificationRecipientUpdateManyWithoutAdminNestedInput
+	notifications: NotificationUpdateManyWithoutAdminNestedInput
 	password: String
 	role: AdminRoleUpdateOneRequiredWithoutAdminsNestedInput
 	status: Status
@@ -1173,6 +1420,8 @@ input AdminWhereInput {
 	mediaFiles: MediaFileListRelationFilter
 	mediaFolders: MediaFolderListRelationFilter
 	name: StringFilter
+	notificationRecipients: NotificationRecipientListRelationFilter
+	notifications: NotificationListRelationFilter
 	role: AdminRoleScalarRelationFilter
 	roleId: StringFilter
 	status: EnumStatusFilter
@@ -1183,6 +1432,8 @@ input AdminWhereUniqueInput {
 	email: String
 	id: String
 	name: StringFilter
+	notificationRecipients: NotificationRecipientListRelationFilter
+	notifications: NotificationListRelationFilter
 	role: AdminRoleScalarRelationFilter
 	roleId: StringFilter
 	status: EnumStatusFilter
@@ -1255,6 +1506,11 @@ input BigIntFilter {
 	notIn: [String!]
 }
 
+input BoolFilter {
+	equals: Boolean
+	not: NestedBoolFilter
+}
+
 input CompanyCreateInput {
 	admins: AdminCompanyCreateNestedManyWithoutCompanyInput
 	alias: String
@@ -1265,6 +1521,8 @@ input CompanyCreateInput {
 	mediaFiles: MediaFileCreateNestedManyWithoutCompanyInput
 	mediaFolders: MediaFolderCreateNestedManyWithoutCompanyInput
 	name: String!
+	notificationRecipients: NotificationRecipientCreateNestedManyWithoutCompanyInput
+	notifications: NotificationCreateNestedManyWithoutCompanyInput
 	roles: CompanyRoleCreateNestedManyWithoutCompanyInput
 	status: Status
 	users: CompanyUserCreateNestedManyWithoutCompanyInput
@@ -1299,6 +1557,8 @@ input CompanyOrderByWithRelationInput {
 	mediaFiles: MediaFileOrderByRelationAggregateInput
 	mediaFolders: MediaFolderOrderByRelationAggregateInput
 	name: SortOrder
+	notificationRecipients: NotificationRecipientOrderByRelationAggregateInput
+	notifications: NotificationOrderByRelationAggregateInput
 	roles: CompanyRoleOrderByRelationAggregateInput
 	status: SortOrder
 	updatedAt: SortOrder
@@ -1430,6 +1690,8 @@ input CompanyUpdateInput {
 	mediaFiles: MediaFileUpdateManyWithoutCompanyNestedInput
 	mediaFolders: MediaFolderUpdateManyWithoutCompanyNestedInput
 	name: String
+	notificationRecipients: NotificationRecipientUpdateManyWithoutCompanyNestedInput
+	notifications: NotificationUpdateManyWithoutCompanyNestedInput
 	roles: CompanyRoleUpdateManyWithoutCompanyNestedInput
 	status: Status
 	users: CompanyUserUpdateManyWithoutCompanyNestedInput
@@ -1539,6 +1801,8 @@ input CompanyWhereInput {
 	mediaFiles: MediaFileListRelationFilter
 	mediaFolders: MediaFolderListRelationFilter
 	name: StringFilter
+	notificationRecipients: NotificationRecipientListRelationFilter
+	notifications: NotificationListRelationFilter
 	roles: CompanyRoleListRelationFilter
 	status: EnumStatusFilter
 	updatedAt: DateTimeFilter
@@ -1556,6 +1820,8 @@ input CompanyWhereUniqueInput {
 	mediaFiles: MediaFileListRelationFilter
 	mediaFolders: MediaFolderListRelationFilter
 	name: String
+	notificationRecipients: NotificationRecipientListRelationFilter
+	notifications: NotificationListRelationFilter
 	roles: CompanyRoleListRelationFilter
 	status: EnumStatusFilter
 	users: CompanyUserListRelationFilter
@@ -1602,6 +1868,41 @@ input EnumMediaVisibilityFilter {
 	in: [MediaVisibility!]
 	not: NestedEnumMediaVisibilityFilter
 	notIn: [MediaVisibility!]
+}
+
+input EnumNotificationPrivacyFilter {
+	equals: NotificationPrivacy
+	in: [NotificationPrivacy!]
+	not: NestedEnumNotificationPrivacyFilter
+	notIn: [NotificationPrivacy!]
+}
+
+input EnumNotificationReceiverFilter {
+	equals: NotificationReceiver
+	in: [NotificationReceiver!]
+	not: NestedEnumNotificationReceiverFilter
+	notIn: [NotificationReceiver!]
+}
+
+input EnumNotificationSenderFilter {
+	equals: NotificationSender
+	in: [NotificationSender!]
+	not: NestedEnumNotificationSenderFilter
+	notIn: [NotificationSender!]
+}
+
+input EnumNotificationTypeFilter {
+	equals: NotificationType
+	in: [NotificationType!]
+	not: NestedEnumNotificationTypeFilter
+	notIn: [NotificationType!]
+}
+
+input EnumOwnerFilter {
+	equals: Owner
+	in: [Owner!]
+	not: NestedEnumOwnerFilter
+	notIn: [Owner!]
 }
 
 input EnumRequestMethodNullableFilter {
@@ -1654,6 +1955,23 @@ input IntNullableFilter {
 	notIn: [Int!]
 }
 
+input JsonFilter {
+	array_contains: JSON
+	array_ends_with: JSON
+	array_starts_with: JSON
+	equals: JSON
+	gt: JSON
+	gte: JSON
+	lt: JSON
+	lte: JSON
+	mode: QueryMode
+	not: JSON
+	path: [String!]
+	string_contains: String
+	string_ends_with: String
+	string_starts_with: String
+}
+
 input JsonNullableFilter {
 	array_contains: JSON
 	array_ends_with: JSON
@@ -1678,13 +1996,20 @@ input LoginInput {
 	target: Target = User
 }
 
-input MediaFileCreateNestedManyWithoutCompanyInput {
-	connect: [MediaFileWhereUniqueInput!]
+input MediaFileAdminFileIdxCompoundUniqueInput {
+	adminId: String!
+	fileName: String!
+	folderId: String!
 }
 
-input MediaFileFileHashIdxCompoundUniqueInput {
+input MediaFileCompanyFileIdxCompoundUniqueInput {
 	companyId: String!
-	fileHash: String!
+	fileName: String!
+	folderId: String!
+}
+
+input MediaFileCreateNestedManyWithoutCompanyInput {
+	connect: [MediaFileWhereUniqueInput!]
 }
 
 input MediaFileListRelationFilter {
@@ -1702,6 +2027,12 @@ input MediaFileUpdateManyWithoutCompanyNestedInput {
 	disconnect: [MediaFileWhereUniqueInput!]
 }
 
+input MediaFileUserFileIdxCompoundUniqueInput {
+	fileName: String!
+	folderId: String!
+	userId: String!
+}
+
 input MediaFileWhereInput {
 	AND: [MediaFileWhereInput!]
 	NOT: [MediaFileWhereInput!]
@@ -1713,24 +2044,21 @@ input MediaFileWhereInput {
 	createdAt: DateTimeFilter
 	description: StringNullableFilter
 	duration: IntNullableFilter
+	extension: StringFilter
 	fileHash: StringFilter
 	fileName: StringFilter
-	filePath: StringFilter
 	fileSize: BigIntFilter
-	folder: MediaFolderNullableScalarRelationFilter
-	folderId: StringNullableFilter
+	folder: MediaFolderScalarRelationFilter
+	folderId: StringFilter
 	height: IntNullableFilter
 	id: StringFilter
 	mediaType: EnumMediaTypeFilter
 	metadata: JsonNullableFilter
 	mimeType: StringFilter
-	originName: StringFilter
-	ownerId: StringFilter
-	ownerType: EnumTargetFilter
+	owner: EnumOwnerFilter
 	status: EnumStatusFilter
 	store: EnumMediaStoreFilter
 	updatedAt: DateTimeFilter
-	uploadedAt: DateTimeFilter
 	user: UserNullableScalarRelationFilter
 	userId: StringNullableFilter
 	visibility: EnumMediaVisibilityFilter
@@ -1739,42 +2067,58 @@ input MediaFileWhereInput {
 
 input MediaFileWhereUniqueInput {
 	admin: AdminNullableScalarRelationFilter
+	adminFileIdx: MediaFileAdminFileIdxCompoundUniqueInput
 	adminId: StringNullableFilter
 	company: CompanyNullableScalarRelationFilter
+	companyFileIdx: MediaFileCompanyFileIdxCompoundUniqueInput
 	companyId: StringNullableFilter
 	description: StringNullableFilter
 	duration: IntNullableFilter
+	extension: StringFilter
 	fileHash: StringFilter
-	fileHashIdx: MediaFileFileHashIdxCompoundUniqueInput
 	fileName: StringFilter
-	filePath: StringFilter
 	fileSize: BigIntFilter
-	folder: MediaFolderNullableScalarRelationFilter
-	folderId: StringNullableFilter
+	folder: MediaFolderScalarRelationFilter
+	folderId: StringFilter
 	height: IntNullableFilter
 	id: String
 	mediaType: EnumMediaTypeFilter
 	metadata: JsonNullableFilter
 	mimeType: StringFilter
-	originName: StringFilter
-	ownerId: StringFilter
-	ownerType: EnumTargetFilter
+	owner: EnumOwnerFilter
 	status: EnumStatusFilter
 	store: EnumMediaStoreFilter
-	uploadedAt: DateTimeFilter
 	user: UserNullableScalarRelationFilter
+	userFileIdx: MediaFileUserFileIdxCompoundUniqueInput
 	userId: StringNullableFilter
 	visibility: EnumMediaVisibilityFilter
 	width: IntNullableFilter
 }
 
-input MediaFolderCreateNestedManyWithoutCompanyInput {
-	connect: [MediaFolderWhereUniqueInput!]
+input MediaFolderAdminFolderNameIdxCompoundUniqueInput {
+	adminId: String!
+	depth: Int!
+	name: String!
 }
 
-input MediaFolderFolderPathIdxCompoundUniqueInput {
+input MediaFolderAdminFolderPathIdxCompoundUniqueInput {
+	adminId: String!
+	path: String!
+}
+
+input MediaFolderCompanyFolderNameIdxCompoundUniqueInput {
+	companyId: String!
+	depth: Int!
+	name: String!
+}
+
+input MediaFolderCompanyFolderPathIdxCompoundUniqueInput {
 	companyId: String!
 	path: String!
+}
+
+input MediaFolderCreateNestedManyWithoutCompanyInput {
+	connect: [MediaFolderWhereUniqueInput!]
 }
 
 input MediaFolderListRelationFilter {
@@ -1792,9 +2136,25 @@ input MediaFolderOrderByRelationAggregateInput {
 	_count: SortOrder
 }
 
+input MediaFolderScalarRelationFilter {
+	is: MediaFolderWhereInput
+	isNot: MediaFolderWhereInput
+}
+
 input MediaFolderUpdateManyWithoutCompanyNestedInput {
 	connect: [MediaFolderWhereUniqueInput!]
 	disconnect: [MediaFolderWhereUniqueInput!]
+}
+
+input MediaFolderUserFolderNameIdxCompoundUniqueInput {
+	depth: Int!
+	name: String!
+	userId: String!
+}
+
+input MediaFolderUserFolderPathIdxCompoundUniqueInput {
+	path: String!
+	userId: String!
 }
 
 input MediaFolderWhereInput {
@@ -1807,13 +2167,12 @@ input MediaFolderWhereInput {
 	company: CompanyNullableScalarRelationFilter
 	companyId: StringNullableFilter
 	createdAt: DateTimeFilter
+	depth: IntFilter
 	description: StringNullableFilter
 	files: MediaFileListRelationFilter
 	id: StringFilter
-	level: IntFilter
 	name: StringFilter
-	ownerId: StringNullableFilter
-	ownerType: EnumTargetFilter
+	owner: EnumOwnerFilter
 	parent: MediaFolderNullableScalarRelationFilter
 	parentId: StringNullableFilter
 	path: StringFilter
@@ -1821,29 +2180,31 @@ input MediaFolderWhereInput {
 	updatedAt: DateTimeFilter
 	user: UserNullableScalarRelationFilter
 	userId: StringNullableFilter
-	visibility: EnumMediaVisibilityFilter
 }
 
 input MediaFolderWhereUniqueInput {
 	admin: AdminNullableScalarRelationFilter
+	adminFolderNameIdx: MediaFolderAdminFolderNameIdxCompoundUniqueInput
+	adminFolderPathIdx: MediaFolderAdminFolderPathIdxCompoundUniqueInput
 	adminId: StringNullableFilter
 	children: MediaFolderListRelationFilter
 	company: CompanyNullableScalarRelationFilter
+	companyFolderNameIdx: MediaFolderCompanyFolderNameIdxCompoundUniqueInput
+	companyFolderPathIdx: MediaFolderCompanyFolderPathIdxCompoundUniqueInput
 	companyId: StringNullableFilter
+	depth: IntFilter
 	description: StringNullableFilter
-	folderPathIdx: MediaFolderFolderPathIdxCompoundUniqueInput
 	id: String
-	level: IntFilter
 	name: StringFilter
-	ownerId: StringNullableFilter
-	ownerType: EnumTargetFilter
+	owner: EnumOwnerFilter
 	parent: MediaFolderNullableScalarRelationFilter
 	parentId: StringNullableFilter
 	path: StringFilter
 	status: EnumStatusFilter
 	user: UserNullableScalarRelationFilter
+	userFolderNameIdx: MediaFolderUserFolderNameIdxCompoundUniqueInput
+	userFolderPathIdx: MediaFolderUserFolderPathIdxCompoundUniqueInput
 	userId: StringNullableFilter
-	visibility: EnumMediaVisibilityFilter
 }
 
 input NestedBigIntFilter {
@@ -1855,6 +2216,11 @@ input NestedBigIntFilter {
 	lte: String
 	not: NestedBigIntFilter
 	notIn: [String!]
+}
+
+input NestedBoolFilter {
+	equals: Boolean
+	not: NestedBoolFilter
 }
 
 input NestedDateTimeFilter {
@@ -1898,6 +2264,41 @@ input NestedEnumMediaVisibilityFilter {
 	in: [MediaVisibility!]
 	not: NestedEnumMediaVisibilityFilter
 	notIn: [MediaVisibility!]
+}
+
+input NestedEnumNotificationPrivacyFilter {
+	equals: NotificationPrivacy
+	in: [NotificationPrivacy!]
+	not: NestedEnumNotificationPrivacyFilter
+	notIn: [NotificationPrivacy!]
+}
+
+input NestedEnumNotificationReceiverFilter {
+	equals: NotificationReceiver
+	in: [NotificationReceiver!]
+	not: NestedEnumNotificationReceiverFilter
+	notIn: [NotificationReceiver!]
+}
+
+input NestedEnumNotificationSenderFilter {
+	equals: NotificationSender
+	in: [NotificationSender!]
+	not: NestedEnumNotificationSenderFilter
+	notIn: [NotificationSender!]
+}
+
+input NestedEnumNotificationTypeFilter {
+	equals: NotificationType
+	in: [NotificationType!]
+	not: NestedEnumNotificationTypeFilter
+	notIn: [NotificationType!]
+}
+
+input NestedEnumOwnerFilter {
+	equals: Owner
+	in: [Owner!]
+	not: NestedEnumOwnerFilter
+	notIn: [Owner!]
 }
 
 input NestedEnumRequestMethodNullableFilter {
@@ -1976,6 +2377,235 @@ input NestedStringNullableFilter {
 	not: NestedStringNullableFilter
 	notIn: [String!]
 	startsWith: String
+}
+
+input NotificationCreateNestedManyWithoutAdminInput {
+	connect: [NotificationWhereUniqueInput!]
+}
+
+input NotificationCreateNestedManyWithoutCompanyInput {
+	connect: [NotificationWhereUniqueInput!]
+}
+
+input NotificationCreateNestedManyWithoutUserInput {
+	connect: [NotificationWhereUniqueInput!]
+}
+
+input NotificationListRelationFilter {
+	every: NotificationWhereInput
+	none: NotificationWhereInput
+	some: NotificationWhereInput
+}
+
+input NotificationOrderByRelationAggregateInput {
+	_count: SortOrder
+}
+
+input NotificationOrderByWithRelationInput {
+	admin: AdminOrderByWithRelationInput
+	adminId: SortOrderInput
+	category: SortOrderInput
+	company: CompanyOrderByWithRelationInput
+	companyId: SortOrderInput
+	content: SortOrder
+	createdAt: SortOrder
+	id: SortOrder
+	options: SortOrderInput
+	priority: SortOrder
+	privacy: SortOrder
+	receiver: SortOrder
+	recipients: NotificationRecipientOrderByRelationAggregateInput
+	sender: SortOrder
+	senderId: SortOrderInput
+	sentAt: SortOrder
+	status: SortOrder
+	title: SortOrderInput
+	type: SortOrder
+	updatedAt: SortOrder
+	user: UserOrderByWithRelationInput
+	userId: SortOrderInput
+}
+
+input NotificationRecipientCreateNestedManyWithoutAdminInput {
+	connect: [NotificationRecipientWhereUniqueInput!]
+}
+
+input NotificationRecipientCreateNestedManyWithoutCompanyInput {
+	connect: [NotificationRecipientWhereUniqueInput!]
+}
+
+input NotificationRecipientCreateNestedManyWithoutUserInput {
+	connect: [NotificationRecipientWhereUniqueInput!]
+}
+
+input NotificationRecipientListRelationFilter {
+	every: NotificationRecipientWhereInput
+	none: NotificationRecipientWhereInput
+	some: NotificationRecipientWhereInput
+}
+
+input NotificationRecipientOrderByRelationAggregateInput {
+	_count: SortOrder
+}
+
+input NotificationRecipientOrderByWithRelationInput {
+	admin: AdminOrderByWithRelationInput
+	adminId: SortOrderInput
+	archivedAt: SortOrderInput
+	company: CompanyOrderByWithRelationInput
+	companyId: SortOrderInput
+	createdAt: SortOrder
+	deletedAt: SortOrderInput
+	id: SortOrder
+	isArchived: SortOrder
+	isDeleted: SortOrder
+	isRead: SortOrder
+	notification: NotificationOrderByWithRelationInput
+	notificationId: SortOrder
+	readAt: SortOrderInput
+	receiver: SortOrder
+	receiverId: SortOrder
+	updatedAt: SortOrder
+	user: UserOrderByWithRelationInput
+	userId: SortOrderInput
+}
+
+input NotificationRecipientReceiverIdxCompoundUniqueInput {
+	notificationId: String!
+	receiver: NotificationReceiver!
+	receiverId: String!
+}
+
+input NotificationRecipientUpdateManyWithoutAdminNestedInput {
+	connect: [NotificationRecipientWhereUniqueInput!]
+	disconnect: [NotificationRecipientWhereUniqueInput!]
+}
+
+input NotificationRecipientUpdateManyWithoutCompanyNestedInput {
+	connect: [NotificationRecipientWhereUniqueInput!]
+	disconnect: [NotificationRecipientWhereUniqueInput!]
+}
+
+input NotificationRecipientUpdateManyWithoutUserNestedInput {
+	connect: [NotificationRecipientWhereUniqueInput!]
+	disconnect: [NotificationRecipientWhereUniqueInput!]
+}
+
+input NotificationRecipientWhereInput {
+	AND: [NotificationRecipientWhereInput!]
+	NOT: [NotificationRecipientWhereInput!]
+	OR: [NotificationRecipientWhereInput!]
+	admin: AdminNullableScalarRelationFilter
+	adminId: StringNullableFilter
+	archivedAt: DateTimeNullableFilter
+	company: CompanyNullableScalarRelationFilter
+	companyId: StringNullableFilter
+	createdAt: DateTimeFilter
+	deletedAt: DateTimeNullableFilter
+	id: StringFilter
+	isArchived: BoolFilter
+	isDeleted: BoolFilter
+	isRead: BoolFilter
+	notification: NotificationScalarRelationFilter
+	notificationId: StringFilter
+	readAt: DateTimeNullableFilter
+	receiver: EnumNotificationReceiverFilter
+	receiverId: StringFilter
+	updatedAt: DateTimeFilter
+	user: UserNullableScalarRelationFilter
+	userId: StringNullableFilter
+}
+
+input NotificationRecipientWhereUniqueInput {
+	admin: AdminNullableScalarRelationFilter
+	adminId: StringNullableFilter
+	archivedAt: DateTimeNullableFilter
+	company: CompanyNullableScalarRelationFilter
+	companyId: StringNullableFilter
+	deletedAt: DateTimeNullableFilter
+	id: String
+	isArchived: BoolFilter
+	isDeleted: BoolFilter
+	isRead: BoolFilter
+	notification: NotificationScalarRelationFilter
+	notificationId: StringFilter
+	readAt: DateTimeNullableFilter
+	receiver: EnumNotificationReceiverFilter
+	receiverId: StringFilter
+	receiverIdx: NotificationRecipientReceiverIdxCompoundUniqueInput
+	user: UserNullableScalarRelationFilter
+	userId: StringNullableFilter
+}
+
+input NotificationScalarRelationFilter {
+	is: NotificationWhereInput
+	isNot: NotificationWhereInput
+}
+
+input NotificationUpdateManyWithoutAdminNestedInput {
+	connect: [NotificationWhereUniqueInput!]
+	disconnect: [NotificationWhereUniqueInput!]
+}
+
+input NotificationUpdateManyWithoutCompanyNestedInput {
+	connect: [NotificationWhereUniqueInput!]
+	disconnect: [NotificationWhereUniqueInput!]
+}
+
+input NotificationUpdateManyWithoutUserNestedInput {
+	connect: [NotificationWhereUniqueInput!]
+	disconnect: [NotificationWhereUniqueInput!]
+}
+
+input NotificationWhereInput {
+	AND: [NotificationWhereInput!]
+	NOT: [NotificationWhereInput!]
+	OR: [NotificationWhereInput!]
+	admin: AdminNullableScalarRelationFilter
+	adminId: StringNullableFilter
+	category: StringNullableFilter
+	company: CompanyNullableScalarRelationFilter
+	companyId: StringNullableFilter
+	content: JsonFilter
+	createdAt: DateTimeFilter
+	id: StringFilter
+	options: JsonNullableFilter
+	priority: IntFilter
+	privacy: EnumNotificationPrivacyFilter
+	receiver: StringNullableListFilter
+	recipients: NotificationRecipientListRelationFilter
+	sender: EnumNotificationSenderFilter
+	senderId: StringNullableFilter
+	sentAt: DateTimeFilter
+	status: EnumStatusFilter
+	title: JsonNullableFilter
+	type: EnumNotificationTypeFilter
+	updatedAt: DateTimeFilter
+	user: UserNullableScalarRelationFilter
+	userId: StringNullableFilter
+}
+
+input NotificationWhereUniqueInput {
+	admin: AdminNullableScalarRelationFilter
+	adminId: StringNullableFilter
+	category: StringNullableFilter
+	company: CompanyNullableScalarRelationFilter
+	companyId: StringNullableFilter
+	content: JsonFilter
+	id: String
+	options: JsonNullableFilter
+	priority: IntFilter
+	privacy: EnumNotificationPrivacyFilter
+	receiver: StringNullableListFilter
+	recipients: NotificationRecipientListRelationFilter
+	sender: EnumNotificationSenderFilter
+	senderId: StringNullableFilter
+	sentAt: DateTimeFilter
+	status: EnumStatusFilter
+	title: JsonNullableFilter
+	type: EnumNotificationTypeFilter
+	user: UserNullableScalarRelationFilter
+	userId: StringNullableFilter
 }
 
 input RequestLogCreateNestedManyWithoutCompanyInput {
@@ -2106,6 +2736,8 @@ input StringNullableListFilter {
 input UserCreateInput {
 	email: String!
 	name: String!
+	notificationRecipients: NotificationRecipientCreateNestedManyWithoutUserInput
+	notifications: NotificationCreateNestedManyWithoutUserInput
 	password: String!
 	status: Status
 }
@@ -2129,6 +2761,8 @@ input UserOrderByWithRelationInput {
 	mediaFiles: MediaFileOrderByRelationAggregateInput
 	mediaFolders: MediaFolderOrderByRelationAggregateInput
 	name: SortOrder
+	notificationRecipients: NotificationRecipientOrderByRelationAggregateInput
+	notifications: NotificationOrderByRelationAggregateInput
 	status: SortOrder
 	updatedAt: SortOrder
 }
@@ -2141,6 +2775,8 @@ input UserScalarRelationFilter {
 input UserUpdateInput {
 	email: String
 	name: String
+	notificationRecipients: NotificationRecipientUpdateManyWithoutUserNestedInput
+	notifications: NotificationUpdateManyWithoutUserNestedInput
 	password: String
 	status: Status
 }
@@ -2162,6 +2798,8 @@ input UserWhereInput {
 	mediaFiles: MediaFileListRelationFilter
 	mediaFolders: MediaFolderListRelationFilter
 	name: StringFilter
+	notificationRecipients: NotificationRecipientListRelationFilter
+	notifications: NotificationListRelationFilter
 	status: EnumStatusFilter
 	updatedAt: DateTimeFilter
 }
@@ -2170,5 +2808,7 @@ input UserWhereUniqueInput {
 	email: String
 	id: String
 	name: StringFilter
+	notificationRecipients: NotificationRecipientListRelationFilter
+	notifications: NotificationListRelationFilter
 	status: EnumStatusFilter
 }

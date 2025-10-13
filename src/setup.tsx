@@ -8,6 +8,7 @@ import '@mantine/notifications/styles.css';
 import '@mantine/charts/styles.css';
 import 'src/styles/main.scss';
 
+import { ModalsProvider } from '@mantine/modals';
 import { Notifications } from '@mantine/notifications';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
@@ -32,7 +33,9 @@ export const SetupApp = async (options?: SetupAppOptions) => {
     <ApolloProvider>
       <InitializeProvider setupOptions={options}>
         <Notifications position="top-center" limit={3} />
-        <Router />
+        <ModalsProvider>
+          <Router />
+        </ModalsProvider>
       </InitializeProvider>
     </ApolloProvider>
   );

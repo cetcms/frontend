@@ -1,0 +1,12 @@
+mutation UploadFile($file: Upload!, $folderPath: String!) {
+	uploadFile(file: $file, folderPath: $folderPath) {
+		...MediaFile
+	}
+}
+
+
+query ListMediaFiles($fileIds: [String!]!) {
+	listMediaFiles(fileIds: $fileIds) {
+		...MediaFile
+	}
+}

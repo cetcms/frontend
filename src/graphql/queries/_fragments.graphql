@@ -75,3 +75,29 @@ fragment PermissionItem on PermissionItem {
 	actionLabel
 	targets
 }
+
+fragment MediaFile on MediaFile {
+	id
+	createdAt
+	updatedAt
+	status
+	store
+	mediaType
+	mimeType
+	fileName
+	fileHash
+	fileSize
+	width
+	height
+	duration
+	metadata
+	description
+	extension
+	folderId
+	owner
+	adminId
+	userId
+	companyId
+	visibility
+	url
+}

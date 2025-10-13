@@ -25,7 +25,7 @@ const stringOperators = [
 ];
 
 // 生成 Prisma 查询条件
-const genPrismaWhere = (items: FilterItemConfig[], fields: FilterFieldConfig[]) => {
+const genPrismaWhere = (items: FilterItemConfig[], _fields: FilterFieldConfig[]) => {
   return items.map((item) => {
     const condition: any = {};
     condition[item.operator] = item.value;

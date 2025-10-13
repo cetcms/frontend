@@ -96,9 +96,5 @@ export const InitializeProvider: React.FC<InitializeProviderProps> = ({ children
     return <Loading native />;
   }
 
-  return (
-    <MantineProvider theme={theme}>
-      {health.data?.healthCheck !== 'ok' || health.error ? <SomeErrorPage /> : children}
-    </MantineProvider>
-  );
+  return <MantineProvider theme={theme}>{health.error ? <SomeErrorPage /> : children}</MantineProvider>;
 };

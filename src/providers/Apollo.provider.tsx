@@ -1,6 +1,7 @@
-import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { ApolloProvider as ApolloClientProvider } from '@apollo/client/react';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
+import UploadHttpLink from 'apollo-upload-client/UploadHttpLink.mjs';
 import React, { useEffect, useState } from 'react';
 import { Loading } from 'src/components';
 import i18n from 'src/i18n';
@@ -28,7 +29,7 @@ const createClient = (options: CreateClientOptions) => {
   headers[RequestHeaders.Language] = i18n.language;
   return new ApolloClient({
     cache: new InMemoryCache(),
-    link: new HttpLink({
+    link: new UploadHttpLink({
       headers,
       uri: 'http://localhost:3000/graphql',
     }),

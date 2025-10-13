@@ -16,6 +16,7 @@ import { notifications } from '@mantine/notifications';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
+import { Upload } from 'src/components';
 import { AdminRoleSelect } from 'src/components/FormInputs';
 import { FormPageAction, FormPageErrors } from 'src/components/FormPage';
 import { Admin, AdminCreateInput, CreateOneAdminDocument, Status, UpdateOneAdminDocument } from 'src/graphql';
@@ -174,6 +175,10 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
                 label={t('Admin.role')}
                 {...form.getInputProps('role.connect.id')}
               />
+            </Grid.Col>
+            <Grid.Col span={1} />
+            <Grid.Col span={1}>
+              <Upload path="system/avatar" />
             </Grid.Col>
           </Grid>
           <Divider mt="md" variant="dashed" />
