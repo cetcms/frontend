@@ -32,6 +32,12 @@ export const UserPage = () => {
           type: 'string',
         },
         {
+          accessor: 'avatarUrl',
+          title: t('User.email'),
+          type: 'image',
+          hiddenFilter: true,
+        },
+        {
           accessor: 'name',
           title: t('User.name'),
           type: 'string',

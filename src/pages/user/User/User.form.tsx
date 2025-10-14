@@ -16,6 +16,7 @@ import { notifications } from '@mantine/notifications';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
+import { Upload } from 'src/components/FormInputs';
 import { FormPageAction, FormPageErrors } from 'src/components/FormPage';
 import { CreateOneUserDocument, Status, UpdateOneUserDocument, User, UserCreateInput } from 'src/graphql';
 import { useParseApolloErrors } from 'src/hooks';
@@ -43,6 +44,7 @@ export const UserForm: React.FC<UserFormProps> = ({ item }) => {
       email: item?.email || '',
       name: item?.name || '',
       status: item?.status || Status.Enabled,
+      avatar: item?.avatar || '',
       password: '',
       confirmPassword: '',
     },
@@ -86,6 +88,7 @@ export const UserForm: React.FC<UserFormProps> = ({ item }) => {
       name: form.values.name,
       password: form.values.password,
       status: form.values.status,
+      avatar: form.values.avatar,
     };
     if (item) {
       updateUser({
@@ -143,15 +146,13 @@ export const UserForm: React.FC<UserFormProps> = ({ item }) => {
             <Grid.Col span={1}>
               <PasswordInput withAsterisk={!item} label={t('User.password')} {...form.getInputProps('password')} />
             </Grid.Col>
-            {form.values.password && (
-              <Grid.Col span={1}>
-                <PasswordInput
-                  withAsterisk={!item}
-                  label={t('confirmMatch', { field: t('User.password') })}
-                  {...form.getInputProps('confirmPassword')}
-                />
-              </Grid.Col>
-            )}
+            <Grid.Col span={1}>
+              <PasswordInput
+                withAsterisk={!item}
+                label={t('confirmMatch', { field: t('User.password') })}
+                {...form.getInputProps('confirmPassword')}
+              />
+            </Grid.Col>
             <Grid.Col span={1}>
               <Select
                 allowDeselect={false}
@@ -162,6 +163,9 @@ export const UserForm: React.FC<UserFormProps> = ({ item }) => {
                 ]}
                 {...form.getInputProps('status')}
               />
+            </Grid.Col>
+            <Grid.Col span={2}>
+              <Upload label={t('User.avatar')} path="user/avatar" outputType="id" {...form.getInputProps('avatar')} />
             </Grid.Col>
           </Grid>
           <Divider mt="md" variant="dashed" />

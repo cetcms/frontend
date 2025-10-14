@@ -33,6 +33,12 @@ export const CompanyPage = () => {
           type: 'string',
         },
         {
+          accessor: 'logoUrl',
+          title: t('Company.logo'),
+          type: 'image',
+          hiddenFilter: true,
+        },
+        {
           accessor: 'name',
           title: t('Company.name'),
           type: 'string',

@@ -5,6 +5,7 @@ import { notifications } from '@mantine/notifications';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
+import { Upload } from 'src/components/FormInputs';
 import { FormPageAction, FormPageErrors } from 'src/components/FormPage';
 import { Company, CompanyCreateInput, CreateOneCompanyDocument, Status, UpdateOneCompanyDocument } from 'src/graphql';
 import { useParseApolloErrors } from 'src/hooks';
@@ -29,6 +30,7 @@ export const CompanyForm: React.FC<CompanyFormProps> = ({ item }) => {
       name: item?.name || '',
       alias: item?.alias || '',
       code: item?.code || '',
+      logo: item?.logo || '',
       description: item?.description || '',
       status: item?.status || Status.Enabled,
     },
@@ -46,6 +48,7 @@ export const CompanyForm: React.FC<CompanyFormProps> = ({ item }) => {
       name: form.values.name,
       alias: form.values.alias,
       code: form.values.code,
+      logo: form.values.logo,
       description: form.values.description,
       status: form.values.status,
     };
@@ -118,6 +121,9 @@ export const CompanyForm: React.FC<CompanyFormProps> = ({ item }) => {
             </Grid.Col>
             <Grid.Col span={2}>
               <TextInput label={t('Company.description')} {...form.getInputProps('description')} />
+            </Grid.Col>
+            <Grid.Col span={2}>
+              <Upload label={t('Company.logo')} path="company/logo" outputType="id" {...form.getInputProps('logo')} />
             </Grid.Col>
           </Grid>
           <Divider mt="md" variant="dashed" />

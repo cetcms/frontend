@@ -28,6 +28,7 @@ export type DataTableProps = {
   render?: (record: any, index: number) => React.ReactNode;
   columns: Array<
     DataTableColumn & {
+      hiddenFilter?: boolean;
       type?: FilterFieldConfig['type'];
       options?: FilterFieldConfig['options'];
     }
@@ -118,7 +119,7 @@ export const DataTable: React.FC<DataTableProps> = ({
   }
 
   const filterFields = props.columns.reduce((res: FilterFieldConfig[], col) => {
-    if (col.type) {
+    if (col.type && !col.hiddenFilter) {
       res.push({
         title: String(col.title),
         accessor: col.accessor,

@@ -31,9 +31,24 @@ export const columnsHandler = (columns: DataTableProps['columns']) => {
       column.width = 100;
       column.textAlign = 'center';
       column.render = (item: any) => (
-        <HoverCard width={300} position="bottom" withArrow shadow="md" openDelay={100} closeDelay={100}>
+        <HoverCard
+          width={300}
+          position="left"
+          withArrow
+          shadow="md"
+          openDelay={100}
+          closeDelay={100}
+          disabled={!item[column.accessor]}
+        >
           <HoverCard.Target>
-            <Image src={item[column.accessor]} radius="xs" fit="contain" width={30} height={30} />
+            <Image
+              src={item[column.accessor]}
+              radius="xs"
+              fit="contain"
+              width={30}
+              height={30}
+              fallbackSrc="/images/no-image.svg"
+            />
           </HoverCard.Target>
           <HoverCard.Dropdown p="xs">
             <Image src={item[column.accessor]} radius="sm" fit="contain" width={300} height={300} />

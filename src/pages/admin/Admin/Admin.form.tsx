@@ -44,10 +44,10 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
       email: item?.email || '',
       name: item?.name || '',
       status: item?.status || Status.Enabled,
+      role: item ? { connect: { id: item?.roleId } } : { connect: { id: '' } },
+      avatar: item?.avatar || '',
       password: '',
       confirmPassword: '',
-      avatar: item?.avatar || '',
-      role: item ? { connect: { id: item?.roleId } } : { connect: { id: '' } },
     },
     validate: {
       email: validates([
@@ -149,15 +149,21 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
             <Grid.Col span={1}>
               <PasswordInput withAsterisk={!item} label={t('Admin.password')} {...form.getInputProps('password')} />
             </Grid.Col>
-            {form.values.password && (
-              <Grid.Col span={1}>
-                <PasswordInput
-                  withAsterisk={!item}
-                  label={t('confirmMatch', { field: t('Admin.password') })}
-                  {...form.getInputProps('confirmPassword')}
-                />
-              </Grid.Col>
-            )}
+            <Grid.Col span={1}>
+              <AdminRoleSelect
+                withAsterisk
+                allowDeselect={false}
+                label={t('Admin.role')}
+                {...form.getInputProps('role.connect.id')}
+              />
+            </Grid.Col>
+            <Grid.Col span={1}>
+              <PasswordInput
+                withAsterisk={!item}
+                label={t('confirmMatch', { field: t('Admin.password') })}
+                {...form.getInputProps('confirmPassword')}
+              />
+            </Grid.Col>
             <Grid.Col span={1}>
               <Select
                 allowDeselect={false}
@@ -169,22 +175,8 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
                 {...form.getInputProps('status')}
               />
             </Grid.Col>
-            <Grid.Col span={1}>
-              <AdminRoleSelect
-                withAsterisk
-                allowDeselect={false}
-                label={t('Admin.role')}
-                {...form.getInputProps('role.connect.id')}
-              />
-            </Grid.Col>
-            <Grid.Col span={1} />
             <Grid.Col span={2}>
-              <Upload
-                label={t('Admin.avatar')}
-                path="system/avatar"
-                outputType="id"
-                {...form.getInputProps('avatar')}
-              />
+              <Upload label={t('Admin.avatar')} path="admin/avatar" outputType="id" {...form.getInputProps('avatar')} />
             </Grid.Col>
           </Grid>
           <Divider mt="md" variant="dashed" />

@@ -34,8 +34,9 @@ export const AdminPage = () => {
         },
         {
           accessor: 'avatarUrl',
-          title: t('Admin.email'),
+          title: t('Admin.avatar'),
           type: 'image',
+          hiddenFilter: true,
         },
         {
           accessor: 'email',
