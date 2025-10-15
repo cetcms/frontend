@@ -22,13 +22,13 @@ export const ForbiddenPage: React.FC = () => {
           </Text>
 
           <Group justify="center" mt="sm">
-            <Button leftSection={<IconHome size={16} />} onClick={() => navigate('/')}>
+            <Button variant="default" leftSection={<IconHome size={16} />} onClick={() => navigate('/')}>
               返回首页
             </Button>
-            <Button variant="outline" leftSection={<IconLogin size={16} />} onClick={() => navigate('/auth/login')}>
+            <Button variant="default" leftSection={<IconLogin size={16} />} onClick={() => navigate('/auth/login')}>
               重新登录
             </Button>
-            <Button variant="subtle" leftSection={<IconRefresh size={16} />} onClick={() => window.location.reload()}>
+            <Button variant="default" leftSection={<IconRefresh size={16} />} onClick={() => window.location.reload()}>
               刷新页面
             </Button>
           </Group>
