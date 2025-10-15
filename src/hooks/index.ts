@@ -5,3 +5,4 @@ export * from './useInitializeAuth';
 export * from './useLoadTranslations';
 export * from './useRegisterMenus';
 export * from './useRegisterTheme';
+export * from './useSwitchAuthCompany';

@@ -8,7 +8,6 @@ import { useSearchParams } from 'react-router';
 import { Captcha } from 'src/components';
 import { Login, LoginDocument, Target } from 'src/graphql';
 import { useAuthStore } from 'src/store';
-import voca from 'voca';
 
 interface LoginFormValues {
   email: string;
@@ -38,6 +37,7 @@ export const LoginWithPasswordForm = () => {
     },
   });
 
+  const target = searchParams.get('target') as Target;
   const { setLogin } = useAuthStore();
   const [loginMutation, { loading }] = useMutation(LoginDocument);
   const handleSubmit = (values: LoginFormValues) => {
@@ -46,7 +46,7 @@ export const LoginWithPasswordForm = () => {
         input: {
           account: values.email,
           password: values.password,
-          target: voca.capitalize(searchParams.get('target') || Target.User) as Target,
+          target: target || undefined,
         },
       },
     }).then(({ data }) => {

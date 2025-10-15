@@ -14,22 +14,9 @@ mutation Login($input: LoginInput!) {
 	}
 }
 
-mutation SwitchAuthCompany($companyId: String!) {
+mutation SwitchAuthCompany($companyId: String) {
 	switchAuthCompany(companyId: $companyId) {
 		...Login
-	}
-}
-
-query ListAuthCompanies($name: String) {
-	listAuthCompanies(name: $name) {
-		id
-		createdAt
-		updatedAt
-		status
-		name
-		alias
-		code
-		description
 	}
 }
 

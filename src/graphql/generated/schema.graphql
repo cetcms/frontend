@@ -551,7 +551,7 @@ type Mutation {
 	createOneUser(data: UserCreateInput!): User!
 	deleteAdminCompany(adminId: String!, companyId: String!): Boolean!
 	login(input: LoginInput!): Login!
-	switchAuthCompany(companyId: String!): Login!
+	switchAuthCompany(companyId: String): Login!
 	updateOneAdmin(data: AdminUpdateInput!, where: AdminWhereUniqueInput!): Admin!
 	updateOneAdminCompany(data: AdminCompanyUpdateInput!, where: AdminCompanyWhereUniqueInput!): AdminCompany!
 	updateOneAdminRole(data: AdminRoleUpdateInput!, where: AdminRoleWhereUniqueInput!): AdminRole!
@@ -825,7 +825,6 @@ type Query {
 	healthCheck: String!
 	helloWorld: String!
 	listAdminRolePermission(where: AdminRoleWhereUniqueInput): PermissionGroup!
-	listAuthCompanies(name: String): [Company!]
 	listCompanyRolePermission(where: CompanyRoleWhereUniqueInput): PermissionGroup!
 	listMediaFiles(fileIds: [String!]!): [MediaFile!]!
 	listSelfNotifications: [Notification!]!

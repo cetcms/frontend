@@ -1,18 +1,11 @@
-import { useMutation, useQuery } from '@apollo/client/react';
+import { useQuery } from '@apollo/client/react';
 import { Center } from '@mantine/core';
 import { IconLogin2 } from '@tabler/icons-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DataTable, IconButton } from 'src/components';
-import {
-  Company,
-  Login,
-  PaginateCompaniesDocument,
-  PaginationFragment,
-  PermissionAlias,
-  Status,
-  SwitchAuthCompanyDocument,
-} from 'src/graphql';
+import { Company, PaginateCompaniesDocument, PaginationFragment, PermissionAlias, Status } from 'src/graphql';
+import { useSwitchAuthCompany } from 'src/hooks';
 import { PagePermissionOption, useAuthStore } from 'src/store';
 
 export const CompanyPage: React.FC & PagePermissionOption = () => {
@@ -27,22 +20,12 @@ export const CompanyPage: React.FC & PagePermissionOption = () => {
   const items = paginateCompanies?.items || [];
 
   // 权限检查
-  const { checkPermission, setLogin } = useAuthStore();
+  const { checkPermission } = useAuthStore();
   const hasCreate = checkPermission(PermissionAlias.CreateOneCompany);
   const hasEdit = checkPermission(PermissionAlias.UpdateOneCompany);
 
-  const [switchAuthCompany] = useMutation(SwitchAuthCompanyDocument);
-  const handleSwitchAuthCompany = async (companyId: string) => {
-    const { data } = await switchAuthCompany({
-      variables: {
-        companyId,
-      },
-    });
-    if (data?.switchAuthCompany) {
-      setLogin(data.switchAuthCompany as Login);
-      location.replace('/');
-    }
-  };
+  // 切换公司认证
+  const [switchAuthCompany] = useSwitchAuthCompany();
 
   return (
     <DataTable
@@ -89,7 +72,7 @@ export const CompanyPage: React.FC & PagePermissionOption = () => {
             const company = item as Company;
             return (
               <Center>
-                <IconButton icon={IconLogin2} tooltip={t('edit')} onClick={() => handleSwitchAuthCompany(company.id)} />
+                <IconButton icon={IconLogin2} tooltip={t('edit')} onClick={() => switchAuthCompany(company.id)} />
               </Center>
             );
           },
