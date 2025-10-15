@@ -53,5 +53,8 @@ query AuthInfo {
 		user {
 			...User
 		}
+		company {
+			...Company
+		}
 	}
 }

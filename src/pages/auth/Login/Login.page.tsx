@@ -10,7 +10,7 @@ import {
   LoginWithPasswordButton,
   LoginWithPasswordForm,
   LoginWithWechatButton,
-} from './includes';
+} from './components';
 
 export const LoginPage = () => {
   const { t } = useTranslation();

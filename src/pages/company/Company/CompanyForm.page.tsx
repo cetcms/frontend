@@ -3,15 +3,16 @@ import { Group, LoadingOverlay } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { Company, FindOneCompanyDocument, PermissionAlias } from 'src/graphql';
-import { PagePermissionOption } from 'src/store';
+import { PagePermissionOption, useAuthStore } from 'src/store';
 
 import { CompanyForm } from './Company.form';
 
 export const CompanyFormPage: React.FC & PagePermissionOption = () => {
+  const { auth } = useAuthStore();
   const [loading, setLoading] = useState(true);
   const [findOneCompany, { data }] = useLazyQuery(FindOneCompanyDocument);
   const [searchParams] = useSearchParams();
-  const id = searchParams.get('id');
+  const id = searchParams.get('id') || auth?.companyId;
   useEffect(() => {
     if (id) {
       findOneCompany({ variables: { id } }).then(() => {
