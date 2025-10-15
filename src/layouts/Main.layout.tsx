@@ -1,6 +1,7 @@
 import { AppShell, Divider, Group, ScrollArea, Text } from '@mantine/core';
 import React, { useState } from 'react';
 import { Outlet } from 'react-router';
+import { CurrentCompany } from 'src/layouts/components/CurrentCompany';
 import { useAuthStore } from 'src/store';
 
 import {
@@ -39,6 +40,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             <MainLogo width={fullWidth} />
             <Divider orientation="vertical" my="-4px" />
             <Breadcrumb />
+          </Group>
+          <Group>
+            <CurrentCompany />
           </Group>
           <Group gap="xs">
             <ToggleLanguage />
