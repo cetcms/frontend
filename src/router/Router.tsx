@@ -1,8 +1,9 @@
 import React from 'react';
 import { createBrowserRouter, RouteObject, RouterProvider } from 'react-router';
 import { ForbiddenPage, DevelopPage } from 'src/pages/error';
-import { routes } from 'src/router/routes';
 import { PagePermissionOption, useAuthStore } from 'src/store';
+
+import { getRoutes } from './routes';
 
 const CheckComponentPermission: React.FC<{ Component: React.ComponentType & PagePermissionOption }> = ({
   Component,
@@ -27,8 +28,9 @@ const handleRoute = ({ Component, ...route }: RouteObject) => {
   return route;
 };
 
-const router = createBrowserRouter(routes.map(handleRoute));
-
 export const Router = () => {
+  const { isAdmin, isCompany, isUser } = useAuthStore();
+  const routes = getRoutes(isAdmin ? 'admin' : isCompany ? 'company' : isUser ? 'user' : undefined);
+  const router = createBrowserRouter(routes.map(handleRoute));
   return <RouterProvider router={router} />;
 };
