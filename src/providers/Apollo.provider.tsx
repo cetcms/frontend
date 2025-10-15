@@ -40,15 +40,8 @@ export type ApolloProviderProps = {
   children: React.ReactNode;
 };
 export const ApolloProvider: React.FC<ApolloProviderProps> = ({ children }) => {
-  const { login, initialized, initialize } = useAuthStore();
+  const { login } = useAuthStore();
   const [client, setClient] = useState<ApolloClient>();
-
-  // 轮询检查登录状态
-  useEffect(() => {
-    if (!initialized) {
-      initialize();
-    }
-  }, [initialized]);
 
   // 登录状态发生变化时创建 Apollo 客户端
   useEffect(() => {

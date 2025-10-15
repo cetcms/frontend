@@ -1,9 +1,10 @@
-import { useQuery } from '@apollo/client/react';
+import { useLazyQuery, useQuery } from '@apollo/client/react';
 import { MantineProvider } from '@mantine/core';
+import { useDebounceEffect } from 'ahooks';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Loading } from 'src/components';
-import { HealthCheckDocument, TranslationsDocument } from 'src/graphql';
+import { Auth, AuthInfoDocument, HealthCheckDocument, TranslationsDocument } from 'src/graphql';
 import { SomeErrorPage } from 'src/pages/error';
 import { MenuItem, MenuItemGroup } from 'src/router/menus';
 import adminMenuItems from 'src/router/menus/admin';
@@ -107,11 +108,55 @@ const useRegisterTheme = (registerTheme: SetupAppOptions['registerTheme']) => {
   };
 };
 
+/**
+ * 初始化认证信息：
+ * - 启动登录状态检查与轮询
+ * - 在检测到有效登录后拉取 AuthInfo 并写入 Store
+ */
+const useInitializeAuth = () => {
+  const { login, auth, setAuth, clearAuth, initialized, initialize } = useAuthStore();
+  const [getAuthInfo, { loading: authQueryLoading }] = useLazyQuery(AuthInfoDocument);
+  const [handing, setHanding] = useState(true);
+
+  // 启动登录状态轮询与初始化标记
+  useEffect(() => {
+    if (!initialized) {
+      initialize();
+    }
+  }, [initialized]);
+
+  // 延时触发，避免与 Apollo 客户端重建产生竞态
+  useDebounceEffect(
+    () => {
+      if (login && initialized && !auth) {
+        getAuthInfo()
+          .then(({ data }) => {
+            if (data?.authInfo) {
+              setAuth(data.authInfo as Auth);
+            } else {
+              clearAuth();
+            }
+          })
+          .finally(() => setHanding(false));
+      } else {
+        setHanding(false);
+      }
+    },
+    [login, initialized, auth],
+    { wait: 50 }
+  );
+
+  return {
+    loading: authQueryLoading || !initialized || handing,
+  };
+};
+
 export const InitializeProvider: React.FC<InitializeProviderProps> = ({ children, setupOptions }) => {
   const { registerMenus, registerTheme } = setupOptions || {};
   const { loading: menuLoading } = useRegisterMenus(registerMenus);
   const { loading: themeLoading, theme } = useRegisterTheme(registerTheme);
   const { loading: translationLoading } = useLoadTranslations(['models']);
+  const { loading: authLoading } = useInitializeAuth();
   const health = useQuery(HealthCheckDocument, {
     fetchPolicy: 'network-only',
   });
@@ -121,7 +166,7 @@ export const InitializeProvider: React.FC<InitializeProviderProps> = ({ children
     return () => clearInterval(intervalId);
   }, []);
 
-  if (menuLoading || themeLoading || translationLoading) {
+  if (menuLoading || themeLoading || translationLoading || authLoading) {
     return <Loading native />;
   }
 
