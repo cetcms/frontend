@@ -4,9 +4,11 @@ import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router';
 import { Captcha } from 'src/components';
 import { Login, LoginDocument, Target } from 'src/graphql';
 import { useAuthStore } from 'src/store';
+import voca from 'voca';
 
 interface LoginFormValues {
   email: string;
@@ -19,6 +21,7 @@ interface LoginFormValues {
 
 export const LoginWithPasswordForm = () => {
   const { t } = useTranslation(['auth']);
+  const [searchParams] = useSearchParams();
   const [opened, { open, close }] = useDisclosure(false);
   const form = useForm<LoginFormValues>({
     initialValues: {
@@ -43,7 +46,7 @@ export const LoginWithPasswordForm = () => {
         input: {
           account: values.email,
           password: values.password,
-          target: Target.Admin,
+          target: voca.capitalize(searchParams.get('target') || Target.User) as Target,
         },
       },
     }).then(({ data }) => {
