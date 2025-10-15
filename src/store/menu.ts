@@ -1,6 +1,5 @@
+import { findMenuItem, findMenuItemPath, findMenuByPath, getExpandedMenuIds } from 'src/utils/menu';
 import { create } from 'zustand';
-
-import { findMenuItem, findMenuItemPath, findMenuByPath, getExpandedMenuIds } from './utils/menu';
 
 /**
  * 菜单项类型定义

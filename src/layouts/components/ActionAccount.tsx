@@ -2,7 +2,7 @@ import { useLazyQuery } from '@apollo/client/react';
 import { ActionIcon, Avatar, Group, Menu, rem, Text } from '@mantine/core';
 import { IconChevronRight, IconLogout, IconSettings } from '@tabler/icons-react';
 import React from 'react';
-import { LogoutDocument } from 'src/graphql/generated/graphql';
+import { LogoutDocument } from 'src/graphql';
 import { useAuthStore } from 'src/store';
 
 export const ActionAccount = () => {

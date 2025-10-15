@@ -1,8 +1,7 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router';
 import { Loading } from 'src/components';
-
-import { useAuth } from './hooks';
+import { useAuth } from 'src/hooks';
 
 export type AuthGuardProps = {
   children?: React.ReactNode;

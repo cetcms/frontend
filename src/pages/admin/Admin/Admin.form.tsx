@@ -20,7 +20,7 @@ import { AdminRoleSelect, Upload } from 'src/components/FormInputs';
 import { FormPageAction, FormPageErrors } from 'src/components/FormPage';
 import { Admin, AdminCreateInput, CreateOneAdminDocument, Status, UpdateOneAdminDocument } from 'src/graphql';
 import { useParseApolloErrors } from 'src/hooks';
-import { validates } from 'src/validator';
+import { validates } from 'src/utils/validates';
 
 export type AdminFormProps = {
   item?: Admin;

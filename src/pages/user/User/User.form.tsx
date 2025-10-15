@@ -20,7 +20,7 @@ import { Upload } from 'src/components/FormInputs';
 import { FormPageAction, FormPageErrors } from 'src/components/FormPage';
 import { CreateOneUserDocument, Status, UpdateOneUserDocument, User, UserCreateInput } from 'src/graphql';
 import { useParseApolloErrors } from 'src/hooks';
-import { validates } from 'src/validator';
+import { validates } from 'src/utils/validates';
 
 export type UserFormProps = {
   item?: User;

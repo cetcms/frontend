@@ -1,4 +1,4 @@
-import { Auth, Login, Maybe } from 'src/graphql/generated/graphql';
+import { Auth, Login, Maybe } from 'src/graphql';
 import { create } from 'zustand';
 
 const STORAGE_KEY = 'login';
@@ -19,6 +19,7 @@ export type AuthStore = {
 
 export const useAuthStore = create<AuthStore>()((set, getState) => ({
   auth: null,
+  company: null,
   setAuth: (auth: Auth) => set(() => ({ auth })),
   clearAuth: () => set(() => ({ auth: null })),
 
