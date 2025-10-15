@@ -2,8 +2,10 @@ import { Button, Container, Group, Paper, Stack, Text, ThemeIcon, Title } from '
 import { IconShieldOff, IconRefresh, IconHome, IconLogin } from '@tabler/icons-react';
 import React from 'react';
 import { useNavigate } from 'react-router';
+import { useAuthStore } from 'src/store';
 
 export const ForbiddenPage: React.FC = () => {
+  const { clearLogin, clearAuth } = useAuthStore();
   const navigate = useNavigate();
 
   return (
@@ -25,7 +27,15 @@ export const ForbiddenPage: React.FC = () => {
             <Button variant="default" leftSection={<IconHome size={16} />} onClick={() => navigate('/')}>
               返回首页
             </Button>
-            <Button variant="default" leftSection={<IconLogin size={16} />} onClick={() => navigate('/auth/login')}>
+            <Button
+              variant="default"
+              leftSection={<IconLogin size={16} />}
+              onClick={() => {
+                clearAuth();
+                clearLogin();
+                location.reload();
+              }}
+            >
               重新登录
             </Button>
             <Button variant="default" leftSection={<IconRefresh size={16} />} onClick={() => window.location.reload()}>

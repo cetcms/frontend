@@ -6,7 +6,6 @@ import { LogoutDocument } from 'src/graphql';
 import { useAuthStore } from 'src/store';
 
 export const ActionAccount = () => {
-  // const theme = useMantineTheme();
   const { clearLogin, clearAuth, auth } = useAuthStore();
   const [logout, { loading }] = useLazyQuery(LogoutDocument);
   const { user, admin } = auth || {};

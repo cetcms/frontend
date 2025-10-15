@@ -1,16 +1,11 @@
 import { Navigate, Outlet, RouteObject } from 'react-router';
 import { AuthLayout, MainLayout } from 'src/layouts';
-import { AdminFormPage, AdminPage, AdminRolePage } from 'src/pages/admin';
-import { AdminRoleFormPage } from 'src/pages/admin/AdminRole/AdminRoleForm.page';
+import { AdminFormPage, AdminPage, AdminRolePage, AdminRoleFormPage } from 'src/pages/admin';
 import { LoginPage } from 'src/pages/auth';
-import { CompanyPage, CompanyRolePage } from 'src/pages/company';
-import { CompanyFormPage } from 'src/pages/company/Company/CompanyForm.page';
-import { CompanyRoleFormPage } from 'src/pages/company/CompanyRole/CompanyRoleForm.page';
+import { CompanyPage, CompanyRolePage, CompanyFormPage, CompanyRoleFormPage } from 'src/pages/company';
 import { NotFoundPage } from 'src/pages/error';
-import { DashboardPage, DevelopPage } from 'src/pages/home';
-import { MediaPage } from 'src/pages/media';
-import { UserPage } from 'src/pages/user';
-import { UserFormPage } from 'src/pages/user/User/UserForm.page';
+import { DashboardPage } from 'src/pages/home';
+import { UserPage, UserFormPage } from 'src/pages/user';
 
 import { AuthGuard, GuestGuard } from './guards';
 
@@ -93,10 +88,6 @@ const mainRoutes: RouteObject[] = [
   },
   {
     path: 'user',
-    Component: UserPage,
-  },
-  {
-    path: 'user',
     Component: Outlet,
     children: [
       {
@@ -118,12 +109,17 @@ const mainRoutes: RouteObject[] = [
     ],
   },
   {
-    path: 'media',
-    Component: MediaPage,
-  },
-  {
-    path: 'develop',
-    Component: DevelopPage,
+    path: 'notification',
+    Component: Outlet,
+    children: [
+      {
+        index: true,
+        element: <Navigate to="list" />,
+      },
+      {
+        path: 'list',
+      },
+    ],
   },
   {
     path: '*',

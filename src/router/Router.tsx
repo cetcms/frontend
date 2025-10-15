@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBrowserRouter, RouteObject, RouterProvider } from 'react-router';
-import { ForbiddenPage } from 'src/pages/error';
+import { ForbiddenPage, DevelopPage } from 'src/pages/error';
 import { routes } from 'src/router/routes';
 import { PagePermissionOption, useAuthStore } from 'src/store';
 
@@ -14,6 +14,10 @@ const CheckComponentPermission: React.FC<{ Component: React.ComponentType & Page
 const handleRoute = ({ Component, ...route }: RouteObject) => {
   if (!route.element && Component) {
     route.element = <CheckComponentPermission Component={Component} />;
+  }
+
+  if (!route.element && !Component) {
+    route.element = <DevelopPage />;
   }
 
   if (route.children) {

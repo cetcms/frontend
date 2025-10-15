@@ -13,6 +13,12 @@ const menus: MenuItem[] = [
     icon: 'solar:medal-ribbons-star-line-duotone',
     path: '/company/list',
   },
+  {
+    id: 'notification-list',
+    label: '消息列表',
+    icon: 'solar:medal-ribbons-star-line-duotone',
+    path: '/notification/list',
+  },
 ];
 
 export default menus;
