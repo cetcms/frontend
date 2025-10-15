@@ -3,6 +3,9 @@ import { create } from 'zustand';
 
 const STORAGE_KEY = 'login';
 
+export type CheckPermissionMode = 'AND' | 'OR';
+export type CheckPermissionValue = PermissionAlias[] | PermissionAlias | Record<CheckPermissionMode, PermissionAlias[]>;
+
 export type AuthStore = {
   user: Maybe<User>;
   admin: Maybe<Admin>;
@@ -23,7 +26,7 @@ export type AuthStore = {
   initialized: boolean;
   initialize: () => void;
 
-  checkPermission: (permission: PermissionAlias | Array<PermissionAlias>, mode: 'AND' | 'OR') => boolean;
+  checkPermission: (permission?: CheckPermissionValue, mode?: CheckPermissionMode) => boolean;
 };
 
 export const useAuthStore = create<AuthStore>()((set, getState) => ({
@@ -88,7 +91,28 @@ export const useAuthStore = create<AuthStore>()((set, getState) => ({
     return set(() => ({ initialized: true }));
   },
 
-  checkPermission: (_permission, _mode = 'AND') => {
-    return true;
+  checkPermission: (permission, mode) => {
+    const { auth } = getState();
+    if (!permission) return true;
+    if (!auth) return false;
+
+    const userPermissions = auth.permissions as Array<PermissionAlias>;
+
+    // Handle case when permission is an object with mode keys
+    if (typeof permission === 'object' && !Array.isArray(permission)) {
+      const permObj = permission as Record<CheckPermissionMode, PermissionAlias[]>;
+      if (permObj.AND) return permObj.AND.every((p) => userPermissions.includes(p));
+      if (permObj.OR) return permObj.OR.some((p) => userPermissions.includes(p));
+      return false;
+    }
+
+    // Handle array or single permission
+    const perms = Array.isArray(permission) ? permission : [permission];
+
+    // When mode is not specified, default to 'OR' behavior
+    if (mode === undefined) return perms.some((p) => userPermissions.includes(p));
+    return mode === 'AND'
+      ? perms.every((p) => userPermissions.includes(p))
+      : perms.some((p) => userPermissions.includes(p));
   },
 }));

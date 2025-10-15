@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Loading } from 'src/components';
 import { HealthCheckDocument, TranslationsDocument } from 'src/graphql';
 import { SomeErrorPage } from 'src/pages/error';
-import { MenuItemGroup } from 'src/router/menus';
+import { MenuItem, MenuItemGroup } from 'src/router/menus';
 import adminMenuItems from 'src/router/menus/admin';
 import companyMenuItems from 'src/router/menus/company';
 import userMenuItems from 'src/router/menus/user';
@@ -36,7 +36,7 @@ const useLoadTranslations = (scopes: string[]) => {
 const useRegisterMenus = (registerMenus: SetupAppOptions['registerMenus']) => {
   // 注册菜单
   const { setMenuItems, menuItems } = useMenuStore();
-  const { isAdmin, isUser, isCompany } = useAuthStore();
+  const { isAdmin, isUser, isCompany, checkPermission } = useAuthStore();
   const [loading, setLoading] = useState(true);
   const currentMenu: keyof MenuItemGroup | null = isCompany ? 'company' : isAdmin ? 'admin' : isUser ? 'user' : null;
   const defaultGroup = {
@@ -44,24 +44,34 @@ const useRegisterMenus = (registerMenus: SetupAppOptions['registerMenus']) => {
     user: userMenuItems,
     company: companyMenuItems,
   };
+
+  // 递归过滤菜单：移除 hide 为 true 或权限不通过的项
+  const filterMenuItems = (items: MenuItem[]): MenuItem[] => {
+    return items
+      .filter((item) => checkPermission(item.permissions))
+      .map((item) => ({
+        ...item,
+        children: item.children ? filterMenuItems(item.children) : undefined,
+      }));
+  };
+
   useEffect(() => {
+    let newMenuItems: MenuItem[] = [];
     if (registerMenus) {
       Promise.resolve(registerMenus({ ...defaultGroup })).then((menuGroup) => {
         if (menuGroup && currentMenu) {
-          setMenuItems(menuGroup[currentMenu] || defaultGroup[currentMenu] || []);
+          newMenuItems = menuGroup[currentMenu] || defaultGroup[currentMenu];
         } else if (currentMenu) {
-          setMenuItems(defaultGroup[currentMenu] || []);
-        } else {
-          setMenuItems([]);
+          newMenuItems = defaultGroup[currentMenu];
         }
+        // 设置前进行递归过滤
+        setMenuItems(filterMenuItems(newMenuItems || []));
         setLoading(false);
       });
     } else {
-      if (currentMenu) {
-        setMenuItems(defaultGroup[currentMenu] || []);
-      } else {
-        setMenuItems([]);
-      }
+      if (currentMenu) newMenuItems = defaultGroup[currentMenu];
+      // 设置前进行递归过滤
+      setMenuItems(filterMenuItems(newMenuItems || []));
       setLoading(false);
     }
   }, [currentMenu]);

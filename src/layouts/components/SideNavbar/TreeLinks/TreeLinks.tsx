@@ -3,7 +3,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router';
 import { Iconify } from 'src/components';
-import { MenuItem, useMenuStore } from 'src/store';
+import { MenuItem } from 'src/router/menus';
+import { useAuthStore, useMenuStore } from 'src/store';
 
 import { LinkArrow } from './LinkArrow';
 
@@ -21,6 +22,7 @@ interface RenderLinkProps {
  */
 const RenderLink: React.FC<RenderLinkProps> = ({ link }) => {
   const { t } = useTranslation();
+  const { checkPermission } = useAuthStore();
   const location = useLocation();
   const { isMenuActive, isMenuExpanded, hasActiveChild, setMenuExpanded } = useMenuStore();
 
@@ -59,6 +61,7 @@ const RenderLink: React.FC<RenderLinkProps> = ({ link }) => {
           borderRadius: 'var(--mantine-radius-default)',
           backgroundColor: hasCurrentActiveChild ? 'var(--mantine-color-primary-light)' : undefined,
         }}
+        disabled={!checkPermission(link.permissions)}
         opened={isCurrentExpanded}
         onChange={(opened) => setMenuExpanded(link.id, opened)}
         active={isCurrentActive}
@@ -71,6 +74,7 @@ const RenderLink: React.FC<RenderLinkProps> = ({ link }) => {
             to={child.path || '#'}
             label={t(child.label) || child.label}
             active={child.path === pathname}
+            disabled={!checkPermission(link.permissions)}
             leftSection={
               <LinkArrow
                 isLast={index === childrenCount - 1}
@@ -99,6 +103,7 @@ const RenderLink: React.FC<RenderLinkProps> = ({ link }) => {
       component={Link}
       to={link.path || '#'}
       label={t(link.label) || link.label}
+      disabled={!checkPermission(link.permissions)}
       leftSection={<Iconify icon={link.icon || 'solar:stop-circle-line-duotone'} fontSize={16} />}
       active={isCurrentActive}
       style={{ borderRadius: 'var(--mantine-radius-default)' }}

@@ -2,7 +2,7 @@ import { Box, Divider, Group, ScrollArea, Stack } from '@mantine/core';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
-import { useMenuStore } from 'src/store';
+import { useAuthStore, useMenuStore } from 'src/store';
 
 import { NavbarLink } from './NavbarLink';
 import { TreeLinks } from './TreeLinks';
@@ -18,6 +18,7 @@ export interface SideNavbarProps {
  */
 export const SideNavbar = ({ onCollapse, width }: SideNavbarProps) => {
   const { t } = useTranslation();
+  const { checkPermission } = useAuthStore();
   const location = useLocation();
 
   // 使用优化后的菜单状态管理
@@ -54,10 +55,11 @@ export const SideNavbar = ({ onCollapse, width }: SideNavbarProps) => {
   const renderMainMenuLinks = () => {
     return menuItems
       .filter((link) => !link.hide)
-      .map((link) => (
+      .map(({ children, ...link }) => (
         <NavbarLink
           {...link}
           collapsed
+          disabled={!checkPermission(link.permissions)}
           width={width - 2}
           key={link.id}
           label={t(link.label)}

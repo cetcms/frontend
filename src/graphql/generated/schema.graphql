@@ -152,6 +152,7 @@ type Auth {
 	expiredAt: DateTime!
 	id: ID!
 	location: JSON
+	permissions: [String!]!
 	target: Target!
 	updatedAt: DateTime!
 	user: User
