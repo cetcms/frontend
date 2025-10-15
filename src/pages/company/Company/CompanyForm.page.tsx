@@ -1,12 +1,13 @@
 import { useLazyQuery } from '@apollo/client/react';
 import { Group, LoadingOverlay } from '@mantine/core';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
-import { Company, FindOneCompanyDocument } from 'src/graphql';
+import { Company, FindOneCompanyDocument, PermissionAlias } from 'src/graphql';
+import { PagePermissionOption } from 'src/store';
 
 import { CompanyForm } from './Company.form';
 
-export const CompanyFormPage = () => {
+export const CompanyFormPage: React.FC & PagePermissionOption = () => {
   const [loading, setLoading] = useState(true);
   const [findOneCompany, { data }] = useLazyQuery(FindOneCompanyDocument);
   const [searchParams] = useSearchParams();
@@ -29,4 +30,8 @@ export const CompanyFormPage = () => {
       <CompanyForm item={data?.findOneCompany as Company} />
     </Group>
   );
+};
+
+CompanyFormPage.permissions = {
+  AND: [PermissionAlias.FindOneCompany],
 };

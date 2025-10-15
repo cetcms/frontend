@@ -9,6 +9,7 @@ import { Upload } from 'src/components/FormInputs';
 import { FormPageAction, FormPageErrors } from 'src/components/FormPage';
 import { Company, CompanyCreateInput, CreateOneCompanyDocument, Status, UpdateOneCompanyDocument } from 'src/graphql';
 import { useParseApolloErrors } from 'src/hooks';
+import { PagePermissionOption } from 'src/store';
 
 export type CompanyFormProps = {
   item?: Company;
@@ -16,7 +17,7 @@ export type CompanyFormProps = {
 
 export type CompanyFormValues = CompanyCreateInput;
 
-export const CompanyForm: React.FC<CompanyFormProps> = ({ item }) => {
+export const CompanyForm: React.FC<CompanyFormProps> & PagePermissionOption = ({ item }) => {
   const backTo = '/company/list';
   const { t } = useTranslation('models');
   const navigate = useNavigate();
@@ -137,3 +138,5 @@ export const CompanyForm: React.FC<CompanyFormProps> = ({ item }) => {
     </Form>
   );
 };
+
+CompanyForm.permissions = undefined;

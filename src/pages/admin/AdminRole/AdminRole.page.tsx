@@ -1,28 +1,40 @@
 import { useQuery } from '@apollo/client/react';
 import { Badge } from '@mantine/core';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DataTable } from 'src/components';
-import { AdminRole, PaginateAdminRolesDocument, PaginationFragment, Status } from 'src/graphql';
+import { AdminRole, PaginateAdminRolesDocument, PaginationFragment, PermissionAlias, Status } from 'src/graphql';
+import { PagePermissionOption, useAuthStore } from 'src/store';
 
-export const AdminRolePage = () => {
+export const AdminRolePage: React.FC & PagePermissionOption = () => {
   const { t } = useTranslation('models');
-  const adminRoles = useQuery(PaginateAdminRolesDocument, {
+
+  // 列表数据获取
+  const { data, loading, refetch } = useQuery(PaginateAdminRolesDocument, {
     fetchPolicy: 'network-only',
   });
+  const { paginateAdminRoles } = data || {};
+  const pagination = (paginateAdminRoles?.pagination || {}) as PaginationFragment;
+  const items = paginateAdminRoles?.items || [];
+
+  // 权限检查
+  const { checkPermission } = useAuthStore();
+  const hasCreate = checkPermission(PermissionAlias.CreateOneAdmin);
+  const hasEdit = checkPermission(PermissionAlias.UpdateOneAdmin);
   return (
     <DataTable
-      editRoute={{ path: '/admin/role/edit', paramFields: { id: 'id' } }}
-      addRoutePath="/admin/role/add"
+      editRoute={hasEdit ? { path: '/admin/role/edit', paramFields: { id: 'id' } } : undefined}
+      addRoutePath={hasCreate ? '/admin/role/add' : undefined}
       onChangeRequest={(params) => {
-        adminRoles.refetch({
+        refetch({
           take: params.take,
           skip: params.skip,
           where: params.where,
         });
       }}
-      loading={adminRoles.loading}
-      pagination={adminRoles.data?.paginateAdminRoles?.pagination as PaginationFragment}
-      records={adminRoles.data?.paginateAdminRoles?.items || []}
+      loading={loading}
+      pagination={pagination}
+      records={items}
       columns={[
         {
           accessor: 'id',
@@ -72,3 +84,5 @@ export const AdminRolePage = () => {
     />
   );
 };
+
+AdminRolePage.permissions = PermissionAlias.PaginateAdminRoles;

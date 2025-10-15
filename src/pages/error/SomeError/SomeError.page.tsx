@@ -10,8 +10,8 @@ export interface SomeErrorPageProps extends MantineStyleProps {
 
 export const SomeErrorPage: React.FC<SomeErrorPageProps> = ({ error, ...props }) => {
   return (
-    <Box {...props} className={classes.root}>
-      <Container>
+    <Container {...props} className={classes.root}>
+      <Box>
         <Text className={classes.label}>500</Text>
         <Title className={classes.title}>{voca.titleCase(error?.message || 'Something bad just happened...')}</Title>
         <Text size="lg" ta="center" className={classes.description}>
@@ -22,7 +22,7 @@ export const SomeErrorPage: React.FC<SomeErrorPageProps> = ({ error, ...props })
             Refresh the page
           </Button>
         </Group>
-      </Container>
-    </Box>
+      </Box>
+    </Container>
   );
 };

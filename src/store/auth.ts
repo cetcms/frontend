@@ -4,7 +4,17 @@ import { create } from 'zustand';
 const STORAGE_KEY = 'login';
 
 export type CheckPermissionMode = 'AND' | 'OR';
-export type CheckPermissionValue = PermissionAlias[] | PermissionAlias | Record<CheckPermissionMode, PermissionAlias[]>;
+export type CheckPermissionOption =
+  | PermissionAlias[]
+  | PermissionAlias
+  | {
+      AND?: PermissionAlias[];
+      OR?: PermissionAlias[];
+    };
+
+export type PagePermissionOption = {
+  permissions?: CheckPermissionOption;
+};
 
 export type AuthStore = {
   user: Maybe<User>;
@@ -26,7 +36,7 @@ export type AuthStore = {
   initialized: boolean;
   initialize: () => void;
 
-  checkPermission: (permission?: CheckPermissionValue, mode?: CheckPermissionMode) => boolean;
+  checkPermission: (permission?: CheckPermissionOption, mode?: CheckPermissionMode) => boolean;
 };
 
 export const useAuthStore = create<AuthStore>()((set, getState) => ({
@@ -91,28 +101,28 @@ export const useAuthStore = create<AuthStore>()((set, getState) => ({
     return set(() => ({ initialized: true }));
   },
 
-  checkPermission: (permission, mode) => {
+  checkPermission: (option, mode) => {
     const { auth } = getState();
-    if (!permission) return true;
+    if (!option) return true;
     if (!auth) return false;
 
     const userPermissions = auth.permissions as Array<PermissionAlias>;
 
     // Handle case when permission is an object with mode keys
-    if (typeof permission === 'object' && !Array.isArray(permission)) {
-      const permObj = permission as Record<CheckPermissionMode, PermissionAlias[]>;
-      if (permObj.AND) return permObj.AND.every((p) => userPermissions.includes(p));
-      if (permObj.OR) return permObj.OR.some((p) => userPermissions.includes(p));
+    if (typeof option === 'object' && !Array.isArray(option)) {
+      const permissionObj = option as Record<CheckPermissionMode, PermissionAlias[]>;
+      if (permissionObj.AND) return permissionObj.AND.every((p) => userPermissions.includes(p));
+      if (permissionObj.OR) return permissionObj.OR.some((p) => userPermissions.includes(p));
       return false;
     }
 
     // Handle array or single permission
-    const perms = Array.isArray(permission) ? permission : [permission];
+    const permissions = Array.isArray(option) ? option : [option];
 
     // When mode is not specified, default to 'OR' behavior
-    if (mode === undefined) return perms.some((p) => userPermissions.includes(p));
+    if (mode === undefined) return permissions.some((p) => userPermissions.includes(p));
     return mode === 'AND'
-      ? perms.every((p) => userPermissions.includes(p))
-      : perms.some((p) => userPermissions.includes(p));
+      ? permissions.every((p) => userPermissions.includes(p))
+      : permissions.some((p) => userPermissions.includes(p));
   },
 }));

@@ -2,20 +2,28 @@ import { useQuery } from '@apollo/client/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DataTable } from 'src/components';
-import { PaginateAdminsDocument, PaginationFragment, Status } from 'src/graphql';
+import { PaginateAdminsDocument, PaginationFragment, PermissionAlias, Status } from 'src/graphql';
+import { PagePermissionOption, useAuthStore } from 'src/store';
 
-export const AdminPage = () => {
+export const AdminPage: React.FC & PagePermissionOption = () => {
   const { t } = useTranslation('models');
+
+  // 列表数据获取
   const { data, loading, refetch } = useQuery(PaginateAdminsDocument, {
     fetchPolicy: 'network-only',
   });
   const { paginateAdmins } = data || {};
   const pagination = (paginateAdmins?.pagination || {}) as PaginationFragment;
   const items = paginateAdmins?.items || [];
+
+  // 权限检查
+  const { checkPermission } = useAuthStore();
+  const hasCreate = checkPermission(PermissionAlias.CreateOneAdmin);
+  const hasEdit = checkPermission(PermissionAlias.UpdateOneAdmin);
   return (
     <DataTable
-      editRoute={{ path: '/admin/edit', paramFields: { id: 'id' } }}
-      addRoutePath="/admin/add"
+      editRoute={hasEdit ? { path: '/admin/edit', paramFields: { id: 'id' } } : undefined}
+      addRoutePath={hasCreate ? '/admin/add' : undefined}
       onChangeRequest={(params) => {
         refetch({
           take: params.take,
@@ -71,3 +79,5 @@ export const AdminPage = () => {
     />
   );
 };
+
+AdminPage.permissions = PermissionAlias.PaginateAdmins;

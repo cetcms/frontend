@@ -2,20 +2,28 @@ import { useQuery } from '@apollo/client/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DataTable } from 'src/components';
-import { PaginateCompaniesDocument, PaginationFragment, Status } from 'src/graphql';
+import { PaginateCompaniesDocument, PaginationFragment, PermissionAlias, Status } from 'src/graphql';
+import { PagePermissionOption, useAuthStore } from 'src/store';
 
-export const CompanyPage = () => {
+export const CompanyPage: React.FC & PagePermissionOption = () => {
   const { t } = useTranslation('models');
+
+  // 列表数据获取
   const { data, loading, refetch } = useQuery(PaginateCompaniesDocument, {
     fetchPolicy: 'network-only',
   });
   const { paginateCompanies } = data || {};
   const pagination = (paginateCompanies?.pagination || {}) as PaginationFragment;
   const items = paginateCompanies?.items || [];
+
+  // 权限检查
+  const { checkPermission } = useAuthStore();
+  const hasCreate = checkPermission(PermissionAlias.CreateOneCompany);
+  const hasEdit = checkPermission(PermissionAlias.UpdateOneCompany);
   return (
     <DataTable
-      editRoute={{ path: '/company/edit', paramFields: { id: 'id' } }}
-      addRoutePath="/company/add"
+      editRoute={hasEdit ? { path: '/company/edit', paramFields: { id: 'id' } } : undefined}
+      addRoutePath={hasCreate ? '/company/add' : undefined}
       onChangeRequest={(params) => {
         refetch({
           take: params.take,
@@ -81,3 +89,5 @@ export const CompanyPage = () => {
     />
   );
 };
+
+CompanyPage.permissions = PermissionAlias.PaginateCompanies;

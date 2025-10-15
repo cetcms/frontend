@@ -1,21 +1,30 @@
 import { useQuery } from '@apollo/client/react';
 import { Badge } from '@mantine/core';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DataTable } from 'src/components';
-import { AdminRole, PaginateCompanyRolesDocument, PaginationFragment, Status } from 'src/graphql';
+import { AdminRole, PaginateCompanyRolesDocument, PaginationFragment, PermissionAlias, Status } from 'src/graphql';
+import { PagePermissionOption, useAuthStore } from 'src/store';
 
-export const CompanyRolePage = () => {
+export const CompanyRolePage: React.FC & PagePermissionOption = () => {
   const { t } = useTranslation('models');
+
+  // 列表数据获取
   const { data, loading, refetch } = useQuery(PaginateCompanyRolesDocument, {
     fetchPolicy: 'network-only',
   });
   const { paginateCompanyRoles } = data || {};
   const pagination = (paginateCompanyRoles?.pagination || {}) as PaginationFragment;
   const items = paginateCompanyRoles?.items || [];
+
+  // 权限检查
+  const { checkPermission } = useAuthStore();
+  const hasCreate = checkPermission(PermissionAlias.CreateOneCompanyRole);
+  const hasEdit = checkPermission(PermissionAlias.UpdateOneCompanyRole);
   return (
     <DataTable
-      editRoute={{ path: '/company/role/edit', paramFields: { id: 'id' } }}
-      addRoutePath="/company/role/add"
+      editRoute={hasEdit ? { path: '/company/role/edit', paramFields: { id: 'id' } } : undefined}
+      addRoutePath={hasCreate ? '/company/role/add' : undefined}
       onChangeRequest={(params) => {
         refetch({
           take: params.take,
@@ -76,3 +85,5 @@ export const CompanyRolePage = () => {
     />
   );
 };
+
+CompanyRolePage.permissions = PermissionAlias.PaginateCompanyRoles;

@@ -1,4 +1,4 @@
-import { CheckPermissionValue } from 'src/store';
+import { CheckPermissionOption } from 'src/store';
 
 /**
  * 菜单项类型定义
@@ -13,7 +13,7 @@ export type MenuItem = {
   hide?: boolean;
   type?: 'divider';
   description?: string;
-  permissions?: CheckPermissionValue;
+  permissions?: CheckPermissionOption;
 };
 
 export type MenuItemGroup = {

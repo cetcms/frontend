@@ -10,7 +10,7 @@ export const NotFoundPage = () => {
 
   return (
     <Container className={classes.root}>
-      <SimpleGrid spacing={{ base: 40, sm: 80 }} cols={{ base: 1, sm: 2 }} pb={100} pt={60} py={80}>
+      <SimpleGrid spacing={{ base: 40, sm: 80 }} cols={{ base: 1, sm: 2 }} pb={100} pt={60} py={80} maw={1000}>
         <div className={classes.mobileImage}>
           <NotFoundImage />
         </div>
