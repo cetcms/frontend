@@ -1,6 +1,7 @@
 import { AppShell, Divider, Group, ScrollArea, Text } from '@mantine/core';
 import React, { useState } from 'react';
 import { Outlet } from 'react-router';
+import { useAuthStore } from 'src/store';
 
 import {
   ActionAccount,
@@ -21,11 +22,14 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const fullWidth = 260;
   const collapsedWidth = 63;
+  const userWidth = 150;
+  const { isUser } = useAuthStore();
+  const navbarWidth = isUser ? userWidth : collapsed ? collapsedWidth : fullWidth;
   return (
     <AppShell
       header={{ height: 60 }}
       navbar={{
-        width: collapsed ? collapsedWidth : fullWidth,
+        width: navbarWidth,
         breakpoint: 'false',
       }}
     >
@@ -48,7 +52,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         </Group>
       </AppShell.Header>
       <AppShell.Navbar>
-        <SideNavbar onCollapse={setCollapsed} width={collapsedWidth} />
+        <SideNavbar onCollapse={setCollapsed} width={isUser ? userWidth : collapsedWidth} />
       </AppShell.Navbar>
       <AppShell.Main>
         <ScrollArea h="calc(100vh - 60px)">

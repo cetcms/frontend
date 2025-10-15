@@ -18,6 +18,7 @@ export const NavbarLink = ({ icon, label, path, type, collapsed, width = 60, ...
   if (type === 'divider') {
     return <Divider size="xs" w="calc(100% - 1rem)" />;
   }
+  const isCollapsed = Boolean(collapsed);
   navLinkProps.styles = {
     root: {
       padding: 0,
@@ -33,7 +34,7 @@ export const NavbarLink = ({ icon, label, path, type, collapsed, width = 60, ...
       height: '100%',
     },
   };
-  if (!collapsed) {
+  if (!isCollapsed) {
     navLinkProps.leftSection = icon && <Icon icon={icon} fontSize="1.2em" />;
     navLinkProps.styles = {
       root: {
@@ -42,15 +43,10 @@ export const NavbarLink = ({ icon, label, path, type, collapsed, width = 60, ...
     };
   }
 
+  const contentLabel = isCollapsed ? icon ? <Icon icon={icon} fontSize="1.8em" /> : label : label;
   return (
-    <Tooltip label={label} position="right" withArrow disabled={!collapsed}>
-      <NavLink
-        label={icon ? <Icon icon={icon} fontSize="1.8em" /> : label}
-        component={Link}
-        to={path}
-        variant="filled"
-        {...navLinkProps}
-      />
+    <Tooltip label={label} position="right" withArrow disabled={!isCollapsed}>
+      <NavLink label={contentLabel} component={Link} to={path} variant="filled" {...navLinkProps} />
     </Tooltip>
   );
 };
