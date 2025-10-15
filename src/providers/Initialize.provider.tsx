@@ -5,8 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { Loading } from 'src/components';
 import { HealthCheckDocument, TranslationsDocument } from 'src/graphql';
 import { SomeErrorPage } from 'src/pages/error';
+import { MenuItemGroup } from 'src/router/menus';
+import adminMenuItems from 'src/router/menus/admin';
+import companyMenuItems from 'src/router/menus/company';
+import userMenuItems from 'src/router/menus/user';
 import { SetupAppOptions } from 'src/setup';
-import { useMenuStore, useThemeStore } from 'src/store';
+import { useAuthStore, useMenuStore, useThemeStore } from 'src/store';
 
 export interface InitializeProviderProps {
   children: React.ReactNode;
@@ -32,22 +36,35 @@ const useLoadTranslations = (scopes: string[]) => {
 const useRegisterMenus = (registerMenus: SetupAppOptions['registerMenus']) => {
   // 注册菜单
   const { setMenuItems, menuItems } = useMenuStore();
+  const { isAdmin, isUser, isCompany } = useAuthStore();
   const [loading, setLoading] = useState(true);
+  const currentMenu: keyof MenuItemGroup | null = isCompany ? 'company' : isAdmin ? 'admin' : isUser ? 'user' : null;
+  const defaultGroup = {
+    admin: adminMenuItems,
+    user: userMenuItems,
+    company: companyMenuItems,
+  };
   useEffect(() => {
     if (registerMenus) {
-      const defaultMenuItems = JSON.parse(JSON.stringify(menuItems));
-      Promise.resolve(registerMenus(defaultMenuItems)).then((newMenuItems) => {
-        if (newMenuItems) {
-          setMenuItems(newMenuItems);
+      Promise.resolve(registerMenus({ ...defaultGroup })).then((menuGroup) => {
+        if (menuGroup && currentMenu) {
+          setMenuItems(menuGroup[currentMenu] || defaultGroup[currentMenu] || []);
+        } else if (currentMenu) {
+          setMenuItems(defaultGroup[currentMenu] || []);
         } else {
-          setMenuItems(defaultMenuItems);
+          setMenuItems([]);
         }
         setLoading(false);
       });
     } else {
+      if (currentMenu) {
+        setMenuItems(defaultGroup[currentMenu] || []);
+      } else {
+        setMenuItems([]);
+      }
       setLoading(false);
     }
-  }, []);
+  }, [currentMenu]);
 
   return {
     menuItems,
@@ -84,7 +101,7 @@ export const InitializeProvider: React.FC<InitializeProviderProps> = ({ children
   const { registerMenus, registerTheme } = setupOptions || {};
   const { loading: menuLoading } = useRegisterMenus(registerMenus);
   const { loading: themeLoading, theme } = useRegisterTheme(registerTheme);
-  const { loading: translationLoading } = useLoadTranslations(['models', 'permissions']);
+  const { loading: translationLoading } = useLoadTranslations(['models']);
   const health = useQuery(HealthCheckDocument, {
     fetchPolicy: 'network-only',
   });

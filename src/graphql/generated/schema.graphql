@@ -11,7 +11,7 @@ directive @oneOf on INPUT_OBJECT
 type Admin {
 	auths: [Auth!]
 	avatar: String
-	avatarUrl: String!
+	avatarUrl: String
 	companies: [AdminCompany!]
 	createdAt: DateTime!
 	email: String!
@@ -201,7 +201,7 @@ type Company {
 	description: String
 	id: ID!
 	logo: String
-	logoUrl: String!
+	logoUrl: String
 	name: String!
 	notificationRecipients: [NotificationRecipient!]
 	notifications: [Notification!]
@@ -783,16 +783,25 @@ type Pagination {
 	totalPages: Int!
 }
 
-type PermissionInfo {
+type PermissionGroup {
+	alias: [PermissionAlias!]
 	allowSelect: [String!]!
 	allowUnselect: [String!]!
-	items: [PermissionItem!]!
+	groups: [PermissionGroupItem!]!
+}
+
+type PermissionGroupItem {
+	id: String!
+	items: [PermissionGroupItem!]!
+	label: String!
+	name: String!
 }
 
 type PermissionItem {
 	action: String!
 	actionLabel: String!
 	group: String!
+	name: String!
 	subject: String!
 	subjectLabel: String!
 	targets: [Target!]!
@@ -814,9 +823,9 @@ type Query {
 	findSelfUser: User!
 	healthCheck: String!
 	helloWorld: String!
-	listAdminRolePermission(where: AdminRoleWhereUniqueInput): PermissionInfo!
+	listAdminRolePermission(where: AdminRoleWhereUniqueInput): PermissionGroup!
 	listAuthCompanies(name: String): [Company!]
-	listCompanyRolePermission(where: CompanyRoleWhereUniqueInput): PermissionInfo!
+	listCompanyRolePermission(where: CompanyRoleWhereUniqueInput): PermissionGroup!
 	listMediaFiles(fileIds: [String!]!): [MediaFile!]!
 	listSelfNotifications: [Notification!]!
 	logout: Boolean!
@@ -948,7 +957,7 @@ type RequestLogSumAggregate {
 type User {
 	auths: [Auth!]
 	avatar: String
-	avatarUrl: String!
+	avatarUrl: String
 	companies: [CompanyUser!]
 	createdAt: DateTime!
 	email: String!
@@ -1155,6 +1164,51 @@ enum Owner {
 	Admin
 	Company
 	User
+}
+
+enum PermissionAlias {
+	CreateOneAdmin
+	CreateOneAdminCompany
+	CreateOneAdminRole
+	CreateOneCompany
+	CreateOneCompanyRole
+	CreateOneCompanyUser
+	CreateOneUser
+	DeleteAdminCompany
+	FindAdminByEmail
+	FindAdminById
+	FindOneAdmin
+	FindOneAdminCompany
+	FindOneAdminRole
+	FindOneCompany
+	FindOneCompanyRole
+	FindOneCompanyUser
+	FindOneUser
+	FindSelfAdmin
+	FindSelfCompany
+	FindSelfUser
+	ListAdminRolePermission
+	ListCompanyRolePermission
+	ListSelfNotifications
+	PaginateAdminCompanies
+	PaginateAdminRoles
+	PaginateAdmins
+	PaginateCompanies
+	PaginateCompanyRoles
+	PaginateCompanyUsers
+	PaginateNotificationRecipes
+	PaginateNotifications
+	PaginateUsers
+	UpdateOneAdmin
+	UpdateOneAdminCompany
+	UpdateOneAdminRole
+	UpdateOneCompany
+	UpdateOneCompanyRole
+	UpdateOneCompanyUser
+	UpdateOneUser
+	UpdateSelfAdmin
+	UpdateSelfCompany
+	UpdateSelfUser
 }
 
 enum QueryMode {
@@ -2124,21 +2178,9 @@ input MediaFileWhereUniqueInput {
 	width: IntNullableFilter
 }
 
-input MediaFolderAdminFolderNameIdxCompoundUniqueInput {
-	adminId: String!
-	depth: Int!
-	name: String!
-}
-
 input MediaFolderAdminFolderPathIdxCompoundUniqueInput {
 	adminId: String!
 	path: String!
-}
-
-input MediaFolderCompanyFolderNameIdxCompoundUniqueInput {
-	companyId: String!
-	depth: Int!
-	name: String!
 }
 
 input MediaFolderCompanyFolderPathIdxCompoundUniqueInput {
@@ -2175,12 +2217,6 @@ input MediaFolderUpdateManyWithoutCompanyNestedInput {
 	disconnect: [MediaFolderWhereUniqueInput!]
 }
 
-input MediaFolderUserFolderNameIdxCompoundUniqueInput {
-	depth: Int!
-	name: String!
-	userId: String!
-}
-
 input MediaFolderUserFolderPathIdxCompoundUniqueInput {
 	path: String!
 	userId: String!
@@ -2213,12 +2249,10 @@ input MediaFolderWhereInput {
 
 input MediaFolderWhereUniqueInput {
 	admin: AdminNullableScalarRelationFilter
-	adminFolderNameIdx: MediaFolderAdminFolderNameIdxCompoundUniqueInput
 	adminFolderPathIdx: MediaFolderAdminFolderPathIdxCompoundUniqueInput
 	adminId: StringNullableFilter
 	children: MediaFolderListRelationFilter
 	company: CompanyNullableScalarRelationFilter
-	companyFolderNameIdx: MediaFolderCompanyFolderNameIdxCompoundUniqueInput
 	companyFolderPathIdx: MediaFolderCompanyFolderPathIdxCompoundUniqueInput
 	companyId: StringNullableFilter
 	depth: IntFilter
@@ -2231,7 +2265,6 @@ input MediaFolderWhereUniqueInput {
 	path: StringFilter
 	status: EnumStatusFilter
 	user: UserNullableScalarRelationFilter
-	userFolderNameIdx: MediaFolderUserFolderNameIdxCompoundUniqueInput
 	userFolderPathIdx: MediaFolderUserFolderPathIdxCompoundUniqueInput
 	userId: StringNullableFilter
 }

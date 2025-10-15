@@ -12,7 +12,7 @@ import {
   AdminRoleCreateInput,
   CreateOneAdminRoleDocument,
   ListAdminRolePermissionDocument,
-  PermissionItem,
+  PermissionGroupItem,
   Status,
   UpdateOneAdminRoleDocument,
 } from 'src/graphql';
@@ -134,7 +134,7 @@ export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
               <RolePermissions
                 label={t('AdminRole.permissions')}
                 loading={permissions.loading}
-                permissions={(permissions.data?.listAdminRolePermission?.items || []) as PermissionItem[]}
+                permissions={(permissions.data?.listAdminRolePermission?.groups || []) as PermissionGroupItem[]}
                 allowUnselect={permissions.data?.listAdminRolePermission?.allowUnselect}
                 allowSelect={permissions.data?.listAdminRolePermission?.allowSelect}
                 {...form.getInputProps('permissions')}

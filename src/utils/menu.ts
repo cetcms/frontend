@@ -1,4 +1,4 @@
-import { MenuItem } from 'src/store/menu';
+import { MenuItem } from 'src/router/menus';
 
 /**
  * 菜单工具函数集合

@@ -34,8 +34,8 @@ query ListCompanyRolePermission($where: CompanyRoleWhereUniqueInput) {
 	listCompanyRolePermission(where: $where) {
 		allowUnselect
 		allowSelect
-		items {
-			...PermissionItem
+		groups {
+			...PermissionGroupItem
 		}
 	}
 }

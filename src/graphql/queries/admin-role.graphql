@@ -32,8 +32,8 @@ query ListAdminRolePermission($where: AdminRoleWhereUniqueInput) {
 	listAdminRolePermission(where: $where) {
 		allowUnselect
 		allowSelect
-		items {
-			...PermissionItem
+		groups {
+			...PermissionGroupItem
 		}
 	}
 }

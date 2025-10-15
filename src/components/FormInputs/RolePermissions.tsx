@@ -12,8 +12,7 @@ import {
   Text,
 } from '@mantine/core';
 import React, { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { PermissionItem } from 'src/graphql';
+import { PermissionGroupItem } from 'src/graphql';
 
 export type RolePermissionsProps = InputWrapperProps & {
   value?: string[];
@@ -21,68 +20,8 @@ export type RolePermissionsProps = InputWrapperProps & {
   disabled?: boolean; // 组件级禁用
   allowSelect?: string[]; // 允许选中的action
   allowUnselect?: string[]; // 允许取消选中的action
-  permissions?: PermissionItem[];
+  permissions?: PermissionGroupItem[];
   loading?: boolean;
-};
-
-interface TreeNode {
-  id: string;
-  label: string;
-  value: string;
-  children?: TreeNode[];
-}
-
-/**
- * 将 permissions 转换为嵌套树结构，按照 module > subject > action 层级
- * @param permissions 权限列表
- * @returns 嵌套树结构
- */
-export const buildPermissionTree = (permissions: PermissionItem[]): TreeNode[] => {
-  const moduleMap: Record<string, TreeNode> = {};
-  const subjectMap: Record<string, TreeNode> = {};
-
-  // 先收集所有唯一的模块
-  permissions.forEach((permission) => {
-    if (!moduleMap[permission.group]) {
-      moduleMap[permission.group] = {
-        id: permission.group,
-        label: permission.group,
-        value: permission.group,
-        children: [],
-      };
-    }
-  });
-
-  // 收集所有唯一的主题，并关联到对应模块
-  permissions.forEach((permission) => {
-    const subjectId = `${permission.group}-${permission.subject}`;
-    if (!subjectMap[subjectId]) {
-      subjectMap[subjectId] = {
-        id: subjectId,
-        label: permission.subjectLabel,
-        value: permission.subject,
-        children: [],
-      };
-
-      // 将主题添加到对应模块的子节点中
-      moduleMap[permission.group].children!.push(subjectMap[subjectId]);
-    }
-  });
-
-  // 添加操作到对应的主体下
-  permissions.forEach((permission) => {
-    const subjectId = `${permission.group}-${permission.subject}`;
-    const actionNode: TreeNode = {
-      id: `${permission.group}-${permission.subject}-${permission.action}`,
-      label: permission.actionLabel,
-      value: `${permission.subject}:${permission.action}`,
-    };
-
-    subjectMap[subjectId].children!.push(actionNode);
-  });
-
-  // 返回模块数组作为根节点
-  return Object.values(moduleMap);
 };
 
 export const RolePermissions: React.FC<RolePermissionsProps> = ({
@@ -95,14 +34,8 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
   loading = false,
   ...props
 }) => {
-  const { t } = useTranslation('permissions');
-  const [permissionsTree, setPermissionsTree] = useState<TreeNode[]>([]);
   const [checkedValues, setCheckedValues] = useState<string[]>(value);
   const skipEffectRef = useRef(false);
-
-  useEffect(() => {
-    setPermissionsTree(buildPermissionTree(permissions));
-  }, [permissions]);
 
   // 当外部 value 变化时更新内部状态
   useEffect(() => {
@@ -131,13 +64,13 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
     onChange?.(newCheckedValues);
   };
 
-  const handleSubjectChange = (subjectNode: TreeNode, checked: boolean) => {
+  const handleSubjectChange = (subjectNode: PermissionGroupItem, checked: boolean) => {
     // 如果组件被禁用，则不处理变化
     if (disabled) {
       return;
     }
 
-    const actionValues = subjectNode.children?.map((child) => child.value) || [];
+    const actionValues = subjectNode.items?.map((child) => child.name) || [];
     let newCheckedValues = [...checkedValues];
 
     if (checked) {
@@ -164,7 +97,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
     onChange?.(newCheckedValues);
   };
 
-  const handleModuleChange = (moduleNode: TreeNode, checked: boolean) => {
+  const handleModuleChange = (moduleNode: PermissionGroupItem, checked: boolean) => {
     // 如果组件被禁用，则不处理变化
     if (disabled) {
       return;
@@ -173,9 +106,9 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
     const allActionValues: string[] = [];
 
     // 获取模块下所有操作
-    moduleNode.children?.forEach((subject) => {
-      subject.children?.forEach((action) => {
-        allActionValues.push(action.value);
+    moduleNode.items?.forEach((subject) => {
+      subject.items?.forEach((action) => {
+        allActionValues.push(action.name);
       });
     });
 
@@ -206,17 +139,17 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
   };
 
   // 检查是否所有可操作的子项都被选中
-  const isAllChildrenChecked = (node: TreeNode): boolean => {
-    if (!node.children || node.children.length === 0) {
+  const isAllChildrenChecked = (node: PermissionGroupItem): boolean => {
+    if (!node.items || node.items.length === 0) {
       // 叶子节点，直接返回选中状态
-      return checkedValues.includes(node.value);
+      return checkedValues.includes(node.name);
     }
 
     // 非叶子节点，检查所有子节点
-    return node.children.every((child) => {
+    return node.items.every((child) => {
       // 如果是操作节点，直接检查是否被选中
-      if (!child.children || child.children.length === 0) {
-        return checkedValues.includes(child.value);
+      if (!child.items || child.items.length === 0) {
+        return checkedValues.includes(child.name);
       }
       // 递归检查子节点
       return isAllChildrenChecked(child);
@@ -224,17 +157,17 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
   };
 
   // 检查是否有可操作的子项被选中
-  const isSomeChildrenChecked = (node: TreeNode): boolean => {
-    if (!node.children || node.children.length === 0) {
+  const isSomeChildrenChecked = (node: PermissionGroupItem): boolean => {
+    if (!node.items || node.items.length === 0) {
       // 叶子节点，直接返回选中状态
-      return checkedValues.includes(node.value);
+      return checkedValues.includes(node.name);
     }
 
     // 非叶子节点，检查所有子节点
-    return node.children.some((child) => {
+    return node.items.some((child) => {
       // 如果是操作节点，直接检查是否被选中
-      if (!child.children || child.children.length === 0) {
-        return checkedValues.includes(child.value);
+      if (!child.items || child.items.length === 0) {
+        return checkedValues.includes(child.name);
       }
       // 递归检查子节点
       return isSomeChildrenChecked(child);
@@ -242,13 +175,13 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
   };
 
   // 检查主题级别是否所有子项都被禁用选中
-  const isAllChildrenDisabledSelect = (node: TreeNode): boolean => {
-    if (!node.children || node.children.length === 0) {
+  const isAllChildrenDisabledSelect = (node: PermissionGroupItem): boolean => {
+    if (!node.items || node.items.length === 0) {
       return false; // 叶子节点不适用
     }
 
     // 检查所有子节点是否都是操作节点且都被禁用选中
-    const allAreActions = node.children.every((child) => !child.children || child.children.length === 0);
+    const allAreActions = node.items.every((child) => !child.items || child.items.length === 0);
     if (!allAreActions) {
       return false;
     }
@@ -259,19 +192,19 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
     }
 
     // 检查所有操作节点是否都被禁用选中（不在allowSelect中且未被选中）
-    return node.children.every((child) => {
-      return !allowSelect.includes(child.value) && !checkedValues.includes(child.value);
+    return node.items.every((child) => {
+      return !allowSelect.includes(child.name) && !checkedValues.includes(child.name);
     });
   };
 
   // 检查主题级别是否所有子项都被禁用取消选中
-  const isAllChildrenDisabledUnselect = (node: TreeNode): boolean => {
-    if (!node.children || node.children.length === 0) {
+  const isAllChildrenDisabledUnselect = (node: PermissionGroupItem): boolean => {
+    if (!node.items || node.items.length === 0) {
       return false; // 叶子节点不适用
     }
 
     // 检查所有子节点是否都是操作节点且都被禁用取消选中
-    const allAreActions = node.children.every((child) => !child.children || child.children.length === 0);
+    const allAreActions = node.items.every((child) => !child.items || child.items.length === 0);
     if (!allAreActions) {
       return false;
     }
@@ -282,86 +215,86 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
     }
 
     // 检查所有操作节点是否都被禁用取消选中（不在allowUnselect中且已被选中）
-    return node.children.every((child) => {
-      return !allowUnselect.includes(child.value) && checkedValues.includes(child.value);
+    return node.items.every((child) => {
+      return !allowUnselect.includes(child.name) && checkedValues.includes(child.name);
     });
   };
 
   // 检查是否所有子项都实际禁用（无法更改状态）
-  const isAllChildrenActuallyDisabled = (node: TreeNode): boolean => {
-    if (!node.children || node.children.length === 0) {
+  const isAllChildrenActuallyDisabled = (node: PermissionGroupItem): boolean => {
+    if (!node.items || node.items.length === 0) {
       return false; // 叶子节点不适用
     }
 
     // 检查所有子节点是否都是操作节点
-    const allAreActions = node.children.every((child) => !child.children || child.children.length === 0);
+    const allAreActions = node.items.every((child) => !child.items || child.items.length === 0);
     if (!allAreActions) {
       return false;
     }
 
     // 检查所有操作节点是否都实际禁用
-    return node.children.every((child) => {
+    return node.items.every((child) => {
       // 如果allowSelect定义了但不包含该值，且未选中，则禁用选中
       const isDisabledSelect =
-        allowSelect !== undefined && !allowSelect.includes(child.value) && !checkedValues.includes(child.value);
+        allowSelect !== undefined && !allowSelect.includes(child.name) && !checkedValues.includes(child.name);
       // 如果allowUnselect定义了但不包含该值，且已选中，则禁用取消选中
       const isDisabledUnselect =
-        allowUnselect !== undefined && !allowUnselect.includes(child.value) && checkedValues.includes(child.value);
+        allowUnselect !== undefined && !allowUnselect.includes(child.name) && checkedValues.includes(child.name);
       // 只有当禁用选中且禁用取消选中同时满足，或者其中一种满足且无法更改状态时才视为实际禁用
       return isDisabledSelect || isDisabledUnselect;
     });
   };
 
   // 检查模块级别是否所有子项都被禁用选中
-  const isAllModuleChildrenDisabledSelect = (node: TreeNode): boolean => {
-    if (!node.children || node.children.length === 0) {
+  const isAllModuleChildrenDisabledSelect = (node: PermissionGroupItem): boolean => {
+    if (!node.items || node.items.length === 0) {
       return false; // 叶子节点不适用
     }
 
     // 检查模块下所有主题是否都被禁用选中
-    return node.children.every((subject) => {
+    return node.items.every((subject) => {
       return isAllChildrenDisabledSelect(subject);
     });
   };
 
   // 检查模块级别是否所有子项都被禁用取消选中
-  const isAllModuleChildrenDisabledUnselect = (node: TreeNode): boolean => {
-    if (!node.children || node.children.length === 0) {
+  const isAllModuleChildrenDisabledUnselect = (node: PermissionGroupItem): boolean => {
+    if (!node.items || node.items.length === 0) {
       return false; // 叶子节点不适用
     }
 
     // 检查模块下所有主题是否都被禁用取消选中
-    return node.children.every((subject) => {
+    return node.items.every((subject) => {
       return isAllChildrenDisabledUnselect(subject);
     });
   };
 
   // 检查模块级别是否所有子项都实际禁用
-  const isAllModuleChildrenActuallyDisabled = (node: TreeNode): boolean => {
-    if (!node.children || node.children.length === 0) {
+  const isAllModuleChildrenActuallyDisabled = (node: PermissionGroupItem): boolean => {
+    if (!node.items || node.items.length === 0) {
       return false; // 叶子节点不适用
     }
 
     // 检查模块下所有主题是否都实际禁用
-    return node.children.every((subject) => {
+    return node.items.every((subject) => {
       return isAllChildrenActuallyDisabled(subject);
     });
   };
 
-  const renderTree = (nodes: TreeNode[]) => {
+  const renderTree = (nodes: PermissionGroupItem[]) => {
     return nodes.map((node) => {
       // 如果是操作级别（没有子节点）
-      if (!node.children || node.children.length === 0) {
+      if (!node.items || node.items.length === 0) {
         const isActionDisabled =
           disabled ||
-          (checkedValues.includes(node.value) && allowUnselect !== undefined && !allowUnselect.includes(node.value)) ||
-          (!checkedValues.includes(node.value) && allowSelect !== undefined && !allowSelect.includes(node.value));
+          (checkedValues.includes(node.name) && allowUnselect !== undefined && !allowUnselect.includes(node.name)) ||
+          (!checkedValues.includes(node.name) && allowSelect !== undefined && !allowSelect.includes(node.name));
         return (
           <Box key={node.id} onClick={(event) => event.stopPropagation()}>
             <Checkbox
-              label={t(`action.${node.value.replace(':', '.')}`)}
-              checked={checkedValues.includes(node.value)}
-              onChange={(event) => handleActionChange(node.value, event.currentTarget.checked)}
+              label={node.label}
+              checked={checkedValues.includes(node.name)}
+              onChange={(event) => handleActionChange(node.name, event.currentTarget.checked)}
               onMouseDown={(event) => event.stopPropagation()}
               disabled={isActionDisabled}
             />
@@ -370,7 +303,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
       }
 
       // 如果是主题级别（有操作子节点）
-      if (node.children.every((child) => !child.children || child.children.length === 0)) {
+      if (node.items.every((child) => !child.items || child.items.length === 0)) {
         const allChecked = isAllChildrenChecked(node);
         const someChecked = isSomeChildrenChecked(node);
         const indeterminate = someChecked && !allChecked;
@@ -386,7 +319,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
             <Stack gap="xs">
               <Box onClick={(event) => event.stopPropagation()}>
                 <Checkbox
-                  label={t(`subject.${node.value}`)}
+                  label={node.label}
                   checked={allChecked}
                   indeterminate={indeterminate}
                   onChange={(event) => handleSubjectChange(node, event.currentTarget.checked)}
@@ -394,8 +327,13 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
                   disabled={isSubjectDisabled}
                 />
               </Box>
-              <SimpleGrid spacing="xs" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
-                {renderTree(node.children)}
+              <SimpleGrid
+                spacing="xs"
+                style={{
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                }}
+              >
+                {renderTree(node.items)}
               </SimpleGrid>
             </Stack>
           </Card>
@@ -419,7 +357,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
             <Accordion.Control>
               <Box onClick={(event) => event.stopPropagation()} style={{ float: 'left' }}>
                 <Checkbox
-                  label={t(`group.${node.value}`)}
+                  label={node.label}
                   checked={allChecked}
                   indeterminate={indeterminate}
                   onChange={(event) => {
@@ -433,7 +371,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
             </Accordion.Control>
           </Center>
           <Accordion.Panel>
-            <Stack gap="xs">{renderTree(node.children || [])}</Stack>
+            <Stack gap="xs">{renderTree(node.items || [])}</Stack>
           </Accordion.Panel>
         </Accordion.Item>
       );
@@ -442,7 +380,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
 
   return (
     <InputWrapper {...props}>
-      {!permissionsTree?.length || loading ? (
+      {!permissions?.length || loading ? (
         <Card withBorder p="xs">
           <LoadingOverlay visible={loading} loaderProps={{ size: 'xs' }} />
           <Center>
@@ -452,7 +390,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
           </Center>
         </Card>
       ) : (
-        <Accordion variant="contained">{renderTree(permissionsTree)}</Accordion>
+        <Accordion variant="contained">{renderTree(permissions)}</Accordion>
       )}
     </InputWrapper>
   );

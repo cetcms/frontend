@@ -1,9 +1,16 @@
-import { Auth, Login, Maybe } from 'src/graphql';
+import { Auth, Company, Login, Maybe, User, Admin, PermissionAlias } from 'src/graphql';
 import { create } from 'zustand';
 
 const STORAGE_KEY = 'login';
 
 export type AuthStore = {
+  user: Maybe<User>;
+  admin: Maybe<Admin>;
+  company: Maybe<Company>;
+  isAdmin: boolean;
+  isUser: boolean;
+  isCompany: boolean;
+
   auth: Maybe<Auth>;
   setAuth: (auth: Auth) => void;
   clearAuth: () => void;
@@ -15,12 +22,33 @@ export type AuthStore = {
 
   initialized: boolean;
   initialize: () => void;
+
+  checkPermission: (permission: PermissionAlias | Array<PermissionAlias>, mode: 'AND' | 'OR') => boolean;
 };
 
 export const useAuthStore = create<AuthStore>()((set, getState) => ({
   auth: null,
   company: null,
-  setAuth: (auth: Auth) => set(() => ({ auth })),
+  user: null,
+  admin: null,
+  isAdmin: false,
+  isUser: false,
+  isCompany: false,
+
+  setAuth: (auth: Auth) => {
+    const { company, user, admin } = auth;
+    let isAdmin = false;
+    let isUser = false;
+    let isCompany = false;
+    if (company) {
+      isCompany = true;
+    } else if (user) {
+      isUser = true;
+    } else if (admin) {
+      isAdmin = true;
+    }
+    return set(() => ({ auth, company, user, admin, isAdmin, isUser, isCompany }));
+  },
   clearAuth: () => set(() => ({ auth: null })),
 
   login: null,
@@ -58,5 +86,9 @@ export const useAuthStore = create<AuthStore>()((set, getState) => ({
     checkLogin();
     setInterval(checkLogin, 1000 * 60);
     return set(() => ({ initialized: true }));
+  },
+
+  checkPermission: (_permission, _mode = 'AND') => {
+    return true;
   },
 }));

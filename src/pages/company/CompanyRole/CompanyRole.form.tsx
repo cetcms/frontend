@@ -12,7 +12,7 @@ import {
   CompanyRoleCreateInput,
   CreateOneCompanyRoleDocument,
   ListCompanyRolePermissionDocument,
-  PermissionItem,
+  PermissionGroupItem,
   Status,
   UpdateOneCompanyRoleDocument,
 } from 'src/graphql';
@@ -134,7 +134,7 @@ export const CompanyRoleForm: React.FC<CompanyRoleFormProps> = ({ item }) => {
               <RolePermissions
                 label={t('CompanyRole.permissions')}
                 loading={permissions.loading}
-                permissions={(permissions.data?.listCompanyRolePermission?.items || []) as PermissionItem[]}
+                permissions={(permissions.data?.listCompanyRolePermission?.groups || []) as PermissionGroupItem[]}
                 allowUnselect={permissions.data?.listCompanyRolePermission?.allowUnselect}
                 allowSelect={permissions.data?.listCompanyRolePermission?.allowSelect}
                 {...form.getInputProps('permissions')}

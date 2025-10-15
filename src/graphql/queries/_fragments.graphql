@@ -74,12 +74,29 @@ fragment Login on Login {
 }
 
 fragment PermissionItem on PermissionItem {
+	name
 	subject
 	subjectLabel
 	group
 	action
 	actionLabel
 	targets
+}
+
+fragment PermissionGroupItem on PermissionGroupItem {
+	id
+	name
+	label
+	items {
+		id
+		name
+		label
+		items {
+			id
+			name
+			label
+		}
+	}
 }
 
 fragment MediaFile on MediaFile {

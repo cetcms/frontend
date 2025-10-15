@@ -1,20 +1,6 @@
+import { MenuItem } from 'src/router/menus';
 import { findMenuItem, findMenuItemPath, findMenuByPath, getExpandedMenuIds } from 'src/utils/menu';
 import { create } from 'zustand';
-
-/**
- * 菜单项类型定义
- */
-export type MenuItem = {
-  id: string;
-  label: string;
-  icon?: string;
-  path?: string;
-  active?: boolean;
-  children?: MenuItem[];
-  hide?: boolean;
-  type?: 'divider';
-  description?: string;
-};
 
 /**
  * 菜单展开状态类型定义
@@ -61,126 +47,7 @@ export type MenuStore = {
  */
 export const useMenuStore = create<MenuStore>((set, get) => ({
   // 初始状态
-  menuItems: [
-    {
-      id: 'dashboard',
-      label: '仪表盘',
-      icon: 'solar:window-frame-line-duotone',
-      path: '/dashboard',
-    },
-    {
-      id: 'company',
-      label: '企业管理',
-      icon: 'solar:medal-ribbons-star-line-duotone',
-      path: '/company',
-      children: [
-        {
-          id: 'company-list',
-          label: '公司列表',
-          path: '/company/list',
-          children: [
-            {
-              id: 'company-list-add',
-              label: '添加公司',
-              path: '/company/add',
-              hide: true,
-            },
-            {
-              id: 'company-list-edit',
-              label: '编辑公司',
-              path: '/company/edit',
-              hide: true,
-            },
-          ],
-        },
-        {
-          id: 'company-role',
-          label: '公司角色',
-          path: '/company/roles',
-          children: [
-            {
-              id: 'company-role-add',
-              label: '添加公司角色',
-              path: '/company/role/add',
-              hide: true,
-            },
-            {
-              id: 'company-role-edit',
-              label: '编辑公司角色',
-              path: '/company/role/edit',
-              hide: true,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 'admin',
-      label: '系统成员',
-      icon: 'solar:user-id-line-duotone',
-      path: '/admin',
-      children: [
-        {
-          id: 'admin-list',
-          label: '管理员列表',
-          path: '/admin/list',
-          children: [
-            {
-              id: 'admin-list-add',
-              label: '添加管理员',
-              path: '/admin/add',
-              hide: true,
-            },
-            {
-              id: 'admin-list-edit',
-              label: '编辑管理员',
-              path: '/admin/edit',
-              hide: true,
-            },
-          ],
-        },
-        {
-          id: 'admin-role',
-          label: '管理员角色',
-          path: '/admin/roles',
-          children: [
-            {
-              id: 'admin-role-add',
-              label: '添加管理员角色',
-              path: '/admin/role/add',
-              hide: true,
-            },
-            {
-              id: 'admin-role-edit',
-              label: '编辑管理员角色',
-              path: '/admin/role/edit',
-              hide: true,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 'user',
-      label: '用户管理',
-      icon: 'solar:users-group-rounded-line-duotone',
-      path: '/user',
-      children: [
-        {
-          id: 'user-add',
-          label: '添加用户',
-          path: '/user/add',
-          hide: true,
-        },
-        {
-          id: 'user-edit',
-          label: '编辑用户',
-          path: '/user/edit',
-          hide: true,
-        },
-      ],
-    },
-  ],
+  menuItems: [],
   activeMenuId: null,
   activeItem: null,
   activePath: [],
