@@ -2,18 +2,24 @@ import { useEffect, useState } from 'react';
 import { MenuItem, MenuItemGroup } from 'src/router/menus';
 import adminMenuItems from 'src/router/menus/admin';
 import companyMenuItems from 'src/router/menus/company';
-import userMenuItems from 'src/router/menus/user';
+import memberMenuItems from 'src/router/menus/member';
 import type { SetupAppOptions } from 'src/setup';
 import { useAuthStore, useMenuStore } from 'src/store';
 
 export const useRegisterMenus = (registerMenus: SetupAppOptions['registerMenus']) => {
   const { setMenuItems, menuItems } = useMenuStore();
-  const { isAdmin, isUser, isCompany, checkPermission } = useAuthStore();
+  const { isAdmin, isMember, isCompany, checkPermission } = useAuthStore();
   const [loading, setLoading] = useState(true);
-  const currentMenu: keyof MenuItemGroup | null = isCompany ? 'company' : isAdmin ? 'admin' : isUser ? 'user' : null;
+  const currentMenu: keyof MenuItemGroup | null = isCompany
+    ? 'company'
+    : isAdmin
+      ? 'admin'
+      : isMember
+        ? 'member'
+        : null;
   const defaultGroup = {
     admin: adminMenuItems,
-    user: userMenuItems,
+    member: memberMenuItems,
     company: companyMenuItems,
   };
 

@@ -15,7 +15,7 @@ query ListSelfNotifications {
 		receiver
 		privacy
 		adminId
-		userId
+		memberId
 		companyId
 		type
 	}

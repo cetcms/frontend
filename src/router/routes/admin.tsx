@@ -2,7 +2,7 @@ import { Navigate, RouteObject } from 'react-router';
 import { AdminFormPage, AdminPage, AdminRoleFormPage, AdminRolePage } from 'src/pages/admin';
 import { CompanyFormPage, CompanyPage, CompanyRoleFormPage, CompanyRolePage } from 'src/pages/company';
 import { DashboardPage } from 'src/pages/home';
-import { UserFormPage, UserPage } from 'src/pages/user';
+import { MemberFormPage, MemberPage } from 'src/pages/member';
 
 const routes: RouteObject[] = [
   {
@@ -62,16 +62,16 @@ const routes: RouteObject[] = [
     Component: CompanyRoleFormPage,
   },
   {
-    path: 'user/list',
-    Component: UserPage,
+    path: 'member/list',
+    Component: MemberPage,
   },
   {
-    path: 'user/add',
-    Component: UserFormPage,
+    path: 'member/add',
+    Component: MemberFormPage,
   },
   {
-    path: 'user/edit',
-    Component: UserFormPage,
+    path: 'member/edit',
+    Component: MemberFormPage,
   },
   {
     path: 'notification/list',

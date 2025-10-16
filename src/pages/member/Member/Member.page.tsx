@@ -2,19 +2,19 @@ import { useQuery } from '@apollo/client/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DataTable } from 'src/components';
-import { PaginateUsersDocument, PaginationFragment, PermissionAlias, Status } from 'src/graphql';
+import { PaginateMembersDocument, PaginationFragment, PermissionAlias, Status } from 'src/graphql';
 import { PagePermissionOption, useAuthStore } from 'src/store';
 
-export const UserPage: React.FC & PagePermissionOption = () => {
+export const MemberPage: React.FC & PagePermissionOption = () => {
   const { t } = useTranslation('models');
 
   // 列表数据获取
-  const { data, loading, refetch } = useQuery(PaginateUsersDocument, {
+  const { data, loading, refetch } = useQuery(PaginateMembersDocument, {
     fetchPolicy: 'network-only',
   });
-  const { paginateUsers } = data || {};
-  const pagination = (paginateUsers?.pagination || {}) as PaginationFragment;
-  const items = paginateUsers?.items || [];
+  const { paginateMembers } = data || {};
+  const pagination = (paginateMembers?.pagination || {}) as PaginationFragment;
+  const items = paginateMembers?.items || [];
 
   // 权限检查
   const { checkPermission } = useAuthStore();
@@ -22,8 +22,8 @@ export const UserPage: React.FC & PagePermissionOption = () => {
   const hasEdit = checkPermission(PermissionAlias.UpdateOneCompany);
   return (
     <DataTable
-      editRoute={hasEdit ? { path: '/user/edit', paramFields: { id: 'id' } } : undefined}
-      addRoutePath={hasCreate ? '/user/add' : undefined}
+      editRoute={hasEdit ? { path: '/member/edit', paramFields: { id: 'id' } } : undefined}
+      addRoutePath={hasCreate ? '/member/add' : undefined}
       onChangeRequest={(params) => {
         refetch({
           take: params.take,
@@ -37,28 +37,28 @@ export const UserPage: React.FC & PagePermissionOption = () => {
       columns={[
         {
           accessor: 'id',
-          title: t('User.id'),
+          title: t('Member.id'),
           type: 'string',
         },
         {
           accessor: 'avatarUrl',
-          title: t('User.email'),
+          title: t('Member.email'),
           type: 'image',
           hiddenFilter: true,
         },
         {
           accessor: 'name',
-          title: t('User.name'),
+          title: t('Member.name'),
           type: 'string',
         },
         {
           accessor: 'email',
-          title: t('User.email'),
+          title: t('Member.email'),
           type: 'string',
         },
         {
           accessor: 'status',
-          title: t('User.status'),
+          title: t('Member.status'),
           type: 'enum',
           options: [
             { label: t('enum.Status.Enabled'), value: Status.Enabled },
@@ -67,12 +67,12 @@ export const UserPage: React.FC & PagePermissionOption = () => {
         },
         {
           accessor: 'createdAt',
-          title: t('User.createdAt'),
+          title: t('Member.createdAt'),
           type: 'date',
         },
         {
           accessor: 'updatedAt',
-          title: t('User.updatedAt'),
+          title: t('Member.updatedAt'),
           type: 'date',
         },
       ]}
@@ -80,4 +80,4 @@ export const UserPage: React.FC & PagePermissionOption = () => {
   );
 };
 
-UserPage.permissions = PermissionAlias.PaginateUsers;
+MemberPage.permissions = PermissionAlias.PaginateMembers;

@@ -28,7 +28,7 @@ query AuthInfo {
 		updatedAt
 		expiredAt
 		adminId
-		userId
+		memberId
 		companyId
 		device
 		location
@@ -37,8 +37,8 @@ query AuthInfo {
 		admin {
 			...Admin
 		}
-		user {
-			...User
+		member {
+			...Member
 		}
 		company {
 			...Company

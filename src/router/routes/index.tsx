@@ -6,10 +6,10 @@ import { AuthGuard, GuestGuard } from 'src/router/guards';
 
 import adminRoutes from './admin';
 import companyRoutes from './company';
-import userRoutes from './user';
+import memberRoutes from './member';
 
 // 处理多级路径的默认索引重定向：
-// - 当访问如 "admin"、"company"、"user" 等父级路径时，自动重定向到其第一个子级路由
+// - 当访问如 "admin"、"company"、"member" 等父级路径时，自动重定向到其第一个子级路由
 // - 如果路由数组中已存在该父级路径的明确配置（例如自定义索引或元素），则优先使用已有配置
 const redirectHandler = (list: RouteObject[]): RouteObject[] => {
   const getSlugs = (p?: string) => (p ? p.replace(/^\/+/, '').split('/').filter(Boolean) : []);
@@ -80,11 +80,11 @@ const authRoutes: RouteObject[] = [
   },
 ];
 
-export const getRoutes = (target?: 'user' | 'admin' | 'company') => {
+export const getRoutes = (target?: 'member' | 'admin' | 'company') => {
   let mainRoutes: RouteObject[] = [];
   switch (target) {
-    case 'user':
-      mainRoutes = userRoutes;
+    case 'member':
+      mainRoutes = memberRoutes;
       break;
     case 'admin':
       mainRoutes = adminRoutes;

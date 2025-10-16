@@ -56,7 +56,7 @@ const menus: MenuItem[] = [
   {
     id: 'admin',
     label: '系统成员',
-    icon: 'solar:user-id-line-duotone',
+    icon: 'solar:member-id-line-duotone',
     path: '/admin',
     children: [
       {
@@ -100,21 +100,21 @@ const menus: MenuItem[] = [
     ],
   },
   {
-    id: 'user',
-    label: '用户管理',
-    icon: 'solar:users-group-rounded-line-duotone',
-    path: '/user',
+    id: 'member',
+    label: '成员管理',
+    icon: 'solar:members-group-rounded-line-duotone',
+    path: '/member',
     children: [
       {
-        id: 'user-add',
-        label: '添加用户',
-        path: '/user/add',
+        id: 'member-add',
+        label: '添加成员',
+        path: '/member/add',
         hide: true,
       },
       {
-        id: 'user-edit',
-        label: '编辑用户',
-        path: '/user/edit',
+        id: 'member-edit',
+        label: '编辑成员',
+        path: '/member/edit',
         hide: true,
       },
     ],

@@ -1,7 +1,7 @@
 import { Navigate, RouteObject } from 'react-router';
 import { CompanyPage } from 'src/pages/company';
 import { DashboardPage } from 'src/pages/home';
-import { UserFormPage } from 'src/pages/user';
+import { MemberFormPage } from 'src/pages/member';
 
 const routes: RouteObject[] = [
   {
@@ -17,8 +17,8 @@ const routes: RouteObject[] = [
     Component: CompanyPage,
   },
   {
-    path: 'user/edit',
-    Component: UserFormPage,
+    path: 'member/edit',
+    Component: MemberFormPage,
   },
   {
     path: 'notification/list',

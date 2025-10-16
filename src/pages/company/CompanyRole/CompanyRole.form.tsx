@@ -144,7 +144,7 @@ export const CompanyRoleForm: React.FC<CompanyRoleFormProps> = ({ item }) => {
           <Divider mt="md" variant="dashed" />
           <Group py="xs">
             <Text size="xs" opacity={0.5}>
-              提示：公司角色用于控制公司用户的权限
+              提示：公司角色用于控制公司成员的权限
             </Text>
           </Group>
         </Card>

@@ -2,11 +2,13 @@ import { useLazyQuery } from '@apollo/client/react';
 import { useDebounceEffect } from 'ahooks';
 import { useEffect, useState } from 'react';
 import { Auth, AuthInfoDocument } from 'src/graphql';
+import { useParseApolloErrors } from 'src/hooks';
 import { useAuthStore } from 'src/store';
 
 export const useInitializeAuth = () => {
-  const { login, auth, setAuth, clearAuth, initialized, initialize } = useAuthStore();
+  const { login, auth, setAuth, clearAuth, clearLogin, initialized, initialize } = useAuthStore();
   const [getAuthInfo, { loading: authQueryLoading }] = useLazyQuery(AuthInfoDocument);
+  const [errorParse] = useParseApolloErrors();
   const [handing, setHanding] = useState(true);
 
   useEffect(() => {
@@ -24,6 +26,15 @@ export const useInitializeAuth = () => {
               setAuth(data.authInfo as Auth);
             } else {
               clearAuth();
+              clearLogin();
+            }
+          })
+          .catch((err) => {
+            const errors = errorParse(err);
+            const { statusCode } = errors.get('authInfo') || {};
+            if (statusCode === 401) {
+              clearAuth();
+              clearLogin();
             }
           })
           .finally(() => setHanding(false));

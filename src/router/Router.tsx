@@ -29,8 +29,8 @@ const handleRoute = ({ Component, ...route }: RouteObject) => {
 };
 
 export const Router = () => {
-  const { isAdmin, isCompany, isUser } = useAuthStore();
-  const routes = getRoutes(isAdmin ? 'admin' : isCompany ? 'company' : isUser ? 'user' : undefined);
+  const { isAdmin, isCompany, isMember } = useAuthStore();
+  const routes = getRoutes(isAdmin ? 'admin' : isCompany ? 'company' : isMember ? 'member' : undefined);
   const router = createBrowserRouter(routes.map(handleRoute));
   return <RouterProvider router={router} />;
 };

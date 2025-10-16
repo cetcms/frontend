@@ -2,18 +2,18 @@ import { useLazyQuery } from '@apollo/client/react';
 import { Group, LoadingOverlay } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
-import { FindOneUserDocument, User } from 'src/graphql';
+import { FindOneMemberDocument, Member } from 'src/graphql';
 
-import { UserForm } from './User.form';
+import { MemberForm } from './Member.form';
 
-export const UserFormPage = () => {
+export const MemberFormPage = () => {
   const [loading, setLoading] = useState(true);
-  const [findOneUser, { data }] = useLazyQuery(FindOneUserDocument);
+  const [findOneMember, { data }] = useLazyQuery(FindOneMemberDocument);
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id');
   useEffect(() => {
     if (id) {
-      findOneUser({ variables: { id } }).then(() => {
+      findOneMember({ variables: { id } }).then(() => {
         setLoading(false);
       });
     } else {
@@ -26,7 +26,7 @@ export const UserFormPage = () => {
   }
   return (
     <Group p="md" justify="center">
-      <UserForm item={data?.findOneUser as User} />
+      <MemberForm item={data?.findOneMember as Member} />
     </Group>
   );
 };

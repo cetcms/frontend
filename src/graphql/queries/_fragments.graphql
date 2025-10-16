@@ -54,7 +54,7 @@ fragment CompanyRole on CompanyRole {
 	companyId
 }
 
-fragment User on User {
+fragment Member on Member {
 	id
 	createdAt
 	updatedAt
@@ -119,7 +119,7 @@ fragment MediaFile on MediaFile {
 	folderId
 	owner
 	adminId
-	userId
+	memberId
 	companyId
 	visibility
 	url

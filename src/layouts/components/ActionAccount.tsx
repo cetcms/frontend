@@ -8,7 +8,7 @@ import { useAuthStore } from 'src/store';
 export const ActionAccount = () => {
   const { clearLogin, clearAuth, auth } = useAuthStore();
   const [logout, { loading }] = useLazyQuery(LogoutDocument);
-  const { user, admin } = auth || {};
+  const { member, admin } = auth || {};
   return (
     <Group justify="center">
       <Menu
@@ -22,7 +22,7 @@ export const ActionAccount = () => {
         <Menu.Target>
           <ActionIcon ml={8} variant="transparent" radius="xl" style={{ overflow: 'visible' }}>
             <Avatar
-              src={admin?.avatarUrl || user?.avatarUrl}
+              src={admin?.avatarUrl || member?.avatarUrl}
               style={{ cursor: 'pointer' }}
               variant="filled"
               radius="xl"
@@ -33,11 +33,11 @@ export const ActionAccount = () => {
         <Menu.Dropdown>
           <Menu.Item rightSection={<IconChevronRight style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}>
             <Group>
-              <Avatar radius="xl" src={admin?.avatarUrl || user?.avatarUrl} />
+              <Avatar radius="xl" src={admin?.avatarUrl || member?.avatarUrl} />
               <div>
-                <Text fw={500}>{admin?.name || user?.name || '--'}</Text>
+                <Text fw={500}>{admin?.name || member?.name || '--'}</Text>
                 <Text size="xs" c="dimmed">
-                  {admin?.email || user?.email || '--'}
+                  {admin?.email || member?.email || '--'}
                 </Text>
               </div>
             </Group>

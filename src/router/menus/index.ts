@@ -18,6 +18,6 @@ export type MenuItem = {
 
 export type MenuItemGroup = {
   admin: MenuItem[];
-  user: MenuItem[];
+  member: MenuItem[];
   company: MenuItem[];
 };

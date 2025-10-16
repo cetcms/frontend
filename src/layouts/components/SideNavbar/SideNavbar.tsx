@@ -18,7 +18,7 @@ export interface SideNavbarProps {
  */
 export const SideNavbar = ({ onCollapse, width }: SideNavbarProps) => {
   const { t } = useTranslation();
-  const { checkPermission, isAdmin, isUser, isCompany } = useAuthStore();
+  const { checkPermission, isAdmin, isMember, isCompany } = useAuthStore();
   const location = useLocation();
 
   // 使用优化后的菜单状态管理
@@ -38,13 +38,13 @@ export const SideNavbar = ({ onCollapse, width }: SideNavbarProps) => {
    */
   useEffect(() => {
     // 管理员菜单永不收起：强制设置为不折叠
-    if (isAdmin || isUser) {
+    if (isAdmin || isMember) {
       onCollapse?.(false);
       return;
     }
     const hasChildren = Boolean(activeItem?.children?.filter((child) => !child.hide)?.length);
     onCollapse?.(!hasChildren);
-  }, [activeItem, onCollapse, isAdmin, isUser]);
+  }, [activeItem, onCollapse, isAdmin, isMember]);
 
   /**
    * 处理主菜单项点击事件
@@ -101,8 +101,8 @@ export const SideNavbar = ({ onCollapse, width }: SideNavbarProps) => {
     return <TreeLinks links={allLinks} />;
   }
 
-  // 用户：使用主菜单风格展示全部菜单（用户菜单没有子级）
-  if (isUser) {
+  // 成员：使用主菜单风格展示全部菜单（成员菜单没有子级）
+  if (isMember) {
     return (
       <ScrollArea>
         <Stack p="xs" gap="xs" align="center" style={{ boxSizing: 'border-box', width: width - 2 }}>

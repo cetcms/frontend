@@ -1,4 +1,4 @@
-import { Auth, Company, Login, Maybe, User, Admin, PermissionAlias } from 'src/graphql';
+import { Auth, Company, Login, Maybe, Member, Admin, PermissionAlias } from 'src/graphql';
 import { create } from 'zustand';
 
 const STORAGE_KEY = 'login';
@@ -17,11 +17,11 @@ export type PagePermissionOption = {
 };
 
 export type AuthStore = {
-  user: Maybe<User>;
+  member: Maybe<Member>;
   admin: Maybe<Admin>;
   company: Maybe<Company>;
   isAdmin: boolean;
-  isUser: boolean;
+  isMember: boolean;
   isCompany: boolean;
 
   auth: Maybe<Auth>;
@@ -42,25 +42,25 @@ export type AuthStore = {
 export const useAuthStore = create<AuthStore>()((set, getState) => ({
   auth: null,
   company: null,
-  user: null,
+  member: null,
   admin: null,
   isAdmin: false,
-  isUser: false,
+  isMember: false,
   isCompany: false,
 
   setAuth: (auth: Auth) => {
-    const { company, user, admin } = auth;
+    const { company, member, admin } = auth;
     let isAdmin = false;
-    let isUser = false;
+    let isMember = false;
     let isCompany = false;
     if (company) {
       isCompany = true;
-    } else if (user) {
-      isUser = true;
+    } else if (member) {
+      isMember = true;
     } else if (admin) {
       isAdmin = true;
     }
-    return set(() => ({ auth, company, user, admin, isAdmin, isUser, isCompany }));
+    return set(() => ({ auth, company, member, admin, isAdmin, isMember, isCompany }));
   },
   clearAuth: () => set(() => ({ auth: null })),
 
@@ -106,13 +106,13 @@ export const useAuthStore = create<AuthStore>()((set, getState) => ({
     if (!option) return true;
     if (!auth) return false;
 
-    const userPermissions = auth.permissions as Array<PermissionAlias>;
+    const memberPermissions = auth.permissions as Array<PermissionAlias>;
 
     // Handle case when permission is an object with mode keys
     if (typeof option === 'object' && !Array.isArray(option)) {
       const permissionObj = option as Record<CheckPermissionMode, PermissionAlias[]>;
-      if (permissionObj.AND) return permissionObj.AND.every((p) => userPermissions.includes(p));
-      if (permissionObj.OR) return permissionObj.OR.some((p) => userPermissions.includes(p));
+      if (permissionObj.AND) return permissionObj.AND.every((p) => memberPermissions.includes(p));
+      if (permissionObj.OR) return permissionObj.OR.some((p) => memberPermissions.includes(p));
       return false;
     }
 
@@ -120,9 +120,9 @@ export const useAuthStore = create<AuthStore>()((set, getState) => ({
     const permissions = Array.isArray(option) ? option : [option];
 
     // When mode is not specified, default to 'OR' behavior
-    if (mode === undefined) return permissions.some((p) => userPermissions.includes(p));
+    if (mode === undefined) return permissions.some((p) => memberPermissions.includes(p));
     return mode === 'AND'
-      ? permissions.every((p) => userPermissions.includes(p))
-      : permissions.some((p) => userPermissions.includes(p));
+      ? permissions.every((p) => memberPermissions.includes(p))
+      : permissions.some((p) => memberPermissions.includes(p));
   },
 }));

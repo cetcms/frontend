@@ -6,13 +6,14 @@ export type ParseError = {
   code: string;
   path: string;
   timestamp: Date;
+  statusCode: number;
   errors?: Array<{
     message: string;
     code: string;
     path: string;
   }>;
 };
-export type ParseFunction = (errors: CombinedGraphQLErrors) => void;
+export type ParseFunction = (errors: CombinedGraphQLErrors) => ParseResult['errors'];
 export type ParseResult = {
   errors: Map<string | number, ParseError>;
   resetErrors: () => void;
@@ -31,10 +32,12 @@ export const useParseApolloErrors = (): [ParseFunction, ParseResult] => {
           code: info.code,
           path: info.path,
           errors: info.errors,
+          statusCode: info.statusCode,
         });
       });
     });
     setErrors(resultErrors);
+    return resultErrors;
   }, []);
 
   const resetErrors = useCallback(() => {

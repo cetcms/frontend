@@ -23,9 +23,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const fullWidth = 260;
   const collapsedWidth = 63;
-  const userWidth = 150;
-  const { isUser } = useAuthStore();
-  const navbarWidth = isUser ? userWidth : collapsed ? collapsedWidth : fullWidth;
+  const memberWidth = 150;
+  const { isMember } = useAuthStore();
+  const navbarWidth = isMember ? memberWidth : collapsed ? collapsedWidth : fullWidth;
   return (
     <AppShell
       header={{ height: 60 }}
@@ -56,7 +56,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         </Group>
       </AppShell.Header>
       <AppShell.Navbar>
-        <SideNavbar onCollapse={setCollapsed} width={isUser ? userWidth : collapsedWidth} />
+        <SideNavbar onCollapse={setCollapsed} width={isMember ? memberWidth : collapsedWidth} />
       </AppShell.Navbar>
       <AppShell.Main>
         <ScrollArea h="calc(100vh - 60px)">

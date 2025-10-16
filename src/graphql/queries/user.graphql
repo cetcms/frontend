@@ -1,8 +1,8 @@
 
-query PaginateUsers($take: Int, $skip: Int, $where: UserWhereInput, $orderBy: [UserOrderByWithRelationInput!]) {
-	paginateUsers(take: $take, skip: $skip, where: $where, orderBy: $orderBy) {
+query PaginateMembers($take: Int, $skip: Int, $where: MemberWhereInput, $orderBy: [MemberOrderByWithRelationInput!]) {
+	paginateMembers(take: $take, skip: $skip, where: $where, orderBy: $orderBy) {
 		items {
-			...User
+			...Member
 		}
 		pagination {
 			...Pagination
@@ -10,21 +10,21 @@ query PaginateUsers($take: Int, $skip: Int, $where: UserWhereInput, $orderBy: [U
 	}
 }
 
-query FindOneUser($id: String!) {
-	findOneUser(where: { id: $id }) {
-		...User
+query FindOneMember($id: String!) {
+	findOneMember(where: { id: $id }) {
+		...Member
 	}
 }
 
-mutation CreateOneUser($data: UserCreateInput!) {
-	createOneUser(data: $data) {
-		...User
+mutation CreateOneMember($data: MemberCreateInput!) {
+	createOneMember(data: $data) {
+		...Member
 	}
 }
 
-mutation UpdateOneUser($id: String!, $data: UserUpdateInput!) {
-	updateOneUser(data: $data, where: { id: $id }) {
-		...User
+mutation UpdateOneMember($id: String!, $data: MemberUpdateInput!) {
+	updateOneMember(data: $data, where: { id: $id }) {
+		...Member
 	}
 }
 
