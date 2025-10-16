@@ -85,7 +85,9 @@ export const CurrentCompany = () => {
               size="xs"
               fullWidth
               variant="default"
+              key={company.id}
               leftSection={<Avatar src={company?.logo} size={24} radius={24} />}
+              onClick={() => switchAuthCompany(company.id)}
             >
               {company?.name}
             </Button>
