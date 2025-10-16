@@ -37,6 +37,26 @@ const menus: MenuItem[] = [
         label: '企业信息',
         path: '/company/edit',
       },
+      {
+        id: 'user',
+        label: '用户管理',
+        icon: 'solar:users-group-rounded-line-duotone',
+        path: '/user',
+        children: [
+          {
+            id: 'user-add',
+            label: '添加用户',
+            path: '/user/add',
+            hide: true,
+          },
+          {
+            id: 'user-edit',
+            label: '编辑用户',
+            path: '/user/edit',
+            hide: true,
+          },
+        ],
+      },
     ],
   },
 ];
