@@ -456,6 +456,7 @@ export type Auth = {
   __typename?: 'Auth';
   admin?: Maybe<Admin>;
   adminId?: Maybe<Scalars['String']['output']>;
+  client: Client;
   company?: Maybe<Company>;
   companyId?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
@@ -474,6 +475,7 @@ export type AuthCountAggregate = {
   __typename?: 'AuthCountAggregate';
   _all: Scalars['Int']['output'];
   adminId: Scalars['Int']['output'];
+  client: Scalars['Int']['output'];
   companyId: Scalars['Int']['output'];
   createdAt: Scalars['Int']['output'];
   device: Scalars['Int']['output'];
@@ -498,6 +500,7 @@ export type AuthListRelationFilter = {
 export type AuthMaxAggregate = {
   __typename?: 'AuthMaxAggregate';
   adminId?: Maybe<Scalars['String']['output']>;
+  client?: Maybe<Client>;
   companyId?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   expiredAt?: Maybe<Scalars['DateTime']['output']>;
@@ -510,6 +513,7 @@ export type AuthMaxAggregate = {
 export type AuthMinAggregate = {
   __typename?: 'AuthMinAggregate';
   adminId?: Maybe<Scalars['String']['output']>;
+  client?: Maybe<Client>;
   companyId?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   expiredAt?: Maybe<Scalars['DateTime']['output']>;
@@ -534,6 +538,7 @@ export type AuthWhereInput = {
   OR?: InputMaybe<Array<AuthWhereInput>>;
   admin?: InputMaybe<AdminNullableScalarRelationFilter>;
   adminId?: InputMaybe<StringNullableFilter>;
+  client?: InputMaybe<EnumClientFilter>;
   company?: InputMaybe<CompanyNullableScalarRelationFilter>;
   companyId?: InputMaybe<StringNullableFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
@@ -552,6 +557,7 @@ export type AuthWhereInput = {
 export type AuthWhereUniqueInput = {
   admin?: InputMaybe<AdminNullableScalarRelationFilter>;
   adminId?: InputMaybe<StringNullableFilter>;
+  client?: InputMaybe<EnumClientFilter>;
   company?: InputMaybe<CompanyNullableScalarRelationFilter>;
   companyId?: InputMaybe<StringNullableFilter>;
   device?: InputMaybe<JsonNullableFilter>;
@@ -580,6 +586,12 @@ export type BoolFilter = {
   equals?: InputMaybe<Scalars['Boolean']['input']>;
   not?: InputMaybe<NestedBoolFilter>;
 };
+
+export enum Client {
+  Admin = 'Admin',
+  Company = 'Company',
+  Member = 'Member'
+}
 
 export type Company = {
   __typename?: 'Company';
@@ -1111,6 +1123,20 @@ export type DateTimeNullableFilter = {
   notIn?: InputMaybe<Array<Scalars['DateTime']['input']>>;
 };
 
+export type EnumClientFilter = {
+  equals?: InputMaybe<Client>;
+  in?: InputMaybe<Array<Client>>;
+  not?: InputMaybe<NestedEnumClientFilter>;
+  notIn?: InputMaybe<Array<Client>>;
+};
+
+export type EnumClientNullableFilter = {
+  equals?: InputMaybe<Client>;
+  in?: InputMaybe<Array<Client>>;
+  not?: InputMaybe<NestedEnumClientNullableFilter>;
+  notIn?: InputMaybe<Array<Client>>;
+};
+
 export type EnumMediaStoreFilter = {
   equals?: InputMaybe<MediaStore>;
   in?: InputMaybe<Array<MediaStore>>;
@@ -1139,18 +1165,11 @@ export type EnumNotificationPrivacyFilter = {
   notIn?: InputMaybe<Array<NotificationPrivacy>>;
 };
 
-export type EnumNotificationReceiverFilter = {
-  equals?: InputMaybe<NotificationReceiver>;
-  in?: InputMaybe<Array<NotificationReceiver>>;
-  not?: InputMaybe<NestedEnumNotificationReceiverFilter>;
-  notIn?: InputMaybe<Array<NotificationReceiver>>;
-};
-
-export type EnumNotificationSenderFilter = {
-  equals?: InputMaybe<NotificationSender>;
-  in?: InputMaybe<Array<NotificationSender>>;
-  not?: InputMaybe<NestedEnumNotificationSenderFilter>;
-  notIn?: InputMaybe<Array<NotificationSender>>;
+export type EnumNotificationTargetFilter = {
+  equals?: InputMaybe<NotificationTarget>;
+  in?: InputMaybe<Array<NotificationTarget>>;
+  not?: InputMaybe<NestedEnumNotificationTargetFilter>;
+  notIn?: InputMaybe<Array<NotificationTarget>>;
 };
 
 export type EnumNotificationTypeFilter = {
@@ -2016,6 +2035,20 @@ export type NestedDateTimeNullableFilter = {
   notIn?: InputMaybe<Array<Scalars['DateTime']['input']>>;
 };
 
+export type NestedEnumClientFilter = {
+  equals?: InputMaybe<Client>;
+  in?: InputMaybe<Array<Client>>;
+  not?: InputMaybe<NestedEnumClientFilter>;
+  notIn?: InputMaybe<Array<Client>>;
+};
+
+export type NestedEnumClientNullableFilter = {
+  equals?: InputMaybe<Client>;
+  in?: InputMaybe<Array<Client>>;
+  not?: InputMaybe<NestedEnumClientNullableFilter>;
+  notIn?: InputMaybe<Array<Client>>;
+};
+
 export type NestedEnumMediaStoreFilter = {
   equals?: InputMaybe<MediaStore>;
   in?: InputMaybe<Array<MediaStore>>;
@@ -2044,18 +2077,11 @@ export type NestedEnumNotificationPrivacyFilter = {
   notIn?: InputMaybe<Array<NotificationPrivacy>>;
 };
 
-export type NestedEnumNotificationReceiverFilter = {
-  equals?: InputMaybe<NotificationReceiver>;
-  in?: InputMaybe<Array<NotificationReceiver>>;
-  not?: InputMaybe<NestedEnumNotificationReceiverFilter>;
-  notIn?: InputMaybe<Array<NotificationReceiver>>;
-};
-
-export type NestedEnumNotificationSenderFilter = {
-  equals?: InputMaybe<NotificationSender>;
-  in?: InputMaybe<Array<NotificationSender>>;
-  not?: InputMaybe<NestedEnumNotificationSenderFilter>;
-  notIn?: InputMaybe<Array<NotificationSender>>;
+export type NestedEnumNotificationTargetFilter = {
+  equals?: InputMaybe<NotificationTarget>;
+  in?: InputMaybe<Array<NotificationTarget>>;
+  not?: InputMaybe<NestedEnumNotificationTargetFilter>;
+  notIn?: InputMaybe<Array<NotificationTarget>>;
 };
 
 export type NestedEnumNotificationTypeFilter = {
@@ -2167,7 +2193,7 @@ export type Notification = {
   privacy: NotificationPrivacy;
   receiver?: Maybe<Array<Scalars['String']['output']>>;
   recipients?: Maybe<Array<NotificationRecipient>>;
-  sender: NotificationSender;
+  sender: NotificationTarget;
   senderId?: Maybe<Scalars['String']['output']>;
   sentAt: Scalars['DateTime']['output'];
   status: Status;
@@ -2232,7 +2258,7 @@ export type NotificationMaxAggregate = {
   memberId?: Maybe<Scalars['String']['output']>;
   priority?: Maybe<Scalars['Int']['output']>;
   privacy?: Maybe<NotificationPrivacy>;
-  sender?: Maybe<NotificationSender>;
+  sender?: Maybe<NotificationTarget>;
   senderId?: Maybe<Scalars['String']['output']>;
   sentAt?: Maybe<Scalars['DateTime']['output']>;
   status?: Maybe<Status>;
@@ -2250,7 +2276,7 @@ export type NotificationMinAggregate = {
   memberId?: Maybe<Scalars['String']['output']>;
   priority?: Maybe<Scalars['Int']['output']>;
   privacy?: Maybe<NotificationPrivacy>;
-  sender?: Maybe<NotificationSender>;
+  sender?: Maybe<NotificationTarget>;
   senderId?: Maybe<Scalars['String']['output']>;
   sentAt?: Maybe<Scalars['DateTime']['output']>;
   status?: Maybe<Status>;
@@ -2292,12 +2318,6 @@ export enum NotificationPrivacy {
   Public = 'Public'
 }
 
-export enum NotificationReceiver {
-  Admin = 'Admin',
-  Company = 'Company',
-  Member = 'Member'
-}
-
 export type NotificationRecipient = {
   __typename?: 'NotificationRecipient';
   admin?: Maybe<Admin>;
@@ -2316,7 +2336,7 @@ export type NotificationRecipient = {
   notification: Notification;
   notificationId: Scalars['String']['output'];
   readAt?: Maybe<Scalars['DateTime']['output']>;
-  receiver: NotificationReceiver;
+  receiver: NotificationTarget;
   receiverId: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
@@ -2373,7 +2393,7 @@ export type NotificationRecipientMaxAggregate = {
   memberId?: Maybe<Scalars['String']['output']>;
   notificationId?: Maybe<Scalars['String']['output']>;
   readAt?: Maybe<Scalars['DateTime']['output']>;
-  receiver?: Maybe<NotificationReceiver>;
+  receiver?: Maybe<NotificationTarget>;
   receiverId?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
@@ -2392,7 +2412,7 @@ export type NotificationRecipientMinAggregate = {
   memberId?: Maybe<Scalars['String']['output']>;
   notificationId?: Maybe<Scalars['String']['output']>;
   readAt?: Maybe<Scalars['DateTime']['output']>;
-  receiver?: Maybe<NotificationReceiver>;
+  receiver?: Maybe<NotificationTarget>;
   receiverId?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
@@ -2425,7 +2445,7 @@ export type NotificationRecipientOrderByWithRelationInput = {
 
 export type NotificationRecipientReceiverIdxCompoundUniqueInput = {
   notificationId: Scalars['String']['input'];
-  receiver: NotificationReceiver;
+  receiver: NotificationTarget;
   receiverId: Scalars['String']['input'];
 };
 
@@ -2482,7 +2502,7 @@ export type NotificationRecipientWhereInput = {
   notification?: InputMaybe<NotificationScalarRelationFilter>;
   notificationId?: InputMaybe<StringFilter>;
   readAt?: InputMaybe<DateTimeNullableFilter>;
-  receiver?: InputMaybe<EnumNotificationReceiverFilter>;
+  receiver?: InputMaybe<EnumNotificationTargetFilter>;
   receiverId?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
 };
@@ -2503,7 +2523,7 @@ export type NotificationRecipientWhereUniqueInput = {
   notification?: InputMaybe<NotificationScalarRelationFilter>;
   notificationId?: InputMaybe<StringFilter>;
   readAt?: InputMaybe<DateTimeNullableFilter>;
-  receiver?: InputMaybe<EnumNotificationReceiverFilter>;
+  receiver?: InputMaybe<EnumNotificationTargetFilter>;
   receiverId?: InputMaybe<StringFilter>;
   receiverIdx?: InputMaybe<NotificationRecipientReceiverIdxCompoundUniqueInput>;
 };
@@ -2534,17 +2554,17 @@ export type NotificationScalarRelationFilter = {
   isNot?: InputMaybe<NotificationWhereInput>;
 };
 
-export enum NotificationSender {
+export type NotificationSumAggregate = {
+  __typename?: 'NotificationSumAggregate';
+  priority?: Maybe<Scalars['Int']['output']>;
+};
+
+export enum NotificationTarget {
   Admin = 'Admin',
   Company = 'Company',
   Member = 'Member',
   System = 'System'
 }
-
-export type NotificationSumAggregate = {
-  __typename?: 'NotificationSumAggregate';
-  priority?: Maybe<Scalars['Int']['output']>;
-};
 
 export enum NotificationType {
   Alert = 'Alert',
@@ -2587,7 +2607,7 @@ export type NotificationWhereInput = {
   privacy?: InputMaybe<EnumNotificationPrivacyFilter>;
   receiver?: InputMaybe<StringNullableListFilter>;
   recipients?: InputMaybe<NotificationRecipientListRelationFilter>;
-  sender?: InputMaybe<EnumNotificationSenderFilter>;
+  sender?: InputMaybe<EnumNotificationTargetFilter>;
   senderId?: InputMaybe<StringNullableFilter>;
   sentAt?: InputMaybe<DateTimeFilter>;
   status?: InputMaybe<EnumStatusFilter>;
@@ -2611,7 +2631,7 @@ export type NotificationWhereUniqueInput = {
   privacy?: InputMaybe<EnumNotificationPrivacyFilter>;
   receiver?: InputMaybe<StringNullableListFilter>;
   recipients?: InputMaybe<NotificationRecipientListRelationFilter>;
-  sender?: InputMaybe<EnumNotificationSenderFilter>;
+  sender?: InputMaybe<EnumNotificationTargetFilter>;
   senderId?: InputMaybe<StringNullableFilter>;
   sentAt?: InputMaybe<DateTimeFilter>;
   status?: InputMaybe<EnumStatusFilter>;
@@ -2758,11 +2778,11 @@ export type PermissionItem = {
   __typename?: 'PermissionItem';
   action: Scalars['String']['output'];
   actionLabel: Scalars['String']['output'];
+  clients: Array<Client>;
   group: Scalars['String']['output'];
   name: Scalars['String']['output'];
   subject: Scalars['String']['output'];
   subjectLabel: Scalars['String']['output'];
-  targets: Array<Target>;
 };
 
 export type Query = {
@@ -2968,6 +2988,7 @@ export type RequestLog = {
   afterAt?: Maybe<Scalars['DateTime']['output']>;
   beforeAt: Scalars['DateTime']['output'];
   body?: Maybe<Scalars['JSON']['output']>;
+  client?: Maybe<Client>;
   company?: Maybe<Company>;
   companyId?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
@@ -3005,6 +3026,7 @@ export type RequestLogCountAggregate = {
   afterAt: Scalars['Int']['output'];
   beforeAt: Scalars['Int']['output'];
   body: Scalars['Int']['output'];
+  client: Scalars['Int']['output'];
   companyId: Scalars['Int']['output'];
   createdAt: Scalars['Int']['output'];
   device: Scalars['Int']['output'];
@@ -3043,6 +3065,7 @@ export type RequestLogMaxAggregate = {
   adminId?: Maybe<Scalars['String']['output']>;
   afterAt?: Maybe<Scalars['DateTime']['output']>;
   beforeAt?: Maybe<Scalars['DateTime']['output']>;
+  client?: Maybe<Client>;
   companyId?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   duration?: Maybe<Scalars['String']['output']>;
@@ -3066,6 +3089,7 @@ export type RequestLogMinAggregate = {
   adminId?: Maybe<Scalars['String']['output']>;
   afterAt?: Maybe<Scalars['DateTime']['output']>;
   beforeAt?: Maybe<Scalars['DateTime']['output']>;
+  client?: Maybe<Client>;
   companyId?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   duration?: Maybe<Scalars['String']['output']>;
@@ -3107,6 +3131,7 @@ export type RequestLogWhereInput = {
   afterAt?: InputMaybe<DateTimeNullableFilter>;
   beforeAt?: InputMaybe<DateTimeFilter>;
   body?: InputMaybe<JsonNullableFilter>;
+  client?: InputMaybe<EnumClientNullableFilter>;
   company?: InputMaybe<CompanyNullableScalarRelationFilter>;
   companyId?: InputMaybe<StringNullableFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
@@ -3138,6 +3163,7 @@ export type RequestLogWhereUniqueInput = {
   afterAt?: InputMaybe<DateTimeNullableFilter>;
   beforeAt?: InputMaybe<DateTimeFilter>;
   body?: InputMaybe<JsonNullableFilter>;
+  client?: InputMaybe<EnumClientNullableFilter>;
   company?: InputMaybe<CompanyNullableScalarRelationFilter>;
   companyId?: InputMaybe<StringNullableFilter>;
   device?: InputMaybe<JsonNullableFilter>;
@@ -3244,7 +3270,7 @@ export type MemberFragment = { __typename?: 'Member', id: string, createdAt: any
 
 export type LoginFragment = { __typename?: 'Login', target: Target, accessType: string, accessToken: string, accessTimeout: number } & { ' $fragmentName'?: 'LoginFragment' };
 
-export type PermissionItemFragment = { __typename?: 'PermissionItem', name: string, subject: string, subjectLabel: string, group: string, action: string, actionLabel: string, targets: Array<Target> } & { ' $fragmentName'?: 'PermissionItemFragment' };
+export type PermissionItemFragment = { __typename?: 'PermissionItem', name: string, subject: string, subjectLabel: string, group: string, action: string, actionLabel: string } & { ' $fragmentName'?: 'PermissionItemFragment' };
 
 export type PermissionGroupItemFragment = { __typename?: 'PermissionGroupItem', id: string, name: string, label: string, items: Array<{ __typename?: 'PermissionGroupItem', id: string, name: string, label: string, items: Array<{ __typename?: 'PermissionGroupItem', id: string, name: string, label: string }> }> } & { ' $fragmentName'?: 'PermissionGroupItemFragment' };
 
@@ -3390,7 +3416,7 @@ export type SwitchAuthCompanyMutation = { __typename?: 'Mutation', switchAuthCom
 export type AuthInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AuthInfoQuery = { __typename?: 'Query', authInfo: { __typename?: 'Auth', id: string, createdAt: any, updatedAt: any, expiredAt: any, adminId?: string | null, memberId?: string | null, companyId?: string | null, device?: any | null, location?: any | null, target: Target, permissions: Array<string>, admin?: (
+export type AuthInfoQuery = { __typename?: 'Query', authInfo: { __typename?: 'Auth', id: string, createdAt: any, updatedAt: any, expiredAt: any, adminId?: string | null, memberId?: string | null, companyId?: string | null, device?: any | null, location?: any | null, target: Target, client: Client, permissions: Array<string>, admin?: (
       { __typename?: 'Admin' }
       & { ' $fragmentRefs'?: { 'AdminFragment': AdminFragment } }
     ) | null, member?: (
@@ -3541,7 +3567,7 @@ export type ListMediaFilesQuery = { __typename?: 'Query', listMediaFiles: Array<
 export type ListSelfNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ListSelfNotificationsQuery = { __typename?: 'Query', listSelfNotifications: Array<{ __typename?: 'Notification', id: string, createdAt: any, updatedAt: any, sentAt: any, title?: any | null, content: any, options?: any | null, status: Status, priority: number, category?: string | null, senderId?: string | null, sender: NotificationSender, receiver?: Array<string> | null, privacy: NotificationPrivacy, adminId?: string | null, memberId?: string | null, companyId?: string | null, type: NotificationType }> };
+export type ListSelfNotificationsQuery = { __typename?: 'Query', listSelfNotifications: Array<{ __typename?: 'Notification', id: string, createdAt: any, updatedAt: any, sentAt: any, title?: any | null, content: any, options?: any | null, status: Status, priority: number, category?: string | null, senderId?: string | null, sender: NotificationTarget, receiver?: Array<string> | null, privacy: NotificationPrivacy, adminId?: string | null, memberId?: string | null, companyId?: string | null, type: NotificationType }> };
 
 export type PaginateMembersQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']['input']>;
@@ -3597,7 +3623,7 @@ export const CompanyFragmentDoc = {"kind":"Document","definitions":[{"kind":"Fra
 export const CompanyRoleFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CompanyRole"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CompanyRole"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"}},{"kind":"Field","name":{"kind":"Name","value":"companyId"}}]}}]} as unknown as DocumentNode<CompanyRoleFragment, unknown>;
 export const MemberFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Member"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"avatarUrl"}}]}}]} as unknown as DocumentNode<MemberFragment, unknown>;
 export const LoginFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Login"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Login"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"accessType"}},{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"accessTimeout"}}]}}]} as unknown as DocumentNode<LoginFragment, unknown>;
-export const PermissionItemFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PermissionItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PermissionItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"subject"}},{"kind":"Field","name":{"kind":"Name","value":"subjectLabel"}},{"kind":"Field","name":{"kind":"Name","value":"group"}},{"kind":"Field","name":{"kind":"Name","value":"action"}},{"kind":"Field","name":{"kind":"Name","value":"actionLabel"}},{"kind":"Field","name":{"kind":"Name","value":"targets"}}]}}]} as unknown as DocumentNode<PermissionItemFragment, unknown>;
+export const PermissionItemFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PermissionItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PermissionItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"subject"}},{"kind":"Field","name":{"kind":"Name","value":"subjectLabel"}},{"kind":"Field","name":{"kind":"Name","value":"group"}},{"kind":"Field","name":{"kind":"Name","value":"action"}},{"kind":"Field","name":{"kind":"Name","value":"actionLabel"}}]}}]} as unknown as DocumentNode<PermissionItemFragment, unknown>;
 export const PermissionGroupItemFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PermissionGroupItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PermissionGroupItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"label"}}]}}]}}]}}]} as unknown as DocumentNode<PermissionGroupItemFragment, unknown>;
 export const MediaFileFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MediaFile"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MediaFile"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"store"}},{"kind":"Field","name":{"kind":"Name","value":"mediaType"}},{"kind":"Field","name":{"kind":"Name","value":"mimeType"}},{"kind":"Field","name":{"kind":"Name","value":"fileName"}},{"kind":"Field","name":{"kind":"Name","value":"fileHash"}},{"kind":"Field","name":{"kind":"Name","value":"fileSize"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"extension"}},{"kind":"Field","name":{"kind":"Name","value":"folderId"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"adminId"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"companyId"}},{"kind":"Field","name":{"kind":"Name","value":"visibility"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]} as unknown as DocumentNode<MediaFileFragment, unknown>;
 export const PaginateAdminRolesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PaginateAdminRoles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AdminRoleWhereInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AdminRoleOrderByWithRelationInput"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"paginateAdminRoles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"AdminRole"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Pagination"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AdminRole"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AdminRole"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Pagination"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"take"}},{"kind":"Field","name":{"kind":"Name","value":"skip"}},{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"totalPages"}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]} as unknown as DocumentNode<PaginateAdminRolesQuery, PaginateAdminRolesQueryVariables>;
@@ -3613,7 +3639,7 @@ export const LogoutDocument = {"kind":"Document","definitions":[{"kind":"Operati
 export const RefreshDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Refresh"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"refresh"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Login"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Login"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Login"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"accessType"}},{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"accessTimeout"}}]}}]} as unknown as DocumentNode<RefreshQuery, RefreshQueryVariables>;
 export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Login"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Login"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Login"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"accessType"}},{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"accessTimeout"}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
 export const SwitchAuthCompanyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SwitchAuthCompany"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"companyId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"switchAuthCompany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"companyId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"companyId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Login"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Login"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Login"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"accessType"}},{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"accessTimeout"}}]}}]} as unknown as DocumentNode<SwitchAuthCompanyMutation, SwitchAuthCompanyMutationVariables>;
-export const AuthInfoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AuthInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"authInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"expiredAt"}},{"kind":"Field","name":{"kind":"Name","value":"adminId"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"companyId"}},{"kind":"Field","name":{"kind":"Name","value":"device"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"}},{"kind":"Field","name":{"kind":"Name","value":"admin"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Admin"}}]}},{"kind":"Field","name":{"kind":"Name","value":"member"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Member"}}]}},{"kind":"Field","name":{"kind":"Name","value":"company"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Company"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Admin"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Admin"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"roleId"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"avatarUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Member"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"avatarUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Company"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Company"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"alias"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"logo"}},{"kind":"Field","name":{"kind":"Name","value":"logoUrl"}}]}}]} as unknown as DocumentNode<AuthInfoQuery, AuthInfoQueryVariables>;
+export const AuthInfoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AuthInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"authInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"expiredAt"}},{"kind":"Field","name":{"kind":"Name","value":"adminId"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"companyId"}},{"kind":"Field","name":{"kind":"Name","value":"device"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"client"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"}},{"kind":"Field","name":{"kind":"Name","value":"admin"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Admin"}}]}},{"kind":"Field","name":{"kind":"Name","value":"member"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Member"}}]}},{"kind":"Field","name":{"kind":"Name","value":"company"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Company"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Admin"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Admin"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"roleId"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"avatarUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Member"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"avatarUrl"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Company"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Company"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"alias"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"logo"}},{"kind":"Field","name":{"kind":"Name","value":"logoUrl"}}]}}]} as unknown as DocumentNode<AuthInfoQuery, AuthInfoQueryVariables>;
 export const TranslationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Translations"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"scopes"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"translations"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"scopes"},"value":{"kind":"Variable","name":{"kind":"Name","value":"scopes"}}}]}]}}]} as unknown as DocumentNode<TranslationsQuery, TranslationsQueryVariables>;
 export const HealthCheckDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"HealthCheck"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"healthCheck"}}]}}]} as unknown as DocumentNode<HealthCheckQuery, HealthCheckQueryVariables>;
 export const PaginateCompanyRolesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PaginateCompanyRoles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"CompanyRoleWhereInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CompanyRoleOrderByWithRelationInput"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"paginateCompanyRoles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CompanyRole"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Pagination"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CompanyRole"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CompanyRole"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"}},{"kind":"Field","name":{"kind":"Name","value":"companyId"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Pagination"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"take"}},{"kind":"Field","name":{"kind":"Name","value":"skip"}},{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"totalPages"}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]} as unknown as DocumentNode<PaginateCompanyRolesQuery, PaginateCompanyRolesQueryVariables>;

@@ -33,6 +33,7 @@ query AuthInfo {
 		device
 		location
 		target
+		client
 		permissions
 		admin {
 			...Admin

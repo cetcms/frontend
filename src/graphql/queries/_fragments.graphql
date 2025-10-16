@@ -80,7 +80,6 @@ fragment PermissionItem on PermissionItem {
 	group
 	action
 	actionLabel
-	targets
 }
 
 fragment PermissionGroupItem on PermissionGroupItem {
