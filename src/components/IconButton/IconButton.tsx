@@ -11,8 +11,10 @@ export type IconButtonProps = Omit<ActionIconProps, 'children'> & {
 };
 
 export const IconButton: React.FC<IconButtonProps> = ({ icon: Icon, tooltip, to, ...props }) => {
-  const button = to ? (
-    <ActionIcon radius="xl" variant="default" to={to} component={Link} {...props}>
+  let linkTo = to;
+  if (props.disabled) linkTo = null;
+  const button = linkTo ? (
+    <ActionIcon radius="xl" variant="default" to={linkTo} component={Link} {...props}>
       <Icon style={{ width: '70%', height: '70%' }} stroke={1.5} />
     </ActionIcon>
   ) : (

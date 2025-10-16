@@ -7,11 +7,12 @@ import { IconButton } from 'src/components';
 export type ActionColumnProps = {
   item: any;
   editRoute?: { path: string; paramFields: Record<string, string> };
+  editDisabled?: boolean | ((item: any) => boolean);
   viewRoute?: { path: string; paramFields: Record<string, string> };
   onDelete?: (item: any) => void;
 };
 
-export const ActionColumn: React.FC<ActionColumnProps> = ({ item, editRoute, viewRoute, onDelete }) => {
+export const ActionColumn: React.FC<ActionColumnProps> = ({ item, editRoute, editDisabled, viewRoute, onDelete }) => {
   const { t } = useTranslation();
   const handleSearchQuery = useCallback(
     (item: any, paramFields: Record<string, string>): string => {
@@ -28,6 +29,7 @@ export const ActionColumn: React.FC<ActionColumnProps> = ({ item, editRoute, vie
       <Group gap="xs" justify="right">
         {editRoute && (
           <IconButton
+            disabled={editDisabled && (typeof editDisabled === 'boolean' ? editDisabled : editDisabled(item))}
             icon={IconEdit}
             tooltip={t('edit')}
             to={{ pathname: editRoute.path, search: handleSearchQuery(item, editRoute.paramFields) }}

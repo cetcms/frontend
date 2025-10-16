@@ -23,6 +23,7 @@ export type DataTableProps = {
   addRoutePath?: string;
   editRoute?: ActionColumnProps['editRoute'];
   viewRoute?: ActionColumnProps['viewRoute'];
+  editDisabled?: ActionColumnProps['editDisabled'];
   onChangeRequest?: (params: RequestParams) => void;
   onDeleteItem?: (item: any) => any;
   render?: (record: any, index: number) => React.ReactNode;
@@ -39,6 +40,7 @@ export const DataTable: React.FC<DataTableProps> = ({
   pagination,
   loading,
   editRoute,
+  editDisabled,
   viewRoute,
   addRoutePath,
   onDeleteItem,
@@ -114,7 +116,9 @@ export const DataTable: React.FC<DataTableProps> = ({
       title: t('actions'),
       textAlign: 'right',
       width: 200,
-      render: (item: any) => <ActionColumn item={item} viewRoute={viewRoute} editRoute={editRoute} />,
+      render: (item: any) => (
+        <ActionColumn item={item} viewRoute={viewRoute} editRoute={editRoute} editDisabled={editDisabled} />
+      ),
     });
   }
 

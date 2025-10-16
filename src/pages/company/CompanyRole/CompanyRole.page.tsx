@@ -3,7 +3,14 @@ import { Badge } from '@mantine/core';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DataTable } from 'src/components';
-import { AdminRole, PaginateCompanyRolesDocument, PaginationFragment, PermissionAlias, Status } from 'src/graphql';
+import {
+  AdminRole,
+  CompanyRole,
+  PaginateCompanyRolesDocument,
+  PaginationFragment,
+  PermissionAlias,
+  Status,
+} from 'src/graphql';
 import { PagePermissionOption, useAuthStore } from 'src/store';
 
 export const CompanyRolePage: React.FC & PagePermissionOption = () => {
@@ -24,6 +31,7 @@ export const CompanyRolePage: React.FC & PagePermissionOption = () => {
   return (
     <DataTable
       editRoute={hasEdit ? { path: '/company/role/edit', paramFields: { id: 'id' } } : undefined}
+      editDisabled={(item: CompanyRole) => !item.companyId}
       addRoutePath={hasCreate ? '/company/role/add' : undefined}
       onChangeRequest={(params) => {
         refetch({

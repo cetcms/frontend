@@ -14,7 +14,7 @@ export const CurrentCompany = () => {
   if (company) whereNot.id = { not: { equals: company.id } };
 
   // 切换公司认证
-  const [switchAuthCompany, { loading }] = useSwitchAuthCompany('/company/list');
+  const [switchAuthCompany, { loading }] = useSwitchAuthCompany();
   // 列表数据获取
   const [loadCompanies, result] = useLazyQuery(PaginateCompaniesDocument, {
     fetchPolicy: 'network-only',
@@ -96,7 +96,7 @@ export const CurrentCompany = () => {
                 }
                 key={company.id}
                 leftSection={<Avatar src={company?.logo} size={24} radius={24} />}
-                onClick={() => switchAuthCompany(company.id, '/dashboard')}
+                onClick={() => switchAuthCompany(company.id)}
               />
             ))}
           </Stack>
