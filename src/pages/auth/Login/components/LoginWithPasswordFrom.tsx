@@ -2,11 +2,13 @@ import { useMutation } from '@apollo/client/react';
 import { Anchor, Button, Center, Checkbox, Group, Modal, PasswordInput, Stack, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
-import React from 'react';
+import { notifications } from '@mantine/notifications';
+import { IconX } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router';
 import { Captcha } from 'src/components';
 import { Login, LoginDocument, Target } from 'src/graphql';
+import { useParseApolloErrors } from 'src/hooks';
 import { useAuthStore } from 'src/store';
 
 interface LoginFormValues {
@@ -22,6 +24,7 @@ export const LoginWithPasswordForm = () => {
   const { t } = useTranslation(['auth']);
   const [searchParams] = useSearchParams();
   const [opened, { open, close }] = useDisclosure(false);
+  const [parseHandler, { resetErrors }] = useParseApolloErrors();
   const form = useForm<LoginFormValues>({
     initialValues: {
       email: '',
@@ -41,6 +44,7 @@ export const LoginWithPasswordForm = () => {
   const { setLogin } = useAuthStore();
   const [loginMutation, { loading }] = useMutation(LoginDocument);
   const handleSubmit = (values: LoginFormValues) => {
+    resetErrors();
     loginMutation({
       variables: {
         input: {
@@ -49,12 +53,39 @@ export const LoginWithPasswordForm = () => {
           target: target || undefined,
         },
       },
-    }).then(({ data }) => {
-      if (data?.login) {
-        setLogin(data.login as Login);
-        location.reload();
-      }
-    });
+    })
+      .then(({ data }) => {
+        if (data?.login) {
+          notifications.show({
+            color: 'green',
+            title: '登录成功',
+            message: '欢迎回来！正在跳转…',
+          });
+          setLogin(data.login as Login);
+          location.reload();
+        }
+      })
+      .catch((exception) => {
+        const parsed = parseHandler(exception);
+        if (parsed && parsed.size) {
+          for (const [, error] of parsed) {
+            const detail = error.errors?.[0]?.message;
+            notifications.show({
+              color: 'red',
+              title: '登录失败',
+              icon: <IconX size={20} />,
+              message: detail ? `${error.message}：${detail}` : error.message,
+            });
+          }
+        } else {
+          notifications.show({
+            color: 'red',
+            title: '登录失败',
+            icon: <IconX size={20} />,
+            message: '发生未知错误，请稍后重试',
+          });
+        }
+      });
   };
 
   return (
