@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router';
 import { Upload } from 'src/components/FormInputs';
 import { FormPageAction, FormPageErrors } from 'src/components/FormPage';
 import { Company, CompanyCreateInput, CreateOneCompanyDocument, Status, UpdateOneCompanyDocument } from 'src/graphql';
-import { useParseApolloErrors } from 'src/hooks';
+import { useOnAuthClient, useParseApolloErrors } from 'src/hooks';
 import { PagePermissionOption } from 'src/store';
 
 export type CompanyFormProps = {
@@ -18,13 +18,16 @@ export type CompanyFormProps = {
 export type CompanyFormValues = CompanyCreateInput;
 
 export const CompanyForm: React.FC<CompanyFormProps> & PagePermissionOption = ({ item }) => {
-  const backTo = '/company/list';
   const { t } = useTranslation('models');
   const navigate = useNavigate();
   const [createCompany, { loading: creating }] = useMutation(CreateOneCompanyDocument);
   const [updateCompany, { loading: updating }] = useMutation(UpdateOneCompanyDocument);
 
   const [parseHandler, { errors, resetErrors }] = useParseApolloErrors();
+  const backTo = useOnAuthClient({
+    default: '/company/list',
+    company: '',
+  });
 
   const form = useForm<CompanyFormValues>({
     initialValues: {
@@ -64,7 +67,9 @@ export const CompanyForm: React.FC<CompanyFormProps> & PagePermissionOption = ({
             title: '成功提示',
             message: `已成功更新公司: ${company.name}`,
           });
-          navigate(backTo);
+          setTimeout(() => {
+            location.reload();
+          }, 1000);
         })
         .catch(parseHandler);
     } else {
@@ -78,7 +83,7 @@ export const CompanyForm: React.FC<CompanyFormProps> & PagePermissionOption = ({
             title: '成功提示',
             message: `已成功添加公司: ${company.name}`,
           });
-          navigate(backTo);
+          navigate('/company/list');
         })
         .catch(parseHandler);
     }
@@ -90,7 +95,6 @@ export const CompanyForm: React.FC<CompanyFormProps> & PagePermissionOption = ({
       <Stack maw={800} gap="md">
         <FormPageAction
           backTo={backTo}
-          title={item ? '编辑公司' : '添加公司'}
           isDirty={form.isDirty()}
           onReset={() => {
             form.reset();

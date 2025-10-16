@@ -1,8 +1,9 @@
 import { useLazyQuery } from '@apollo/client/react';
-import { Avatar, Button, Divider, Popover, rem, Stack, TextInput } from '@mantine/core';
+import { Avatar, Button, Divider, Popover, rem, Stack, Text, TextInput, NavLink } from '@mantine/core';
 import { IconChevronDown, IconLogout, IconSearch } from '@tabler/icons-react';
 import { useDebounceFn } from 'ahooks';
-import { Company, CompanyWhereInput, PaginateCompaniesDocument, Pagination } from 'src/graphql';
+import { useState } from 'react';
+import { Company, CompanyWhereInput, PaginateCompaniesDocument } from 'src/graphql';
 import { useSwitchAuthCompany } from 'src/hooks';
 import { useAuthStore } from 'src/store';
 
@@ -20,7 +21,8 @@ export const CurrentCompany = () => {
   });
   const take = 10;
   const companies = (result?.data?.paginateCompanies.items || []) as Company[];
-  const pagination = (result?.data?.paginateCompanies.pagination || {}) as Pagination;
+
+  const [searchValue, setSearchValue] = useState('');
   const handleSearch = useDebounceFn(
     (value: string) => {
       const where: CompanyWhereInput = {};
@@ -40,12 +42,14 @@ export const CurrentCompany = () => {
     { wait: 300 }
   );
 
+  // 保持输入框稳定渲染与受控，避免加载状态导致的卸载和闪动
+
   if (!company) {
     return null;
   }
   return (
     <Popover
-      disabled={loading || result?.loading}
+      width={280}
       position="bottom"
       withArrow
       shadow="md"
@@ -73,25 +77,29 @@ export const CurrentCompany = () => {
       </Popover.Target>
       <Popover.Dropdown>
         <Stack gap="xs">
-          {!!pagination?.totalCount && pagination?.totalCount > take && (
-            <TextInput
-              leftSection={<IconSearch size={14} />}
-              placeholder="搜索公司"
-              onChange={(e) => handleSearch.run(e.target.value)}
-            />
-          )}
-          {companies.map((company) => (
-            <Button
-              size="xs"
-              fullWidth
-              variant="default"
-              key={company.id}
-              leftSection={<Avatar src={company?.logo} size={24} radius={24} />}
-              onClick={() => switchAuthCompany(company.id)}
-            >
-              {company?.name}
-            </Button>
-          ))}
+          <TextInput
+            leftSection={<IconSearch size={14} />}
+            placeholder="搜索公司"
+            value={searchValue}
+            onChange={(e) => {
+              setSearchValue(e.target.value);
+              handleSearch.run(e.target.value);
+            }}
+          />
+          <Stack gap={0}>
+            {companies.map((company) => (
+              <NavLink
+                label={
+                  <Text lineClamp={1} w="100%" size="xs">
+                    {company?.name}
+                  </Text>
+                }
+                key={company.id}
+                leftSection={<Avatar src={company?.logo} size={24} radius={24} />}
+                onClick={() => switchAuthCompany(company.id, '/dashboard')}
+              />
+            ))}
+          </Stack>
           {!!companies?.length && <Divider />}
           <Button
             size="xs"
@@ -99,7 +107,7 @@ export const CurrentCompany = () => {
             fullWidth
             rightSection={<IconLogout size={16} />}
             onClick={() => switchAuthCompany()}
-            loading={loading}
+            disabled={loading}
           >
             {admin ? '退回管理员平台' : '退回个人账号平台'}
           </Button>
