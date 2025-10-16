@@ -15,11 +15,11 @@ dayjs.locale('ja');
 dayjs.locale('ko');
 
 const localeAlias = {
-  zh: 'zh',
-  zhHant: 'zh-hk',
-  en: 'en',
-  ja: 'ja',
   ko: 'ko',
+  zhHant: 'zh-hk',
+  ja: 'ja',
+  zh: 'zh',
+  en: 'en',
 };
 
 export const useDate = () => {
@@ -30,7 +30,7 @@ export const useDate = () => {
       const target = dayjs(date);
       const diffDays = now.diff(target, 'day');
       if (diffDays > 1) {
-        return dayjs(date).format('YYYY-MM-DD');
+        return dayjs(date).format('YYYY-MM-DD A');
       }
       return dayjs(date)
         .locale(localeAlias[i18n.language as keyof typeof localeAlias])

@@ -1,10 +1,10 @@
-import { ActionIcon, Badge, Group, Text, Tooltip, Image, HoverCard } from '@mantine/core';
+import { ActionIcon, Badge, Group, Tooltip, Image, HoverCard } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconClock, IconHash } from '@tabler/icons-react';
 import { useCopyToClipboard } from '@uidotdev/usehooks';
-import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { DataTableProps } from 'src/components';
+import { useDate } from 'src/hooks';
 
 export const columnsHandler = (columns: DataTableProps['columns']) => {
   return columns.map((column) => {
@@ -12,15 +12,11 @@ export const columnsHandler = (columns: DataTableProps['columns']) => {
       column.width = 150;
       column.textAlign = 'center';
       column.render = (item: any) => {
-        const { t } = useTranslation();
+        const { formatFriendlyTime } = useDate();
         return (
-          <Group justify="center" gap={0}>
-            <Group gap={10} ta="left">
-              <IconClock size={14} />
-              <Text size="xs" fz={10} style={{ whiteSpace: 'pre-line' }}>
-                {dayjs(item[column.accessor]).format(t('YYYY-MM-DD HH:mm:ss'))}
-              </Text>
-            </Group>
+          <Group justify="center" gap="xs">
+            <IconClock size={14} />
+            {formatFriendlyTime(item[column.accessor])}
           </Group>
         );
       };
