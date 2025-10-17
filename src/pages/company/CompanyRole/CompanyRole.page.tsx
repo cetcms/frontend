@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client/react';
-import { Badge } from '@mantine/core';
+import { Badge, Group, Text } from '@mantine/core';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DataTable } from 'src/components';
@@ -53,6 +53,15 @@ export const CompanyRolePage: React.FC & PagePermissionOption = () => {
           accessor: 'name',
           title: t('CompanyRole.name'),
           type: 'string',
+          render: (_item) => {
+            const item: CompanyRole = _item as any;
+            return (
+              <Group gap="xs">
+                <Text size="xs">{item.name}</Text>
+                {!item?.companyId && <Badge variant="light">系统角色</Badge>}
+              </Group>
+            );
+          },
         },
         {
           accessor: 'code',
