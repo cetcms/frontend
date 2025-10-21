@@ -2,6 +2,7 @@ import { useQuery } from '@apollo/client/react';
 import { ActionIcon, Avatar, Badge, Group, Menu, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconBell } from '@tabler/icons-react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ListSelfNotificationsDocument, Notification } from 'src/graphql';
 import { useDate } from 'src/hooks/useDate';
@@ -15,8 +16,13 @@ interface ActionNotificationProps {
 export const ActionNotification = ({ onNotificationClick }: ActionNotificationProps) => {
   const { t } = useTranslation();
   const [opened, { toggle }] = useDisclosure();
-  const { data, loading } = useQuery(ListSelfNotificationsDocument);
+  const { data, loading, refetch } = useQuery(ListSelfNotificationsDocument);
   const { formatFriendlyTime } = useDate();
+
+  useEffect(() => {
+    const timer = setInterval(refetch, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   const handleNotificationClick = (notification: Notification) => {
     onNotificationClick?.(notification);

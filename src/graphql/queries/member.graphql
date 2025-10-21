@@ -10,6 +10,22 @@ query PaginateMembers($take: Int, $skip: Int, $where: MemberWhereInput, $orderBy
 	}
 }
 
+query ListSearchMembers($keyword: String) {
+	listSearchMembers(keyword: $keyword) {
+		items {
+			...Member
+			companies {
+				companyId
+			}
+		}
+		pagination {
+			...Pagination
+		}
+	}
+}
+
+
+
 query FindOneMember($id: String!) {
 	findOneMember(where: { id: $id }) {
 		...Member

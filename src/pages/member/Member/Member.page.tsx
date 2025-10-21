@@ -5,6 +5,8 @@ import { DataTable } from 'src/components';
 import { PaginateMembersDocument, PaginationFragment, PermissionAlias, Status } from 'src/graphql';
 import { PagePermissionOption, useAuthStore } from 'src/store';
 
+import { BindToCompany } from './components';
+
 export const MemberPage: React.FC & PagePermissionOption = () => {
   const { t } = useTranslation('models');
 
@@ -17,7 +19,7 @@ export const MemberPage: React.FC & PagePermissionOption = () => {
   const items = paginateMembers?.items || [];
 
   // 权限检查
-  const { checkPermission } = useAuthStore();
+  const { checkPermission, isCompany } = useAuthStore();
   const hasCreate = checkPermission(PermissionAlias.CreateOneCompany);
   const hasEdit = checkPermission(PermissionAlias.UpdateOneCompany);
   return (
@@ -76,6 +78,14 @@ export const MemberPage: React.FC & PagePermissionOption = () => {
           type: 'date',
         },
       ]}
+      toolbarPrepend={(current) => {
+        return (
+          <>
+            {isCompany && <BindToCompany />}
+            {current}
+          </>
+        );
+      }}
     />
   );
 };

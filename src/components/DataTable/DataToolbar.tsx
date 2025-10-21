@@ -12,6 +12,8 @@ export interface DataToolbarProps {
   onFilterChange?: FilterButtonProps['onFilterChange'];
   columns: ColumnButtonProps['columns'];
   onChangeColumns: ColumnButtonProps['onChangeColumns'];
+  append?: (current: React.ReactNode) => React.ReactNode;
+  prepend?: (current: React.ReactNode) => React.ReactNode;
 }
 
 export const DataToolbar: React.FC<DataToolbarProps> = ({
@@ -20,26 +22,28 @@ export const DataToolbar: React.FC<DataToolbarProps> = ({
   onChangeColumns,
   fields,
   onFilterChange,
+  append,
+  prepend,
 }) => {
-  const leftGroup = (
-    <Group>
+  const perpendCurrent = (
+    <>
       {!!addRoutePath && (
         <Button leftSection={<IconPlus size={14} />} variant="filled" component={Link} to={addRoutePath}>
           创建
         </Button>
       )}
-
       {!!fields?.length && <FilterButton fields={fields} onFilterChange={onFilterChange} />}
       <Divider orientation="vertical" />
-    </Group>
+    </>
   );
+
+  const columnButton = <ColumnButton columns={columns} onChangeColumns={onChangeColumns} />;
+  const appendCurrent = <>{columnButton}</>;
 
   return (
     <Group m="md" justify="space-between">
-      {(!!addRoutePath || !!fields?.length) && leftGroup}
-      <Group>
-        <ColumnButton columns={columns} onChangeColumns={onChangeColumns} />
-      </Group>
+      <Group>{prepend ? prepend(perpendCurrent) : perpendCurrent}</Group>
+      <Group>{append ? append(appendCurrent) : appendCurrent}</Group>
     </Group>
   );
 };

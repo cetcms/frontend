@@ -8,7 +8,7 @@ import { FilterFieldConfig } from '../DataFilter';
 
 import { ActionColumn, ActionColumnProps } from './ActionColumn';
 import { columnsHandler } from './columns.handler';
-import { DataToolbar } from './DataToolbar';
+import { DataToolbar, DataToolbarProps } from './DataToolbar';
 
 export type RequestParams = {
   page: number;
@@ -27,6 +27,8 @@ export type DataTableProps = {
   onChangeRequest?: (params: RequestParams) => void;
   onDeleteItem?: (item: any) => any;
   render?: (record: any, index: number) => React.ReactNode;
+  toolbarPrepend?: DataToolbarProps['prepend'];
+  toolbarAppend?: DataToolbarProps['append'];
   columns: Array<
     DataTableColumn & {
       hiddenFilter?: boolean;
@@ -45,6 +47,8 @@ export const DataTable: React.FC<DataTableProps> = ({
   addRoutePath,
   onDeleteItem,
   onChangeRequest,
+  toolbarPrepend,
+  toolbarAppend,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -141,6 +145,8 @@ export const DataTable: React.FC<DataTableProps> = ({
         onFilterChange={handleFilterChange}
         onChangeColumns={onChangeColumns}
         columns={props.columns}
+        prepend={toolbarPrepend}
+        append={toolbarAppend}
       />
       <Card m="md" withBorder>
         <MDataTable {...props} columns={[...columnsHandler(columns), ...expandColumns]} />

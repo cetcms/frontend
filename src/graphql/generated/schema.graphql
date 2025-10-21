@@ -243,6 +243,7 @@ type CompanyMember {
 	company: Company!
 	companyId: String!
 	createdAt: DateTime!
+	invitePassed: Boolean!
 	member: Member!
 	memberId: String!
 	role: CompanyRole!
@@ -255,6 +256,7 @@ type CompanyMemberCountAggregate {
 	_all: Int!
 	companyId: Int!
 	createdAt: Int!
+	invitePassed: Int!
 	memberId: Int!
 	roleId: Int!
 	status: Int!
@@ -264,6 +266,7 @@ type CompanyMemberCountAggregate {
 type CompanyMemberMaxAggregate {
 	companyId: String
 	createdAt: DateTime
+	invitePassed: Boolean
 	memberId: String
 	roleId: String
 	status: Status
@@ -273,6 +276,7 @@ type CompanyMemberMaxAggregate {
 type CompanyMemberMinAggregate {
 	companyId: String
 	createdAt: DateTime
+	invitePassed: Boolean
 	memberId: String
 	roleId: String
 	status: Status
@@ -604,6 +608,7 @@ type Mutation {
 	createOneCompanyRole(data: CompanyRoleCreateInput!): CompanyRole!
 	createOneMember(data: MemberCreateInput!): Member!
 	deleteAdminCompany(adminId: String!, companyId: String!): Boolean!
+	inviteMemberToCompany(memberId: String!, roleId: String!): Notification!
 	login(input: LoginInput!): Login!
 	switchAuthCompany(companyId: String): Login!
 	updateOneAdmin(data: AdminUpdateInput!, where: AdminWhereUniqueInput!): Admin!
@@ -633,7 +638,7 @@ type Notification {
 	options: JSON
 	priority: Int!
 	privacy: NotificationPrivacy!
-	receiver: [String!]
+	receivers: [String!]
 	recipients: [NotificationRecipient!]
 	sender: NotificationTarget!
 	senderId: String
@@ -660,7 +665,7 @@ type NotificationCountAggregate {
 	options: Int!
 	priority: Int!
 	privacy: Int!
-	receiver: Int!
+	receivers: Int!
 	sender: Int!
 	senderId: Int!
 	sentAt: Int!
@@ -879,8 +884,10 @@ type Query {
 	healthCheck: String!
 	helloWorld: String!
 	listAdminRolePermission(where: AdminRoleWhereUniqueInput): PermissionGroup!
+	listCompanyRole(where: CompanyRoleWhereInput): PaginatedCompanyRole!
 	listCompanyRolePermission(where: CompanyRoleWhereUniqueInput): PermissionGroup!
 	listMediaFiles(fileIds: [String!]!): [MediaFile!]!
+	listSearchMembers(keyword: String): PaginatedMember!
 	listSelfNotifications: [Notification!]!
 	logout: Boolean!
 	paginateAdminCompanies(cursor: AdminCompanyWhereUniqueInput, distinct: [AdminCompanyScalarFieldEnum!], orderBy: [AdminCompanyOrderByWithRelationInput!], skip: Int, take: Int, where: AdminCompanyWhereInput): PaginatedAdminCompany!
@@ -1052,6 +1059,7 @@ enum Client {
 enum CompanyMemberScalarFieldEnum {
 	companyId
 	createdAt
+	invitePassed
 	memberId
 	roleId
 	status
@@ -1150,7 +1158,7 @@ enum NotificationScalarFieldEnum {
 	options
 	priority
 	privacy
-	receiver
+	receivers
 	sender
 	senderId
 	sentAt
@@ -1206,8 +1214,11 @@ enum PermissionAlias {
 	FindSelfAdmin
 	FindSelfCompany
 	FindSelfMember
+	InviteMemberToCompany
 	ListAdminRolePermission
+	ListCompanyRole
 	ListCompanyRolePermission
+	ListSearchMembers
 	ListSelfNotifications
 	PaginateAdminCompanies
 	PaginateAdminRoles
@@ -1636,6 +1647,7 @@ input CompanyMemberCompanyMemberIdxCompoundUniqueInput {
 
 input CompanyMemberCreateInput {
 	company: CompanyCreateNestedOneWithoutMembersInput!
+	invitePassed: Boolean
 	member: MemberCreateNestedOneWithoutCompaniesInput!
 	role: CompanyRoleCreateNestedOneWithoutMembersInput!
 	status: Status
@@ -1659,6 +1671,7 @@ input CompanyMemberOrderByWithRelationInput {
 	company: CompanyOrderByWithRelationInput
 	companyId: SortOrder
 	createdAt: SortOrder
+	invitePassed: SortOrder
 	member: MemberOrderByWithRelationInput
 	memberId: SortOrder
 	role: CompanyRoleOrderByWithRelationInput
@@ -1669,6 +1682,7 @@ input CompanyMemberOrderByWithRelationInput {
 
 input CompanyMemberUpdateInput {
 	company: CompanyUpdateOneRequiredWithoutMembersNestedInput
+	invitePassed: Boolean
 	member: MemberUpdateOneRequiredWithoutCompaniesNestedInput
 	role: CompanyRoleUpdateOneRequiredWithoutMembersNestedInput
 	status: Status
@@ -1686,6 +1700,7 @@ input CompanyMemberWhereInput {
 	company: CompanyScalarRelationFilter
 	companyId: StringFilter
 	createdAt: DateTimeFilter
+	invitePassed: BoolFilter
 	member: MemberScalarRelationFilter
 	memberId: StringFilter
 	role: CompanyRoleScalarRelationFilter
@@ -1698,6 +1713,7 @@ input CompanyMemberWhereUniqueInput {
 	company: CompanyScalarRelationFilter
 	companyId: StringFilter
 	companyMemberIdx: CompanyMemberCompanyMemberIdxCompoundUniqueInput
+	invitePassed: BoolFilter
 	member: MemberScalarRelationFilter
 	memberId: StringFilter
 	role: CompanyRoleScalarRelationFilter
@@ -2586,7 +2602,7 @@ input NotificationOrderByWithRelationInput {
 	options: SortOrderInput
 	priority: SortOrder
 	privacy: SortOrder
-	receiver: SortOrder
+	receivers: SortOrder
 	recipients: NotificationRecipientOrderByRelationAggregateInput
 	sender: SortOrder
 	senderId: SortOrderInput
@@ -2745,7 +2761,7 @@ input NotificationWhereInput {
 	options: JsonNullableFilter
 	priority: IntFilter
 	privacy: EnumNotificationPrivacyFilter
-	receiver: StringNullableListFilter
+	receivers: StringNullableListFilter
 	recipients: NotificationRecipientListRelationFilter
 	sender: EnumNotificationTargetFilter
 	senderId: StringNullableFilter
@@ -2769,7 +2785,7 @@ input NotificationWhereUniqueInput {
 	options: JsonNullableFilter
 	priority: IntFilter
 	privacy: EnumNotificationPrivacyFilter
-	receiver: StringNullableListFilter
+	receivers: StringNullableListFilter
 	recipients: NotificationRecipientListRelationFilter
 	sender: EnumNotificationTargetFilter
 	senderId: StringNullableFilter

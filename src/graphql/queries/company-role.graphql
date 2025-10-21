@@ -3,6 +3,9 @@ query PaginateCompanyRoles($take: Int, $skip: Int, $where: CompanyRoleWhereInput
 	paginateCompanyRoles(take: $take, skip: $skip, where: $where, orderBy: $orderBy) {
 		items {
 			...CompanyRole
+			company {
+				...Company
+			}
 		}
 		pagination {
 			...Pagination

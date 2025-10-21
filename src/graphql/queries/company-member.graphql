@@ -1,0 +1,23 @@
+
+mutation InviteMemberToCompany($memberId: String!, $roleId: String!) {
+	inviteMemberToCompany(memberId: $memberId, roleId: $roleId) {
+		id
+		createdAt
+		updatedAt
+		sentAt
+		title
+		content
+		options
+		status
+		priority
+		category
+		senderId
+		sender
+		receivers
+		privacy
+		type
+		adminId
+		memberId
+		companyId
+	}
+}

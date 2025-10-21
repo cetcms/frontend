@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client/react';
-import { Badge, Group, Text } from '@mantine/core';
+import { Badge } from '@mantine/core';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DataTable } from 'src/components';
@@ -15,6 +15,7 @@ import { PagePermissionOption, useAuthStore } from 'src/store';
 
 export const CompanyRolePage: React.FC & PagePermissionOption = () => {
   const { t } = useTranslation('models');
+  const { isAdmin } = useAuthStore();
 
   // 列表数据获取
   const { data, loading, refetch } = useQuery(PaginateCompanyRolesDocument, {
@@ -31,7 +32,7 @@ export const CompanyRolePage: React.FC & PagePermissionOption = () => {
   return (
     <DataTable
       editRoute={hasEdit ? { path: '/company/role/edit', paramFields: { id: 'id' } } : undefined}
-      editDisabled={(item: CompanyRole) => !item.companyId}
+      editDisabled={(item: CompanyRole) => !item.companyId && !isAdmin}
       addRoutePath={hasCreate ? '/company/role/add' : undefined}
       onChangeRequest={(params) => {
         refetch({
@@ -53,20 +54,28 @@ export const CompanyRolePage: React.FC & PagePermissionOption = () => {
           accessor: 'name',
           title: t('CompanyRole.name'),
           type: 'string',
-          render: (_item) => {
-            const item: CompanyRole = _item as any;
-            return (
-              <Group gap="xs">
-                <Text size="xs">{item.name}</Text>
-                {!item?.companyId && <Badge variant="light">系统角色</Badge>}
-              </Group>
-            );
-          },
         },
         {
           accessor: 'code',
           title: t('CompanyRole.code'),
           type: 'string',
+        },
+        {
+          accessor: 'company.name',
+          title: '角色所属',
+          type: 'string',
+          textAlign: 'center',
+          render: (_item) => {
+            const item: CompanyRole = _item as any;
+            if (!item?.company) {
+              return (
+                <Badge variant="light" color="red">
+                  系统角色
+                </Badge>
+              );
+            }
+            return <Badge variant="light">{item.company.name}</Badge>;
+          },
         },
         {
           accessor: 'permissions',
