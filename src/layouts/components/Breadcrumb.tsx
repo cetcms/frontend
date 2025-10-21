@@ -2,7 +2,8 @@ import { Breadcrumbs, Button, Text } from '@mantine/core';
 import React from 'react';
 import { NavLink } from 'react-router';
 import { Iconify } from 'src/components';
-import { useMenuStore, MenuItem } from 'src/store';
+import type { MenuItem } from 'src/router/menus';
+import { useMenuStore } from 'src/store';
 
 /**
  * 面包屑导航组件

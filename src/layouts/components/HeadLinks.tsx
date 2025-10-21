@@ -3,7 +3,7 @@ import { Button, Card, Divider, Group } from '@mantine/core';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router';
-import { MenuItem } from 'src/store';
+import type { MenuItem } from 'src/router/menus';
 
 export interface HeadLinksProps {
   links?: MenuItem[];
