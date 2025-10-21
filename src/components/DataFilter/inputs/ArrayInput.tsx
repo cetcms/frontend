@@ -1,43 +1,49 @@
-import { TextInput, SegmentedControl } from '@mantine/core';
+import { MultiSelect, Select, TextInput } from '@mantine/core';
 import React from 'react';
 
 import { FilterFieldType, FilterItemConfig, FilterFieldConfig, FilterFieldInputProps } from '../types';
+import { buildNestedWhereFromAccessor } from '../utils';
 
-const ArrayInputComponent: React.FC<FilterFieldInputProps> = ({
-  value,
-  onChange,
-  size,
-  operator,
-  placeholder = '值',
-}) => {
-  // 根据操作符类型决定使用哪种输入控件
-  switch (operator) {
-    case 'isEmpty':
-      // isEmpty 使用与boolean类型相同的输入控件
-      return (
-        <SegmentedControl
-          w={size === 'xs' ? 130 : 200}
-          size={size}
-          onChange={(val) => onChange(val === 'true')}
-          value={value.toString()}
-          data={[
-            { label: 'False', value: 'false' },
-            { label: 'True', value: 'true' },
-          ]}
-        />
-      );
-    default:
-      // 所有其他操作符使用逗号分隔的文本输入框
-      return (
-        <TextInput
-          w={size === 'xs' ? 130 : 200}
-          size={size}
-          placeholder={placeholder}
-          value={value.toString()}
-          onChange={(e) => onChange(e.target.value)}
-        />
-      );
+// 为数组类型提供多种输入控件
+const ArrayInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChange, size, operator, options = [] }) => {
+  // 处理不同操作符对应的输入类型
+  if (operator === 'isEmpty') {
+    // isEmpty 使用布尔开关或分段控制，这里简化为文本输入 true/false
+    return (
+      <Select
+        w={size === 'xs' ? 130 : 200}
+        size={size}
+        value={String(value)}
+        onChange={(val) => onChange(val === 'true')}
+        data={[
+          { label: 'True', value: 'true' },
+          { label: 'False', value: 'false' },
+        ]}
+      />
+    );
   }
+
+  if (operator === 'has') {
+    // has 操作符需要单个值
+    if (options.length) {
+      return <Select w={size === 'xs' ? 130 : 200} size={size} data={options} value={value} onChange={onChange} />;
+    }
+    return (
+      <TextInput w={size === 'xs' ? 130 : 200} size={size} value={value} onChange={(e) => onChange(e.target.value)} />
+    );
+  }
+
+  // 其他操作符（equals, hasEvery, hasSome）使用多选
+  const multiValue = Array.isArray(value)
+    ? value
+    : value
+      ? String(value)
+          .split(',')
+          .map((v) => v.trim())
+      : [];
+  return (
+    <MultiSelect w={size === 'xs' ? 130 : 200} size={size} data={options} value={multiValue} onChange={onChange} />
+  );
 };
 
 // Array 类型字段的操作符
@@ -80,9 +86,7 @@ const genPrismaWhere = (items: FilterItemConfig[], _fields: FilterFieldConfig[])
         }
     }
 
-    return {
-      [item.field]: condition,
-    };
+    return buildNestedWhereFromAccessor(item.field, condition);
   });
 };
 

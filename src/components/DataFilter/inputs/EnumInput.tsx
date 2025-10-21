@@ -2,6 +2,7 @@ import { Select, MultiSelect } from '@mantine/core';
 import React from 'react';
 
 import { FilterFieldType, FilterItemConfig, FilterFieldConfig, FilterFieldInputProps } from '../types';
+import { buildNestedWhereFromAccessor } from '../utils';
 
 const EnumInputComponent: React.FC<FilterFieldInputProps> = ({
   value,
@@ -63,9 +64,7 @@ const genPrismaWhere = (items: FilterItemConfig[], _fields: FilterFieldConfig[])
       condition[item.operator] = item.value;
     }
 
-    return {
-      [item.field]: condition,
-    };
+    return buildNestedWhereFromAccessor(item.field, condition);
   });
 };
 

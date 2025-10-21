@@ -2,6 +2,7 @@ import { NumberInput as MantineNumberInput } from '@mantine/core';
 import React from 'react';
 
 import { FilterFieldType, FilterItemConfig, FilterFieldConfig, FilterFieldInputProps } from '../types';
+import { buildNestedWhereFromAccessor } from '../utils';
 
 const NumberInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChange, size, placeholder = '值' }) => {
   return (
@@ -30,9 +31,7 @@ const genPrismaWhere = (items: FilterItemConfig[], _fields: FilterFieldConfig[])
   return items.map((item) => {
     const condition: any = {};
     condition[item.operator] = item.value;
-    return {
-      [item.field]: condition,
-    };
+    return buildNestedWhereFromAccessor(item.field, condition);
   });
 };
 

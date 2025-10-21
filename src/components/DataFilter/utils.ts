@@ -39,6 +39,25 @@ export const createNewFilter = (fields: FilterFieldConfig[]) => {
   return { id: Date.now(), field: firstField.accessor, operator: defaultOperator, value: initialValue };
 };
 
+// 根据 accessor 构建嵌套的 Prisma where 结构，支持 "company.name" 等点号访问
+// 目前默认使用 to-one 关系的 "is" 包裹；如需列表关系请在后续扩展为 "some/every/none"
+export const buildNestedWhereFromAccessor = (accessor: string, leafCondition: any) => {
+  const parts = accessor.split('.').filter(Boolean);
+  if (parts.length === 0) return {};
+
+  // 叶子字段
+  const leafField = parts[parts.length - 1];
+  let current: any = { [leafField]: leafCondition };
+
+  // 由内向外包裹关系层，默认使用 is
+  for (let i = parts.length - 2; i >= 0; i--) {
+    const relation = parts[i];
+    current = { [relation]: { is: current } };
+  }
+
+  return current;
+};
+
 // 生成 Prisma 查询结构
 export const generatePrismaFilter = (
   filterFields: FilterItemConfig[],
