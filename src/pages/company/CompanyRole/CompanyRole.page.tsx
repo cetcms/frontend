@@ -15,7 +15,7 @@ import { PagePermissionOption, useAuthStore } from 'src/store';
 
 export const CompanyRolePage: React.FC & PagePermissionOption = () => {
   const { t } = useTranslation('models');
-  const { isAdmin } = useAuthStore();
+  const { isAdmin, isCompany } = useAuthStore();
 
   // 列表数据获取
   const { data, loading, refetch } = useQuery(PaginateCompanyRolesDocument, {
@@ -73,6 +73,9 @@ export const CompanyRolePage: React.FC & PagePermissionOption = () => {
                   系统角色
                 </Badge>
               );
+            }
+            if (isCompany) {
+              return <Badge variant="light">企业角色</Badge>;
             }
             return <Badge variant="light">{item.company.name}</Badge>;
           },

@@ -72,7 +72,7 @@ export const CompanyPage: React.FC & PagePermissionOption = () => {
             const company = item as Company;
             return (
               <Center>
-                <IconButton icon={IconLogin2} tooltip={t('edit')} onClick={() => switchAuthCompany(company.id)} />
+                <IconButton icon={IconLogin2} tooltip={t('edit')} onClick={() => switchAuthCompany(company.id, '/')} />
               </Center>
             );
           },
