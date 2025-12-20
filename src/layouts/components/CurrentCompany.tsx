@@ -3,7 +3,7 @@ import { Avatar, Button, Divider, Popover, rem, Stack, Text, TextInput, NavLink 
 import { IconChevronDown, IconLogout, IconSearch } from '@tabler/icons-react';
 import { useDebounceFn } from 'ahooks';
 import { useState } from 'react';
-import { Company, CompanyWhereInput, PaginateCompaniesDocument } from 'src/graphql';
+import { Company, CompanyWhereInput, PaginateCompaniesDocument, Pagination } from 'src/graphql';
 import { useSwitchAuthCompany } from 'src/hooks';
 import { useAuthStore } from 'src/store';
 
@@ -20,7 +20,9 @@ export const CurrentCompany = () => {
     fetchPolicy: 'network-only',
   });
   const take = 10;
-  const companies = (result?.data?.paginateCompanies.items || []) as Company[];
+  const paginateCompanies = result?.data?.paginateCompanies || {};
+  const companies = (paginateCompanies.items || []) as Company[];
+  const pagination = (paginateCompanies.pagination || {}) as Pagination;
 
   const [searchValue, setSearchValue] = useState('');
   const handleSearch = useDebounceFn(
@@ -77,29 +79,33 @@ export const CurrentCompany = () => {
       </Popover.Target>
       <Popover.Dropdown>
         <Stack gap="xs">
-          <TextInput
-            leftSection={<IconSearch size={14} />}
-            placeholder="搜索公司"
-            value={searchValue}
-            onChange={(e) => {
-              setSearchValue(e.target.value);
-              handleSearch.run(e.target.value);
-            }}
-          />
-          <Stack gap={0}>
-            {companies.map((company) => (
-              <NavLink
-                label={
-                  <Text lineClamp={1} w="100%" size="xs">
-                    {company?.name}
-                  </Text>
-                }
-                key={company.id}
-                leftSection={<Avatar src={company?.logo} size={24} radius={24} />}
-                onClick={() => switchAuthCompany(company.id)}
-              />
-            ))}
-          </Stack>
+          {pagination?.totalCount > take && (
+            <TextInput
+              leftSection={<IconSearch size={14} />}
+              placeholder="搜索公司"
+              value={searchValue}
+              onChange={(e) => {
+                setSearchValue(e.target.value);
+                handleSearch.run(e.target.value);
+              }}
+            />
+          )}
+          {!!companies?.length && (
+            <Stack gap={0}>
+              {companies.map((company) => (
+                <NavLink
+                  label={
+                    <Text lineClamp={1} w="100%" size="xs">
+                      {company?.name}
+                    </Text>
+                  }
+                  key={company.id}
+                  leftSection={<Avatar src={company?.logo} size={24} radius={24} />}
+                  onClick={() => switchAuthCompany(company.id)}
+                />
+              ))}
+            </Stack>
+          )}
           {!!companies?.length && <Divider />}
           <Button
             size="xs"

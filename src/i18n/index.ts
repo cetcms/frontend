@@ -55,6 +55,10 @@ export const initializeI18n = async () => {
       escapeValue: false,
     },
     saveMissing: true,
+    // missingKeyHandler: (lng, ns, key, fallbackValue) => {
+    //   console.log(`Missing translation: ${lng}.${ns}.${key}`);
+    //   return fallbackValue;
+    // },
   });
 
   return i18n;

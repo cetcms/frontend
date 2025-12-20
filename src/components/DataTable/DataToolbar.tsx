@@ -29,7 +29,7 @@ export const DataToolbar: React.FC<DataToolbarProps> = ({
     <>
       {!!addRoutePath && (
         <Button leftSection={<IconPlus size={14} />} variant="filled" component={Link} to={addRoutePath}>
-          创建
+          添加
         </Button>
       )}
       {!!fields?.length && <FilterButton fields={fields} onFilterChange={onFilterChange} />}

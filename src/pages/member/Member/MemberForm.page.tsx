@@ -25,7 +25,7 @@ export const MemberFormPage = () => {
     return <LoadingOverlay visible />;
   }
   return (
-    <Group p="md" justify="center">
+    <Group p="md" justify="start">
       <MemberForm item={data?.findOneMember as Member} />
     </Group>
   );
