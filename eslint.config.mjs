@@ -76,7 +76,7 @@ export default [
       },
     },
   },
-  { ignores: ['**/*.{mjs,cjs,js,d.ts,d.mts}', 'src/graphql/generated/*.ts'] },
+  { ignores: ['**/*.{mjs,cjs,js,d.ts,d.mts}', 'src/graphql/generated/*.ts', 'tests/e2e/**/*.ts', 'playwright.config.ts'] },
   {
     files: ['**/*.story.tsx'],
     rules: { 'no-console': 'off' },
