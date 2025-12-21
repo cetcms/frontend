@@ -1,11 +1,13 @@
 import { MultiSelect, Select, TextInput } from '@mantine/core';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { FilterFieldType, FilterItemConfig, FilterFieldConfig, FilterFieldInputProps } from '../types';
 import { buildNestedWhereFromAccessor } from '../utils';
 
 // 为数组类型提供多种输入控件
 const ArrayInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChange, size, operator, options = [] }) => {
+  const { t } = useTranslation(['components']);
   // 处理不同操作符对应的输入类型
   if (operator === 'isEmpty') {
     // isEmpty 使用布尔开关或分段控制，这里简化为文本输入 true/false
@@ -16,8 +18,8 @@ const ArrayInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChange,
         value={String(value)}
         onChange={(val) => onChange(val === 'true')}
         data={[
-          { label: 'True', value: 'true' },
-          { label: 'False', value: 'false' },
+          { label: t('data_filter.true'), value: 'true' },
+          { label: t('data_filter.false'), value: 'false' },
         ]}
       />
     );
@@ -48,11 +50,11 @@ const ArrayInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChange,
 
 // Array 类型字段的操作符
 const arrayOperators = [
-  { value: 'equals', label: '等于' },
-  { value: 'has', label: '包含元素' },
-  { value: 'hasEvery', label: '包含所有元素' },
-  { value: 'hasSome', label: '包含某些元素' },
-  { value: 'isEmpty', label: '为空' },
+  { value: 'equals', label: 'components:data_filter.operators.equals' },
+  { value: 'has', label: 'components:data_filter.operators.has' },
+  { value: 'hasEvery', label: 'components:data_filter.operators.hasEvery' },
+  { value: 'hasSome', label: 'components:data_filter.operators.hasSome' },
+  { value: 'isEmpty', label: 'components:data_filter.operators.isEmpty' },
 ];
 
 // 生成 Prisma 查询条件

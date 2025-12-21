@@ -16,6 +16,7 @@ import {
 } from '@mantine/core';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type TransferDirection = 'right' | 'left';
 
@@ -44,6 +45,7 @@ const RenderList = <T extends Record<string, any>>({
   selectedItems,
   onSelectedItemsChange,
 }: RenderListProps<T>) => {
+  const { t } = useTranslation(['components']);
   const combobox = useCombobox();
   const [keyword, setKeyword] = useState('');
 
@@ -91,7 +93,7 @@ const RenderList = <T extends Record<string, any>>({
         <Combobox.EventsTarget>
           <Group gap="xs" wrap="nowrap" style={{ flexDirection: direction === 'left' ? 'row-reverse' : 'row' }}>
             <Button w="70px" size="xs" variant="default" onClick={onSelectAll}>
-              全选
+              {t('transfer_list.select_all')}
             </Button>
             <ActionIcon
               size={30}
@@ -105,7 +107,7 @@ const RenderList = <T extends Record<string, any>>({
             </ActionIcon>
             <TextInput
               size="xs"
-              placeholder="Search..."
+              placeholder={t('transfer_list.search')}
               value={keyword}
               styles={{ root: { width: '100%' } }}
               onChange={(event) => {
@@ -116,7 +118,9 @@ const RenderList = <T extends Record<string, any>>({
           </Group>
         </Combobox.EventsTarget>
         <Card h="300px" p="xs" withBorder component={ScrollArea}>
-          <Combobox.Options>{items.length > 0 ? items : <Combobox.Empty>空数据列表</Combobox.Empty>}</Combobox.Options>
+          <Combobox.Options>
+            {items.length > 0 ? items : <Combobox.Empty>{t('transfer_list.empty_list')}</Combobox.Empty>}
+          </Combobox.Options>
         </Card>
         {data.bottomSection && data.bottomSection(data.items)}
       </Stack>

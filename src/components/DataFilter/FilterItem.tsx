@@ -1,5 +1,6 @@
 import { Button, Group, Select } from '@mantine/core';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { FilterFieldConfig, FieldTypes, FilterFieldInputProps } from './types';
 
@@ -17,6 +18,7 @@ interface FilterItemProps {
 }
 
 export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, onUpdate, onRemove }) => {
+  const { t } = useTranslation(['components']);
   // 获取字段配置
   const getFieldConfig = (fieldName: string) => {
     return fields.find((field) => field.accessor === fieldName);
@@ -60,7 +62,10 @@ export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, on
     if (!fieldConfig) return FieldTypes.string.operators;
 
     const fieldType = FieldTypes[fieldConfig.type] || FieldTypes.string;
-    return fieldType.operators;
+    return fieldType.operators.map((op) => ({
+      value: op.value,
+      label: op.label.startsWith('components:') ? t(op.label.replace('components:', '')) : op.label,
+    }));
   };
 
   return (
@@ -69,7 +74,7 @@ export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, on
         w={size === 'xs' ? 130 : 200}
         size={size}
         allowDeselect={false}
-        placeholder="选择字段"
+        placeholder={t('data_filter.select_field')}
         value={filter.field}
         comboboxProps={{ withinPortal: false }}
         onChange={(value) => onUpdate(filter.id, 'field', value)}
@@ -82,7 +87,7 @@ export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, on
         w={size === 'xs' ? 130 : 150}
         size={size}
         allowDeselect={false}
-        placeholder="操作符"
+        placeholder={t('data_filter.operator')}
         value={filter.operator}
         comboboxProps={{ withinPortal: false }}
         onChange={(value) => onUpdate(filter.id, 'operator', value)}
@@ -90,7 +95,7 @@ export const FilterItem: React.FC<FilterItemProps> = ({ filter, fields, size, on
       />
       {renderValueInput()}
       <Button size={size} variant="light" color="red" onClick={() => onRemove(filter.id)}>
-        删除
+        {t('data_filter.delete')}
       </Button>
     </Group>
   );

@@ -1,15 +1,18 @@
 import { NumberInput as MantineNumberInput } from '@mantine/core';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { FilterFieldType, FilterItemConfig, FilterFieldConfig, FilterFieldInputProps } from '../types';
 import { buildNestedWhereFromAccessor } from '../utils';
 
-const NumberInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChange, size, placeholder = '值' }) => {
+const NumberInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChange, size, placeholder }) => {
+  const { t } = useTranslation(['components']);
+  const actualPlaceholder = placeholder ?? t('data_filter.value');
   return (
     <MantineNumberInput
       w={size === 'xs' ? 130 : 200}
       size={size}
-      placeholder={placeholder}
+      placeholder={actualPlaceholder}
       value={value}
       onChange={onChange}
     />
@@ -18,12 +21,12 @@ const NumberInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChange
 
 // Number 类型字段的操作符
 const numberOperators = [
-  { value: 'equals', label: '等于' },
-  { value: 'gt', label: '大于' },
-  { value: 'gte', label: '大于等于' },
-  { value: 'lt', label: '小于' },
-  { value: 'lte', label: '小于等于' },
-  { value: 'not', label: '不等于' },
+  { value: 'equals', label: 'components:data_filter.operators.equals' },
+  { value: 'gt', label: 'components:data_filter.operators.gt' },
+  { value: 'gte', label: 'components:data_filter.operators.gte' },
+  { value: 'lt', label: 'components:data_filter.operators.lt' },
+  { value: 'lte', label: 'components:data_filter.operators.lte' },
+  { value: 'not', label: 'components:data_filter.operators.not' },
 ];
 
 // 生成 Prisma 查询条件

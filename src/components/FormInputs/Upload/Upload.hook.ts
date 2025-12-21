@@ -216,9 +216,9 @@ export function useFileManagerName() {
   const name = os.name?.toLowerCase();
   const { t } = useTranslation(['components']);
   if (name?.includes('win')) {
-    return t('upload.fileManager.explorer');
+    return t('upload.file_manager.explorer');
   } else if (name?.includes('mac')) {
-    return t('upload.fileManager.finder');
+    return t('upload.file_manager.finder');
   }
-  return t('upload.fileManager.file_manager');
+  return t('upload.file_manager.file_manager');
 }

@@ -100,5 +100,13 @@
   "form_page": {
     "reset": "Reset",
     "save": "Save"
+  },
+  "public_member_search": {
+    "search_placeholder": "Search members",
+    "no_match": "No matching members found",
+    "input_keyword": "Enter keywords to search members"
+  },
+  "role_permissions": {
+    "no_permissions": "No permissions found"
   }
 }

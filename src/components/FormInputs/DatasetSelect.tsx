@@ -2,10 +2,12 @@ import { Button, Card, Group, InputWrapper, InputWrapperProps, Stack, TextInput 
 import { IconSearch } from '@tabler/icons-react';
 import { DataTable } from 'mantine-datatable';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export type DatasetSelectProps = InputWrapperProps & {};
 
 export const DatasetSelect: React.FC<DatasetSelectProps> = (props) => {
+  const { t } = useTranslation(['components']);
   return (
     <InputWrapper {...props}>
       <Stack gap="xs">
@@ -13,15 +15,19 @@ export const DatasetSelect: React.FC<DatasetSelectProps> = (props) => {
           <Group justify="space-between">
             <Group gap="xs">
               <Button variant="filled" size="xs">
-                添加
+                {t('dataset_select.add')}
               </Button>
               <Button variant="default" size="xs">
-                移除
+                {t('dataset_select.remove')}
               </Button>
             </Group>
             <Group gap="xs">
-              <TextInput size="xs" placeholder="搜索列表" leftSection={<IconSearch size={14} />} />
-              <Button size="xs">搜索</Button>
+              <TextInput
+                size="xs"
+                placeholder={t('dataset_select.search_list')}
+                leftSection={<IconSearch size={14} />}
+              />
+              <Button size="xs">{t('dataset_select.search')}</Button>
             </Group>
           </Group>
           <DataTable
@@ -29,23 +35,23 @@ export const DatasetSelect: React.FC<DatasetSelectProps> = (props) => {
               {
                 width: '200px',
                 accessor: 'name',
-                title: '名称',
+                title: t('dataset_select.name'),
               },
               {
                 accessor: 'description',
-                title: '描述',
+                title: t('dataset_select.description'),
               },
               {
                 width: '100px',
                 accessor: 'action',
-                title: '操作',
+                title: t('dataset_select.action'),
               },
             ]}
             records={[]}
           />
         </Card>
         <Button fullWidth variant="default">
-          选择数据
+          {t('dataset_select.select_data')}
         </Button>
       </Stack>
     </InputWrapper>

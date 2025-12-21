@@ -1,6 +1,7 @@
 import { Button, Group, SegmentedControl } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { FilterItem } from './FilterItem';
 import { FilterFieldConfig, FilterItemConfig, FieldTypes } from './types';
@@ -27,6 +28,7 @@ export const DataFilter: React.FC<DataFilterProps> = ({
   logicOperator: externalLogicOperator,
   setLogicOperator: setExternalLogicOperator,
 }) => {
+  const { t } = useTranslation(['components']);
   // 获取字段列表
   const [internalFilterFields, setInternalFilterFields] = useState<FilterItemConfig[]>([]);
   const filterFields = externalFilterFields ?? internalFilterFields;
@@ -153,7 +155,7 @@ export const DataFilter: React.FC<DataFilterProps> = ({
       {/* 添加逻辑操作符选择器 */}
       <Group gap={size}>
         <Button w="130" disabled={!fields.length} size={size} variant="default" onClick={addFilter}>
-          添加条件
+          {t('data_filter.add_condition')}
         </Button>
         <SegmentedControl
           size={size}
@@ -163,15 +165,15 @@ export const DataFilter: React.FC<DataFilterProps> = ({
           style={{ outline: '1px solid var(--app-shell-border-color)', outlineOffset: '-1px' }}
           onChange={(value) => setLogicOperator(value as 'AND' | 'OR')}
           data={[
-            { label: 'AND (且)', value: 'AND' },
-            { label: 'OR (或)', value: 'OR' },
+            { label: t('data_filter.and'), value: 'AND' },
+            { label: t('data_filter.or'), value: 'OR' },
           ]}
         />
         <Button w="130" size={size} variant="filled" onClick={applyFilter} disabled={!hasValidFilters}>
-          应用过滤
+          {t('data_filter.apply_filter')}
         </Button>
         <Button size={size} variant="light" onClick={resetFilter} disabled={!hasValidFilters}>
-          重置
+          {t('data_filter.reset')}
         </Button>
       </Group>
 

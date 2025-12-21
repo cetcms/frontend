@@ -1,15 +1,18 @@
 import { TextInput } from '@mantine/core';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { FilterFieldType, FilterItemConfig, FilterFieldConfig, FilterFieldInputProps } from '../types';
 import { buildNestedWhereFromAccessor } from '../utils';
 
-const StringInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChange, size, placeholder = '值' }) => {
+const StringInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChange, size, placeholder }) => {
+  const { t } = useTranslation(['components']);
+  const actualPlaceholder = placeholder ?? t('data_filter.value');
   return (
     <TextInput
       w={size === 'xs' ? 130 : 200}
       size={size}
-      placeholder={placeholder}
+      placeholder={actualPlaceholder}
       value={value}
       onChange={(e) => onChange(e.target.value)}
     />
@@ -18,11 +21,11 @@ const StringInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChange
 
 // String 类型字段的操作符
 const stringOperators = [
-  { value: 'contains', label: '包含' },
-  { value: 'equals', label: '等于' },
-  { value: 'startsWith', label: '以...开始' },
-  { value: 'endsWith', label: '以...结束' },
-  { value: 'not', label: '不等于' },
+  { value: 'contains', label: 'components:data_filter.operators.contains' },
+  { value: 'equals', label: 'components:data_filter.operators.equals' },
+  { value: 'startsWith', label: 'components:data_filter.operators.startsWith' },
+  { value: 'endsWith', label: 'components:data_filter.operators.endsWith' },
+  { value: 'not', label: 'components:data_filter.operators.not' },
 ];
 
 // 生成 Prisma 查询条件

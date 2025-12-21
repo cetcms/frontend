@@ -12,6 +12,7 @@ import {
   Text,
 } from '@mantine/core';
 import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { PermissionGroupItem } from 'src/graphql';
 
 export type RolePermissionsProps = InputWrapperProps & {
@@ -34,6 +35,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
   loading = false,
   ...props
 }) => {
+  const { t } = useTranslation(['components']);
   const [checkedValues, setCheckedValues] = useState<string[]>(value);
   const skipEffectRef = useRef(false);
 
@@ -385,7 +387,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
           <LoadingOverlay visible={loading} loaderProps={{ size: 'xs' }} />
           <Center>
             <Text size="xs" opacity={0.5}>
-              No permissions found
+              {t('role_permissions.no_permissions')}
             </Text>
           </Center>
         </Card>

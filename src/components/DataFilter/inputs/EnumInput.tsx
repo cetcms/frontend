@@ -1,5 +1,6 @@
 import { Select, MultiSelect } from '@mantine/core';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { FilterFieldType, FilterItemConfig, FilterFieldConfig, FilterFieldInputProps } from '../types';
 import { buildNestedWhereFromAccessor } from '../utils';
@@ -10,8 +11,10 @@ const EnumInputComponent: React.FC<FilterFieldInputProps> = ({
   size,
   options,
   operator,
-  placeholder = '值',
+  placeholder,
 }) => {
+  const { t } = useTranslation(['components']);
+  const actualPlaceholder = placeholder ?? t('data_filter.value');
   // 检查操作符是否为 in 或 notIn，以决定是使用 MultiSelect 还是 Select
   const isMultiSelect = operator === 'in' || operator === 'notIn';
 
@@ -20,7 +23,7 @@ const EnumInputComponent: React.FC<FilterFieldInputProps> = ({
       <MultiSelect
         w={size === 'xs' ? 130 : 200}
         size={size}
-        placeholder={placeholder}
+        placeholder={actualPlaceholder}
         data={options || []}
         value={Array.isArray(value) ? value : value ? [value] : []}
         comboboxProps={{ withinPortal: false }}
@@ -34,7 +37,7 @@ const EnumInputComponent: React.FC<FilterFieldInputProps> = ({
     <Select
       w={size === 'xs' ? 130 : 200}
       size={size}
-      placeholder={placeholder}
+      placeholder={actualPlaceholder}
       data={options || []}
       value={value as string}
       comboboxProps={{ withinPortal: false }}
@@ -46,10 +49,10 @@ const EnumInputComponent: React.FC<FilterFieldInputProps> = ({
 
 // Enum 类型字段的操作符
 const enumOperators = [
-  { value: 'equals', label: '等于' },
-  { value: 'not', label: '不等于' },
-  { value: 'in', label: '在...之中' },
-  { value: 'notIn', label: '不在...之中' },
+  { value: 'equals', label: 'components:data_filter.operators.equals' },
+  { value: 'not', label: 'components:data_filter.operators.not' },
+  { value: 'in', label: 'components:data_filter.operators.in' },
+  { value: 'notIn', label: 'components:data_filter.operators.notIn' },
 ];
 
 // 生成 Prisma 查询条件

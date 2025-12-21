@@ -1,10 +1,12 @@
 import { SegmentedControl } from '@mantine/core';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { FilterFieldType, FilterItemConfig, FilterFieldConfig, FilterFieldInputProps } from '../types';
 import { buildNestedWhereFromAccessor } from '../utils';
 
 const BooleanInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChange, size }) => {
+  const { t } = useTranslation(['components']);
   return (
     <SegmentedControl
       w={size === 'xs' ? 130 : 200}
@@ -12,8 +14,8 @@ const BooleanInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChang
       onChange={(val) => onChange(val === 'true')}
       value={value.toString()}
       data={[
-        { label: 'False', value: 'false' },
-        { label: 'True', value: 'true' },
+        { label: t('data_filter.false'), value: 'false' },
+        { label: t('data_filter.true'), value: 'true' },
       ]}
     />
   );
@@ -21,8 +23,8 @@ const BooleanInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChang
 
 // Boolean 类型字段的操作符
 const booleanOperators = [
-  { value: 'equals', label: '等于' },
-  { value: 'not', label: '不等于' },
+  { value: 'equals', label: 'components:data_filter.operators.equals' },
+  { value: 'not', label: 'components:data_filter.operators.not' },
 ];
 
 // 生成 Prisma 查询条件

@@ -47,12 +47,12 @@
     "select_field": "选择字段",
     "operator": "操作符",
     "delete": "删除",
-    "true": "True",
-    "false": "False",
+    "true": "是",
+    "false": "否",
     "value": "值",
     "placeholder_search": "搜索列表",
     "search": "搜索",
-    "search_input": "Search...",
+    "search_input": "搜索...",
     "operators": {
       "equals": "等于",
       "contains": "包含",
@@ -100,5 +100,13 @@
   "form_page": {
     "reset": "重置",
     "save": "保存"
+  },
+  "public_member_search": {
+    "search_placeholder": "搜索成员",
+    "no_match": "未找到匹配成员",
+    "input_keyword": "输入关键词搜索成员"
+  },
+  "role_permissions": {
+    "no_permissions": "未找到权限"
   }
 }

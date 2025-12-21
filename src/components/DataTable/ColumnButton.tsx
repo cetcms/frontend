@@ -3,6 +3,7 @@ import { useLocalStorage } from '@mantine/hooks';
 import { IconTallymark4 } from '@tabler/icons-react';
 import { DataTableColumn } from 'mantine-datatable';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export type ColumnButtonProps = {
   columns: DataTableColumn[];
@@ -10,6 +11,7 @@ export type ColumnButtonProps = {
 };
 
 export const ColumnButton: React.FC<ColumnButtonProps> = ({ columns, onChangeColumns }) => {
+  const { t } = useTranslation(['components']);
   const STORAGE_PREFIX = 'datatable:columns:';
   const storageKey = useMemo(() => `${STORAGE_PREFIX}${window.location.pathname}`, []);
   const [checkedColumns, setCheckedColumns] = useState<string[]>(columns.map((c) => c.accessor));
@@ -54,7 +56,7 @@ export const ColumnButton: React.FC<ColumnButtonProps> = ({ columns, onChangeCol
     <Popover position="bottom" withArrow shadow="md">
       <Popover.Target>
         <Button variant="default" leftSection={<IconTallymark4 size={18} />}>
-          列表字段
+          {t('data_table.column_fields')}
         </Button>
       </Popover.Target>
       <Popover.Dropdown>

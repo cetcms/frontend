@@ -1,15 +1,18 @@
 import { DateTimePicker } from '@mantine/dates';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { FilterFieldType, FilterItemConfig, FilterFieldConfig, FilterFieldInputProps } from '../types';
 import { buildNestedWhereFromAccessor } from '../utils';
 
-const DateInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChange, size, placeholder = '值' }) => {
+const DateInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChange, size, placeholder }) => {
+  const { t } = useTranslation(['components']);
+  const actualPlaceholder = placeholder ?? t('data_filter.value');
   return (
     <DateTimePicker
       w={size === 'xs' ? 130 : 200}
       size={size}
-      placeholder={placeholder}
+      placeholder={actualPlaceholder}
       popoverProps={{ withinPortal: false }}
       value={new Date(value)}
       onChange={onChange}
@@ -19,12 +22,12 @@ const DateInputComponent: React.FC<FilterFieldInputProps> = ({ value, onChange, 
 
 // Date 类型字段的操作符
 const dateOperators = [
-  { value: 'equals', label: '等于' },
-  { value: 'gt', label: '晚于' },
-  { value: 'gte', label: '晚于等于' },
-  { value: 'lt', label: '早于' },
-  { value: 'lte', label: '早于等于' },
-  { value: 'not', label: '不等于' },
+  { value: 'equals', label: 'components:data_filter.operators.equals' },
+  { value: 'gt', label: 'components:data_filter.operators.lt_time' },
+  { value: 'gte', label: 'components:data_filter.operators.lte_time' },
+  { value: 'lt', label: 'components:data_filter.operators.gt_time' },
+  { value: 'lte', label: 'components:data_filter.operators.gte_time' },
+  { value: 'not', label: 'components:data_filter.operators.not' },
 ];
 
 // 生成 Prisma 查询条件

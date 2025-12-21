@@ -1,6 +1,7 @@
 import { Group, Button, Divider } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 
 import { ColumnButton, ColumnButtonProps } from './ColumnButton';
@@ -25,11 +26,12 @@ export const DataToolbar: React.FC<DataToolbarProps> = ({
   append,
   prepend,
 }) => {
+  const { t } = useTranslation(['components']);
   const perpendCurrent = (
     <>
       {!!addRoutePath && (
         <Button leftSection={<IconPlus size={14} />} variant="filled" component={Link} to={addRoutePath}>
-          添加
+          {t('data_table.add')}
         </Button>
       )}
       {!!fields?.length && <FilterButton fields={fields} onFilterChange={onFilterChange} />}

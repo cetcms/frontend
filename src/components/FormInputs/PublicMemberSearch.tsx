@@ -13,6 +13,7 @@ import {
 import { IconX, IconSearch } from '@tabler/icons-react';
 import { useDebounce } from 'ahooks';
 import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ListSearchMembersDocument, FindOneMemberDocument, Member } from 'src/graphql';
 
 export type PublicMemberSearchProps = Omit<TextInputProps, 'onChange'> & {
@@ -26,11 +27,13 @@ export type PublicMemberSearchProps = Omit<TextInputProps, 'onChange'> & {
 export const PublicMemberSearch: React.FC<PublicMemberSearchProps> = ({
   value,
   onChange,
-  placeholder = '搜索成员',
+  placeholder,
   allowDeselect = true,
   disabled = false,
   ...textInputProps
 }) => {
+  const { t } = useTranslation(['components']);
+  const actualPlaceholder = placeholder ?? t('public_member_search.search_placeholder');
   const combobox = useCombobox();
   const [keyword, setKeyword] = useState('');
   const debouncedKeyword = useDebounce(keyword.trim(), { wait: 300 });
@@ -101,7 +104,7 @@ export const PublicMemberSearch: React.FC<PublicMemberSearchProps> = ({
       <Combobox.Target>
         <TextInput
           {...textInputProps}
-          placeholder={placeholder}
+          placeholder={actualPlaceholder}
           value={inputValue}
           disabled={disabled}
           leftSection={<IconSearch size={14} />}
@@ -141,9 +144,9 @@ export const PublicMemberSearch: React.FC<PublicMemberSearchProps> = ({
           {optionNodes.length > 0 ? (
             optionNodes
           ) : debouncedKeyword ? (
-            <Combobox.Empty>未找到匹配成员</Combobox.Empty>
+            <Combobox.Empty>{t('public_member_search.no_match')}</Combobox.Empty>
           ) : (
-            <Combobox.Empty>输入关键词搜索成员</Combobox.Empty>
+            <Combobox.Empty>{t('public_member_search.input_keyword')}</Combobox.Empty>
           )}
         </Combobox.Options>
       </Combobox.Dropdown>
