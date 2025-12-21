@@ -89,7 +89,7 @@ export const LoginWithPasswordForm = () => {
   };
 
   return (
-    <form onSubmit={form.onSubmit(open)}>
+    <form onSubmit={form.onSubmit(handleSubmit)}>
       <Modal
         size={320}
         opened={opened}

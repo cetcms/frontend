@@ -43,7 +43,7 @@ const RenderLink: React.FC<RenderLinkProps> = ({ link }) => {
    * 处理有子菜单的菜单项
    */
   if (children && childrenCount > 0) {
-    const activeChildIndex = children.findIndex((child) => child.path === pathname);
+    const activeChildIndex = children.findIndex((child) => isMenuActive(child.id));
 
     // 当有激活的子项时，自动展开父菜单
     React.useEffect(() => {
@@ -67,29 +67,32 @@ const RenderLink: React.FC<RenderLinkProps> = ({ link }) => {
         active={isCurrentActive}
         childrenOffset={10}
       >
-        {children.map((child, index) => (
-          <NavLink
-            key={child.id}
-            component={Link}
-            to={child.path || '#'}
-            label={t(child.label) || child.label}
-            active={child.path === pathname}
-            disabled={!checkPermission(link.permissions)}
-            leftSection={
-              <LinkArrow
-                isLast={index === childrenCount - 1}
-                isActive={child.path === pathname}
-                isBefore={activeChildIndex > -1 && index < activeChildIndex}
-                isAfter={activeChildIndex > -1 && index > activeChildIndex}
-              />
-            }
-            style={{
-              borderRadius: 'var(--mantine-radius-default)',
-              padding: '0px 8px',
-              backgroundColor: 'transparent',
-            }}
-          />
-        ))}
+        {children.map((child, index) => {
+          const isChildActive = isMenuActive(child.id);
+          return (
+            <NavLink
+              key={child.id}
+              component={Link}
+              to={child.path || '#'}
+              label={t(child.label) || child.label}
+              active={isChildActive}
+              disabled={!checkPermission(link.permissions)}
+              leftSection={
+                <LinkArrow
+                  isLast={index === childrenCount - 1}
+                  isActive={isChildActive}
+                  isBefore={activeChildIndex > -1 && index < activeChildIndex}
+                  isAfter={activeChildIndex > -1 && index > activeChildIndex}
+                />
+              }
+              style={{
+                borderRadius: 'var(--mantine-radius-default)',
+                padding: '0px 8px',
+                backgroundColor: 'transparent',
+              }}
+            />
+          );
+        })}
       </NavLink>
     );
   }
