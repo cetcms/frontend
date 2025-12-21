@@ -1,7 +1,7 @@
 import { Divider, NavLink, ScrollArea, ScrollAreaProps, Stack } from '@mantine/core';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'react-router';
+import { Link } from 'react-router';
 import { Iconify } from 'src/components';
 import { MenuItem } from 'src/router/menus';
 import { useAuthStore, useMenuStore } from 'src/store';
@@ -21,9 +21,8 @@ interface RenderLinkProps {
  * 负责渲染单个菜单项，支持多级嵌套和状态管理
  */
 const RenderLink: React.FC<RenderLinkProps> = ({ link }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['navbar']);
   const { checkPermission } = useAuthStore();
-  const location = useLocation();
   const { isMenuActive, isMenuExpanded, hasActiveChild, setMenuExpanded } = useMenuStore();
 
   // 处理分割线类型
@@ -33,7 +32,6 @@ const RenderLink: React.FC<RenderLinkProps> = ({ link }) => {
 
   const children = link.children?.filter((child) => !child.hide);
   const childrenCount = children?.length || 0;
-  const pathname = location.pathname;
 
   // 判断当前菜单项的激活状态
   const isCurrentActive = isMenuActive(link.id);

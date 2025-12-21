@@ -10,7 +10,7 @@ export interface HeadLinksProps {
 }
 
 export const HeadLinks: React.FC<HeadLinksProps> = ({ links }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['navbar']);
   const location = useLocation();
   const [active, setActive] = React.useState(() => {
     const currentPath = location.pathname;
