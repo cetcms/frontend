@@ -2,6 +2,7 @@ import { Navigate, RouteObject } from 'react-router';
 import { CompanyFormPage, CompanyRoleFormPage, CompanyRolePage } from 'src/pages/company';
 import { DashboardPage } from 'src/pages/home';
 import { MemberFormPage, MemberPage } from 'src/pages/member';
+import { WebsitePage } from "src/pages/applications/Website/Website.page";
 
 const routes: RouteObject[] = [
   {
@@ -46,6 +47,10 @@ const routes: RouteObject[] = [
   },
   {
     path: 'notification/list',
+  },
+  {
+    path: 'website/list',
+    Component: WebsitePage,
   },
 ];
 
