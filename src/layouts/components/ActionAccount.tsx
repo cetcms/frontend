@@ -2,10 +2,12 @@ import { useLazyQuery } from '@apollo/client/react';
 import { ActionIcon, Avatar, Group, Menu, rem, Text } from '@mantine/core';
 import { IconChevronRight, IconLogout, IconSettings } from '@tabler/icons-react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { LogoutDocument } from 'src/graphql';
 import { useAuthStore } from 'src/store';
 
 export const ActionAccount = () => {
+  const { t } = useTranslation(['layout']);
   const { clearLogin, clearAuth, auth } = useAuthStore();
   const [logout, { loading }] = useLazyQuery(LogoutDocument);
   const { member, admin } = auth || {};
@@ -46,7 +48,7 @@ export const ActionAccount = () => {
           <Menu.Divider />
 
           <Menu.Item leftSection={<IconSettings style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}>
-            账号设置
+            {t('layout:account.settings')}
           </Menu.Item>
           <Menu.Item
             onClick={() => {
@@ -58,7 +60,7 @@ export const ActionAccount = () => {
             }}
             leftSection={<IconLogout style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
           >
-            退出系统
+            {t('layout:account.logout')}
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>

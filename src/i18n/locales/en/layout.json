@@ -6,5 +6,14 @@
   },
   "notifications": {
     "title": "Notifications"
+  },
+  "account": {
+    "settings": "Account Settings",
+    "logout": "Logout"
+  },
+  "company": {
+    "search-placeholder": "Search Company",
+    "back-to-admin": "Back to Admin Platform",
+    "back-to-member": "Back to Member Platform"
   }
 }

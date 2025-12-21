@@ -3,11 +3,13 @@ import { Avatar, Button, Divider, Popover, rem, Stack, Text, TextInput, NavLink 
 import { IconChevronDown, IconLogout, IconSearch } from '@tabler/icons-react';
 import { useDebounceFn } from 'ahooks';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Company, CompanyWhereInput, PaginateCompaniesDocument, Pagination } from 'src/graphql';
 import { useSwitchAuthCompany } from 'src/hooks';
 import { useAuthStore } from 'src/store';
 
 export const CurrentCompany = () => {
+  const { t } = useTranslation(['layout']);
   // 当前企业
   const { company, admin } = useAuthStore();
   const whereNot: CompanyWhereInput = {};
@@ -82,7 +84,7 @@ export const CurrentCompany = () => {
           {pagination?.totalCount > take && (
             <TextInput
               leftSection={<IconSearch size={14} />}
-              placeholder="搜索企业"
+              placeholder={t('layout:company.search-placeholder')}
               value={searchValue}
               onChange={(e) => {
                 setSearchValue(e.target.value);
@@ -115,7 +117,7 @@ export const CurrentCompany = () => {
             onClick={() => switchAuthCompany()}
             disabled={loading}
           >
-            {admin ? '退回管理员平台' : '退回个人账号平台'}
+            {admin ? t('layout:company.back-to-admin') : t('layout:company.back-to-member')}
           </Button>
         </Stack>
       </Popover.Dropdown>

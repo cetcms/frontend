@@ -6,5 +6,14 @@
   },
   "notifications": {
     "title": "消息通知"
+  },
+  "account": {
+    "settings": "账号设置",
+    "logout": "退出系统"
+  },
+  "company": {
+    "search-placeholder": "搜索企业",
+    "back-to-admin": "退回管理员平台",
+    "back-to-member": "退回个人账号平台"
   }
 }
