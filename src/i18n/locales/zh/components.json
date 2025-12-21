@@ -32,10 +32,73 @@
     "error": {
       "upload": "上传失败"
     },
-    "fileManager": {
+    "file_manager": {
       "explorer": "资源管理器",
       "finder": "访达",
       "file_manager": "文件管理器"
     }
+  },
+  "data_filter": {
+    "add_condition": "添加条件",
+    "and": "AND (且)",
+    "or": "OR (或)",
+    "apply_filter": "应用过滤",
+    "reset": "重置",
+    "select_field": "选择字段",
+    "operator": "操作符",
+    "delete": "删除",
+    "true": "True",
+    "false": "False",
+    "value": "值",
+    "placeholder_search": "搜索列表",
+    "search": "搜索",
+    "search_input": "Search...",
+    "operators": {
+      "equals": "等于",
+      "contains": "包含",
+      "startsWith": "以...开始",
+      "endsWith": "以...结束",
+      "gt": "大于",
+      "gte": "大于等于",
+      "lt": "小于",
+      "lte": "小于等于",
+      "in": "在...之中",
+      "not": "不等于",
+      "notIn": "不在...之中",
+      "has": "包含元素",
+      "hasEvery": "包含所有元素",
+      "hasSome": "包含某些元素",
+      "isEmpty": "为空",
+      "lt_time": "晚于",
+      "lte_time": "晚于等于",
+      "gt_time": "早于",
+      "gte_time": "早于等于"
+    }
+  },
+  "data_table": {
+    "id_copied": "ID 复制成功",
+    "add": "添加",
+    "column_fields": "列表字段",
+    "filter": "过滤",
+    "actions": "操作"
+  },
+  "dataset_select": {
+    "add": "添加",
+    "remove": "移除",
+    "search_list": "搜索列表",
+    "search": "搜索",
+    "name": "名称",
+    "description": "描述",
+    "action": "操作",
+    "select_data": "选择数据"
+  },
+  "transfer_list": {
+    "select_all": "全选",
+    "empty_list": "空数据列表",
+    "search": "Search..."
+  },
+  "form_page": {
+    "reset": "重置",
+    "save": "保存"
   }
 }

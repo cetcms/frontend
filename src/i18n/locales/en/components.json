@@ -32,10 +32,73 @@
     "error": {
       "upload": "Upload failed"
     },
-    "fileManager": {
+    "file_manager": {
       "explorer": "Explorer",
       "finder": "Finder",
       "file_manager": "File Manager"
     }
+  },
+  "data_filter": {
+    "add_condition": "Add condition",
+    "and": "AND",
+    "or": "OR",
+    "apply_filter": "Apply filter",
+    "reset": "Reset",
+    "select_field": "Select field",
+    "operator": "Operator",
+    "delete": "Delete",
+    "true": "True",
+    "false": "False",
+    "value": "Value",
+    "placeholder_search": "Search list",
+    "search": "Search",
+    "search_input": "Search...",
+    "operators": {
+      "equals": "Equals",
+      "contains": "Contains",
+      "startsWith": "Starts with",
+      "endsWith": "Ends with",
+      "gt": "Greater than",
+      "gte": "Greater than or equal",
+      "lt": "Less than",
+      "lte": "Less than or equal",
+      "in": "In",
+      "not": "Not equal",
+      "notIn": "Not in",
+      "has": "Has",
+      "hasEvery": "Has every",
+      "hasSome": "Has some",
+      "isEmpty": "Is empty",
+      "lt_time": "Later than",
+      "lte_time": "Later than or equal",
+      "gt_time": "Earlier than",
+      "gte_time": "Earlier than or equal"
+    }
+  },
+  "data_table": {
+    "id_copied": "ID copied successfully",
+    "add": "Add",
+    "column_fields": "Column fields",
+    "filter": "Filter",
+    "actions": "Actions"
+  },
+  "dataset_select": {
+    "add": "Add",
+    "remove": "Remove",
+    "search_list": "Search list",
+    "search": "Search",
+    "name": "Name",
+    "description": "Description",
+    "action": "Action",
+    "select_data": "Select data"
+  },
+  "transfer_list": {
+    "select_all": "Select all",
+    "empty_list": "Empty list",
+    "search": "Search..."
+  },
+  "form_page": {
+    "reset": "Reset",
+    "save": "Save"
   }
 }
