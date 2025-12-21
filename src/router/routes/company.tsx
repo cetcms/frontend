@@ -49,7 +49,7 @@ const routes: RouteObject[] = [
     path: 'notification/list',
   },
   {
-    path: 'website/list',
+    path: 'project/website/list',
     Component: WebsitePage,
   },
 ];

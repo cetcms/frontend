@@ -78,15 +78,15 @@ const routes: RouteObject[] = [
     path: 'notification/list',
   },
   {
-    path: 'website/list',
+    path: 'project/website/list',
     Component: WebsitePage,
   },
   {
-    path: 'website/add',
+    path: 'project/website/add',
     Component: WebsiteFormPage,
   },
   {
-    path: 'website/edit',
+    path: 'project/website/edit',
     Component: WebsiteFormPage,
   },
 ];

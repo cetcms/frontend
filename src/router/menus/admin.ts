@@ -54,8 +54,35 @@ const menus: MenuItem[] = [
     ],
   },
   {
+    id: 'project',
+    label: '项目管理',
+    icon: 'solar:widget-2-line-duotone',
+    path: '/project',
+    children: [
+      {
+        id: 'website',
+        label: '网站列表',
+        path: '/project/website/list',
+        children: [
+          {
+            id: 'website-add',
+            label: '添加成员',
+            path: '/project/website/add',
+            hide: true,
+          },
+          {
+            id: 'website-edit',
+            label: '编辑成员',
+            path: '/project/website/edit',
+            hide: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
     id: 'admin',
-    label: '系统成员',
+    label: '系统管理员',
     icon: 'solar:member-id-line-duotone',
     path: '/admin',
     children: [
