@@ -123,3 +123,16 @@ fragment MediaFile on MediaFile {
 	visibility
 	url
 }
+
+fragment Website on Website {
+	cms
+	cmsApiToken
+	cmsApiUrl
+	cmsConfig
+	companyId
+	createdAt
+	description
+	id
+	title
+	updatedAt
+}

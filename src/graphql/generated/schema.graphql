@@ -212,6 +212,7 @@ type Company {
 	notifications: [Notification!]
 	status: Status!
 	updatedAt: DateTime!
+	websites: [Website!]
 }
 
 type CompanyCountAggregate {
@@ -607,6 +608,7 @@ type Mutation {
 	createOneCompanyMember(data: CompanyMemberCreateInput!): CompanyMember!
 	createOneCompanyRole(data: CompanyRoleCreateInput!): CompanyRole!
 	createOneMember(data: MemberCreateInput!): Member!
+	createOneWebsite(data: WebsiteCreateInput!): Website!
 	deleteAdminCompany(adminId: String!, companyId: String!): Boolean!
 	inviteMemberToCompany(memberId: String!, roleId: String!): Notification!
 	login(input: LoginInput!): Login!
@@ -618,6 +620,7 @@ type Mutation {
 	updateOneCompanyMember(data: CompanyMemberUpdateInput!, where: CompanyMemberWhereUniqueInput!): CompanyMember!
 	updateOneCompanyRole(data: CompanyRoleUpdateInput!, where: CompanyRoleWhereUniqueInput!): CompanyRole!
 	updateOneMember(data: MemberUpdateInput!, where: MemberWhereUniqueInput!): Member!
+	updateOneWebsite(data: WebsiteUpdateInput!, where: WebsiteWhereUniqueInput!): Website!
 	updateSelfAdmin(data: AdminUpdateInput!): Admin!
 	updateSelfCompany(data: CompanyUpdateInput!): Company!
 	updateSelfMember(data: MemberUpdateInput!): Member!
@@ -835,6 +838,11 @@ type PaginatedNotificationRecipient {
 	pagination: Pagination
 }
 
+type PaginatedWebsite {
+	items: [Website!]
+	pagination: Pagination
+}
+
 type Pagination {
 	page: Int!
 	skip: Int!
@@ -878,6 +886,7 @@ type Query {
 	findOneCompanyMember(where: CompanyMemberWhereUniqueInput!): CompanyMember!
 	findOneCompanyRole(where: CompanyRoleWhereUniqueInput!): CompanyRole!
 	findOneMember(where: MemberWhereUniqueInput!): Member!
+	findOneWebsite(where: WebsiteWhereUniqueInput!): Website!
 	findSelfAdmin: Admin!
 	findSelfCompany: Company!
 	findSelfMember: Member!
@@ -899,6 +908,7 @@ type Query {
 	paginateMembers(cursor: MemberWhereUniqueInput, distinct: [MemberScalarFieldEnum!], orderBy: [MemberOrderByWithRelationInput!], skip: Int, take: Int, where: MemberWhereInput): PaginatedMember!
 	paginateNotificationRecipes(cursor: NotificationRecipientWhereUniqueInput, distinct: [NotificationRecipientScalarFieldEnum!], orderBy: [NotificationRecipientOrderByWithRelationInput!], skip: Int, take: Int, where: NotificationRecipientWhereInput): PaginatedNotificationRecipient!
 	paginateNotifications(cursor: NotificationWhereUniqueInput, distinct: [NotificationScalarFieldEnum!], orderBy: [NotificationOrderByWithRelationInput!], skip: Int, take: Int, where: NotificationWhereInput): PaginatedNotification!
+	paginateWebsites(cursor: WebsiteWhereUniqueInput, distinct: [WebsiteScalarFieldEnum!], orderBy: [WebsiteOrderByWithRelationInput!], skip: Int, take: Int, where: WebsiteWhereInput): PaginatedWebsite!
 	refresh: Login!
 	translations(scopes: [String!]!): JSONObject!
 }
@@ -1017,6 +1027,58 @@ type RequestLogMinAggregate {
 
 type RequestLogSumAggregate {
 	duration: String
+}
+
+type Website {
+	cms: WebsiteCms
+	cmsApiToken: String
+	cmsApiUrl: String
+	cmsConfig: JSON
+	company: Company!
+	companyId: String!
+	createdAt: DateTime!
+	description: String
+	id: ID!
+	title: String!
+	updatedAt: DateTime!
+}
+
+type WebsiteCountAggregate {
+	_all: Int!
+	cms: Int!
+	cmsApiToken: Int!
+	cmsApiUrl: Int!
+	cmsConfig: Int!
+	companyId: Int!
+	createdAt: Int!
+	description: Int!
+	id: Int!
+	title: Int!
+	updatedAt: Int!
+}
+
+type WebsiteMaxAggregate {
+	cms: WebsiteCms
+	cmsApiToken: String
+	cmsApiUrl: String
+	companyId: String
+	createdAt: DateTime
+	description: String
+	id: String
+	title: String
+	updatedAt: DateTime
+}
+
+type WebsiteMinAggregate {
+	cms: WebsiteCms
+	cmsApiToken: String
+	cmsApiUrl: String
+	companyId: String
+	createdAt: DateTime
+	description: String
+	id: String
+	title: String
+	updatedAt: DateTime
 }
 
 enum AdminCompanyScalarFieldEnum {
@@ -1201,6 +1263,7 @@ enum PermissionAlias {
 	CreateOneCompanyMember
 	CreateOneCompanyRole
 	CreateOneMember
+	CreateOneWebsite
 	DeleteAdminCompany
 	FindAdminByEmail
 	FindAdminById
@@ -1211,6 +1274,7 @@ enum PermissionAlias {
 	FindOneCompanyMember
 	FindOneCompanyRole
 	FindOneMember
+	FindOneWebsite
 	FindSelfAdmin
 	FindSelfCompany
 	FindSelfMember
@@ -1229,6 +1293,7 @@ enum PermissionAlias {
 	PaginateMembers
 	PaginateNotificationRecipes
 	PaginateNotifications
+	PaginateWebsites
 	UpdateOneAdmin
 	UpdateOneAdminCompany
 	UpdateOneAdminRole
@@ -1236,6 +1301,7 @@ enum PermissionAlias {
 	UpdateOneCompanyMember
 	UpdateOneCompanyRole
 	UpdateOneMember
+	UpdateOneWebsite
 	UpdateSelfAdmin
 	UpdateSelfCompany
 	UpdateSelfMember
@@ -1271,6 +1337,25 @@ enum Status {
 enum Target {
 	Admin
 	Member
+}
+
+enum WebsiteCms {
+	Directus
+	Strapi
+	WordPress
+}
+
+enum WebsiteScalarFieldEnum {
+	cms
+	cmsApiToken
+	cmsApiUrl
+	cmsConfig
+	companyId
+	createdAt
+	description
+	id
+	title
+	updatedAt
 }
 
 "A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format."
@@ -1626,6 +1711,7 @@ input CompanyCreateInput {
 	notifications: NotificationCreateNestedManyWithoutCompanyInput
 	roles: CompanyRoleCreateNestedManyWithoutCompanyInput
 	status: Status
+	websites: WebsiteCreateNestedManyWithoutCompanyInput
 }
 
 input CompanyCreateNestedOneWithoutAdminsInput {
@@ -1637,6 +1723,10 @@ input CompanyCreateNestedOneWithoutMembersInput {
 }
 
 input CompanyCreateNestedOneWithoutRolesInput {
+	connect: CompanyWhereUniqueInput
+}
+
+input CompanyCreateNestedOneWithoutWebsitesInput {
 	connect: CompanyWhereUniqueInput
 }
 
@@ -1745,6 +1835,7 @@ input CompanyOrderByWithRelationInput {
 	roles: CompanyRoleOrderByRelationAggregateInput
 	status: SortOrder
 	updatedAt: SortOrder
+	websites: WebsiteOrderByRelationAggregateInput
 }
 
 input CompanyRoleCompanyRoleIdxCompoundUniqueInput {
@@ -1878,6 +1969,7 @@ input CompanyUpdateInput {
 	notifications: NotificationUpdateManyWithoutCompanyNestedInput
 	roles: CompanyRoleUpdateManyWithoutCompanyNestedInput
 	status: Status
+	websites: WebsiteUpdateManyWithoutCompanyNestedInput
 }
 
 input CompanyUpdateOneRequiredWithoutAdminsNestedInput {
@@ -1885,6 +1977,10 @@ input CompanyUpdateOneRequiredWithoutAdminsNestedInput {
 }
 
 input CompanyUpdateOneRequiredWithoutMembersNestedInput {
+	connect: CompanyWhereUniqueInput
+}
+
+input CompanyUpdateOneRequiredWithoutWebsitesNestedInput {
 	connect: CompanyWhereUniqueInput
 }
 
@@ -1915,6 +2011,7 @@ input CompanyWhereInput {
 	roles: CompanyRoleListRelationFilter
 	status: EnumStatusFilter
 	updatedAt: DateTimeFilter
+	websites: WebsiteListRelationFilter
 }
 
 input CompanyWhereUniqueInput {
@@ -1934,6 +2031,7 @@ input CompanyWhereUniqueInput {
 	notifications: NotificationListRelationFilter
 	roles: CompanyRoleListRelationFilter
 	status: EnumStatusFilter
+	websites: WebsiteListRelationFilter
 }
 
 input DateTimeFilter {
@@ -2047,6 +2145,13 @@ input EnumTargetNullableFilter {
 	in: [Target!]
 	not: NestedEnumTargetNullableFilter
 	notIn: [Target!]
+}
+
+input EnumWebsiteCmsNullableFilter {
+	equals: WebsiteCms
+	in: [WebsiteCms!]
+	not: NestedEnumWebsiteCmsNullableFilter
+	notIn: [WebsiteCms!]
 }
 
 input IntFilter {
@@ -2516,6 +2621,13 @@ input NestedEnumTargetNullableFilter {
 	notIn: [Target!]
 }
 
+input NestedEnumWebsiteCmsNullableFilter {
+	equals: WebsiteCms
+	in: [WebsiteCms!]
+	not: NestedEnumWebsiteCmsNullableFilter
+	notIn: [WebsiteCms!]
+}
+
 input NestedIntFilter {
 	equals: Int
 	gt: Int
@@ -2920,4 +3032,86 @@ input StringNullableListFilter {
 	hasEvery: [String!]
 	hasSome: [String!]
 	isEmpty: Boolean
+}
+
+input WebsiteCreateInput {
+	cms: WebsiteCms
+	cmsApiToken: String
+	cmsApiUrl: String
+	cmsConfig: JSON
+	company: CompanyCreateNestedOneWithoutWebsitesInput!
+	description: String
+	title: String!
+}
+
+input WebsiteCreateNestedManyWithoutCompanyInput {
+	connect: [WebsiteWhereUniqueInput!]
+}
+
+input WebsiteListRelationFilter {
+	every: WebsiteWhereInput
+	none: WebsiteWhereInput
+	some: WebsiteWhereInput
+}
+
+input WebsiteOrderByRelationAggregateInput {
+	_count: SortOrder
+}
+
+input WebsiteOrderByWithRelationInput {
+	cms: SortOrderInput
+	cmsApiToken: SortOrderInput
+	cmsApiUrl: SortOrderInput
+	cmsConfig: SortOrderInput
+	company: CompanyOrderByWithRelationInput
+	companyId: SortOrder
+	createdAt: SortOrder
+	description: SortOrderInput
+	id: SortOrder
+	title: SortOrder
+	updatedAt: SortOrder
+}
+
+input WebsiteUpdateInput {
+	cms: WebsiteCms
+	cmsApiToken: String
+	cmsApiUrl: String
+	cmsConfig: JSON
+	company: CompanyUpdateOneRequiredWithoutWebsitesNestedInput
+	description: String
+	title: String
+}
+
+input WebsiteUpdateManyWithoutCompanyNestedInput {
+	connect: [WebsiteWhereUniqueInput!]
+	disconnect: [WebsiteWhereUniqueInput!]
+}
+
+input WebsiteWhereInput {
+	AND: [WebsiteWhereInput!]
+	NOT: [WebsiteWhereInput!]
+	OR: [WebsiteWhereInput!]
+	cms: EnumWebsiteCmsNullableFilter
+	cmsApiToken: StringNullableFilter
+	cmsApiUrl: StringNullableFilter
+	cmsConfig: JsonNullableFilter
+	company: CompanyScalarRelationFilter
+	companyId: StringFilter
+	createdAt: DateTimeFilter
+	description: StringNullableFilter
+	id: StringFilter
+	title: StringFilter
+	updatedAt: DateTimeFilter
+}
+
+input WebsiteWhereUniqueInput {
+	cms: EnumWebsiteCmsNullableFilter
+	cmsApiToken: StringNullableFilter
+	cmsApiUrl: StringNullableFilter
+	cmsConfig: JsonNullableFilter
+	company: CompanyScalarRelationFilter
+	companyId: StringFilter
+	description: StringNullableFilter
+	id: String
+	title: StringFilter
 }

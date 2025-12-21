@@ -607,6 +607,7 @@ export type Company = {
   notifications?: Maybe<Array<Notification>>;
   status: Status;
   updatedAt: Scalars['DateTime']['output'];
+  websites?: Maybe<Array<Website>>;
 };
 
 export type CompanyCountAggregate = {
@@ -639,6 +640,7 @@ export type CompanyCreateInput = {
   notifications?: InputMaybe<NotificationCreateNestedManyWithoutCompanyInput>;
   roles?: InputMaybe<CompanyRoleCreateNestedManyWithoutCompanyInput>;
   status?: InputMaybe<Status>;
+  websites?: InputMaybe<WebsiteCreateNestedManyWithoutCompanyInput>;
 };
 
 export type CompanyCreateNestedOneWithoutAdminsInput = {
@@ -650,6 +652,10 @@ export type CompanyCreateNestedOneWithoutMembersInput = {
 };
 
 export type CompanyCreateNestedOneWithoutRolesInput = {
+  connect?: InputMaybe<CompanyWhereUniqueInput>;
+};
+
+export type CompanyCreateNestedOneWithoutWebsitesInput = {
   connect?: InputMaybe<CompanyWhereUniqueInput>;
 };
 
@@ -842,6 +848,7 @@ export type CompanyOrderByWithRelationInput = {
   roles?: InputMaybe<CompanyRoleOrderByRelationAggregateInput>;
   status?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
+  websites?: InputMaybe<WebsiteOrderByRelationAggregateInput>;
 };
 
 export type CompanyRole = {
@@ -1053,6 +1060,7 @@ export type CompanyUpdateInput = {
   notifications?: InputMaybe<NotificationUpdateManyWithoutCompanyNestedInput>;
   roles?: InputMaybe<CompanyRoleUpdateManyWithoutCompanyNestedInput>;
   status?: InputMaybe<Status>;
+  websites?: InputMaybe<WebsiteUpdateManyWithoutCompanyNestedInput>;
 };
 
 export type CompanyUpdateOneRequiredWithoutAdminsNestedInput = {
@@ -1060,6 +1068,10 @@ export type CompanyUpdateOneRequiredWithoutAdminsNestedInput = {
 };
 
 export type CompanyUpdateOneRequiredWithoutMembersNestedInput = {
+  connect?: InputMaybe<CompanyWhereUniqueInput>;
+};
+
+export type CompanyUpdateOneRequiredWithoutWebsitesNestedInput = {
   connect?: InputMaybe<CompanyWhereUniqueInput>;
 };
 
@@ -1090,6 +1102,7 @@ export type CompanyWhereInput = {
   roles?: InputMaybe<CompanyRoleListRelationFilter>;
   status?: InputMaybe<EnumStatusFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
+  websites?: InputMaybe<WebsiteListRelationFilter>;
 };
 
 export type CompanyWhereUniqueInput = {
@@ -1109,6 +1122,7 @@ export type CompanyWhereUniqueInput = {
   notifications?: InputMaybe<NotificationListRelationFilter>;
   roles?: InputMaybe<CompanyRoleListRelationFilter>;
   status?: InputMaybe<EnumStatusFilter>;
+  websites?: InputMaybe<WebsiteListRelationFilter>;
 };
 
 export type DateTimeFilter = {
@@ -1222,6 +1236,13 @@ export type EnumTargetNullableFilter = {
   in?: InputMaybe<Array<Target>>;
   not?: InputMaybe<NestedEnumTargetNullableFilter>;
   notIn?: InputMaybe<Array<Target>>;
+};
+
+export type EnumWebsiteCmsNullableFilter = {
+  equals?: InputMaybe<WebsiteCms>;
+  in?: InputMaybe<Array<WebsiteCms>>;
+  not?: InputMaybe<NestedEnumWebsiteCmsNullableFilter>;
+  notIn?: InputMaybe<Array<WebsiteCms>>;
 };
 
 export type IntFilter = {
@@ -1876,6 +1897,7 @@ export type Mutation = {
   createOneCompanyMember: CompanyMember;
   createOneCompanyRole: CompanyRole;
   createOneMember: Member;
+  createOneWebsite: Website;
   deleteAdminCompany: Scalars['Boolean']['output'];
   inviteMemberToCompany: Notification;
   login: Login;
@@ -1887,6 +1909,7 @@ export type Mutation = {
   updateOneCompanyMember: CompanyMember;
   updateOneCompanyRole: CompanyRole;
   updateOneMember: Member;
+  updateOneWebsite: Website;
   updateSelfAdmin: Admin;
   updateSelfCompany: Company;
   updateSelfMember: Member;
@@ -1926,6 +1949,11 @@ export type MutationCreateOneCompanyRoleArgs = {
 
 export type MutationCreateOneMemberArgs = {
   data: MemberCreateInput;
+};
+
+
+export type MutationCreateOneWebsiteArgs = {
+  data: WebsiteCreateInput;
 };
 
 
@@ -1990,6 +2018,12 @@ export type MutationUpdateOneCompanyRoleArgs = {
 export type MutationUpdateOneMemberArgs = {
   data: MemberUpdateInput;
   where: MemberWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneWebsiteArgs = {
+  data: WebsiteUpdateInput;
+  where: WebsiteWhereUniqueInput;
 };
 
 
@@ -2141,6 +2175,13 @@ export type NestedEnumTargetNullableFilter = {
   in?: InputMaybe<Array<Target>>;
   not?: InputMaybe<NestedEnumTargetNullableFilter>;
   notIn?: InputMaybe<Array<Target>>;
+};
+
+export type NestedEnumWebsiteCmsNullableFilter = {
+  equals?: InputMaybe<WebsiteCms>;
+  in?: InputMaybe<Array<WebsiteCms>>;
+  not?: InputMaybe<NestedEnumWebsiteCmsNullableFilter>;
+  notIn?: InputMaybe<Array<WebsiteCms>>;
 };
 
 export type NestedIntFilter = {
@@ -2721,6 +2762,12 @@ export type PaginatedNotificationRecipient = {
   pagination?: Maybe<Pagination>;
 };
 
+export type PaginatedWebsite = {
+  __typename?: 'PaginatedWebsite';
+  items?: Maybe<Array<Website>>;
+  pagination?: Maybe<Pagination>;
+};
+
 export type Pagination = {
   __typename?: 'Pagination';
   page: Scalars['Int']['output'];
@@ -2738,6 +2785,7 @@ export enum PermissionAlias {
   CreateOneCompanyMember = 'CreateOneCompanyMember',
   CreateOneCompanyRole = 'CreateOneCompanyRole',
   CreateOneMember = 'CreateOneMember',
+  CreateOneWebsite = 'CreateOneWebsite',
   DeleteAdminCompany = 'DeleteAdminCompany',
   FindAdminByEmail = 'FindAdminByEmail',
   FindAdminById = 'FindAdminById',
@@ -2748,6 +2796,7 @@ export enum PermissionAlias {
   FindOneCompanyMember = 'FindOneCompanyMember',
   FindOneCompanyRole = 'FindOneCompanyRole',
   FindOneMember = 'FindOneMember',
+  FindOneWebsite = 'FindOneWebsite',
   FindSelfAdmin = 'FindSelfAdmin',
   FindSelfCompany = 'FindSelfCompany',
   FindSelfMember = 'FindSelfMember',
@@ -2766,6 +2815,7 @@ export enum PermissionAlias {
   PaginateMembers = 'PaginateMembers',
   PaginateNotificationRecipes = 'PaginateNotificationRecipes',
   PaginateNotifications = 'PaginateNotifications',
+  PaginateWebsites = 'PaginateWebsites',
   UpdateOneAdmin = 'UpdateOneAdmin',
   UpdateOneAdminCompany = 'UpdateOneAdminCompany',
   UpdateOneAdminRole = 'UpdateOneAdminRole',
@@ -2773,6 +2823,7 @@ export enum PermissionAlias {
   UpdateOneCompanyMember = 'UpdateOneCompanyMember',
   UpdateOneCompanyRole = 'UpdateOneCompanyRole',
   UpdateOneMember = 'UpdateOneMember',
+  UpdateOneWebsite = 'UpdateOneWebsite',
   UpdateSelfAdmin = 'UpdateSelfAdmin',
   UpdateSelfCompany = 'UpdateSelfCompany',
   UpdateSelfMember = 'UpdateSelfMember'
@@ -2817,6 +2868,7 @@ export type Query = {
   findOneCompanyMember: CompanyMember;
   findOneCompanyRole: CompanyRole;
   findOneMember: Member;
+  findOneWebsite: Website;
   findSelfAdmin: Admin;
   findSelfCompany: Company;
   findSelfMember: Member;
@@ -2838,6 +2890,7 @@ export type Query = {
   paginateMembers: PaginatedMember;
   paginateNotificationRecipes: PaginatedNotificationRecipient;
   paginateNotifications: PaginatedNotification;
+  paginateWebsites: PaginatedWebsite;
   refresh: Login;
   translations: Scalars['JSONObject']['output'];
 };
@@ -2885,6 +2938,11 @@ export type QueryFindOneCompanyRoleArgs = {
 
 export type QueryFindOneMemberArgs = {
   where: MemberWhereUniqueInput;
+};
+
+
+export type QueryFindOneWebsiteArgs = {
+  where: WebsiteWhereUniqueInput;
 };
 
 
@@ -3000,6 +3058,16 @@ export type QueryPaginateNotificationsArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   take?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<NotificationWhereInput>;
+};
+
+
+export type QueryPaginateWebsitesArgs = {
+  cursor?: InputMaybe<WebsiteWhereUniqueInput>;
+  distinct?: InputMaybe<Array<WebsiteScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<WebsiteOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<WebsiteWhereInput>;
 };
 
 
@@ -3288,6 +3356,163 @@ export enum Target {
   Member = 'Member'
 }
 
+export type Website = {
+  __typename?: 'Website';
+  cms?: Maybe<WebsiteCms>;
+  cmsApiToken?: Maybe<Scalars['String']['output']>;
+  cmsApiUrl?: Maybe<Scalars['String']['output']>;
+  cmsConfig?: Maybe<Scalars['JSON']['output']>;
+  company: Company;
+  companyId: Scalars['String']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  title: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export enum WebsiteCms {
+  Directus = 'Directus',
+  Strapi = 'Strapi',
+  WordPress = 'WordPress'
+}
+
+export type WebsiteCountAggregate = {
+  __typename?: 'WebsiteCountAggregate';
+  _all: Scalars['Int']['output'];
+  cms: Scalars['Int']['output'];
+  cmsApiToken: Scalars['Int']['output'];
+  cmsApiUrl: Scalars['Int']['output'];
+  cmsConfig: Scalars['Int']['output'];
+  companyId: Scalars['Int']['output'];
+  createdAt: Scalars['Int']['output'];
+  description: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  title: Scalars['Int']['output'];
+  updatedAt: Scalars['Int']['output'];
+};
+
+export type WebsiteCreateInput = {
+  cms?: InputMaybe<WebsiteCms>;
+  cmsApiToken?: InputMaybe<Scalars['String']['input']>;
+  cmsApiUrl?: InputMaybe<Scalars['String']['input']>;
+  cmsConfig?: InputMaybe<Scalars['JSON']['input']>;
+  company: CompanyCreateNestedOneWithoutWebsitesInput;
+  description?: InputMaybe<Scalars['String']['input']>;
+  title: Scalars['String']['input'];
+};
+
+export type WebsiteCreateNestedManyWithoutCompanyInput = {
+  connect?: InputMaybe<Array<WebsiteWhereUniqueInput>>;
+};
+
+export type WebsiteListRelationFilter = {
+  every?: InputMaybe<WebsiteWhereInput>;
+  none?: InputMaybe<WebsiteWhereInput>;
+  some?: InputMaybe<WebsiteWhereInput>;
+};
+
+export type WebsiteMaxAggregate = {
+  __typename?: 'WebsiteMaxAggregate';
+  cms?: Maybe<WebsiteCms>;
+  cmsApiToken?: Maybe<Scalars['String']['output']>;
+  cmsApiUrl?: Maybe<Scalars['String']['output']>;
+  companyId?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type WebsiteMinAggregate = {
+  __typename?: 'WebsiteMinAggregate';
+  cms?: Maybe<WebsiteCms>;
+  cmsApiToken?: Maybe<Scalars['String']['output']>;
+  cmsApiUrl?: Maybe<Scalars['String']['output']>;
+  companyId?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type WebsiteOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type WebsiteOrderByWithRelationInput = {
+  cms?: InputMaybe<SortOrderInput>;
+  cmsApiToken?: InputMaybe<SortOrderInput>;
+  cmsApiUrl?: InputMaybe<SortOrderInput>;
+  cmsConfig?: InputMaybe<SortOrderInput>;
+  company?: InputMaybe<CompanyOrderByWithRelationInput>;
+  companyId?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  description?: InputMaybe<SortOrderInput>;
+  id?: InputMaybe<SortOrder>;
+  title?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export enum WebsiteScalarFieldEnum {
+  Cms = 'cms',
+  CmsApiToken = 'cmsApiToken',
+  CmsApiUrl = 'cmsApiUrl',
+  CmsConfig = 'cmsConfig',
+  CompanyId = 'companyId',
+  CreatedAt = 'createdAt',
+  Description = 'description',
+  Id = 'id',
+  Title = 'title',
+  UpdatedAt = 'updatedAt'
+}
+
+export type WebsiteUpdateInput = {
+  cms?: InputMaybe<WebsiteCms>;
+  cmsApiToken?: InputMaybe<Scalars['String']['input']>;
+  cmsApiUrl?: InputMaybe<Scalars['String']['input']>;
+  cmsConfig?: InputMaybe<Scalars['JSON']['input']>;
+  company?: InputMaybe<CompanyUpdateOneRequiredWithoutWebsitesNestedInput>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type WebsiteUpdateManyWithoutCompanyNestedInput = {
+  connect?: InputMaybe<Array<WebsiteWhereUniqueInput>>;
+  disconnect?: InputMaybe<Array<WebsiteWhereUniqueInput>>;
+};
+
+export type WebsiteWhereInput = {
+  AND?: InputMaybe<Array<WebsiteWhereInput>>;
+  NOT?: InputMaybe<Array<WebsiteWhereInput>>;
+  OR?: InputMaybe<Array<WebsiteWhereInput>>;
+  cms?: InputMaybe<EnumWebsiteCmsNullableFilter>;
+  cmsApiToken?: InputMaybe<StringNullableFilter>;
+  cmsApiUrl?: InputMaybe<StringNullableFilter>;
+  cmsConfig?: InputMaybe<JsonNullableFilter>;
+  company?: InputMaybe<CompanyScalarRelationFilter>;
+  companyId?: InputMaybe<StringFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  description?: InputMaybe<StringNullableFilter>;
+  id?: InputMaybe<StringFilter>;
+  title?: InputMaybe<StringFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+};
+
+export type WebsiteWhereUniqueInput = {
+  cms?: InputMaybe<EnumWebsiteCmsNullableFilter>;
+  cmsApiToken?: InputMaybe<StringNullableFilter>;
+  cmsApiUrl?: InputMaybe<StringNullableFilter>;
+  cmsConfig?: InputMaybe<JsonNullableFilter>;
+  company?: InputMaybe<CompanyScalarRelationFilter>;
+  companyId?: InputMaybe<StringFilter>;
+  description?: InputMaybe<StringNullableFilter>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<StringFilter>;
+};
+
 export type PaginationFragment = { __typename?: 'Pagination', take: number, skip: number, page: number, totalPages: number, totalCount: number } & { ' $fragmentName'?: 'PaginationFragment' };
 
 export type AdminFragment = { __typename?: 'Admin', id: string, createdAt: any, updatedAt: any, status: Status, name: string, email: string, roleId: string, avatar?: string | null, avatarUrl?: string | null } & { ' $fragmentName'?: 'AdminFragment' };
@@ -3307,6 +3532,8 @@ export type PermissionItemFragment = { __typename?: 'PermissionItem', name: stri
 export type PermissionGroupItemFragment = { __typename?: 'PermissionGroupItem', id: string, name: string, label: string, items: Array<{ __typename?: 'PermissionGroupItem', id: string, name: string, label: string, items: Array<{ __typename?: 'PermissionGroupItem', id: string, name: string, label: string }> }> } & { ' $fragmentName'?: 'PermissionGroupItemFragment' };
 
 export type MediaFileFragment = { __typename?: 'MediaFile', id: string, createdAt: any, updatedAt: any, status: Status, store: MediaStore, mediaType: MediaType, mimeType: string, fileName: string, fileHash: string, fileSize: string, width?: number | null, height?: number | null, duration?: number | null, metadata?: any | null, description?: string | null, extension: string, folderId: string, owner: Owner, adminId?: string | null, memberId?: string | null, companyId?: string | null, visibility: MediaVisibility, url: string } & { ' $fragmentName'?: 'MediaFileFragment' };
+
+export type WebsiteFragment = { __typename?: 'Website', cms?: WebsiteCms | null, cmsApiToken?: string | null, cmsApiUrl?: string | null, cmsConfig?: any | null, companyId: string, createdAt: any, description?: string | null, id: string, title: string, updatedAt: any } & { ' $fragmentName'?: 'WebsiteFragment' };
 
 export type PaginateAdminRolesQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']['input']>;
@@ -3672,6 +3899,53 @@ export type ListSelfNotificationsQueryVariables = Exact<{ [key: string]: never; 
 
 export type ListSelfNotificationsQuery = { __typename?: 'Query', listSelfNotifications: Array<{ __typename?: 'Notification', id: string, createdAt: any, updatedAt: any, sentAt: any, title?: any | null, content: any, options?: any | null, status: Status, priority: number, category?: string | null, senderId?: string | null, sender: NotificationTarget, receivers?: Array<string> | null, privacy: NotificationPrivacy, adminId?: string | null, memberId?: string | null, companyId?: string | null, type: NotificationType }> };
 
+export type PaginateWebsitesQueryVariables = Exact<{
+  take?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<WebsiteWhereInput>;
+  orderBy?: InputMaybe<Array<WebsiteOrderByWithRelationInput> | WebsiteOrderByWithRelationInput>;
+}>;
+
+
+export type PaginateWebsitesQuery = { __typename?: 'Query', paginateWebsites: { __typename?: 'PaginatedWebsite', items?: Array<(
+      { __typename?: 'Website' }
+      & { ' $fragmentRefs'?: { 'WebsiteFragment': WebsiteFragment } }
+    )> | null, pagination?: (
+      { __typename?: 'Pagination' }
+      & { ' $fragmentRefs'?: { 'PaginationFragment': PaginationFragment } }
+    ) | null } };
+
+export type FindOneWebsiteQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type FindOneWebsiteQuery = { __typename?: 'Query', findOneWebsite: (
+    { __typename?: 'Website' }
+    & { ' $fragmentRefs'?: { 'WebsiteFragment': WebsiteFragment } }
+  ) };
+
+export type CreateOneWebsiteMutationVariables = Exact<{
+  data: WebsiteCreateInput;
+}>;
+
+
+export type CreateOneWebsiteMutation = { __typename?: 'Mutation', createOneWebsite: (
+    { __typename?: 'Website' }
+    & { ' $fragmentRefs'?: { 'WebsiteFragment': WebsiteFragment } }
+  ) };
+
+export type UpdateOneWebsiteMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  data: WebsiteUpdateInput;
+}>;
+
+
+export type UpdateOneWebsiteMutation = { __typename?: 'Mutation', updateOneWebsite: (
+    { __typename?: 'Website' }
+    & { ' $fragmentRefs'?: { 'WebsiteFragment': WebsiteFragment } }
+  ) };
+
 export const PaginationFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Pagination"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"take"}},{"kind":"Field","name":{"kind":"Name","value":"skip"}},{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"totalPages"}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]} as unknown as DocumentNode<PaginationFragment, unknown>;
 export const AdminFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Admin"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Admin"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"roleId"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"avatarUrl"}}]}}]} as unknown as DocumentNode<AdminFragment, unknown>;
 export const AdminRoleFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AdminRole"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AdminRole"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"}}]}}]} as unknown as DocumentNode<AdminRoleFragment, unknown>;
@@ -3682,6 +3956,7 @@ export const LoginFragmentDoc = {"kind":"Document","definitions":[{"kind":"Fragm
 export const PermissionItemFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PermissionItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PermissionItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"subject"}},{"kind":"Field","name":{"kind":"Name","value":"subjectLabel"}},{"kind":"Field","name":{"kind":"Name","value":"group"}},{"kind":"Field","name":{"kind":"Name","value":"action"}},{"kind":"Field","name":{"kind":"Name","value":"actionLabel"}}]}}]} as unknown as DocumentNode<PermissionItemFragment, unknown>;
 export const PermissionGroupItemFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PermissionGroupItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PermissionGroupItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"label"}}]}}]}}]}}]} as unknown as DocumentNode<PermissionGroupItemFragment, unknown>;
 export const MediaFileFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MediaFile"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MediaFile"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"store"}},{"kind":"Field","name":{"kind":"Name","value":"mediaType"}},{"kind":"Field","name":{"kind":"Name","value":"mimeType"}},{"kind":"Field","name":{"kind":"Name","value":"fileName"}},{"kind":"Field","name":{"kind":"Name","value":"fileHash"}},{"kind":"Field","name":{"kind":"Name","value":"fileSize"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"extension"}},{"kind":"Field","name":{"kind":"Name","value":"folderId"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"adminId"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"companyId"}},{"kind":"Field","name":{"kind":"Name","value":"visibility"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]} as unknown as DocumentNode<MediaFileFragment, unknown>;
+export const WebsiteFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Website"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Website"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cms"}},{"kind":"Field","name":{"kind":"Name","value":"cmsApiToken"}},{"kind":"Field","name":{"kind":"Name","value":"cmsApiUrl"}},{"kind":"Field","name":{"kind":"Name","value":"cmsConfig"}},{"kind":"Field","name":{"kind":"Name","value":"companyId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]} as unknown as DocumentNode<WebsiteFragment, unknown>;
 export const PaginateAdminRolesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PaginateAdminRoles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AdminRoleWhereInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AdminRoleOrderByWithRelationInput"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"paginateAdminRoles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"AdminRole"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Pagination"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AdminRole"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AdminRole"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Pagination"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"take"}},{"kind":"Field","name":{"kind":"Name","value":"skip"}},{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"totalPages"}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]} as unknown as DocumentNode<PaginateAdminRolesQuery, PaginateAdminRolesQueryVariables>;
 export const FindOneAdminRoleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FindOneAdminRole"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findOneAdminRole"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"AdminRole"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AdminRole"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AdminRole"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"}}]}}]} as unknown as DocumentNode<FindOneAdminRoleQuery, FindOneAdminRoleQueryVariables>;
 export const CreateOneAdminRoleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateOneAdminRole"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AdminRoleCreateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createOneAdminRole"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"AdminRole"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AdminRole"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AdminRole"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"}}]}}]} as unknown as DocumentNode<CreateOneAdminRoleMutation, CreateOneAdminRoleMutationVariables>;
@@ -3716,3 +3991,7 @@ export const FindOneMemberDocument = {"kind":"Document","definitions":[{"kind":"
 export const CreateOneMemberDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateOneMember"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MemberCreateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createOneMember"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Member"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Member"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"avatarUrl"}}]}}]} as unknown as DocumentNode<CreateOneMemberMutation, CreateOneMemberMutationVariables>;
 export const UpdateOneMemberDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateOneMember"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MemberUpdateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateOneMember"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Member"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Member"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Member"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"avatarUrl"}}]}}]} as unknown as DocumentNode<UpdateOneMemberMutation, UpdateOneMemberMutationVariables>;
 export const ListSelfNotificationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ListSelfNotifications"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"listSelfNotifications"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"sentAt"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"options"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"priority"}},{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"senderId"}},{"kind":"Field","name":{"kind":"Name","value":"sender"}},{"kind":"Field","name":{"kind":"Name","value":"receivers"}},{"kind":"Field","name":{"kind":"Name","value":"privacy"}},{"kind":"Field","name":{"kind":"Name","value":"adminId"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"companyId"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]}}]} as unknown as DocumentNode<ListSelfNotificationsQuery, ListSelfNotificationsQueryVariables>;
+export const PaginateWebsitesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PaginateWebsites"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"WebsiteWhereInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"WebsiteOrderByWithRelationInput"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"paginateWebsites"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Website"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Pagination"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Website"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Website"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cms"}},{"kind":"Field","name":{"kind":"Name","value":"cmsApiToken"}},{"kind":"Field","name":{"kind":"Name","value":"cmsApiUrl"}},{"kind":"Field","name":{"kind":"Name","value":"cmsConfig"}},{"kind":"Field","name":{"kind":"Name","value":"companyId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Pagination"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"take"}},{"kind":"Field","name":{"kind":"Name","value":"skip"}},{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"totalPages"}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]} as unknown as DocumentNode<PaginateWebsitesQuery, PaginateWebsitesQueryVariables>;
+export const FindOneWebsiteDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FindOneWebsite"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findOneWebsite"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Website"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Website"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Website"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cms"}},{"kind":"Field","name":{"kind":"Name","value":"cmsApiToken"}},{"kind":"Field","name":{"kind":"Name","value":"cmsApiUrl"}},{"kind":"Field","name":{"kind":"Name","value":"cmsConfig"}},{"kind":"Field","name":{"kind":"Name","value":"companyId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]} as unknown as DocumentNode<FindOneWebsiteQuery, FindOneWebsiteQueryVariables>;
+export const CreateOneWebsiteDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateOneWebsite"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"WebsiteCreateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createOneWebsite"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Website"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Website"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Website"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cms"}},{"kind":"Field","name":{"kind":"Name","value":"cmsApiToken"}},{"kind":"Field","name":{"kind":"Name","value":"cmsApiUrl"}},{"kind":"Field","name":{"kind":"Name","value":"cmsConfig"}},{"kind":"Field","name":{"kind":"Name","value":"companyId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]} as unknown as DocumentNode<CreateOneWebsiteMutation, CreateOneWebsiteMutationVariables>;
+export const UpdateOneWebsiteDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateOneWebsite"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"WebsiteUpdateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateOneWebsite"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Website"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Website"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Website"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cms"}},{"kind":"Field","name":{"kind":"Name","value":"cmsApiToken"}},{"kind":"Field","name":{"kind":"Name","value":"cmsApiUrl"}},{"kind":"Field","name":{"kind":"Name","value":"cmsConfig"}},{"kind":"Field","name":{"kind":"Name","value":"companyId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]} as unknown as DocumentNode<UpdateOneWebsiteMutation, UpdateOneWebsiteMutationVariables>;

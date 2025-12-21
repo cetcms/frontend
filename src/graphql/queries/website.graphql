@@ -1,0 +1,32 @@
+
+query PaginateWebsites($take: Int, $skip: Int, $where: WebsiteWhereInput, $orderBy: [WebsiteOrderByWithRelationInput!]) {
+	paginateWebsites(take: $take, skip: $skip, where: $where, orderBy: $orderBy) {
+		items {
+			...Website
+		}
+		pagination {
+			...Pagination
+		}
+	}
+}
+
+
+
+query FindOneWebsite($id: String!) {
+	findOneWebsite(where: { id: $id }) {
+		...Website
+	}
+}
+
+mutation CreateOneWebsite($data: WebsiteCreateInput!) {
+	createOneWebsite(data: $data) {
+		...Website
+	}
+}
+
+mutation UpdateOneWebsite($id: String!, $data: WebsiteUpdateInput!) {
+	updateOneWebsite(data: $data, where: { id: $id }) {
+		...Website
+	}
+}
+
