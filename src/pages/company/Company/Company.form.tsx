@@ -65,7 +65,7 @@ export const CompanyForm: React.FC<CompanyFormProps> & PagePermissionOption = ({
           notifications.show({
             color: 'green',
             title: '成功提示',
-            message: `已成功更新公司: ${company.name}`,
+            message: `已成功更新企业: ${company.name}`,
           });
           setTimeout(() => {
             location.reload();
@@ -81,7 +81,7 @@ export const CompanyForm: React.FC<CompanyFormProps> & PagePermissionOption = ({
           notifications.show({
             color: 'green',
             title: '成功提示',
-            message: `已成功添加公司: ${company.name}`,
+            message: `已成功添加企业: ${company.name}`,
           });
           navigate('/company/list');
         })
@@ -134,7 +134,7 @@ export const CompanyForm: React.FC<CompanyFormProps> & PagePermissionOption = ({
           <Divider mt="md" variant="dashed" />
           <Group py="xs">
             <Text size="xs" opacity={0.5}>
-              提示：添加公司用于管理
+              提示：添加企业用于管理
             </Text>
           </Group>
         </Card>

@@ -9,7 +9,7 @@ const menus: MenuItem[] = [
   },
   {
     id: 'company-list',
-    label: '公司列表',
+    label: '企业列表',
     icon: 'solar:medal-ribbons-star-line-duotone',
     path: '/company/list',
   },

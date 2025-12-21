@@ -72,7 +72,7 @@ export const CompanyRoleForm: React.FC<CompanyRoleFormProps> = ({ item }) => {
           notifications.show({
             color: 'green',
             title: '成功提示',
-            message: `已成功更新公司角色: ${companyRole.name}`,
+            message: `已成功更新企业角色: ${companyRole.name}`,
           });
           navigate(backTo);
         })
@@ -86,7 +86,7 @@ export const CompanyRoleForm: React.FC<CompanyRoleFormProps> = ({ item }) => {
           notifications.show({
             color: 'green',
             title: '成功提示',
-            message: `已成功添加公司角色: ${companyRole.name}`,
+            message: `已成功添加企业角色: ${companyRole.name}`,
           });
           navigate(backTo);
         })
@@ -100,7 +100,7 @@ export const CompanyRoleForm: React.FC<CompanyRoleFormProps> = ({ item }) => {
       <Stack maw={800} gap="md">
         <FormPageAction
           backTo={backTo}
-          title={item ? '编辑公司角色' : '添加公司角色'}
+          title={item ? '编辑企业角色' : '添加企业角色'}
           isDirty={form.isDirty()}
           onReset={() => {
             form.reset();
@@ -144,7 +144,7 @@ export const CompanyRoleForm: React.FC<CompanyRoleFormProps> = ({ item }) => {
           <Divider mt="md" variant="dashed" />
           <Group py="xs">
             <Text size="xs" opacity={0.5}>
-              提示：公司角色用于控制公司成员的权限
+              提示：企业角色用于控制企业成员的权限
             </Text>
           </Group>
         </Card>

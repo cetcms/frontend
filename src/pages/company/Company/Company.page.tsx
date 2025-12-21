@@ -24,7 +24,7 @@ export const CompanyPage: React.FC & PagePermissionOption = () => {
   const hasCreate = checkPermission(PermissionAlias.CreateOneCompany);
   const hasEdit = checkPermission(PermissionAlias.UpdateOneCompany);
 
-  // 切换公司认证
+  // 切换企业认证
   const [switchAuthCompany] = useSwitchAuthCompany();
 
   return (
@@ -65,7 +65,7 @@ export const CompanyPage: React.FC & PagePermissionOption = () => {
         },
         {
           accessor: 'login',
-          title: '登录到公司',
+          title: '登录到企业',
           textAlign: 'center',
           width: 200,
           render: (item) => {

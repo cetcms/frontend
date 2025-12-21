@@ -8,12 +8,12 @@ import { useSwitchAuthCompany } from 'src/hooks';
 import { useAuthStore } from 'src/store';
 
 export const CurrentCompany = () => {
-  // 当前公司
+  // 当前企业
   const { company, admin } = useAuthStore();
   const whereNot: CompanyWhereInput = {};
   if (company) whereNot.id = { not: { equals: company.id } };
 
-  // 切换公司认证
+  // 切换企业认证
   const [switchAuthCompany, { loading }] = useSwitchAuthCompany();
   // 列表数据获取
   const [loadCompanies, result] = useLazyQuery(PaginateCompaniesDocument, {
@@ -82,7 +82,7 @@ export const CurrentCompany = () => {
           {pagination?.totalCount > take && (
             <TextInput
               leftSection={<IconSearch size={14} />}
-              placeholder="搜索公司"
+              placeholder="搜索企业"
               value={searchValue}
               onChange={(e) => {
                 setSearchValue(e.target.value);

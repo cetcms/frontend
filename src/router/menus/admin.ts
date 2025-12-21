@@ -15,18 +15,18 @@ const menus: MenuItem[] = [
     children: [
       {
         id: 'company-list',
-        label: '公司列表',
+        label: '企业列表',
         path: '/company/list',
         children: [
           {
             id: 'company-list-add',
-            label: '添加公司',
+            label: '添加企业',
             path: '/company/add',
             hide: true,
           },
           {
             id: 'company-list-edit',
-            label: '编辑公司',
+            label: '编辑企业',
             path: '/company/edit',
             hide: true,
           },
@@ -34,18 +34,18 @@ const menus: MenuItem[] = [
       },
       {
         id: 'company-role',
-        label: '公司角色',
+        label: '企业角色',
         path: '/company/roles',
         children: [
           {
             id: 'company-role-add',
-            label: '添加公司角色',
+            label: '添加企业角色',
             path: '/company/role/add',
             hide: true,
           },
           {
             id: 'company-role-edit',
-            label: '编辑公司角色',
+            label: '编辑企业角色',
             path: '/company/role/edit',
             hide: true,
           },
@@ -66,13 +66,13 @@ const menus: MenuItem[] = [
         children: [
           {
             id: 'website-add',
-            label: '添加成员',
+            label: '添加网站',
             path: '/project/website/add',
             hide: true,
           },
           {
             id: 'website-edit',
-            label: '编辑成员',
+            label: '编辑网站',
             path: '/project/website/edit',
             hide: true,
           },

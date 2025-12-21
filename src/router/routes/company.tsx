@@ -2,7 +2,7 @@ import { Navigate, RouteObject } from 'react-router';
 import { CompanyFormPage, CompanyRoleFormPage, CompanyRolePage } from 'src/pages/company';
 import { DashboardPage } from 'src/pages/home';
 import { MemberFormPage, MemberPage } from 'src/pages/member';
-import { WebsitePage } from 'src/pages/projects';
+import { WebsiteFormPage, WebsitePage } from 'src/pages/projects';
 
 const routes: RouteObject[] = [
   {
@@ -51,6 +51,14 @@ const routes: RouteObject[] = [
   {
     path: 'project/website/list',
     Component: WebsitePage,
+  },
+  {
+    path: 'project/website/add',
+    Component: WebsiteFormPage,
+  },
+  {
+    path: 'project/website/edit',
+    Component: WebsiteFormPage,
   },
 ];
 
