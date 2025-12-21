@@ -3,7 +3,7 @@ import { Button, Divider, Group, Modal, Stack } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { IconCheck, IconCirclesRelation } from "@tabler/icons-react";
+import { IconCheck, IconCirclesRelation } from '@tabler/icons-react';
 import { CompanyRoleSelect, PublicMemberSearch } from 'src/components/FormInputs';
 import { InviteMemberToCompanyDocument } from 'src/graphql';
 
@@ -43,7 +43,9 @@ export const BindToCompany = () => {
 
   return (
     <>
-      <Button leftSection={<IconCirclesRelation size={16} />} onClick={open}>邀请成员</Button>
+      <Button leftSection={<IconCirclesRelation size={16} />} onClick={open}>
+        邀请成员
+      </Button>
       <Modal opened={opened} onClose={close} title="邀请成员到企业">
         <Stack>
           <CompanyRoleSelect withAsterisk label="选择角色" allowDeselect={false} {...form.getInputProps('roleId')} />

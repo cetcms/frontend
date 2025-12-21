@@ -15,7 +15,7 @@ interface LoginFormValues {
 }
 
 export const LoginWithCodeForm = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['auth']);
   const [loading, setLoading] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   const form = useForm<LoginFormValues>({
@@ -28,8 +28,8 @@ export const LoginWithCodeForm = () => {
       },
     },
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-      password: (value) => (value.length <= 6 ? 'Password should include at least 6 characters' : null),
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : t('validation.invalid_email')),
+      password: (value) => (value.length <= 6 ? t('validation.password_min_length') : null),
     },
   });
 
@@ -105,8 +105,8 @@ export const LoginWithCodeForm = () => {
       <Stack>
         <TextInput
           required
-          label={t('auth:login.email.label')}
-          placeholder={t('auth:login.email.placeholder')}
+          label={t('label.email')}
+          placeholder={t('placeholder.email')}
           {...form.getInputProps('email')}
           rightSectionProps={{
             style: {
@@ -132,23 +132,23 @@ export const LoginWithCodeForm = () => {
               {resendTime > 0 ? (
                 <>
                   <span style={{ width: '2em', display: 'inline-block' }}>{resendTime}</span>
-                  秒后重发
+                  {t('button.resend_code')}
                 </>
               ) : (
-                '发送验证码'
+                t('button.send_code')
               )}
             </Button>
           }
         />
 
-        <Input.Wrapper required label={t('auth:login.password.label')}>
+        <Input.Wrapper required label={t('label.code')}>
           <PinInput size="lg" length={6} type="number" {...form.getInputProps('password')} />
         </Input.Wrapper>
       </Stack>
 
       <Group justify="space-between" mt="xl">
         <Button type="submit" radius="xl" loading={loading} w="100%">
-          {t('auth:login.submit')}
+          {t('button.login')}
         </Button>
       </Group>
     </form>

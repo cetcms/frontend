@@ -21,11 +21,11 @@ export const LoginPage = () => {
 
   return (
     <Container size={400} py="xl">
-      <Title ta="center">Welcome back!</Title>
+      <Title ta="center">{t('auth:page.title')}</Title>
       <Text c="dimmed" size="sm" ta="center" mt={5} mb="lg">
-        Do not have an account yet?{' '}
+        {t('auth:page.no_account')}{' '}
         <Anchor size="sm" component="button">
-          Create account
+          {t('auth:page.create_account')}
         </Anchor>
       </Text>
       <Card w="100%" p="xl" withBorder mb="xl">
@@ -38,7 +38,7 @@ export const LoginPage = () => {
           )}
         </Group>
 
-        <Divider label={t('auth:login.divider')} labelPosition="center" my="lg" />
+        <Divider label={t('auth:page.divider')} labelPosition="center" my="lg" />
 
         {searchParams.get('mode') === 'password' ? <LoginWithPasswordForm /> : <LoginWithCodeForm />}
       </Card>

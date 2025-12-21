@@ -23,7 +23,7 @@ interface LoginFormValues {
 export const LoginWithPasswordForm = () => {
   const { t } = useTranslation(['auth']);
   const [searchParams] = useSearchParams();
-  const [opened, { open, close }] = useDisclosure(false);
+  const [opened, { close }] = useDisclosure(false);
   const [parseHandler, { resetErrors }] = useParseApolloErrors();
   const form = useForm<LoginFormValues>({
     initialValues: {
@@ -35,8 +35,8 @@ export const LoginWithPasswordForm = () => {
       },
     },
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-      password: (value) => (value.length < 6 ? 'Password should include at least 6 characters' : null),
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : t('auth:validation.invalid_email')),
+      password: (value) => (value.length < 6 ? t('auth:validation.password_min_length') : null),
     },
   });
 
@@ -58,8 +58,8 @@ export const LoginWithPasswordForm = () => {
         if (data?.login) {
           notifications.show({
             color: 'green',
-            title: '登录成功',
-            message: '欢迎回来！正在跳转…',
+            title: t('auth:notification.login_success_title'),
+            message: t('auth:notification.login_success_message'),
           });
           setLogin(data.login as Login);
           location.reload();
@@ -72,7 +72,7 @@ export const LoginWithPasswordForm = () => {
             const detail = error.errors?.[0]?.message;
             notifications.show({
               color: 'red',
-              title: '登录失败',
+              title: t('auth:notification.login_failed_title'),
               icon: <IconX size={20} />,
               message: detail ? `${error.message}：${detail}` : error.message,
             });
@@ -80,9 +80,9 @@ export const LoginWithPasswordForm = () => {
         } else {
           notifications.show({
             color: 'red',
-            title: '登录失败',
+            title: t('auth:notification.login_failed_title'),
             icon: <IconX size={20} />,
-            message: '发生未知错误，请稍后重试',
+            message: t('auth:notification.login_failed_message'),
           });
         }
       });
