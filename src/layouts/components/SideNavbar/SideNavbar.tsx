@@ -7,6 +7,10 @@ import { useAuthStore, useMenuStore } from 'src/store';
 import { NavbarLink } from './NavbarLink';
 import { TreeLinks } from './TreeLinks';
 
+// 常量定义，提高代码可维护性
+const NAVBAR_PADDING = 2;
+const DIVIDER_WIDTH = 1;
+
 export interface SideNavbarProps {
   onCollapse?: (value: boolean) => void;
   width: number;
@@ -65,7 +69,7 @@ export const SideNavbar = ({ onCollapse, width }: SideNavbarProps) => {
           {...link}
           collapsed={collapsed}
           disabled={!checkPermission(link.permissions)}
-          width={width - 2}
+          width={width - NAVBAR_PADDING}
           key={link.id}
           label={t(link.label)}
           path={link.path || '#'}
@@ -88,7 +92,7 @@ export const SideNavbar = ({ onCollapse, width }: SideNavbarProps) => {
     return (
       <>
         <Divider orientation="vertical" h="100vh" />
-        <Box w={`calc(100% - ${width + 1}px)`}>
+        <Box w={`calc(100% - ${width + DIVIDER_WIDTH}px)`}>
           <TreeLinks links={children} parentMenuId={activeItem.id} />
         </Box>
       </>
@@ -105,7 +109,7 @@ export const SideNavbar = ({ onCollapse, width }: SideNavbarProps) => {
   if (isMember) {
     return (
       <ScrollArea>
-        <Stack p="xs" gap="xs" align="center" style={{ boxSizing: 'border-box', width: width - 2 }}>
+        <Stack p="xs" gap="xs" align="center" style={{ boxSizing: 'border-box', width: width - NAVBAR_PADDING }}>
           {renderMainMenuLinks(false)}
         </Stack>
       </ScrollArea>
@@ -124,7 +128,7 @@ export const SideNavbar = ({ onCollapse, width }: SideNavbarProps) => {
             align="center"
             style={{
               boxSizing: 'border-box',
-              width: width - 2,
+              width: width - NAVBAR_PADDING,
             }}
           >
             {renderMainMenuLinks(true)}
@@ -148,7 +152,7 @@ export const SideNavbar = ({ onCollapse, width }: SideNavbarProps) => {
           align="center"
           style={{
             boxSizing: 'border-box',
-            width: width - 2,
+            width: width - NAVBAR_PADDING,
           }}
         >
           {renderMainMenuLinks(true)}

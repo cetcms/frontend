@@ -12,19 +12,30 @@ import { useMenuStore } from 'src/store';
 export const Breadcrumb: React.FC = () => {
   const { activePath } = useMenuStore();
 
-  const items = activePath.map((item: MenuItem, index: number) => (
-    <Button
-      key={index}
-      size="compact-sm"
-      component={NavLink}
-      leftSection={!index && <Iconify icon={item.icon || ''} fontSize={16} />}
-      variant={activePath.length - 1 === index ? 'transparent' : 'subtle'}
-      color={activePath.length - 1 === index ? 'dark' : 'gray'}
-      to={item.path || '#'}
-    >
-      {item.label}
-    </Button>
-  ));
+  const items = activePath.map((item: MenuItem, index: number) => {
+    const isLast = activePath.length - 1 === index;
+    const hasPath = Boolean(item.path && item.path !== '#');
+    const isClickable = hasPath && !isLast;
+
+    return (
+      <Button
+        key={index}
+        size="compact-sm"
+        component={isClickable ? NavLink : 'div'}
+        leftSection={!index && <Iconify icon={item.icon || ''} fontSize={16} />}
+        variant={isLast ? 'transparent' : 'subtle'}
+        color={isLast ? 'dark' : 'gray'}
+        to={isClickable ? item.path : undefined}
+        disabled={!isClickable}
+        style={{
+          cursor: isClickable ? 'pointer' : 'default',
+          opacity: !isClickable && !isLast ? 0.6 : 1,
+        }}
+      >
+        {item.label}
+      </Button>
+    );
+  });
 
   return (
     <Breadcrumbs

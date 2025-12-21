@@ -76,7 +76,7 @@ const RenderLink: React.FC<RenderLinkProps> = ({ link }) => {
               to={child.path || '#'}
               label={t(child.label) || child.label}
               active={isChildActive}
-              disabled={!checkPermission(link.permissions)}
+              disabled={!checkPermission(child.permissions)}
               leftSection={
                 <LinkArrow
                   isLast={index === childrenCount - 1}

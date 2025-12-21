@@ -52,11 +52,13 @@ export const findMenuItemPath = (items: MenuItem[], id: string): MenuItem[] => {
  * @returns 匹配的菜单项或null
  */
 export const findMenuByPath = (items: MenuItem[], pathname: string): MenuItem | null => {
+  // 清理URL中的查询参数和hash,避免干扰路径匹配
+  const cleanPath = pathname.split('?')[0].split('#')[0];
   // 递归查找函数
   const findInItems = (menuItems: MenuItem[]): MenuItem | null => {
     for (const item of menuItems) {
-      // 精确匹配当前项
-      if (item.path === pathname) {
+      // 精确匹配当前项(使用清理后的路径)
+      if (item.path === cleanPath) {
         return item;
       }
 
@@ -81,9 +83,9 @@ export const findMenuByPath = (items: MenuItem[], pathname: string): MenuItem | 
   // 但要确保不匹配根路径 '/'
   const findByPrefix = (menuItems: MenuItem[]): MenuItem | null => {
     for (const item of menuItems) {
-      if (item.path && item.path !== '/' && pathname.startsWith(item.path)) {
+      if (item.path && item.path !== '/' && cleanPath.startsWith(item.path)) {
         // 确保是完整的路径段匹配，避免部分匹配
-        const nextChar = pathname[item.path.length];
+        const nextChar = cleanPath[item.path.length];
         if (nextChar === '/' || nextChar === undefined) {
           return item;
         }

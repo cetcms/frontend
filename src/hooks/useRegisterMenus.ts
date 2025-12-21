@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { MenuItem, MenuItemGroup } from 'src/router/menus';
 import adminMenuItems from 'src/router/menus/admin';
 import companyMenuItems from 'src/router/menus/company';
 import memberMenuItems from 'src/router/menus/member';
 import type { SetupAppOptions } from 'src/setup';
 import { useAuthStore, useMenuStore } from 'src/store';
+import { validateMenuStructure } from 'src/utils/menu';
 
 export const useRegisterMenus = (registerMenus: SetupAppOptions['registerMenus']) => {
   const { setMenuItems, menuItems } = useMenuStore();
@@ -23,14 +24,18 @@ export const useRegisterMenus = (registerMenus: SetupAppOptions['registerMenus']
     company: companyMenuItems,
   };
 
-  const filterMenuItems = (items: MenuItem[]): MenuItem[] => {
-    return items
-      .filter((item) => checkPermission(item.permissions))
-      .map((item) => ({
-        ...item,
-        children: item.children ? filterMenuItems(item.children) : undefined,
-      }));
-  };
+  // 使用 useCallback 优化过滤函数,避免每次渲染都创建新函数
+  const filterMenuItems = useCallback(
+    (items: MenuItem[]): MenuItem[] => {
+      return items
+        .filter((item) => checkPermission(item.permissions))
+        .map((item) => ({
+          ...item,
+          children: item.children ? filterMenuItems(item.children) : undefined,
+        }));
+    },
+    [checkPermission]
+  );
 
   useEffect(() => {
     let newMenuItems: MenuItem[] = [];
@@ -41,15 +46,38 @@ export const useRegisterMenus = (registerMenus: SetupAppOptions['registerMenus']
         } else if (currentMenu) {
           newMenuItems = defaultGroup[currentMenu];
         }
+
+        // 开发环境下验证菜单结构
+        if (process.env.NODE_ENV === 'development' && newMenuItems.length > 0) {
+          const { isValid, errors } = validateMenuStructure(newMenuItems);
+          if (!isValid) {
+            console.error('[MenuValidation] 菜单结构验证失败:', errors);
+          } else {
+            console.log('[MenuValidation] 菜单结构验证通过');
+          }
+        }
+
         setMenuItems(filterMenuItems(newMenuItems || []));
         setLoading(false);
       });
     } else {
       if (currentMenu) newMenuItems = defaultGroup[currentMenu];
+
+      // 开发环境下验证菜单结构
+      if (process.env.NODE_ENV === 'development' && newMenuItems.length > 0) {
+        const { isValid, errors } = validateMenuStructure(newMenuItems);
+        if (!isValid) {
+          console.error('[MenuValidation] 菜单结构验证失败:', errors);
+        } else {
+          console.log('[MenuValidation] 菜单结构验证通过');
+        }
+      }
+
       setMenuItems(filterMenuItems(newMenuItems || []));
       setLoading(false);
     }
-  }, [currentMenu]);
+    // 添加必要的依赖项
+  }, [currentMenu, filterMenuItems, registerMenus, setMenuItems]);
 
   return {
     menuItems,

@@ -105,24 +105,27 @@ export const useMenuStore = create<MenuStore>((set, get) => ({
     const { menuItems } = get();
     const activeItem = findMenuItem(menuItems, menuId);
 
-    if (activeItem) {
-      const activePath = findMenuItemPath(menuItems, menuId);
-      const activeIdPath = activePath.map((item) => item.id);
-      const expandedIds = getExpandedMenuIds(activePath);
-
-      const newExpandedMenus = { ...get().expandedMenus };
-      expandedIds.forEach((id) => {
-        newExpandedMenus[id] = true;
-      });
-
-      set({
-        activeMenuId: menuId,
-        activeItem,
-        activePath,
-        activeIdPath,
-        expandedMenus: newExpandedMenus,
-      });
+    if (!activeItem) {
+      console.warn(`[MenuStore] 菜单项 "${menuId}" 不存在,无法激活`);
+      return;
     }
+
+    const activePath = findMenuItemPath(menuItems, menuId);
+    const activeIdPath = activePath.map((item) => item.id);
+    const expandedIds = getExpandedMenuIds(activePath);
+
+    const newExpandedMenus = { ...get().expandedMenus };
+    expandedIds.forEach((id) => {
+      newExpandedMenus[id] = true;
+    });
+
+    set({
+      activeMenuId: menuId,
+      activeItem,
+      activePath,
+      activeIdPath,
+      expandedMenus: newExpandedMenus,
+    });
   },
 
   /**
