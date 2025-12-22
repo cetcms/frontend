@@ -1,20 +1,21 @@
 import { useQuery } from '@apollo/client/react';
 import { LoadingOverlay } from '@mantine/core';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router';
 import { DataTable } from 'src/components';
+import { filterLocalData } from 'src/components/DataFilter/utils';
 import { ListWebsiteSeoPageDocument, PermissionAlias } from 'src/graphql';
 import { PagePermissionOption } from 'src/store';
 
-const PAGE_SIZE = 13;
+const PAGE_SIZE = 10;
 
 export const WebsitePagesPage: React.FC & PagePermissionOption = () => {
   const { t } = useTranslation(['models', 'pages', 'common']);
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id');
   const [page, setPage] = useState(1);
-  const [records, setRecords] = useState<any[]>([]);
+  const [filterWhere, setFilterWhere] = useState<any>({});
 
   // 列表数据获取
   const { data, loading } = useQuery(ListWebsiteSeoPageDocument, {
@@ -24,12 +25,17 @@ export const WebsitePagesPage: React.FC & PagePermissionOption = () => {
   });
   const items = data?.listWebsiteSeoPage || [];
 
-  // 非远程分页处理
-  useEffect(() => {
+  // 应用本地过滤
+  const filteredItems = useMemo(() => {
+    return filterLocalData(items, filterWhere);
+  }, [items, filterWhere]);
+
+  // 计算当前页数据
+  const records = useMemo(() => {
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE;
-    setRecords(items.slice(from, to));
-  }, [page, items]);
+    return filteredItems.slice(from, to);
+  }, [page, filteredItems]);
 
   if (loading) {
     return <LoadingOverlay visible />;
@@ -49,12 +55,21 @@ export const WebsitePagesPage: React.FC & PagePermissionOption = () => {
     <DataTable
       loading={loading}
       records={records}
-      totalRecords={items.length}
+      totalRecords={filteredItems.length}
       recordsPerPage={PAGE_SIZE}
       page={page}
       onPageChange={(p) => setPage(p)}
       onChangeRequest={(params) => {
-        console.log('params', params);
+        // 应用本地筛选
+        if (params.where !== undefined) {
+          // 使用 JSON 序列化比较，避免对象引用问题
+          const newWhere = JSON.stringify(params.where);
+          const oldWhere = JSON.stringify(filterWhere);
+          if (newWhere !== oldWhere) {
+            setFilterWhere(params.where);
+            setPage(1); // 重置到第一页
+          }
+        }
       }}
       columns={[
         {

@@ -76,6 +76,12 @@ const menus: MenuItem[] = [
             path: '/project/website/edit',
             hide: true,
           },
+          {
+            id: 'website-pages',
+            label: 'navbar:website-pages',
+            path: '/project/website/pages',
+            hide: true,
+          },
         ],
       },
     ],
