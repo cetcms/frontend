@@ -10,9 +10,19 @@ export type ActionColumnProps = {
   editDisabled?: boolean | ((item: any) => boolean);
   viewRoute?: { path: string; paramFields: Record<string, string> };
   onDelete?: (item: any) => void;
+  append?: (record: any) => React.ReactNode;
+  prepend?: (record: any) => React.ReactNode;
 };
 
-export const ActionColumn: React.FC<ActionColumnProps> = ({ item, editRoute, editDisabled, viewRoute, onDelete }) => {
+export const ActionColumn: React.FC<ActionColumnProps> = ({
+  item,
+  editRoute,
+  editDisabled,
+  viewRoute,
+  onDelete,
+  append,
+  prepend,
+}) => {
   const { t } = useTranslation();
   const handleSearchQuery = useCallback(
     (item: any, paramFields: Record<string, string>): string => {
@@ -27,6 +37,7 @@ export const ActionColumn: React.FC<ActionColumnProps> = ({ item, editRoute, edi
   return (
     <>
       <Group gap="xs" justify="right">
+        {prepend?.(item)}
         {editRoute && (
           <IconButton
             disabled={editDisabled && (typeof editDisabled === 'boolean' ? editDisabled : editDisabled(item))}
@@ -43,6 +54,7 @@ export const ActionColumn: React.FC<ActionColumnProps> = ({ item, editRoute, edi
           />
         )}
         {onDelete && <IconButton icon={IconTrash} tooltip={t('delete')} />}
+        {append?.(item)}
       </Group>
     </>
   );

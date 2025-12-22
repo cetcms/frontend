@@ -52,5 +52,8 @@
   "error_title": "Something Went Wrong",
   "error_description": "Don't worry, it might be a temporary issue. You can try refreshing the page or return to the homepage to continue browsing.",
   "refresh_page": "Refresh Page",
-  "back_to_home": "Back to Home"
+  "back_to_home": "Back to Home",
+  "website_id_required": "Website ID is required",
+  "document_title": "Document Title",
+  "content_type": "Content Type"
 }

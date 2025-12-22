@@ -4,6 +4,7 @@ import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import UploadHttpLink from 'apollo-upload-client/UploadHttpLink.mjs';
 import React, { useEffect, useState } from 'react';
 import { Loading } from 'src/components';
+import { SERVER_GRAPHQL_API } from 'src/contract';
 import i18n from 'src/i18n';
 import { useAuthStore } from 'src/store/auth';
 const agent = FingerprintJS.load();
@@ -30,8 +31,8 @@ const createClient = (options: CreateClientOptions) => {
   return new ApolloClient({
     cache: new InMemoryCache(),
     link: new UploadHttpLink({
+      uri: SERVER_GRAPHQL_API,
       headers,
-      uri: 'http://localhost:3000/graphql',
     }),
   });
 };

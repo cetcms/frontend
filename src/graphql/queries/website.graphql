@@ -30,3 +30,15 @@ mutation UpdateOneWebsite($id: String!, $data: WebsiteUpdateInput!) {
 	}
 }
 
+query ListWebsiteSeoPage($id: String!) {
+	listWebsiteSeoPage(where: { id: $id }) {
+		apiId
+		contentType
+		document
+		documentId
+		documentTitle
+		id
+		title
+		url
+	}
+}

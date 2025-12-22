@@ -132,6 +132,7 @@ fragment Website on Website {
 	companyId
 	createdAt
 	description
+	hasCmsApiToken
 	id
 	title
 	updatedAt

@@ -1,7 +1,8 @@
 import { useQuery } from '@apollo/client/react';
+import { IconEye } from '@tabler/icons-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { DataTable } from 'src/components';
+import { DataTable, IconButton } from 'src/components';
 import { PaginateWebsitesDocument, PaginationFragment, PermissionAlias, WebsiteCms } from 'src/graphql';
 import { PagePermissionOption, useAuthStore } from 'src/store';
 
@@ -25,6 +26,9 @@ export const WebsitePage: React.FC & PagePermissionOption = () => {
     <DataTable
       editRoute={hasEdit ? { path: '/project/website/edit', paramFields: { id: 'id' } } : undefined}
       addRoutePath={hasCreate ? '/project/website/add' : undefined}
+      actionColumnAppend={(record) => {
+        return <IconButton icon={IconEye} tooltip={t('pages')} to={`/project/website/pages?id=${record.id}`} />;
+      }}
       onChangeRequest={(params) => {
         refetch({
           take: params.take,

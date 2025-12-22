@@ -9,9 +9,9 @@ import { WebsiteForm } from './Website.form';
 
 export const WebsiteFormPage: React.FC & PagePermissionOption = () => {
   const [loading, setLoading] = useState(true);
-  const [findOneWebsite, { data }] = useLazyQuery(FindOneWebsiteDocument);
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id');
+  const [findOneWebsite, { data }] = useLazyQuery(FindOneWebsiteDocument);
 
   useEffect(() => {
     if (id) {
@@ -26,6 +26,11 @@ export const WebsiteFormPage: React.FC & PagePermissionOption = () => {
   if (loading) {
     return <LoadingOverlay visible />;
   }
+
+  if (!id) {
+    return <>参数错误</>;
+  }
+
   return (
     <Group p="md" justify="start">
       <WebsiteForm item={data?.findOneWebsite as Website} />

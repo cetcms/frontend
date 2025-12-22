@@ -52,5 +52,8 @@
   "error_title": "发生了点小问题",
   "error_description": "别担心，可能是临时小故障。你可以尝试刷新页面或返回首页继续浏览。",
   "refresh_page": "刷新页面",
-  "back_to_home": "返回首页"
+  "back_to_home": "返回首页",
+  "website_id_required": "网站ID缺失",
+  "document_title": "文档标题",
+  "content_type": "内容类型"
 }

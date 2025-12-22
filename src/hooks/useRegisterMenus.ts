@@ -46,33 +46,11 @@ export const useRegisterMenus = (registerMenus: SetupAppOptions['registerMenus']
         } else if (currentMenu) {
           newMenuItems = defaultGroup[currentMenu];
         }
-
-        // 开发环境下验证菜单结构
-        if (process.env.NODE_ENV === 'development' && newMenuItems.length > 0) {
-          const { isValid, errors } = validateMenuStructure(newMenuItems);
-          if (!isValid) {
-            console.error('[MenuValidation] 菜单结构验证失败:', errors);
-          } else {
-            console.log('[MenuValidation] 菜单结构验证通过');
-          }
-        }
-
         setMenuItems(filterMenuItems(newMenuItems || []));
         setLoading(false);
       });
     } else {
       if (currentMenu) newMenuItems = defaultGroup[currentMenu];
-
-      // 开发环境下验证菜单结构
-      if (process.env.NODE_ENV === 'development' && newMenuItems.length > 0) {
-        const { isValid, errors } = validateMenuStructure(newMenuItems);
-        if (!isValid) {
-          console.error('[MenuValidation] 菜单结构验证失败:', errors);
-        } else {
-          console.log('[MenuValidation] 菜单结构验证通过');
-        }
-      }
-
       setMenuItems(filterMenuItems(newMenuItems || []));
       setLoading(false);
     }

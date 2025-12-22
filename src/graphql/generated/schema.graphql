@@ -898,6 +898,7 @@ type Query {
 	listMediaFiles(fileIds: [String!]!): [MediaFile!]!
 	listSearchMembers(keyword: String): PaginatedMember!
 	listSelfNotifications: [Notification!]!
+	listWebsiteSeoPage(where: WebsiteWhereUniqueInput!): [WebsiteSeoPage!]!
 	logout: Boolean!
 	paginateAdminCompanies(cursor: AdminCompanyWhereUniqueInput, distinct: [AdminCompanyScalarFieldEnum!], orderBy: [AdminCompanyOrderByWithRelationInput!], skip: Int, take: Int, where: AdminCompanyWhereInput): PaginatedAdminCompany!
 	paginateAdminRoles(cursor: AdminRoleWhereUniqueInput, distinct: [AdminRoleScalarFieldEnum!], orderBy: [AdminRoleOrderByWithRelationInput!], skip: Int, take: Int, where: AdminRoleWhereInput): PaginatedAdminRole!
@@ -1038,6 +1039,7 @@ type Website {
 	companyId: String!
 	createdAt: DateTime!
 	description: String
+	hasCmsApiToken: Boolean!
 	id: ID!
 	title: String!
 	updatedAt: DateTime!
@@ -1079,6 +1081,17 @@ type WebsiteMinAggregate {
 	id: String
 	title: String
 	updatedAt: DateTime
+}
+
+type WebsiteSeoPage {
+	apiId: String!
+	contentType: ContentDataType!
+	document: String!
+	documentId: String!
+	documentTitle: String!
+	id: Float!
+	title: String!
+	url: String!
 }
 
 enum AdminCompanyScalarFieldEnum {
@@ -1150,6 +1163,11 @@ enum CompanyScalarFieldEnum {
 	name
 	status
 	updatedAt
+}
+
+enum ContentDataType {
+	Collection
+	Single
 }
 
 enum MediaStore {
@@ -1284,6 +1302,7 @@ enum PermissionAlias {
 	ListCompanyRolePermission
 	ListSearchMembers
 	ListSelfNotifications
+	ListWebsiteSeoPage
 	PaginateAdminCompanies
 	PaginateAdminRoles
 	PaginateAdmins

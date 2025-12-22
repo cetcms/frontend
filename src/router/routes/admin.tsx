@@ -3,7 +3,7 @@ import { AdminFormPage, AdminPage, AdminRoleFormPage, AdminRolePage } from 'src/
 import { CompanyFormPage, CompanyPage, CompanyRoleFormPage, CompanyRolePage } from 'src/pages/company';
 import { DashboardPage } from 'src/pages/home';
 import { MemberFormPage, MemberPage } from 'src/pages/member';
-import { WebsitePage, WebsiteFormPage } from 'src/pages/projects';
+import { WebsitePage, WebsiteFormPage, WebsitePagesPage } from 'src/pages/projects';
 
 const routes: RouteObject[] = [
   {
@@ -88,6 +88,10 @@ const routes: RouteObject[] = [
   {
     path: 'project/website/edit',
     Component: WebsiteFormPage,
+  },
+  {
+    path: 'project/website/pages',
+    Component: WebsitePagesPage,
   },
 ];
 

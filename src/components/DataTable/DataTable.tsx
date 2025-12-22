@@ -29,6 +29,8 @@ export type DataTableProps = {
   render?: (record: any, index: number) => React.ReactNode;
   toolbarPrepend?: DataToolbarProps['prepend'];
   toolbarAppend?: DataToolbarProps['append'];
+  actionColumnPrepend?: ActionColumnProps['prepend'];
+  actionColumnAppend?: ActionColumnProps['append'];
   columns: Array<
     DataTableColumn & {
       hiddenFilter?: boolean;
@@ -49,6 +51,8 @@ export const DataTable: React.FC<DataTableProps> = ({
   onChangeRequest,
   toolbarPrepend,
   toolbarAppend,
+  actionColumnPrepend,
+  actionColumnAppend,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -121,7 +125,14 @@ export const DataTable: React.FC<DataTableProps> = ({
       textAlign: 'right',
       width: 200,
       render: (item: any) => (
-        <ActionColumn item={item} viewRoute={viewRoute} editRoute={editRoute} editDisabled={editDisabled} />
+        <ActionColumn
+          item={item}
+          viewRoute={viewRoute}
+          editRoute={editRoute}
+          editDisabled={editDisabled}
+          prepend={actionColumnPrepend}
+          append={actionColumnAppend}
+        />
       ),
     });
   }
