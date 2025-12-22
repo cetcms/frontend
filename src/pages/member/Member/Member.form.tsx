@@ -32,7 +32,7 @@ export type MemberFormValues = MemberCreateInput & {
 
 export const MemberForm: React.FC<MemberFormProps> = ({ item }) => {
   const backTo = '/member/list';
-  const { t } = useTranslation('models');
+  const { t } = useTranslation(['models', 'pages', 'common', 'validation']);
   const navigate = useNavigate();
   const [createMember, { loading: creating }] = useMutation(CreateOneMemberDocument);
   const [updateMember, { loading: updating }] = useMutation(UpdateOneMemberDocument);
@@ -56,7 +56,7 @@ export const MemberForm: React.FC<MemberFormProps> = ({ item }) => {
       name: isNotEmpty(t('validation:inputRequired', { field: t('Member.name') })),
       confirmPassword: (value, values) => {
         const required = isNotEmpty(
-          t('validation:inputRequired', { field: t('confirmMatch', { field: t('Member.password') }) })
+          t('validation:inputRequired', { field: t('common:confirmMatch', { field: t('Member.password') }) })
         );
         const matches = matchesField('password', t('validation:confirmMatch', { field: t('Member.password') }));
         if (values.password) {
@@ -98,8 +98,8 @@ export const MemberForm: React.FC<MemberFormProps> = ({ item }) => {
           const member = data?.updateOneMember as Member;
           notifications.show({
             color: 'green',
-            title: '成功提示',
-            message: `已成功更新成员: ${member.name}`,
+            title: t('pages:success_notification'),
+            message: t('pages:update_member_success', { name: member.name }),
           });
           navigate(backTo);
         })
@@ -112,8 +112,8 @@ export const MemberForm: React.FC<MemberFormProps> = ({ item }) => {
           const member = data?.createOneMember as Member;
           notifications.show({
             color: 'green',
-            title: '成功提示',
-            message: `已成功添加成员: ${member.name}`,
+            title: t('pages:success_notification'),
+            message: t('pages:add_member_success', { name: member.name }),
           });
           navigate(backTo);
         })
@@ -127,7 +127,7 @@ export const MemberForm: React.FC<MemberFormProps> = ({ item }) => {
       <Stack maw={800} gap="md">
         <FormPageAction
           backTo={backTo}
-          title={item ? '编辑成员' : '添加成员'}
+          title={item ? t('pages:edit_member') : t('pages:add_member')}
           isDirty={form.isDirty()}
           onReset={() => {
             form.reset();
@@ -149,7 +149,7 @@ export const MemberForm: React.FC<MemberFormProps> = ({ item }) => {
             <Grid.Col span={1}>
               <PasswordInput
                 withAsterisk={!item}
-                label={t('confirmMatch', { field: t('Member.password') })}
+                label={t('common:confirmMatch', { field: t('Member.password') })}
                 {...form.getInputProps('confirmPassword')}
               />
             </Grid.Col>
@@ -176,7 +176,7 @@ export const MemberForm: React.FC<MemberFormProps> = ({ item }) => {
           <Divider mt="md" variant="dashed" />
           <Group py="xs">
             <Text size="xs" opacity={0.5}>
-              提示：添加成员用于登录
+              {t('pages:member_tip')}
             </Text>
           </Group>
         </Card>

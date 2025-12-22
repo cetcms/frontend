@@ -32,7 +32,7 @@ export type AdminFormValues = AdminCreateInput & {
 
 export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
   const backTo = '/admin/list';
-  const { t } = useTranslation('models');
+  const { t } = useTranslation(['models', 'pages', 'common', 'validation']);
   const navigate = useNavigate();
   const [createAdmin, { loading: creating }] = useMutation(CreateOneAdminDocument);
   const [updateAdmin, { loading: updating }] = useMutation(UpdateOneAdminDocument);
@@ -58,7 +58,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
       role: { connect: { id: isNotEmpty(t('validation:selectRequired', { field: t('Admin.role') })) } },
       confirmPassword: (value, values) => {
         const required = isNotEmpty(
-          t('validation:inputRequired', { field: t('confirmMatch', { field: t('Admin.password') }) })
+          t('validation:inputRequired', { field: t('common:confirmMatch', { field: t('Admin.password') }) })
         );
         const matches = matchesField('password', t('validation:confirmMatch', { field: t('Admin.password') }));
         if (values.password) {
@@ -101,8 +101,8 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
           const admin = data?.updateOneAdmin as Admin;
           notifications.show({
             color: 'green',
-            title: '成功提示',
-            message: `已成功更新管理员: ${admin.name}`,
+            title: t('pages:success_notification'),
+            message: t('pages:update_admin_success', { name: admin.name }),
           });
           navigate(backTo);
         })
@@ -115,8 +115,8 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
           const admin = data?.createOneAdmin as Admin;
           notifications.show({
             color: 'green',
-            title: '成功提示',
-            message: `已成功添加管理员: ${admin.name}`,
+            title: t('pages:success_notification'),
+            message: t('pages:add_admin_success', { name: admin.name }),
           });
           navigate(backTo);
         })
@@ -130,7 +130,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
       <Stack maw={800} gap="md">
         <FormPageAction
           backTo={backTo}
-          title={item ? '编辑管理员' : '添加管理员'}
+          title={item ? t('pages:edit_admin') : t('pages:add_admin')}
           isDirty={form.isDirty()}
           onReset={() => {
             form.reset();
@@ -160,7 +160,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
             <Grid.Col span={1}>
               <PasswordInput
                 withAsterisk={!item}
-                label={t('confirmMatch', { field: t('Admin.password') })}
+                label={t('common:confirmMatch', { field: t('Admin.password') })}
                 {...form.getInputProps('confirmPassword')}
               />
             </Grid.Col>
@@ -182,7 +182,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
           <Divider mt="md" variant="dashed" />
           <Group py="xs">
             <Text size="xs" opacity={0.5}>
-              提示：添加管理员用于登录
+              {t('pages:member_tip')}
             </Text>
           </Group>
         </Card>

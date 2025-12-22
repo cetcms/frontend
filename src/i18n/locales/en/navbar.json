@@ -2,7 +2,7 @@
   "home": "Home",
   "dashboard": "Dashboard",
   "company": "Company Management",
-  "company-list": "Company List",
+  "company-list": "Companies",
   "company-list-add": "Add Company",
   "company-list-edit": "Edit Company",
   "company-info": "Company Information",
@@ -10,11 +10,11 @@
   "company-role-add": "Add Company Role",
   "company-role-edit": "Edit Company Role",
   "project": "Project Management",
-  "website": "Website List",
+  "website": "Websites",
   "website-add": "Add Website",
   "website-edit": "Edit Website",
   "admin": "System Administrators",
-  "admin-list": "Admin List",
+  "admin-list": "Admins",
   "admin-list-add": "Add Admin",
   "admin-list-edit": "Edit Admin",
   "admin-role": "Admin Roles",
@@ -26,5 +26,5 @@
   "media": "Media Resources",
   "divider": "Divider",
   "setting": "System Settings",
-  "notification-list": "Notification List"
+  "notification-list": "Notifications"
 }

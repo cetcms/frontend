@@ -39,7 +39,7 @@ export type WebsiteFormValues = Omit<WebsiteCreateInput, 'company'> & {
 
 export const WebsiteForm: React.FC<WebsiteFormProps> = ({ item }) => {
   const backTo = '/project/website/list';
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['models', 'pages', 'validation']);
   const navigate = useNavigate();
   const { auth } = useAuthStore();
   const [createWebsite, { loading: creating }] = useMutation(CreateOneWebsiteDocument);
@@ -58,8 +58,8 @@ export const WebsiteForm: React.FC<WebsiteFormProps> = ({ item }) => {
       companyId: item?.companyId || auth?.companyId || '',
     },
     validate: {
-      title: isNotEmpty(t('请输入网站标题')),
-      companyId: isNotEmpty(t('企业ID不能为空')),
+      title: isNotEmpty(t('validation:inputRequired', { field: t('pages:website_title') })),
+      companyId: isNotEmpty(t('pages:company_id_required')),
     },
   });
 
@@ -85,8 +85,8 @@ export const WebsiteForm: React.FC<WebsiteFormProps> = ({ item }) => {
           const website = data?.updateOneWebsite as Website;
           notifications.show({
             color: 'green',
-            title: '成功提示',
-            message: `已成功更新网站: ${website.title}`,
+            title: t('pages:success_notification'),
+            message: t('pages:update_website_success', { title: website.title }),
           });
           navigate(backTo);
         })
@@ -109,8 +109,8 @@ export const WebsiteForm: React.FC<WebsiteFormProps> = ({ item }) => {
           const website = data?.createOneWebsite as Website;
           notifications.show({
             color: 'green',
-            title: '成功提示',
-            message: `已成功添加网站: ${website.title}`,
+            title: t('pages:success_notification'),
+            message: t('pages:add_website_success', { title: website.title }),
           });
           navigate(backTo);
         })
@@ -124,7 +124,7 @@ export const WebsiteForm: React.FC<WebsiteFormProps> = ({ item }) => {
       <Stack maw={800} gap="md">
         <FormPageAction
           backTo={backTo}
-          title={item ? '编辑网站' : '添加网站'}
+          title={item ? t('pages:edit_website') : t('pages:add_website')}
           isDirty={form.isDirty()}
           onReset={() => {
             form.reset();
@@ -135,18 +135,18 @@ export const WebsiteForm: React.FC<WebsiteFormProps> = ({ item }) => {
           <FormPageErrors errors={errors} />
           <Grid columns={2}>
             <Grid.Col span={2}>
-              <TextInput withAsterisk label="网站标题" {...form.getInputProps('title')} />
+              <TextInput withAsterisk label={t('Website.title')} {...form.getInputProps('title')} />
             </Grid.Col>
             <Grid.Col span={2}>
-              <Textarea label="描述" {...form.getInputProps('description')} />
+              <Textarea label={t('Website.description')} {...form.getInputProps('description')} />
             </Grid.Col>
             <Grid.Col span={2}>
-              <CompanySelect label="关联企业" {...form.getInputProps('companyId')} required />
+              <CompanySelect label={t('Website.companyId')} {...form.getInputProps('companyId')} required />
             </Grid.Col>
             <Grid.Col span={1}>
               <Select
                 allowDeselect
-                label="CMS类型"
+                label={t('Website.cms')}
                 data={[
                   { label: 'WordPress', value: WebsiteCms.WordPress },
                   { label: 'Strapi', value: WebsiteCms.Strapi },
@@ -156,14 +156,14 @@ export const WebsiteForm: React.FC<WebsiteFormProps> = ({ item }) => {
               />
             </Grid.Col>
             <Grid.Col span={1}>
-              <TextInput label="CMS API 地址" {...form.getInputProps('cmsApiUrl')} />
+              <TextInput label={t('Website.cmsApiUrl')} {...form.getInputProps('cmsApiUrl')} />
             </Grid.Col>
             <Grid.Col span={2}>
-              <TextInput label="CMS API Token" type="password" {...form.getInputProps('cmsApiToken')} />
+              <TextInput label={t('Website.cmsApiToken')} type="password" {...form.getInputProps('cmsApiToken')} />
             </Grid.Col>
             <Grid.Col span={2}>
               <JsonInput
-                label="CMS 配置 (JSON)"
+                label={t('Website.cmsConfig')}
                 placeholder='{"key": "value"}'
                 minRows={4}
                 formatOnBlur
@@ -175,7 +175,7 @@ export const WebsiteForm: React.FC<WebsiteFormProps> = ({ item }) => {
           <Divider mt="md" variant="dashed" />
           <Group py="xs">
             <Text size="xs" opacity={0.5}>
-              提示：添加网站用于管理内容
+              {t('pages:website_tip')}
             </Text>
           </Group>
         </Card>

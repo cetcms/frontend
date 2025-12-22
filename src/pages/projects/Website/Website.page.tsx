@@ -6,7 +6,7 @@ import { PaginateWebsitesDocument, PaginationFragment, PermissionAlias, WebsiteC
 import { PagePermissionOption, useAuthStore } from 'src/store';
 
 export const WebsitePage: React.FC & PagePermissionOption = () => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['models', 'pages']);
 
   // 列表数据获取
   const { data, loading, refetch } = useQuery(PaginateWebsitesDocument, {
@@ -38,17 +38,17 @@ export const WebsitePage: React.FC & PagePermissionOption = () => {
       columns={[
         {
           accessor: 'id',
-          title: 'ID',
+          title: t('Website.id'),
           type: 'string',
         },
         {
           accessor: 'title',
-          title: '网站标题',
+          title: t('Website.title'),
           type: 'string',
         },
         {
           accessor: 'cms',
-          title: 'CMS类型',
+          title: t('Website.cms'),
           type: 'enum',
           options: [
             { label: 'WordPress', value: WebsiteCms.WordPress },
@@ -58,22 +58,22 @@ export const WebsitePage: React.FC & PagePermissionOption = () => {
         },
         {
           accessor: 'cmsApiUrl',
-          title: 'API地址',
+          title: t('Website.cmsApiUrl'),
           type: 'string',
         },
         {
           accessor: 'description',
-          title: '描述',
+          title: t('Website.description'),
           type: 'string',
         },
         {
           accessor: 'createdAt',
-          title: t('创建时间'),
+          title: t('Website.createdAt'),
           type: 'date',
         },
         {
           accessor: 'updatedAt',
-          title: t('更新时间'),
+          title: t('Website.updatedAt'),
           type: 'date',
         },
       ]}

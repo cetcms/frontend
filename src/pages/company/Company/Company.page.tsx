@@ -9,7 +9,7 @@ import { useSwitchAuthCompany } from 'src/hooks';
 import { PagePermissionOption, useAuthStore } from 'src/store';
 
 export const CompanyPage: React.FC & PagePermissionOption = () => {
-  const { t } = useTranslation('models');
+  const { t } = useTranslation(['models', 'pages']);
 
   // 列表数据获取
   const { data, loading, refetch } = useQuery(PaginateCompaniesDocument, {
@@ -65,14 +65,18 @@ export const CompanyPage: React.FC & PagePermissionOption = () => {
         },
         {
           accessor: 'login',
-          title: '登录到企业',
+          title: t('pages:login_to_company'),
           textAlign: 'center',
           width: 200,
           render: (item) => {
             const company = item as Company;
             return (
               <Center>
-                <IconButton icon={IconLogin2} tooltip={t('edit')} onClick={() => switchAuthCompany(company.id, '/')} />
+                <IconButton
+                  icon={IconLogin2}
+                  tooltip={t('pages:login_to_company')}
+                  onClick={() => switchAuthCompany(company.id, '/')}
+                />
               </Center>
             );
           },

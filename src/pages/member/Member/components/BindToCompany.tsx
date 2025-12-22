@@ -4,10 +4,12 @@ import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconCirclesRelation } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { CompanyRoleSelect, PublicMemberSearch } from 'src/components/FormInputs';
 import { InviteMemberToCompanyDocument } from 'src/graphql';
 
 export const BindToCompany = () => {
+  const { t } = useTranslation(['pages', 'common']);
   const [opened, { open, close }] = useDisclosure();
   const [inviteMemberToCompany] = useMutation(InviteMemberToCompanyDocument);
   const form = useForm({
@@ -16,8 +18,8 @@ export const BindToCompany = () => {
       memberId: '',
     },
     validate: {
-      roleId: (value) => (value ? null : '请选择角色'),
-      memberId: (value) => (value ? null : '请选择成员'),
+      roleId: (value) => (value ? null : t('pages:role_required')),
+      memberId: (value) => (value ? null : t('pages:member_required')),
     },
   });
 
@@ -33,8 +35,8 @@ export const BindToCompany = () => {
         notifications.show({
           color: 'green',
           icon: <IconCheck />,
-          title: '成功提示',
-          message: '已成功邀请成员加入企业',
+          title: t('pages:success_notification'),
+          message: t('pages:invite_success'),
         });
         close();
       });
@@ -44,17 +46,22 @@ export const BindToCompany = () => {
   return (
     <>
       <Button leftSection={<IconCirclesRelation size={16} />} onClick={open}>
-        邀请成员
+        {t('pages:invite_member')}
       </Button>
-      <Modal opened={opened} onClose={close} title="邀请成员到企业">
+      <Modal opened={opened} onClose={close} title={t('pages:invite_member_to_company')}>
         <Stack>
-          <CompanyRoleSelect withAsterisk label="选择角色" allowDeselect={false} {...form.getInputProps('roleId')} />
-          <PublicMemberSearch withAsterisk label="选择成员" {...form.getInputProps('memberId')} />
+          <CompanyRoleSelect
+            withAsterisk
+            label={t('pages:select_role')}
+            allowDeselect={false}
+            {...form.getInputProps('roleId')}
+          />
+          <PublicMemberSearch withAsterisk label={t('pages:select_member')} {...form.getInputProps('memberId')} />
           <Divider variant="dashed" />
           <Group justify="center">
-            <Button onClick={handleSubmit}>确认</Button>
+            <Button onClick={handleSubmit}>{t('common:confirm')}</Button>
             <Button onClick={close} variant="default">
-              取消
+              {t('common:cancel')}
             </Button>
           </Group>
         </Stack>

@@ -26,7 +26,7 @@ export type CompanyRoleFormValues = CompanyRoleCreateInput;
 
 export const CompanyRoleForm: React.FC<CompanyRoleFormProps> = ({ item }) => {
   const backTo = '/company/roles';
-  const { t } = useTranslation('models');
+  const { t } = useTranslation(['models', 'pages', 'validation']);
   const navigate = useNavigate();
   const [createCompanyRole, { loading: creating }] = useMutation(CreateOneCompanyRoleDocument);
   const [updateCompanyRole, { loading: updating }] = useMutation(UpdateOneCompanyRoleDocument);
@@ -71,8 +71,8 @@ export const CompanyRoleForm: React.FC<CompanyRoleFormProps> = ({ item }) => {
           const companyRole = data?.updateOneCompanyRole as CompanyRole;
           notifications.show({
             color: 'green',
-            title: '成功提示',
-            message: `已成功更新企业角色: ${companyRole.name}`,
+            title: t('pages:success_notification'),
+            message: t('pages:update_company_role_success', { name: companyRole.name }),
           });
           navigate(backTo);
         })
@@ -85,8 +85,8 @@ export const CompanyRoleForm: React.FC<CompanyRoleFormProps> = ({ item }) => {
           const companyRole = data?.createOneCompanyRole as CompanyRole;
           notifications.show({
             color: 'green',
-            title: '成功提示',
-            message: `已成功添加企业角色: ${companyRole.name}`,
+            title: t('pages:success_notification'),
+            message: t('pages:add_company_role_success', { name: companyRole.name }),
           });
           navigate(backTo);
         })
@@ -100,7 +100,7 @@ export const CompanyRoleForm: React.FC<CompanyRoleFormProps> = ({ item }) => {
       <Stack maw={800} gap="md">
         <FormPageAction
           backTo={backTo}
-          title={item ? '编辑企业角色' : '添加企业角色'}
+          title={item ? t('pages:edit_company_role') : t('pages:add_company_role')}
           isDirty={form.isDirty()}
           onReset={() => {
             form.reset();

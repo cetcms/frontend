@@ -18,7 +18,7 @@ export type CompanyFormProps = {
 export type CompanyFormValues = CompanyCreateInput;
 
 export const CompanyForm: React.FC<CompanyFormProps> & PagePermissionOption = ({ item }) => {
-  const { t } = useTranslation('models');
+  const { t } = useTranslation(['models', 'pages', 'validation']);
   const navigate = useNavigate();
   const [createCompany, { loading: creating }] = useMutation(CreateOneCompanyDocument);
   const [updateCompany, { loading: updating }] = useMutation(UpdateOneCompanyDocument);
@@ -64,8 +64,8 @@ export const CompanyForm: React.FC<CompanyFormProps> & PagePermissionOption = ({
           const company = data?.updateOneCompany as Company;
           notifications.show({
             color: 'green',
-            title: '成功提示',
-            message: `已成功更新企业: ${company.name}`,
+            title: t('pages:success_notification'),
+            message: t('pages:update_company_success', { name: company.name }),
           });
           setTimeout(() => {
             location.reload();
@@ -80,8 +80,8 @@ export const CompanyForm: React.FC<CompanyFormProps> & PagePermissionOption = ({
           const company = data?.createOneCompany as Company;
           notifications.show({
             color: 'green',
-            title: '成功提示',
-            message: `已成功添加企业: ${company.name}`,
+            title: t('pages:success_notification'),
+            message: t('pages:add_company_success', { name: company.name }),
           });
           navigate('/company/list');
         })

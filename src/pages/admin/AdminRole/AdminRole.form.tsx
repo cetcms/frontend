@@ -26,7 +26,7 @@ export type AdminRoleFormValues = AdminRoleCreateInput;
 
 export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
   const backTo = '/admin/roles';
-  const { t } = useTranslation('models');
+  const { t } = useTranslation(['models', 'pages', 'validation']);
   const navigate = useNavigate();
   const [createAdminRole, { loading: creating }] = useMutation(CreateOneAdminRoleDocument);
   const [updateAdminRole, { loading: updating }] = useMutation(UpdateOneAdminRoleDocument);
@@ -71,8 +71,8 @@ export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
           const adminRole = data?.updateOneAdminRole as AdminRole;
           notifications.show({
             color: 'green',
-            title: '成功提示',
-            message: `已成功更新管理员角色: ${adminRole.name}`,
+            title: t('pages:success_notification'),
+            message: t('pages:update_admin_role_success', { name: adminRole.name }),
           });
           navigate(backTo);
         })
@@ -85,8 +85,8 @@ export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
           const adminRole = data?.createOneAdminRole as AdminRole;
           notifications.show({
             color: 'green',
-            title: '成功提示',
-            message: `已成功添加管理员角色: ${adminRole.name}`,
+            title: t('pages:success_notification'),
+            message: t('pages:add_admin_role_success', { name: adminRole.name }),
           });
           navigate(backTo);
         })
@@ -100,7 +100,7 @@ export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
       <Stack maw={800} gap="md">
         <FormPageAction
           backTo={backTo}
-          title={item ? '编辑管理员角色' : '添加管理员角色'}
+          title={item ? t('pages:edit_admin_role') : t('pages:add_admin_role')}
           isDirty={form.isDirty()}
           onReset={() => {
             form.reset();

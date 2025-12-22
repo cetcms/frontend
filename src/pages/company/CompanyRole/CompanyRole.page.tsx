@@ -14,7 +14,7 @@ import {
 import { PagePermissionOption, useAuthStore } from 'src/store';
 
 export const CompanyRolePage: React.FC & PagePermissionOption = () => {
-  const { t } = useTranslation('models');
+  const { t } = useTranslation(['models', 'pages']);
   const { isAdmin, isCompany } = useAuthStore();
 
   // 列表数据获取
@@ -62,7 +62,7 @@ export const CompanyRolePage: React.FC & PagePermissionOption = () => {
         },
         {
           accessor: 'company.name',
-          title: '角色所属',
+          title: t('pages:role_owner'),
           type: 'string',
           textAlign: 'center',
           render: (_item) => {
@@ -70,12 +70,12 @@ export const CompanyRolePage: React.FC & PagePermissionOption = () => {
             if (!item?.company) {
               return (
                 <Badge variant="light" color="red">
-                  系统角色
+                  {t('pages:system_role')}
                 </Badge>
               );
             }
             if (isCompany) {
-              return <Badge variant="light">企业角色</Badge>;
+              return <Badge variant="light">{t('pages:company_role')}</Badge>;
             }
             return <Badge variant="light">{item.company.name}</Badge>;
           },
@@ -88,7 +88,11 @@ export const CompanyRolePage: React.FC & PagePermissionOption = () => {
           width: '120px',
           render(_item) {
             const item: AdminRole = _item as any;
-            return <Badge variant="light">{item.permissions?.length || 0} 项</Badge>;
+            return (
+              <Badge variant="light">
+                {item.permissions?.length || 0} {t('pages:items')}
+              </Badge>
+            );
           },
         },
         {

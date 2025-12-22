@@ -23,7 +23,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const fullWidth = 260;
   const collapsedWidth = 63;
-  const memberWidth = 150;
+  const memberWidth = 200;
   const { isMember } = useAuthStore();
   const navbarWidth = isMember ? memberWidth : collapsed ? collapsedWidth : fullWidth;
   return (
