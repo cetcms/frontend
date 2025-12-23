@@ -54,7 +54,8 @@
   "refresh_page": "Refresh Page",
   "back_to_home": "Back to Home",
   "website_id_required": "Website ID is required",
-  "document_title": "Document Title",
+  "document_title": "Title",
+  "status": "Status",
   "content_type": "Content Type",
   "push_all_analyze": "Analyze All Pages"
 }

@@ -54,7 +54,8 @@
   "refresh_page": "刷新页面",
   "back_to_home": "返回首页",
   "website_id_required": "网站ID缺失",
-  "document_title": "文档标题",
+  "document_title": "页面标题",
+  "status": "状态",
   "content_type": "内容类型",
   "push_all_analyze": "分析所有页面"
 }

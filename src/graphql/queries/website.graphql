@@ -40,24 +40,12 @@ query ListWebsiteSeoPage($id: String!) {
 		id
 		title
 		url
+		md5
+		score
+		status
 	}
 }
 
 mutation PushAllPagesToAnalyze($id: String!) {
 	pushAllPagesToAnalyze(where: { id: $id })
-}
-
-query GetWebsiteSeoPageStatus($id: String!) {
-	getWebsiteSeoPageStatus(where: { id: $id }) {
-		pages {
-			apiId
-			hasReport
-			id
-			md5
-			score
-			status
-			title
-			url
-		}
-	}
 }

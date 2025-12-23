@@ -90,28 +90,23 @@ export const WebsitePagesPage: React.FC & PagePermissionOption = () => {
           type: 'number',
         },
         {
-          accessor: 'title',
-          title: t('pages:website_title', '标题'),
-          type: 'string',
-        },
-        {
-          accessor: 'documentTitle',
-          title: t('pages:document_title', '文档标题'),
-          type: 'string',
-        },
-        {
           accessor: 'url',
           title: 'URL',
           type: 'string',
         },
         {
-          accessor: 'contentType',
-          title: t('pages:content_type', '内容类型'),
+          accessor: 'status',
+          title: t('pages:status', '状态'),
           type: 'string',
         },
         {
-          accessor: 'apiId',
-          title: 'API ID',
+          accessor: 'documentTitle',
+          title: t('pages:document_title', '页面标题'),
+          type: 'string',
+        },
+        {
+          accessor: 'contentType',
+          title: t('pages:content_type', '内容类型'),
           type: 'string',
         },
       ]}
