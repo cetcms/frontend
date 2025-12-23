@@ -6,7 +6,8 @@ import { notifications } from '@mantine/notifications';
 import { IconCheck, IconCirclesRelation } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { CompanyRoleSelect, PublicMemberSearch } from 'src/components/FormInputs';
-import { InviteMemberToCompanyDocument } from 'src/graphql';
+import { InviteMemberToCompanyDocument, PermissionAlias } from 'src/graphql';
+import { useAuthStore } from 'src/store';
 
 export const BindToCompany = () => {
   const { t } = useTranslation(['pages', 'common']);
@@ -42,6 +43,12 @@ export const BindToCompany = () => {
       });
     }
   };
+
+  // 权限检查
+  const { checkPermission } = useAuthStore();
+  if (!checkPermission(PermissionAlias.InviteMemberToCompany)) {
+    return null;
+  }
 
   return (
     <>

@@ -42,3 +42,22 @@ query ListWebsiteSeoPage($id: String!) {
 		url
 	}
 }
+
+mutation PushAllPagesToAnalyze($id: String!) {
+	pushAllPagesToAnalyze(where: { id: $id })
+}
+
+query GetWebsiteSeoPageStatus($id: String!) {
+	getWebsiteSeoPageStatus(where: { id: $id }) {
+		pages {
+			apiId
+			hasReport
+			id
+			md5
+			score
+			status
+			title
+			url
+		}
+	}
+}

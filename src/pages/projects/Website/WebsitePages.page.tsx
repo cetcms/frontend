@@ -6,7 +6,8 @@ import { useSearchParams } from 'react-router';
 import { DataTable } from 'src/components';
 import { filterLocalData } from 'src/components/DataFilter/utils';
 import { ListWebsiteSeoPageDocument, PermissionAlias } from 'src/graphql';
-import { PagePermissionOption } from 'src/store';
+import { PushAllPagesToAnalyze } from 'src/pages/projects/Website/components';
+import { PagePermissionOption, useAuthStore } from 'src/store';
 
 const PAGE_SIZE = 10;
 
@@ -36,6 +37,9 @@ export const WebsitePagesPage: React.FC & PagePermissionOption = () => {
     const to = from + PAGE_SIZE;
     return filteredItems.slice(from, to);
   }, [page, filteredItems]);
+
+  // 权限检查
+  const { isAdmin } = useAuthStore();
 
   if (loading) {
     return <LoadingOverlay visible />;
@@ -70,6 +74,14 @@ export const WebsitePagesPage: React.FC & PagePermissionOption = () => {
             setPage(1); // 重置到第一页
           }
         }
+      }}
+      toolbarPrepend={(current) => {
+        return (
+          <>
+            {isAdmin && <PushAllPagesToAnalyze websiteId={id} />}
+            {current}
+          </>
+        );
       }}
       columns={[
         {

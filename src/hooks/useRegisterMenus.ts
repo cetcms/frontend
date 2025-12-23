@@ -5,7 +5,6 @@ import companyMenuItems from 'src/router/menus/company';
 import memberMenuItems from 'src/router/menus/member';
 import type { SetupAppOptions } from 'src/setup';
 import { useAuthStore, useMenuStore } from 'src/store';
-import { validateMenuStructure } from 'src/utils/menu';
 
 export const useRegisterMenus = (registerMenus: SetupAppOptions['registerMenus']) => {
   const { setMenuItems, menuItems } = useMenuStore();

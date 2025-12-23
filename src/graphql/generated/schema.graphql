@@ -612,6 +612,7 @@ type Mutation {
 	deleteAdminCompany(adminId: String!, companyId: String!): Boolean!
 	inviteMemberToCompany(memberId: String!, roleId: String!): Notification!
 	login(input: LoginInput!): Login!
+	pushAllPagesToAnalyze(where: WebsiteWhereUniqueInput!): Boolean!
 	switchAuthCompany(companyId: String): Login!
 	updateOneAdmin(data: AdminUpdateInput!, where: AdminWhereUniqueInput!): Admin!
 	updateOneAdminCompany(data: AdminCompanyUpdateInput!, where: AdminCompanyWhereUniqueInput!): AdminCompany!
@@ -890,6 +891,7 @@ type Query {
 	findSelfAdmin: Admin!
 	findSelfCompany: Company!
 	findSelfMember: Member!
+	getWebsiteSeoPageStatus(where: WebsiteWhereUniqueInput!): WebsiteSeoPageStatusList!
 	healthCheck: String!
 	helloWorld: String!
 	listAdminRolePermission(where: AdminRoleWhereUniqueInput): PermissionGroup!
@@ -1030,6 +1032,17 @@ type RequestLogSumAggregate {
 	duration: String
 }
 
+type SeoAnalysisSummary {
+	"当前活跃任务数"
+	activeTasks: Int!
+	"最大并发数"
+	maxConcurrent: Int!
+	"队列中等待的任务数"
+	queueSize: Int!
+	"总共正在分析的 URL 数"
+	totalAnalyzing: Int!
+}
+
 type Website {
 	cms: WebsiteCms
 	cmsApiToken: String
@@ -1092,6 +1105,24 @@ type WebsiteSeoPage {
 	id: Float!
 	title: String!
 	url: String!
+}
+
+type WebsiteSeoPageStatus {
+	apiId: String!
+	"是否有可用报告"
+	hasReport: Boolean!
+	id: Float!
+	md5: String!
+	"SEO 得分 (0-100)"
+	score: Int
+	status: SeoAnalysisStatus!
+	title: String!
+	url: String!
+}
+
+type WebsiteSeoPageStatusList {
+	pages: [WebsiteSeoPageStatus!]!
+	summary: SeoAnalysisSummary!
 }
 
 enum AdminCompanyScalarFieldEnum {
@@ -1296,6 +1327,7 @@ enum PermissionAlias {
 	FindSelfAdmin
 	FindSelfCompany
 	FindSelfMember
+	GetWebsiteSeoPageStatus
 	InviteMemberToCompany
 	ListAdminRolePermission
 	ListCompanyRole
@@ -1313,6 +1345,7 @@ enum PermissionAlias {
 	PaginateNotificationRecipes
 	PaginateNotifications
 	PaginateWebsites
+	PushAllPagesToAnalyze
 	UpdateOneAdmin
 	UpdateOneAdminCompany
 	UpdateOneAdminRole
@@ -1341,6 +1374,16 @@ enum RequestMethod {
 	PATCH
 	POST
 	PUT
+}
+
+"SEO 分析状态"
+enum SeoAnalysisStatus {
+	"分析中"
+	Analyzing
+	"空闲"
+	Idle
+	"队列中"
+	Queued
 }
 
 enum SortOrder {

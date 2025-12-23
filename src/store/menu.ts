@@ -106,7 +106,6 @@ export const useMenuStore = create<MenuStore>((set, get) => ({
     const activeItem = findMenuItem(menuItems, menuId);
 
     if (!activeItem) {
-      console.warn(`[MenuStore] 菜单项 "${menuId}" 不存在,无法激活`);
       return;
     }
 
