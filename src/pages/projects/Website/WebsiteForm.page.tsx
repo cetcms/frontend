@@ -27,10 +27,6 @@ export const WebsiteFormPage: React.FC & PagePermissionOption = () => {
     return <LoadingOverlay visible />;
   }
 
-  if (!id) {
-    return <>参数错误</>;
-  }
-
   return (
     <Group p="md" justify="start">
       <WebsiteForm item={data?.findOneWebsite as Website} />

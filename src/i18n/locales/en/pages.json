@@ -57,5 +57,17 @@
   "document_title": "Title",
   "status": "Status",
   "content_type": "Content Type",
-  "push_all_analyze": "Analyze All Pages"
+  "push_all_analyze": "Analyze All Pages",
+  "push_all_analyze_success": "All pages have been successfully pushed to the analysis queue",
+  "push_all_analyze_in_progress": "Some pages are currently being analyzed, please try again later",
+  "push_selected_analyze": "Analyze Selected Pages ({{count}})",
+  "push_pages_analyze_success": "Selected pages have been successfully pushed to the analysis queue",
+  "push_selected_update_seo": "Update Selected Pages SEO ({{count}})",
+  "push_pages_update_success": "Selected pages have been successfully pushed to the update queue",
+  "status_queued": "Queued",
+  "status_analyzing": "Analyzing",
+  "status_analyzed": "Analyzed",
+  "status_failed": "Failed",
+  "status_timeout": "Timeout",
+  "status_none": "Not Analyzed"
 }

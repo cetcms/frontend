@@ -9,14 +9,14 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "generate": "graphql-codegen --config=./codegen.config.mjs --watch",
-    "lint": "pnpm eslint && pnpm stylelint",
+    "lint": "bun eslint && bun stylelint",
     "eslint": "eslint . --cache  --fix",
     "stylelint": "stylelint '**/*.css' --cache",
     "prettier": "prettier --check \"**/*.{ts,tsx}\"",
     "prettier:write": "prettier --write \"**/*.{ts,tsx}\"",
     "vitest": "vitest run",
     "vitest:watch": "vitest",
-    "test": "pnpm typecheck && pnpm prettier && pnpm lint && pnpm vitest && pnpm build",
+    "test": "bun typecheck && bun prettier && bun lint && bun vitest && bun build",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
@@ -128,6 +128,5 @@
     "vite": "^7.3.0",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.4"
-  },
-  "packageManager": "pnpm@10.17.1"
+  }
 }

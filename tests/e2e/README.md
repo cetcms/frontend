@@ -9,45 +9,45 @@
 依赖已经安装完成，如需重新安装：
 
 ```bash
-pnpm install
-pnpm exec playwright install chromium
+bun install
+bun exec playwright install chromium
 ```
 
 ### 2. 运行测试
 
 #### 运行所有测试
 ```bash
-pnpm test:e2e
+bun test:e2e
 ```
 
 #### 使用 UI 模式运行（推荐用于开发）
 ```bash
-pnpm test:e2e:ui
+bun test:e2e:ui
 ```
 
 #### 以 headed 模式运行（显示浏览器窗口）
 ```bash
-pnpm test:e2e:headed
+bun test:e2e:headed
 ```
 
 #### 调试模式
 ```bash
-pnpm test:e2e:debug
+bun test:e2e:debug
 ```
 
 #### 查看测试报告
 ```bash
-pnpm test:e2e:report
+bun test:e2e:report
 ```
 
 ### 3. 运行特定测试文件
 
 ```bash
 # 运行登录测试
-pnpm test:e2e auth/login.spec.ts
+bun test:e2e auth/login.spec.ts
 
 # 运行管理员管理测试
-pnpm test:e2e admin/admin-management.spec.ts
+bun test:e2e admin/admin-management.spec.ts
 ```
 
 ## 项目结构
@@ -231,7 +231,7 @@ test('可能失败的测试', async ({ page }) => {
 
 ```bash
 # 设置 CI 环境变量
-CI=true pnpm test:e2e
+CI=true bun test:e2e
 ```
 
 CI 模式下的行为：

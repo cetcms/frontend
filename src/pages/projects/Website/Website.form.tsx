@@ -56,6 +56,7 @@ export const WebsiteForm: React.FC<WebsiteFormProps> = ({ item }) => {
       cmsApiToken: item?.cmsApiToken || '',
       cmsConfig: item?.cmsConfig || '',
       companyId: item?.companyId || auth?.companyId || '',
+      industryBackground: item?.industryBackground || '',
     },
     validate: {
       title: isNotEmpty(t('validation:inputRequired', { field: t('pages:website_title') })),
@@ -75,6 +76,7 @@ export const WebsiteForm: React.FC<WebsiteFormProps> = ({ item }) => {
       cmsApiUrl: form.values.cmsApiUrl || undefined,
       cmsApiToken: form.values.cmsApiToken || undefined,
       cmsConfig: form.values.cmsConfig || undefined,
+      industryBackground: form.values.industryBackground || undefined,
     };
 
     if (item) {
@@ -160,6 +162,9 @@ export const WebsiteForm: React.FC<WebsiteFormProps> = ({ item }) => {
             </Grid.Col>
             <Grid.Col span={2}>
               <TextInput label={t('Website.cmsApiToken')} type="password" {...form.getInputProps('cmsApiToken')} />
+            </Grid.Col>
+            <Grid.Col span={2}>
+              <Textarea label={t('Website.industryBackground')} {...form.getInputProps('industryBackground')} />
             </Grid.Col>
             <Grid.Col span={2}>
               <JsonInput

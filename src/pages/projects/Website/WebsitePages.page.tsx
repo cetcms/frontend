@@ -1,15 +1,17 @@
 import { useQuery } from '@apollo/client/react';
 import { LoadingOverlay } from '@mantine/core';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router';
 import { DataTable } from 'src/components';
 import { filterLocalData } from 'src/components/DataFilter/utils';
-import { ListWebsiteSeoPageDocument, PermissionAlias } from 'src/graphql';
-import { PushAllPagesToAnalyze } from 'src/pages/projects/Website/components';
+import { ListWebsiteSeoPageDocument, PermissionAlias, SeoAnalysisStatus, WebsiteSeoPage } from 'src/graphql';
 import { PagePermissionOption, useAuthStore } from 'src/store';
 
+import { PushAllPagesToAnalyze, PushPagesToAnalyze, PushPagesToUpdate } from './components';
+
 const PAGE_SIZE = 10;
+const POLLING_INTERVAL = 5000; // 5秒轮询一次
 
 export const WebsitePagesPage: React.FC & PagePermissionOption = () => {
   const { t } = useTranslation(['models', 'pages', 'common']);
@@ -17,14 +19,35 @@ export const WebsitePagesPage: React.FC & PagePermissionOption = () => {
   const id = searchParams.get('id');
   const [page, setPage] = useState(1);
   const [filterWhere, setFilterWhere] = useState<any>({});
+  const [selectedRecords, setSelectedRecords] = useState<WebsiteSeoPage[]>([]);
 
   // 列表数据获取
-  const { data, loading } = useQuery(ListWebsiteSeoPageDocument, {
+  const { data, loading, startPolling, stopPolling } = useQuery(ListWebsiteSeoPageDocument, {
     variables: { id: id || '' },
     skip: !id,
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network', // 先使用缓存,然后静默更新
+    notifyOnNetworkStatusChange: false, // 网络状态变化时不触发 loading
   });
   const items = data?.listWebsiteSeoPage || [];
+
+  // 判断是否有页面正在分析中
+  const hasAnalyzingPages = useMemo(() => {
+    return items.some((item) => item.status === 'Analyzing' || item.status === 'Queued');
+  }, [items]);
+
+  // 根据分析状态控制轮询
+  useEffect(() => {
+    if (hasAnalyzingPages) {
+      startPolling(POLLING_INTERVAL);
+    } else {
+      stopPolling();
+    }
+
+    // 组件卸载时停止轮询
+    return () => {
+      stopPolling();
+    };
+  }, [hasAnalyzingPages, startPolling, stopPolling]);
 
   // 应用本地过滤
   const filteredItems = useMemo(() => {
@@ -39,7 +62,8 @@ export const WebsitePagesPage: React.FC & PagePermissionOption = () => {
   }, [page, filteredItems]);
 
   // 权限检查
-  const { isAdmin } = useAuthStore();
+  const { isAdmin, checkPermission } = useAuthStore();
+  const hasSelection = checkPermission(PermissionAlias.PushPagesToAnalyze);
 
   if (loading) {
     return <LoadingOverlay visible />;
@@ -59,6 +83,17 @@ export const WebsitePagesPage: React.FC & PagePermissionOption = () => {
     <DataTable
       loading={loading}
       records={records}
+      selectedRecords={hasSelection ? selectedRecords : undefined}
+      onSelectedRecordsChange={
+        hasSelection
+          ? (records) => {
+              setSelectedRecords(records as WebsiteSeoPage[]);
+            }
+          : undefined
+      }
+      isRecordSelectable={(record: any) => {
+        return ![SeoAnalysisStatus.Analyzing, SeoAnalysisStatus.Queued].includes(record.status);
+      }}
       totalRecords={filteredItems.length}
       recordsPerPage={PAGE_SIZE}
       page={page}
@@ -78,8 +113,10 @@ export const WebsitePagesPage: React.FC & PagePermissionOption = () => {
       toolbarPrepend={(current) => {
         return (
           <>
-            {isAdmin && <PushAllPagesToAnalyze websiteId={id} />}
+            {isAdmin && <PushAllPagesToAnalyze websiteId={id} hasAnalyzingPages={hasAnalyzingPages} />}
             {current}
+            {isAdmin && hasSelection && <PushPagesToAnalyze websiteId={id} selectedRecords={selectedRecords} />}
+            {isAdmin && hasSelection && <PushPagesToUpdate websiteId={id} selectedRecords={selectedRecords} />}
           </>
         );
       }}
@@ -95,9 +132,46 @@ export const WebsitePagesPage: React.FC & PagePermissionOption = () => {
           type: 'string',
         },
         {
+          accessor: 'score',
+          title: 'Score',
+          type: 'number',
+        },
+        {
           accessor: 'status',
           title: t('pages:status', '状态'),
-          type: 'string',
+          type: 'enum',
+          options: [
+            {
+              label: t('pages:status_queued', '排队中'),
+              value: SeoAnalysisStatus.Queued,
+              color: 'yellow',
+            },
+            {
+              label: t('pages:status_analyzing', '分析中'),
+              value: SeoAnalysisStatus.Analyzing,
+              color: 'yellow',
+            },
+            {
+              label: t('pages:status_analyzed', '已分析'),
+              value: SeoAnalysisStatus.Completed,
+              color: 'green',
+            },
+            {
+              label: t('pages:status_failed', '失败'),
+              value: SeoAnalysisStatus.Failed,
+              color: 'red',
+            },
+            {
+              label: t('pages:status_timeout', '超时'),
+              value: SeoAnalysisStatus.Timeout,
+              color: 'red',
+            },
+            {
+              label: t('pages:status_none', '未分析'),
+              value: SeoAnalysisStatus.None,
+              color: 'gray',
+            },
+          ],
         },
         {
           accessor: 'documentTitle',

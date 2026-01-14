@@ -8,15 +8,10 @@ import 'dayjs/locale/ko';
 import 'dayjs/locale/zh-hk';
 
 dayjs.extend(relativeTime);
-dayjs.locale('zh');
-dayjs.locale('zh-hk');
-dayjs.locale('en');
-dayjs.locale('ja');
-dayjs.locale('ko');
 
 const localeAlias = {
-  ko: 'ko',
   zhHant: 'zh-hk',
+  ko: 'ko',
   ja: 'ja',
   zh: 'zh',
   en: 'en',
@@ -24,6 +19,8 @@ const localeAlias = {
 
 export const useDate = () => {
   const { i18n } = useTranslation();
+  const locale = localeAlias[i18n.language as keyof typeof localeAlias];
+  dayjs.locale(locale || 'en');
   const now = dayjs();
   return {
     formatFriendlyTime: (date: Date) => {
@@ -32,9 +29,7 @@ export const useDate = () => {
       if (diffDays > 1) {
         return dayjs(date).format('YYYY-MM-DD A');
       }
-      return dayjs(date)
-        .locale(localeAlias[i18n.language as keyof typeof localeAlias])
-        .from(now);
+      return dayjs(date).from(now);
     },
   };
 };

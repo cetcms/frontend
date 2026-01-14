@@ -133,6 +133,7 @@ fragment Website on Website {
 	createdAt
 	description
 	hasCmsApiToken
+	industryBackground
 	id
 	title
 	updatedAt

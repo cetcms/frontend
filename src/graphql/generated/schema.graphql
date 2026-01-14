@@ -613,6 +613,8 @@ type Mutation {
 	inviteMemberToCompany(memberId: String!, roleId: String!): Notification!
 	login(input: LoginInput!): Login!
 	pushAllPagesToAnalyze(where: WebsiteWhereUniqueInput!): Boolean!
+	pushPagesToAnalyze(urls: [String!]!, where: WebsiteWhereUniqueInput!): Boolean!
+	pushPagesToUpdate(urls: [String!]!, where: WebsiteWhereUniqueInput!): Boolean!
 	switchAuthCompany(companyId: String): Login!
 	updateOneAdmin(data: AdminUpdateInput!, where: AdminWhereUniqueInput!): Admin!
 	updateOneAdminCompany(data: AdminCompanyUpdateInput!, where: AdminCompanyWhereUniqueInput!): AdminCompany!
@@ -1042,6 +1044,7 @@ type Website {
 	description: String
 	hasCmsApiToken: Boolean!
 	id: ID!
+	industryBackground: String
 	title: String!
 	updatedAt: DateTime!
 }
@@ -1056,6 +1059,7 @@ type WebsiteCountAggregate {
 	createdAt: Int!
 	description: Int!
 	id: Int!
+	industryBackground: Int!
 	title: Int!
 	updatedAt: Int!
 }
@@ -1068,6 +1072,7 @@ type WebsiteMaxAggregate {
 	createdAt: DateTime
 	description: String
 	id: String
+	industryBackground: String
 	title: String
 	updatedAt: DateTime
 }
@@ -1080,6 +1085,7 @@ type WebsiteMinAggregate {
 	createdAt: DateTime
 	description: String
 	id: String
+	industryBackground: String
 	title: String
 	updatedAt: DateTime
 }
@@ -1091,6 +1097,8 @@ type WebsiteSeoPage {
 	documentId: String!
 	documentTitle: String!
 	id: Float!
+	isItem: Boolean!
+	locale: String!
 	md5: String!
 	"SEO 得分 (0-100)"
 	score: Int
@@ -1301,7 +1309,6 @@ enum PermissionAlias {
 	FindSelfAdmin
 	FindSelfCompany
 	FindSelfMember
-	GetWebsiteSeoPageStatus
 	InviteMemberToCompany
 	ListAdminRolePermission
 	ListCompanyRole
@@ -1320,6 +1327,8 @@ enum PermissionAlias {
 	PaginateNotifications
 	PaginateWebsites
 	PushAllPagesToAnalyze
+	PushPagesToAnalyze
+	PushPagesToUpdate
 	UpdateOneAdmin
 	UpdateOneAdminCompany
 	UpdateOneAdminRole
@@ -1396,6 +1405,7 @@ enum WebsiteScalarFieldEnum {
 	createdAt
 	description
 	id
+	industryBackground
 	title
 	updatedAt
 }
@@ -3083,6 +3093,7 @@ input WebsiteCreateInput {
 	cmsConfig: JSON
 	company: CompanyCreateNestedOneWithoutWebsitesInput!
 	description: String
+	industryBackground: String
 	title: String!
 }
 
@@ -3110,6 +3121,7 @@ input WebsiteOrderByWithRelationInput {
 	createdAt: SortOrder
 	description: SortOrderInput
 	id: SortOrder
+	industryBackground: SortOrderInput
 	title: SortOrder
 	updatedAt: SortOrder
 }
@@ -3121,6 +3133,7 @@ input WebsiteUpdateInput {
 	cmsConfig: JSON
 	company: CompanyUpdateOneRequiredWithoutWebsitesNestedInput
 	description: String
+	industryBackground: String
 	title: String
 }
 
@@ -3142,6 +3155,7 @@ input WebsiteWhereInput {
 	createdAt: DateTimeFilter
 	description: StringNullableFilter
 	id: StringFilter
+	industryBackground: StringNullableFilter
 	title: StringFilter
 	updatedAt: DateTimeFilter
 }
@@ -3155,5 +3169,6 @@ input WebsiteWhereUniqueInput {
 	companyId: StringFilter
 	description: StringNullableFilter
 	id: String
+	industryBackground: StringNullableFilter
 	title: StringFilter
 }

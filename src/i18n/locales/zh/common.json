@@ -6,9 +6,11 @@
   "confirmMatch": "确认{{field}}",
   "delete": "删除",
   "edit": "编辑",
+  "error": "错误",
   "search": "搜索",
   "save": "保存",
   "view": "查看",
+  "warning": "警告",
   "YYYY-MM-DD HH:mm:ss": "YYYY年MM月DD日\n HH时mm分ss秒",
   "YYYY-MM-DD": "YYYY年MM月DD日",
   "HH:mm:ss": "HH时mm分ss秒"

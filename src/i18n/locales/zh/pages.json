@@ -57,5 +57,17 @@
   "document_title": "页面标题",
   "status": "状态",
   "content_type": "内容类型",
-  "push_all_analyze": "分析所有页面"
+  "push_all_analyze": "分析所有页面",
+  "push_all_analyze_success": "已成功推送所有页面到分析队列",
+  "push_all_analyze_in_progress": "当前有页面正在分析中,请稍后再试",
+  "push_selected_analyze": "分析选中页面 ({{count}})",
+  "push_pages_analyze_success": "已成功推送选中页面到分析队列",
+  "push_selected_update_seo": "更新选中页面SEO ({{count}})",
+  "push_pages_update_success": "已成功推送选中页面到更新队列",
+  "status_queued": "排队中",
+  "status_analyzing": "分析中",
+  "status_analyzed": "已分析",
+  "status_failed": "失败",
+  "status_timeout": "超时",
+  "status_none": "未分析"
 }

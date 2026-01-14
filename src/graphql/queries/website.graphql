@@ -49,3 +49,11 @@ query ListWebsiteSeoPage($id: String!) {
 mutation PushAllPagesToAnalyze($id: String!) {
 	pushAllPagesToAnalyze(where: { id: $id })
 }
+
+mutation PushPagesToAnalyze($id: String!, $urls: [String!]!) {
+	pushPagesToAnalyze(where: { id: $id }, urls: $urls)
+}
+
+mutation PushPagesToUpdate($id: String!, $urls: [String!]!) {
+	pushPagesToUpdate(where: { id: $id }, urls: $urls)
+}

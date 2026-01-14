@@ -69,7 +69,7 @@ export default defineConfig({
 
   /* 测试前启动开发服务器 */
   webServer: {
-    command: 'pnpm dev',
+    command: 'bun dev',
     url: 'http://localhost:5173',
     reuseExistingServer: !process.env.CI,
     timeout: 120000,

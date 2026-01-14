@@ -5,13 +5,13 @@ trigger: always_on
 # 基础规则
 
 ## 包管理器
-- 使用 pnpm 作为包管理器
+- 使用 bun 作为包管理器
 - 优先使用 package.json 中定义的 script 命令执行任务
-- 示例：`pnpm install`, `pnpm dev`, `pnpm build`
+- 示例：`bun install`, `bun dev`, `bun build`
 
 ## 代码格式化
 - 优先使用项目配置的 eslint 进行代码格式化
-- 执行命令：`pnpm lint` 或 `pnpm lint:fix`
+- 执行命令：`bun lint` 或 `bun lint:fix`
 - 遵循项目中的 .eslintrc 配置
 
 ## 前端页面调试
@@ -20,6 +20,11 @@ trigger: always_on
 - 确保在测试前完成必要的身份验证流程
 - 管理员登录：/auth/login?target=Admin
 - 管理员账号密码：admin@email.com、123456
+
+## i18n 的使用
+- 在 React 生命周期外使用时，通过 import i18n from 'src/i18n'; i18n.t('common:actions')；
+- 在 React 生命周期内使用时优先通过给你 import { useTranslation } from 'react-i18next'; 
+- 使用 useTranslation 时应该指定命名空间如：const { t } = useTranslation(['common', 'auth'])；
 
 
 ## 注意事项
