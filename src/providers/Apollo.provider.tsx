@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { ApolloProvider as ApolloClientProvider } from '@apollo/client/react';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import UploadHttpLink from 'apollo-upload-client/UploadHttpLink.mjs';
@@ -33,7 +33,7 @@ const createClient = (options: CreateClientOptions) => {
     link: new UploadHttpLink({
       uri: SERVER_GRAPHQL_API,
       headers,
-    }),
+    }) as unknown as ApolloLink,
   });
 };
 

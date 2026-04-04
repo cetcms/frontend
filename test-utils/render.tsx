@@ -3,13 +3,17 @@ import { render as testingLibraryRender } from '@testing-library/react';
 import React from 'react';
 import { useThemeStore } from 'src/store';
 
-export function render(ui: React.ReactNode) {
+function Wrapper({ children }: { children: React.ReactNode }) {
   const { theme } = useThemeStore();
+  return (
+    <MantineProvider theme={theme} env="test">
+      {children}
+    </MantineProvider>
+  );
+}
+
+export function render(ui: React.ReactNode) {
   return testingLibraryRender(ui, {
-    wrapper: ({ children }: { children: React.ReactNode }) => (
-      <MantineProvider theme={theme} env="test">
-        {children}
-      </MantineProvider>
-    ),
+    wrapper: Wrapper,
   });
 }

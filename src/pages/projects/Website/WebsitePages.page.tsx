@@ -175,12 +175,12 @@ export const WebsitePagesPage: React.FC & PagePermissionOption = () => {
         },
         {
           accessor: 'documentTitle',
-          title: t('pages:document_title', '页面标题'),
+          title: t('pages:document_type', '页面分类'),
           type: 'string',
         },
         {
           accessor: 'contentType',
-          title: t('pages:content_type', '内容类型'),
+          title: t('pages:data_type', '数据类型'),
           type: 'string',
         },
       ]}
