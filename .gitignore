@@ -141,3 +141,8 @@ test-results/
 
 # Playwright
 .playwright/
+
+
+# IDE files
+.omc/
+**/.omc/
