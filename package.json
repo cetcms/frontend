@@ -56,6 +56,7 @@
     "ahooks": "^3.9.7",
     "apollo-upload-client": "^19.0.0",
     "baseline-browser-mapping": "^2.10.14",
+    "browserslist": "^4.28.2",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.20",
     "embla-carousel": "^8.6.0",
@@ -129,5 +130,9 @@
     "vite": "^7.3.1",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.4"
+  },
+  "resolutions": {
+    "baseline-browser-mapping": "^2.10.14",
+    "browserslist": "^4.28.2"
   }
 }
