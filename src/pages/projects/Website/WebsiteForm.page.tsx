@@ -1,6 +1,6 @@
-import { useLazyQuery } from '@apollo/client/react';
+import { useQuery } from '@apollo/client/react';
 import { Group, LoadingOverlay } from '@mantine/core';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSearchParams } from 'react-router';
 import { FindOneWebsiteDocument, Website } from 'src/graphql';
 import { PagePermissionOption } from 'src/store';
@@ -8,20 +8,12 @@ import { PagePermissionOption } from 'src/store';
 import { WebsiteForm } from './Website.form';
 
 export const WebsiteFormPage: React.FC & PagePermissionOption = () => {
-  const [loading, setLoading] = useState(true);
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id');
-  const [findOneWebsite, { data }] = useLazyQuery(FindOneWebsiteDocument);
-
-  useEffect(() => {
-    if (id) {
-      findOneWebsite({ variables: { id } }).then(() => {
-        setLoading(false);
-      });
-    } else {
-      setLoading(false);
-    }
-  }, [id, findOneWebsite]);
+  const { data, loading } = useQuery(FindOneWebsiteDocument, {
+    skip: !id,
+    variables: { id: id ?? '' },
+  });
 
   if (loading) {
     return <LoadingOverlay visible />;

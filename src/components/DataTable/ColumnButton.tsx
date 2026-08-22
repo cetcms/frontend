@@ -2,7 +2,7 @@ import { Button, Checkbox, Popover, Stack } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
 import { IconTallymark4 } from '@tabler/icons-react';
 import { DataTableColumn } from 'mantine-datatable';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export type ColumnButtonProps = {
@@ -14,17 +14,14 @@ export const ColumnButton: React.FC<ColumnButtonProps> = ({ columns, onChangeCol
   const { t } = useTranslation(['components']);
   const STORAGE_PREFIX = 'datatable:columns:';
   const storageKey = useMemo(() => `${STORAGE_PREFIX}${window.location.pathname}`, []);
-  const [checkedColumns, setCheckedColumns] = useState<string[]>(columns.map((c) => c.accessor));
   const [storedChecked, setStoredChecked] = useLocalStorage<string[]>({
     key: storageKey,
     defaultValue: columns.map((c) => c.accessor),
-    getInitialValueInEffect: true,
+    getInitialValueInEffect: false,
   });
 
-  const arraysEqual = (a: string[], b: string[]) => a.length === b.length && a.every((v, i) => b[i] === v);
-
-  // 初始化时读取并应用持久化的列选择
-  useEffect(() => {
+  // 从持久化状态派生有效勾选列：校验、强制保留 id 列、空值兜底
+  const checkedColumns = useMemo(() => {
     const validAccessors = columns.map((c) => c.accessor);
     let nextChecked = (storedChecked || []).filter((a) => validAccessors.includes(a));
     if (validAccessors.includes('id') && !nextChecked.includes('id')) {
@@ -33,24 +30,24 @@ export const ColumnButton: React.FC<ColumnButtonProps> = ({ columns, onChangeCol
     if (!nextChecked.length) {
       nextChecked = validAccessors;
     }
-    if (!arraysEqual(nextChecked, checkedColumns)) {
-      setCheckedColumns(nextChecked);
-      onChangeColumns(columns.filter((column) => nextChecked.includes(column.accessor)));
+    return nextChecked;
+  }, [columns, storedChecked]);
+
+  // 仅当有效列发生变化时通知父级（副作用，不触发 setState）
+  const notifiedKeyRef = useRef('');
+  useEffect(() => {
+    const key = checkedColumns.join(',');
+    if (key !== notifiedKeyRef.current) {
+      notifiedKeyRef.current = key;
+      onChangeColumns(columns.filter((column) => checkedColumns.includes(column.accessor)));
     }
-  }, [columns, storageKey, storedChecked]);
+  }, [checkedColumns, columns, onChangeColumns]);
 
   const handleChange = useCallback(
     (checked: string[]) => {
-      const validAccessors = columns.map((c) => c.accessor);
-      let nextChecked = checked.filter((a) => validAccessors.includes(a));
-      if (validAccessors.includes('id') && !nextChecked.includes('id')) {
-        nextChecked = ['id', ...nextChecked];
-      }
-      setCheckedColumns(nextChecked);
-      onChangeColumns(columns.filter((column) => nextChecked.includes(column.accessor)));
-      setStoredChecked(nextChecked);
+      setStoredChecked(checked);
     },
-    [columns, storageKey, setStoredChecked]
+    [setStoredChecked]
   );
   return (
     <Popover position="bottom" withArrow shadow="md">

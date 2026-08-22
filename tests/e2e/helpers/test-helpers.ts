@@ -14,11 +14,11 @@ export async function login(
   target: string = 'Admin'
 ) {
   await page.goto(`/auth/login?target=${target}`);
-  
+
   await page.getByLabel(/邮箱|email/i).fill(email);
   await page.getByLabel(/密码|password/i).fill(password);
   await page.getByRole('button', { name: /登录|login/i }).click();
-  
+
   // 等待登录完成
   await page.waitForURL('**/dashboard', { timeout: 10000 });
 }
@@ -64,10 +64,10 @@ export async function clickButton(page: Page, buttonName: string) {
  * 等待通知消息
  */
 export async function waitForNotification(page: Page, message?: string) {
-  const notification = message 
+  const notification = message
     ? page.getByText(new RegExp(message, 'i'))
     : page.locator('[role="alert"], .notification, .toast').first();
-  
+
   await notification.waitFor({ state: 'visible', timeout: 5000 });
   return notification;
 }
@@ -78,7 +78,7 @@ export async function waitForNotification(page: Page, message?: string) {
 export async function checkTableHasData(page: Page) {
   const table = page.locator('table').first();
   await table.waitFor({ state: 'visible' });
-  
+
   const rows = await table.locator('tbody tr').count();
   return rows > 0;
 }
@@ -89,6 +89,6 @@ export async function checkTableHasData(page: Page) {
 export async function getTableRowCount(page: Page) {
   const table = page.locator('table').first();
   await table.waitFor({ state: 'visible' });
-  
+
   return await table.locator('tbody tr').count();
 }

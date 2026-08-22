@@ -12,7 +12,7 @@ import {
   TextInput,
   Textarea,
 } from '@mantine/core';
-import { Form, isNotEmpty, useForm } from '@mantine/form';
+import { isNotEmpty, useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -121,7 +121,7 @@ export const WebsiteForm: React.FC<WebsiteFormProps> = ({ item }) => {
   };
 
   return (
-    <Form form={form} onSubmit={handleSubmit}>
+    <form onSubmit={form.onSubmit(handleSubmit)}>
       <LoadingOverlay visible={creating || updating} />
       <Stack maw={800} gap="md">
         <FormPageAction
@@ -185,6 +185,6 @@ export const WebsiteForm: React.FC<WebsiteFormProps> = ({ item }) => {
           </Group>
         </Card>
       </Stack>
-    </Form>
+    </form>
   );
 };

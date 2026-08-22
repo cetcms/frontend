@@ -20,8 +20,7 @@ export interface UploadOptions {
 export function useUpload({ onError, onDone, value, defaultValue, path, maxFiles }: UploadOptions) {
   const [fileItems, handleFileItems] = useListState<FileItem>();
   const [uploadFile] = useMutation(UploadFileDocument);
-  const [initializedRef, setInitializedRef] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
+  const initializedRef = React.useRef(false);
   const { t } = useTranslation(['components']);
 
   // 保持对最新 fileItems 的引用，用于在上传过程中按id定位当前索引，避免错位更新
@@ -61,8 +60,7 @@ export function useUpload({ onError, onDone, value, defaultValue, path, maxFiles
   });
   // 初始化文件列表
   useEffect(() => {
-    if (initializedRef) {
-      setLoading(false);
+    if (initializedRef.current) {
       return;
     }
 
@@ -118,11 +116,9 @@ export function useUpload({ onError, onDone, value, defaultValue, path, maxFiles
 
     if (initialItems.length > 0) {
       handleFileItems.setState(initialItems);
-      setInitializedRef(true);
+      initializedRef.current = true;
     }
-
-    setLoading(false);
-  }, [value, defaultValue, mediaFilesData, handleFileItems, initializedRef, singleMode]);
+  }, [value, defaultValue, mediaFilesData, handleFileItems, singleMode]);
 
   // 简单并发限制，防止一次性过多上传导致不稳定
   const MAX_CONCURRENCY = 3;
@@ -207,7 +203,7 @@ export function useUpload({ onError, onDone, value, defaultValue, path, maxFiles
     });
   }, [fileItems, uploadFile, path, t, onDone, onError, handleFileItems]);
 
-  return { fileItems, handleFileItems, loading: loading || fetching };
+  return { fileItems, handleFileItems, loading: fetching };
 }
 
 export function useFileManagerName() {

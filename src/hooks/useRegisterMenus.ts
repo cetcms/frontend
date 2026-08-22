@@ -9,7 +9,7 @@ import { useAuthStore, useMenuStore } from 'src/store';
 export const useRegisterMenus = (registerMenus: SetupAppOptions['registerMenus']) => {
   const { setMenuItems, menuItems } = useMenuStore();
   const { isAdmin, isMember, isCompany, checkPermission } = useAuthStore();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(Boolean(registerMenus));
   const currentMenu: keyof MenuItemGroup | null = isCompany
     ? 'company'
     : isAdmin
@@ -25,12 +25,12 @@ export const useRegisterMenus = (registerMenus: SetupAppOptions['registerMenus']
 
   // 使用 useCallback 优化过滤函数,避免每次渲染都创建新函数
   const filterMenuItems = useCallback(
-    (items: MenuItem[]): MenuItem[] => {
+    function filter(items: MenuItem[]): MenuItem[] {
       return items
         .filter((item) => checkPermission(item.permissions))
         .map((item) => ({
           ...item,
-          children: item.children ? filterMenuItems(item.children) : undefined,
+          children: item.children ? filter(item.children) : undefined,
         }));
     },
     [checkPermission]
@@ -51,7 +51,6 @@ export const useRegisterMenus = (registerMenus: SetupAppOptions['registerMenus']
     } else {
       if (currentMenu) newMenuItems = defaultGroup[currentMenu];
       setMenuItems(filterMenuItems(newMenuItems || []));
-      setLoading(false);
     }
     // 添加必要的依赖项
   }, [currentMenu, filterMenuItems, registerMenus, setMenuItems]);

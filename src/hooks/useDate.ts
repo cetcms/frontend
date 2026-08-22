@@ -1,11 +1,11 @@
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import { useTranslation } from 'react-i18next';
 import 'dayjs/locale/en';
-import 'dayjs/locale/zh';
 import 'dayjs/locale/ja';
 import 'dayjs/locale/ko';
+import 'dayjs/locale/zh';
 import 'dayjs/locale/zh-hk';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import { useTranslation } from 'react-i18next';
 
 dayjs.extend(relativeTime);
 

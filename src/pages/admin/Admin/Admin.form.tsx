@@ -11,7 +11,7 @@ import {
   Text,
   TextInput,
 } from '@mantine/core';
-import { Form, hasLength, isEmail, isNotEmpty, matchesField, useForm } from '@mantine/form';
+import { hasLength, isEmail, isNotEmpty, matchesField, useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -125,7 +125,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
   };
 
   return (
-    <Form form={form} onSubmit={handleSubmit}>
+    <form onSubmit={form.onSubmit(handleSubmit)}>
       <LoadingOverlay visible={creating || updating} />
       <Stack maw={800} gap="md">
         <FormPageAction
@@ -187,6 +187,6 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
           </Group>
         </Card>
       </Stack>
-    </Form>
+    </form>
   );
 };

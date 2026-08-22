@@ -1,4 +1,5 @@
 import { test as base } from '@playwright/test';
+
 import { login } from '../helpers/test-helpers';
 
 /**
@@ -9,10 +10,10 @@ export const test = base.extend({
   authenticatedPage: async ({ page }, use) => {
     // 执行登录
     await login(page);
-    
+
     // 使用已登录的页面
     await use(page);
-    
+
     // 清理 - 登出（如果需要）
   },
 });

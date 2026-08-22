@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client/react';
 import { Card, Divider, Grid, Group, LoadingOverlay, Select, Stack, Text, TextInput } from '@mantine/core';
-import { Form, isNotEmpty, useForm } from '@mantine/form';
+import { isNotEmpty, useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -90,7 +90,7 @@ export const CompanyForm: React.FC<CompanyFormProps> & PagePermissionOption = ({
   };
 
   return (
-    <Form form={form} onSubmit={handleSubmit}>
+    <form onSubmit={form.onSubmit(handleSubmit)}>
       <LoadingOverlay visible={creating || updating} />
       <Stack maw={800} gap="md">
         <FormPageAction
@@ -139,7 +139,7 @@ export const CompanyForm: React.FC<CompanyFormProps> & PagePermissionOption = ({
           </Group>
         </Card>
       </Stack>
-    </Form>
+    </form>
   );
 };
 

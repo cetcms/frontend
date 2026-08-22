@@ -4,7 +4,7 @@ import { useThemeStore } from 'src/store';
 
 export const useRegisterTheme = (registerTheme: SetupAppOptions['registerTheme']) => {
   const { options, theme, setTheme } = useThemeStore();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(Boolean(registerTheme));
   useEffect(() => {
     if (registerTheme) {
       const defaultOptions = JSON.parse(JSON.stringify(options));
@@ -16,8 +16,6 @@ export const useRegisterTheme = (registerTheme: SetupAppOptions['registerTheme']
         }
         setLoading(false);
       });
-    } else {
-      setLoading(false);
     }
   }, []);
 

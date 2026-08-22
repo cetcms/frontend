@@ -1,25 +1,17 @@
-import { useLazyQuery } from '@apollo/client/react';
+import { useQuery } from '@apollo/client/react';
 import { Group, LoadingOverlay } from '@mantine/core';
-import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { FindOneMemberDocument, Member } from 'src/graphql';
 
 import { MemberForm } from './Member.form';
 
 export const MemberFormPage = () => {
-  const [loading, setLoading] = useState(true);
-  const [findOneMember, { data }] = useLazyQuery(FindOneMemberDocument);
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id');
-  useEffect(() => {
-    if (id) {
-      findOneMember({ variables: { id } }).then(() => {
-        setLoading(false);
-      });
-    } else {
-      setLoading(false);
-    }
-  }, [id]);
+  const { data, loading } = useQuery(FindOneMemberDocument, {
+    skip: !id,
+    variables: { id: id ?? '' },
+  });
 
   if (loading) {
     return <LoadingOverlay visible />;

@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client/react';
+import { useLazyQuery, useQuery } from '@apollo/client/react';
 import {
   Combobox,
   TextInput,
@@ -37,10 +37,13 @@ export const PublicMemberSearch: React.FC<PublicMemberSearchProps> = ({
   const combobox = useCombobox();
   const [keyword, setKeyword] = useState('');
   const debouncedKeyword = useDebounce(keyword.trim(), { wait: 300 });
-  const [selected, setSelected] = useState<Member | null>(null);
 
   const [searchMembers, { data, loading }] = useLazyQuery(ListSearchMembersDocument);
-  const [findOneMember, { data: findData }] = useLazyQuery(FindOneMemberDocument);
+  // 加载受控 value（成员 id）对应的成员详情，用于展示标签
+  const { data: findData } = useQuery(FindOneMemberDocument, {
+    skip: !value,
+    variables: { id: value ?? '' },
+  });
 
   const items = (data?.listSearchMembers?.items ?? []) as Member[];
 
@@ -53,24 +56,13 @@ export const PublicMemberSearch: React.FC<PublicMemberSearchProps> = ({
     }
   }, [debouncedKeyword, searchMembers]);
 
-  useEffect(() => {
-    if (value) {
-      // 如果已有选中值，加载详情以显示标签
-      if (!selected || selected.id !== value) {
-        findOneMember({ variables: { id: value } });
-      }
-    } else {
-      setSelected(null);
-    }
-  }, [value]);
+  // 从受控 value 派生当前选中的成员：优先查询详情，其次从搜索结果中兜底
+  const fetchedMember = (findData?.findOneMember as Member | null | undefined) ?? null;
+  const selected: Member | null = value
+    ? (fetchedMember?.id === value ? fetchedMember : (items.find((i) => i.id === value) ?? null))
+    : null;
 
-  useEffect(() => {
-    if (findData?.findOneMember) {
-      setSelected(findData.findOneMember as Member);
-    }
-  }, [findData]);
-
-  const inputValue = selected ? selected.name : keyword;
+  const inputValue = keyword || (selected ? selected.name : '');
 
   const optionNodes = useMemo(
     () =>
@@ -94,7 +86,6 @@ export const PublicMemberSearch: React.FC<PublicMemberSearchProps> = ({
       onOptionSubmit={(val) => {
         const m = items.find((i) => i.id === val) || (selected && selected.id === val ? selected : undefined);
         if (m) {
-          setSelected(m);
           setKeyword('');
           combobox.closeDropdown();
           onChange?.(m.id, { value: m.id, label: m.name, member: m });
@@ -116,7 +107,6 @@ export const PublicMemberSearch: React.FC<PublicMemberSearchProps> = ({
                 size="sm"
                 variant="subtle"
                 onClick={() => {
-                  setSelected(null);
                   setKeyword('');
                   onChange?.(null);
                   combobox.openDropdown();
@@ -131,9 +121,6 @@ export const PublicMemberSearch: React.FC<PublicMemberSearchProps> = ({
           onChange={(event) => {
             const next = event.currentTarget.value;
             setKeyword(next);
-            if (selected) {
-              setSelected(null);
-            }
             combobox.updateSelectedOptionIndex();
           }}
         />

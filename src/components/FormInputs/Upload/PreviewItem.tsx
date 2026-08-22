@@ -40,22 +40,17 @@ export const PreviewItem: React.FC<{
 
   const [textPreview, setTextPreview] = React.useState<string | null>(null);
   React.useEffect(() => {
-    if (isText && item.file) {
-      try {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const content = typeof reader.result === 'string' ? reader.result : '';
-          // Cap content length for performance
-          setTextPreview(content.slice(0, 10000));
-        };
-        reader.onerror = () => setTextPreview(null);
-        reader.readAsText(item.file);
-      } catch {
-        setTextPreview(null);
-      }
-    } else {
-      setTextPreview(null);
+    if (!isText || !item.file) {
+      return;
     }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const content = typeof reader.result === 'string' ? reader.result : '';
+      // Cap content length for performance
+      setTextPreview(content.slice(0, 10000));
+    };
+    reader.onerror = () => setTextPreview(null);
+    reader.readAsText(item.file);
     // cleanup
     return () => setTextPreview(null);
   }, [item.file, mime, isText]);

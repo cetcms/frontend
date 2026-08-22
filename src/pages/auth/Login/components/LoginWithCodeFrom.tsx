@@ -40,10 +40,19 @@ export const LoginWithCodeForm = () => {
     }, 2000);
   };
 
-  const [resendTime, setResendTime] = useState(0);
   const [captchaSendDateTime, setCaptchaSendDateTime] = useLocalStorage({
     key: 'captchaSendDateTime',
     defaultValue: localStorage.getItem('captchaSendDateTime'),
+  });
+
+  const [resendTime, setResendTime] = useState(() => {
+    if (captchaSendDateTime) {
+      const diffSeconds = Math.floor((Date.now() - new Date(captchaSendDateTime).getTime()) / 1000);
+      if (diffSeconds < 60) {
+        return 60 - diffSeconds;
+      }
+    }
+    return 0;
   });
 
   const handleCountdown = () => {
@@ -59,16 +68,10 @@ export const LoginWithCodeForm = () => {
   };
 
   useEffect(() => {
-    if (captchaSendDateTime) {
-      const now = new Date();
-      const sendTime = new Date(captchaSendDateTime);
-      const diff = now.getTime() - sendTime.getTime();
-      const diffSeconds = Math.floor(diff / 1000);
-      if (diffSeconds < 60) {
-        setResendTime(60 - diffSeconds);
-        handleCountdown();
-      }
+    if (resendTime > 0) {
+      handleCountdown();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleSendCode = () => {
     if (resendTime > 0) {
