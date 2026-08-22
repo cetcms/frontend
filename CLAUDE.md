@@ -40,7 +40,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Tech Stack
 
 - **Framework**: React 19 with TypeScript (strict mode)
-- **Build Tool**: Vite 7 with vite-tsconfig-paths
+- **Build Tool**: Vite 8 with native tsconfig paths resolution (`resolve.tsconfigPaths`)
 - **UI Library**: Mantine v8 with extensions (DataTable, ContextMenu, Charts, Form, Modals, Notifications)
 - **Routing**: React Router v7
 - **State Management**: Zustand 5 (`src/store/`)

@@ -146,3 +146,7 @@ test-results/
 # IDE files
 .omc/
 **/.omc/
+.omo/
+**/.omo/
+.codegraph/
+.trae/

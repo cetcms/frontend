@@ -1,5 +1,4 @@
 import '@mantine/core/styles.css';
-
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { useThemeStore } from 'src/store';
 
