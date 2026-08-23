@@ -1,10 +1,10 @@
 import { useMutation } from '@apollo/client/react';
-import { Login, SwitchAuthCompanyDocument } from 'src/graphql';
+import { LoginFragment, SwitchAuthCompanyDocument } from 'src/graphql';
 import { useAuthStore } from 'src/store';
 
 export type UseSwitchAuthCompanyResult = [
   (companyId?: string, redirect?: string) => Promise<void>,
-  { loading: boolean; data?: Login },
+  { loading: boolean; data?: LoginFragment },
 ];
 
 export const useSwitchAuthCompany = (): UseSwitchAuthCompanyResult => {
@@ -17,7 +17,7 @@ export const useSwitchAuthCompany = (): UseSwitchAuthCompanyResult => {
       },
     });
     if (data?.switchAuthCompany) {
-      setLogin(data.switchAuthCompany as Login);
+      setLogin(data.switchAuthCompany);
       if (redirect) {
         location.replace(redirect);
       } else {
@@ -26,5 +26,5 @@ export const useSwitchAuthCompany = (): UseSwitchAuthCompanyResult => {
     }
   };
 
-  return [handler, { loading, data: data?.switchAuthCompany as Login }];
+  return [handler, { loading, data: data?.switchAuthCompany }];
 };

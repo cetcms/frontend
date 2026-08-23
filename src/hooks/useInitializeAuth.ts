@@ -1,7 +1,7 @@
 import { useLazyQuery } from '@apollo/client/react';
 import { useDebounceEffect } from 'ahooks';
 import { useEffect, useState } from 'react';
-import { Auth, AuthInfoDocument } from 'src/graphql';
+import { AuthInfoDocument } from 'src/graphql';
 import { useParseApolloErrors } from 'src/hooks';
 import { useAuthStore } from 'src/store';
 
@@ -23,7 +23,7 @@ export const useInitializeAuth = () => {
         getAuthInfo()
           .then(({ data }) => {
             if (data?.authInfo) {
-              setAuth(data.authInfo as Auth);
+              setAuth(data.authInfo);
             } else {
               clearAuth();
               clearLogin();

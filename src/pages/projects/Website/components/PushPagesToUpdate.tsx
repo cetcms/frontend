@@ -4,8 +4,10 @@ import { notifications } from '@mantine/notifications';
 import { IconChartArcs } from '@tabler/icons-react';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PermissionAlias, PushPagesToUpdateDocument, WebsiteSeoPage } from 'src/graphql';
+import { ListWebsiteSeoPageQuery, PermissionAlias, PushPagesToUpdateDocument } from 'src/graphql';
 import { useAuthStore } from 'src/store';
+
+type WebsiteSeoPage = ListWebsiteSeoPageQuery['listWebsiteSeoPage'][number];
 
 export interface PushPagesToUpdateProps {
   websiteId: string;

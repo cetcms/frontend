@@ -8,18 +8,18 @@ import { useNavigate } from 'react-router';
 import { RolePermissions } from 'src/components/FormInputs/RolePermissions';
 import { FormPageAction, FormPageErrors } from 'src/components/FormPage';
 import {
-  AdminRole,
+  AdminRoleFragment,
   AdminRoleCreateInput,
   CreateOneAdminRoleDocument,
   ListAdminRolePermissionDocument,
-  PermissionGroupItem,
+  PermissionGroupItemFragment,
   Status,
   UpdateOneAdminRoleDocument,
 } from 'src/graphql';
 import { useParseApolloErrors } from 'src/hooks';
 
 export type AdminRoleFormProps = {
-  item?: AdminRole;
+  item?: AdminRoleFragment;
 };
 
 export type AdminRoleFormValues = AdminRoleCreateInput;
@@ -68,7 +68,7 @@ export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
         variables: { id: item.id, data },
       })
         .then(({ data }) => {
-          const adminRole = data?.updateOneAdminRole as AdminRole;
+          const adminRole = data?.updateOneAdminRole as AdminRoleFragment;
           notifications.show({
             color: 'green',
             title: t('pages:success_notification'),
@@ -82,7 +82,7 @@ export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
         variables: { data },
       })
         .then(({ data }) => {
-          const adminRole = data?.createOneAdminRole as AdminRole;
+          const adminRole = data?.createOneAdminRole as AdminRoleFragment;
           notifications.show({
             color: 'green',
             title: t('pages:success_notification'),
@@ -134,7 +134,7 @@ export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
               <RolePermissions
                 label={t('AdminRole.permissions')}
                 loading={permissions.loading}
-                permissions={(permissions.data?.listAdminRolePermission?.groups || []) as PermissionGroupItem[]}
+                permissions={(permissions.data?.listAdminRolePermission?.groups || []) as PermissionGroupItemFragment[]}
                 allowUnselect={permissions.data?.listAdminRolePermission?.allowUnselect}
                 allowSelect={permissions.data?.listAdminRolePermission?.allowSelect}
                 {...form.getInputProps('permissions')}
@@ -144,7 +144,7 @@ export const AdminRoleForm: React.FC<AdminRoleFormProps> = ({ item }) => {
           <Divider mt="md" variant="dashed" />
           <Group py="xs">
             <Text size="xs" opacity={0.5}>
-              提示：管理员角色用于控制管理员的权限
+              {t('pages:admin_role_tip')}
             </Text>
           </Group>
         </Card>

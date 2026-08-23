@@ -19,7 +19,7 @@ export default defineConfig({
     '**/*.{mjs,cjs,js,d.ts,d.mts}',
     'src/graphql/generated/*.ts',
     'tests/e2e/**/*.ts',
-    'playwright.config.ts',
+    'playwright.config.mjs',
     'dist',
     'storybook-static',
   ],

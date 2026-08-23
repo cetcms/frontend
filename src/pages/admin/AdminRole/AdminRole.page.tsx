@@ -3,7 +3,13 @@ import { Badge } from '@mantine/core';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DataTable } from 'src/components';
-import { AdminRole, PaginateAdminRolesDocument, PaginationFragment, PermissionAlias, Status } from 'src/graphql';
+import {
+  AdminRoleFragment,
+  PaginateAdminRolesDocument,
+  PaginationFragment,
+  PermissionAlias,
+  Status,
+} from 'src/graphql';
 import { PagePermissionOption, useAuthStore } from 'src/store';
 
 export const AdminRolePage: React.FC & PagePermissionOption = () => {
@@ -19,8 +25,8 @@ export const AdminRolePage: React.FC & PagePermissionOption = () => {
 
   // 权限检查
   const { checkPermission } = useAuthStore();
-  const hasCreate = checkPermission(PermissionAlias.CreateOneAdmin);
-  const hasEdit = checkPermission(PermissionAlias.UpdateOneAdmin);
+  const hasCreate = checkPermission(PermissionAlias.CreateOneAdminRole);
+  const hasEdit = checkPermission(PermissionAlias.UpdateOneAdminRole);
   return (
     <DataTable
       editRoute={hasEdit ? { path: '/admin/role/edit', paramFields: { id: 'id' } } : undefined}
@@ -57,7 +63,7 @@ export const AdminRolePage: React.FC & PagePermissionOption = () => {
           type: 'array',
           textAlign: 'center',
           render(_item) {
-            const item: AdminRole = _item as any;
+            const item: AdminRoleFragment = _item as any;
             return <Badge variant="light">{item.permissions?.length || 0} 项</Badge>;
           },
         },

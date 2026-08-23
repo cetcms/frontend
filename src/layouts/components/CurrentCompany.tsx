@@ -4,7 +4,7 @@ import { IconChevronDown, IconLogout, IconSearch } from '@tabler/icons-react';
 import { useDebounceFn } from 'ahooks';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Company, CompanyWhereInput, PaginateCompaniesDocument, Pagination } from 'src/graphql';
+import { CompanyFragment, CompanyWhereInput, PaginateCompaniesDocument, PaginationFragment } from 'src/graphql';
 import { useSwitchAuthCompany } from 'src/hooks';
 import { useAuthStore } from 'src/store';
 
@@ -22,9 +22,8 @@ export const CurrentCompany = () => {
     fetchPolicy: 'network-only',
   });
   const take = 10;
-  const paginateCompanies = result?.data?.paginateCompanies || {};
-  const companies = (paginateCompanies.items || []) as Company[];
-  const pagination = (paginateCompanies.pagination || {}) as Pagination;
+  const companies = (result?.data?.paginateCompanies?.items ?? []) as CompanyFragment[];
+  const pagination = (result?.data?.paginateCompanies?.pagination ?? {}) as PaginationFragment;
 
   const [searchValue, setSearchValue] = useState('');
   const handleSearch = useDebounceFn(

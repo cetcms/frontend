@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@apollo/client/react';
 import { useListState } from '@mantine/hooks';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ListMediaFilesDocument, MediaFile, MediaStore, UploadFileDocument } from 'src/graphql';
+import { ListMediaFilesDocument, MediaFileFragment, MediaStore, UploadFileDocument } from 'src/graphql';
 import { UAParser } from 'ua-parser-js';
 
 import { FileItem, UploadValueType } from './Upload.interface';
@@ -29,7 +29,7 @@ export function useUpload({ onError, onDone, value, defaultValue, path, maxFiles
     itemsRef.current = fileItems;
   }, [fileItems]);
 
-  // 统一将输入值规范化为 ID 列表，支持 string、string[]、MediaFile、MediaFile[]
+  // 统一将输入值规范化为 ID 列表，支持 string、string[]、MediaFileFragment、MediaFileFragment[]
   const normalizeToIdList = (input?: UploadValueType): string[] => {
     if (!input) return [];
     if (typeof input === 'string') return input ? [input] : [];
@@ -37,11 +37,11 @@ export function useUpload({ onError, onDone, value, defaultValue, path, maxFiles
       if (input.length === 0) return [];
       const first = input[0];
       if (typeof first === 'object' && first) {
-        return (input as MediaFile[]).map((it) => it.id).filter((id): id is string => Boolean(id));
+        return (input as MediaFileFragment[]).map((it) => it.id).filter((id): id is string => Boolean(id));
       }
       return (input as string[]).filter((id): id is string => Boolean(id));
     }
-    // 单个 MediaFile
+    // 单个 MediaFileFragment
     if (typeof input === 'object' && input) {
       return input.id ? [input.id] : [];
     }
@@ -51,7 +51,7 @@ export function useUpload({ onError, onDone, value, defaultValue, path, maxFiles
   const singleMode = !maxFiles || maxFiles <= 1;
   const idsRaw: string[] = normalizeToIdList(value ?? defaultValue);
   const ids: string[] = singleMode ? idsRaw.slice(0, 1) : idsRaw;
-  // 查询用于获取MediaFile数据的hook
+  // 查询用于获取MediaFileFragment数据的hook
   const { data: mediaFilesData, loading: fetching } = useQuery(ListMediaFilesDocument, {
     skip: !ids.length,
     variables: {
@@ -67,9 +67,11 @@ export function useUpload({ onError, onDone, value, defaultValue, path, maxFiles
     const initialItems: FileItem[] = [];
     const initialValue = value ?? defaultValue;
 
-    // 若传入的是 MediaFile 或 MediaFile[]，直接使用它们初始化
+    // 若传入的是 MediaFileFragment 或 MediaFileFragment[]，直接使用它们初始化
     if (Array.isArray(initialValue) && initialValue.length > 0 && typeof initialValue[0] === 'object') {
-      const mediaFiles = singleMode ? (initialValue as MediaFile[]).slice(0, 1) : (initialValue as MediaFile[]);
+      const mediaFiles = singleMode
+        ? (initialValue as MediaFileFragment[]).slice(0, 1)
+        : (initialValue as MediaFileFragment[]);
       for (const mediaFile of mediaFiles) {
         initialItems.push({
           file: new File([], mediaFile.fileName),
@@ -81,7 +83,7 @@ export function useUpload({ onError, onDone, value, defaultValue, path, maxFiles
         });
       }
     } else if (initialValue && typeof initialValue === 'object') {
-      const mediaFile = initialValue as MediaFile;
+      const mediaFile = initialValue as MediaFileFragment;
       initialItems.push({
         file: new File([], mediaFile.fileName),
         progress: 100,
@@ -92,10 +94,10 @@ export function useUpload({ onError, onDone, value, defaultValue, path, maxFiles
       });
     }
 
-    // 合并从 API 获取的 MediaFile 数据
+    // 合并从 API 获取的 MediaFileFragment 数据
     if (mediaFilesData?.listMediaFiles) {
       const seen = new Set(initialItems.map((it) => it.id));
-      const items = mediaFilesData.listMediaFiles as MediaFile[];
+      const items = mediaFilesData.listMediaFiles;
       for (const mediaFile of items) {
         if (singleMode && initialItems.length >= 1) break;
         if (!seen.has(mediaFile.id)) {
@@ -170,7 +172,7 @@ export function useUpload({ onError, onDone, value, defaultValue, path, maxFiles
         }
 
         // 安全获取上传后的文件信息与远程URL
-        const uploadedInfo = data.uploadFile as unknown as MediaFile;
+        const uploadedInfo = data.uploadFile;
         const remoteUrl = uploadedInfo?.url ?? starting.url;
 
         const doneItem: FileItem = {

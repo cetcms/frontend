@@ -84,11 +84,10 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^6.2.1",
-    "@graphql-codegen/client-preset": "^5.2.4",
-    "@graphql-codegen/schema-ast": "^5.0.1",
-    "@graphql-codegen/typescript": "^5.0.9",
-    "@graphql-codegen/typescript-operations": "^5.0.9",
+    "@graphql-codegen/cli": "^7.0.0",
+    "@graphql-codegen/client-preset": "^6.0.0",
+    "@graphql-codegen/typescript": "^6.0.0",
+    "@graphql-codegen/typescript-operations": "^6.0.0",
     "@parcel/watcher": "^2.6.0",
     "@playwright/test": "^1.62.1",
     "@storybook/addon-themes": "^10.5.10",
@@ -105,7 +104,6 @@
     "@types/validator": "^13.15.10",
     "@types/voca": "^1.4.6",
     "@vitejs/plugin-react": "^6.1.0",
-    "graphql-codegen-typescript-validation-schema": "^0.18.1",
     "identity-obj-proxy": "^3.0.0",
     "jsdom": "^30.0.1",
     "oxc-config-mantine": "^1.0.1",

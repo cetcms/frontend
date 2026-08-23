@@ -1,4 +1,11 @@
-import { Auth, Company, Login, Maybe, Member, Admin, PermissionAlias } from 'src/graphql';
+import {
+  AdminFragment,
+  AuthInfoQuery,
+  CompanyFragment,
+  LoginFragment,
+  MemberFragment,
+  PermissionAlias,
+} from 'src/graphql';
 import { create } from 'zustand';
 
 const STORAGE_KEY = 'login';
@@ -16,20 +23,22 @@ export type PagePermissionOption = {
   permissions?: CheckPermissionOption;
 };
 
+export type Auth = AuthInfoQuery['authInfo'];
+
 export type AuthStore = {
-  member: Maybe<Member>;
-  admin: Maybe<Admin>;
-  company: Maybe<Company>;
+  member: MemberFragment | null;
+  admin: AdminFragment | null;
+  company: CompanyFragment | null;
   isAdmin: boolean;
   isMember: boolean;
   isCompany: boolean;
 
-  auth: Maybe<Auth>;
+  auth: Auth | null;
   setAuth: (auth: Auth) => void;
   clearAuth: () => void;
 
-  login: Maybe<Login>;
-  setLogin: (login: Login) => void;
+  login: LoginFragment | null;
+  setLogin: (login: LoginFragment) => void;
   clearLogin: () => void;
   checkLogin: () => void;
 
@@ -65,7 +74,7 @@ export const useAuthStore = create<AuthStore>()((set, getState) => ({
   clearAuth: () => set(() => ({ auth: null })),
 
   login: null,
-  setLogin: (login: Login) => {
+  setLogin: (login: LoginFragment) => {
     login.accessTimeout = new Date().getTime() + login.accessTimeout - 1000 * 60 * 5;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(login));
     return set(() => ({ login }));
@@ -77,7 +86,7 @@ export const useAuthStore = create<AuthStore>()((set, getState) => ({
   checkLogin: () => {
     const currentLogin = getState().login;
     try {
-      const storedLogin: Login = JSON.parse(localStorage.getItem(STORAGE_KEY) || '');
+      const storedLogin: LoginFragment = JSON.parse(localStorage.getItem(STORAGE_KEY) || '');
       if (storedLogin && storedLogin.accessToken && new Date().getTime() < storedLogin.accessTimeout) {
         // 只在登录状态真正发生变化时才更新
         if (!currentLogin || currentLogin.accessToken !== storedLogin.accessToken) {

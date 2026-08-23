@@ -1,6 +1,6 @@
-import { MediaFile } from 'src/graphql';
+import { MediaFileFragment } from 'src/graphql';
 
-export type UploadValueType = MediaFile | MediaFile[] | string | string[] | null;
+export type UploadValueType = MediaFileFragment | MediaFileFragment[] | string | string[] | null;
 
 export interface FileItem {
   file: File;
@@ -9,5 +9,5 @@ export interface FileItem {
   error?: string;
   url?: string;
   id: string;
-  info: Partial<MediaFile>;
+  info: Partial<MediaFileFragment>;
 }

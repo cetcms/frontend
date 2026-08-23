@@ -4,7 +4,7 @@ import { IconCheck, IconX } from '@tabler/icons-react';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { List } from 'react-movable';
-import { MediaFile, MediaStore, MediaType } from 'src/graphql';
+import { MediaFileFragment, MediaStore, MediaType } from 'src/graphql';
 import { FileHelper } from 'src/utils/file-helper';
 import * as uuid from 'uuid';
 
@@ -96,9 +96,9 @@ export const Upload: React.FC<UploadProps> = (props) => {
     let nextValue: UploadValueType = null;
     if (effectiveOutputType === 'object') {
       if (isSingle) {
-        nextValue = (doneItems[0]?.info as MediaFile) || null;
+        nextValue = (doneItems[0]?.info as MediaFileFragment) || null;
       } else {
-        nextValue = doneItems.map((item) => item.info as MediaFile) as Array<MediaFile>;
+        nextValue = doneItems.map((item) => item.info as MediaFileFragment) as Array<MediaFileFragment>;
       }
     } else if (isSingle) {
       const id = doneItems[0]?.info?.id ?? null;
@@ -114,18 +114,18 @@ export const Upload: React.FC<UploadProps> = (props) => {
       if ((a === '' && b === null) || (a === null && b === '')) return true;
       if (Array.isArray(a) && Array.isArray(b)) {
         if (a.length !== b.length) return false;
-        const aSorted = [...a].map((v) => (typeof v === 'object' ? (v as MediaFile).id : v)).sort();
-        const bSorted = [...b].map((v) => (typeof v === 'object' ? (v as MediaFile).id : v)).sort();
+        const aSorted = [...a].map((v) => (typeof v === 'object' ? (v as MediaFileFragment).id : v)).sort();
+        const bSorted = [...b].map((v) => (typeof v === 'object' ? (v as MediaFileFragment).id : v)).sort();
         return aSorted.every((v, i) => v === bSorted[i]);
       }
       if (typeof a === 'object' && a && typeof b === 'object' && b) {
-        return (a as MediaFile).id === (b as MediaFile).id;
+        return (a as MediaFileFragment).id === (b as MediaFileFragment).id;
       }
       if (typeof a === 'object' && a && (typeof b === 'string' || b === null)) {
-        return (a as MediaFile).id === b;
+        return (a as MediaFileFragment).id === b;
       }
       if (typeof b === 'object' && b && (typeof a === 'string' || a === null)) {
-        return (b as MediaFile).id === a;
+        return (b as MediaFileFragment).id === a;
       }
       return false;
     };

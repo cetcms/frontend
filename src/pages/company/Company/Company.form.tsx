@@ -7,12 +7,18 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { Upload } from 'src/components/FormInputs';
 import { FormPageAction, FormPageErrors } from 'src/components/FormPage';
-import { Company, CompanyCreateInput, CreateOneCompanyDocument, Status, UpdateOneCompanyDocument } from 'src/graphql';
+import {
+  CompanyFragment,
+  CompanyCreateInput,
+  CreateOneCompanyDocument,
+  Status,
+  UpdateOneCompanyDocument,
+} from 'src/graphql';
 import { useOnAuthClient, useParseApolloErrors } from 'src/hooks';
 import { PagePermissionOption } from 'src/store';
 
 export type CompanyFormProps = {
-  item?: Company;
+  item?: CompanyFragment;
 };
 
 export type CompanyFormValues = CompanyCreateInput;
@@ -61,7 +67,7 @@ export const CompanyForm: React.FC<CompanyFormProps> & PagePermissionOption = ({
         variables: { id: item.id, data },
       })
         .then(({ data }) => {
-          const company = data?.updateOneCompany as Company;
+          const company = data?.updateOneCompany as CompanyFragment;
           notifications.show({
             color: 'green',
             title: t('pages:success_notification'),
@@ -77,7 +83,7 @@ export const CompanyForm: React.FC<CompanyFormProps> & PagePermissionOption = ({
         variables: { data },
       })
         .then(({ data }) => {
-          const company = data?.createOneCompany as Company;
+          const company = data?.createOneCompany as CompanyFragment;
           notifications.show({
             color: 'green',
             title: t('pages:success_notification'),
@@ -134,7 +140,7 @@ export const CompanyForm: React.FC<CompanyFormProps> & PagePermissionOption = ({
           <Divider mt="md" variant="dashed" />
           <Group py="xs">
             <Text size="xs" opacity={0.5}>
-              提示：添加企业用于管理
+              {t('pages:company_tip')}
             </Text>
           </Group>
         </Card>

@@ -8,18 +8,18 @@ import { useNavigate } from 'react-router';
 import { RolePermissions } from 'src/components/FormInputs/RolePermissions';
 import { FormPageAction, FormPageErrors } from 'src/components/FormPage';
 import {
-  CompanyRole,
+  CompanyRoleFragment,
   CompanyRoleCreateInput,
   CreateOneCompanyRoleDocument,
   ListCompanyRolePermissionDocument,
-  PermissionGroupItem,
+  PermissionGroupItemFragment,
   Status,
   UpdateOneCompanyRoleDocument,
 } from 'src/graphql';
 import { useParseApolloErrors } from 'src/hooks';
 
 export type CompanyRoleFormProps = {
-  item?: CompanyRole;
+  item?: CompanyRoleFragment;
 };
 
 export type CompanyRoleFormValues = CompanyRoleCreateInput;
@@ -68,7 +68,7 @@ export const CompanyRoleForm: React.FC<CompanyRoleFormProps> = ({ item }) => {
         variables: { id: item.id, data },
       })
         .then(({ data }) => {
-          const companyRole = data?.updateOneCompanyRole as CompanyRole;
+          const companyRole = data?.updateOneCompanyRole as CompanyRoleFragment;
           notifications.show({
             color: 'green',
             title: t('pages:success_notification'),
@@ -82,7 +82,7 @@ export const CompanyRoleForm: React.FC<CompanyRoleFormProps> = ({ item }) => {
         variables: { data },
       })
         .then(({ data }) => {
-          const companyRole = data?.createOneCompanyRole as CompanyRole;
+          const companyRole = data?.createOneCompanyRole as CompanyRoleFragment;
           notifications.show({
             color: 'green',
             title: t('pages:success_notification'),
@@ -134,7 +134,9 @@ export const CompanyRoleForm: React.FC<CompanyRoleFormProps> = ({ item }) => {
               <RolePermissions
                 label={t('CompanyRole.permissions')}
                 loading={permissions.loading}
-                permissions={(permissions.data?.listCompanyRolePermission?.groups || []) as PermissionGroupItem[]}
+                permissions={
+                  (permissions.data?.listCompanyRolePermission?.groups || []) as PermissionGroupItemFragment[]
+                }
                 allowUnselect={permissions.data?.listCompanyRolePermission?.allowUnselect}
                 allowSelect={permissions.data?.listCompanyRolePermission?.allowSelect}
                 {...form.getInputProps('permissions')}
@@ -144,7 +146,7 @@ export const CompanyRoleForm: React.FC<CompanyRoleFormProps> = ({ item }) => {
           <Divider mt="md" variant="dashed" />
           <Group py="xs">
             <Text size="xs" opacity={0.5}>
-              提示：企业角色用于控制企业成员的权限
+              {t('pages:company_role_tip')}
             </Text>
           </Group>
         </Card>

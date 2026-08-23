@@ -1,590 +1,301 @@
 /* eslint-disable */
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
-export type Maybe<T> = T | null;
-export type InputMaybe<T> = T | null | undefined;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+/** Internal type. DO NOT USE DIRECTLY. */
+type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+/** Internal type. DO NOT USE DIRECTLY. */
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
-/** All built-in and custom scalars, mapped to their actual values */
-export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
-  DateTime: { input: any; output: any; }
-  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
-  JSON: { input: any; output: any; }
-  /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
-  JSONObject: { input: any; output: any; }
-  /** The `Upload` scalar type represents a file upload. */
-  Upload: { input: any; output: any; }
-};
-
-export type Admin = {
-  __typename?: 'Admin';
-  auths?: Maybe<Array<Auth>>;
-  avatar?: Maybe<Scalars['String']['output']>;
-  avatarUrl?: Maybe<Scalars['String']['output']>;
-  companies?: Maybe<Array<AdminCompany>>;
-  createdAt: Scalars['DateTime']['output'];
-  email: Scalars['String']['output'];
-  id: Scalars['ID']['output'];
-  logs?: Maybe<Array<RequestLog>>;
-  mediaFiles?: Maybe<Array<MediaFile>>;
-  mediaFolders?: Maybe<Array<MediaFolder>>;
-  name: Scalars['String']['output'];
-  notificationRecipients?: Maybe<Array<NotificationRecipient>>;
-  notifications?: Maybe<Array<Notification>>;
-  role: AdminRole;
-  roleId: Scalars['String']['output'];
-  status: Status;
-  updatedAt: Scalars['DateTime']['output'];
-};
-
-export type AdminCompany = {
-  __typename?: 'AdminCompany';
-  admin: Admin;
-  adminId: Scalars['String']['output'];
-  company: Company;
-  companyId: Scalars['String']['output'];
-  createdAt: Scalars['DateTime']['output'];
-  role: CompanyRole;
-  roleId: Scalars['String']['output'];
-  updatedAt: Scalars['DateTime']['output'];
-};
-
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type AdminCompanyAdminCompanyIdxCompoundUniqueInput = {
-  adminId: Scalars['String']['input'];
-  companyId: Scalars['String']['input'];
-};
-
-export type AdminCompanyCountAggregate = {
-  __typename?: 'AdminCompanyCountAggregate';
-  _all: Scalars['Int']['output'];
-  adminId: Scalars['Int']['output'];
-  companyId: Scalars['Int']['output'];
-  createdAt: Scalars['Int']['output'];
-  roleId: Scalars['Int']['output'];
-  updatedAt: Scalars['Int']['output'];
-};
-
-export type AdminCompanyCreateInput = {
-  admin: AdminCreateNestedOneWithoutCompaniesInput;
-  company: CompanyCreateNestedOneWithoutAdminsInput;
-  role: CompanyRoleCreateNestedOneWithoutAdminsInput;
+  adminId: string;
+  companyId: string;
 };
 
 export type AdminCompanyCreateNestedManyWithoutCompanyInput = {
-  connect?: InputMaybe<Array<AdminCompanyWhereUniqueInput>>;
+  connect?: Array<AdminCompanyWhereUniqueInput> | null | undefined;
 };
 
 export type AdminCompanyListRelationFilter = {
-  every?: InputMaybe<AdminCompanyWhereInput>;
-  none?: InputMaybe<AdminCompanyWhereInput>;
-  some?: InputMaybe<AdminCompanyWhereInput>;
-};
-
-export type AdminCompanyMaxAggregate = {
-  __typename?: 'AdminCompanyMaxAggregate';
-  adminId?: Maybe<Scalars['String']['output']>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  roleId?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-};
-
-export type AdminCompanyMinAggregate = {
-  __typename?: 'AdminCompanyMinAggregate';
-  adminId?: Maybe<Scalars['String']['output']>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  roleId?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  every?: AdminCompanyWhereInput | null | undefined;
+  none?: AdminCompanyWhereInput | null | undefined;
+  some?: AdminCompanyWhereInput | null | undefined;
 };
 
 export type AdminCompanyOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
-};
-
-export type AdminCompanyOrderByWithRelationInput = {
-  admin?: InputMaybe<AdminOrderByWithRelationInput>;
-  adminId?: InputMaybe<SortOrder>;
-  company?: InputMaybe<CompanyOrderByWithRelationInput>;
-  companyId?: InputMaybe<SortOrder>;
-  createdAt?: InputMaybe<SortOrder>;
-  role?: InputMaybe<CompanyRoleOrderByWithRelationInput>;
-  roleId?: InputMaybe<SortOrder>;
-  updatedAt?: InputMaybe<SortOrder>;
-};
-
-export enum AdminCompanyScalarFieldEnum {
-  AdminId = 'adminId',
-  CompanyId = 'companyId',
-  CreatedAt = 'createdAt',
-  RoleId = 'roleId',
-  UpdatedAt = 'updatedAt'
-}
-
-export type AdminCompanyUpdateInput = {
-  admin?: InputMaybe<AdminUpdateOneRequiredWithoutCompaniesNestedInput>;
-  company?: InputMaybe<CompanyUpdateOneRequiredWithoutAdminsNestedInput>;
-  role?: InputMaybe<CompanyRoleUpdateOneRequiredWithoutAdminsNestedInput>;
+  _count?: SortOrder | null | undefined;
 };
 
 export type AdminCompanyUpdateManyWithoutCompanyNestedInput = {
-  connect?: InputMaybe<Array<AdminCompanyWhereUniqueInput>>;
-  disconnect?: InputMaybe<Array<AdminCompanyWhereUniqueInput>>;
+  connect?: Array<AdminCompanyWhereUniqueInput> | null | undefined;
+  disconnect?: Array<AdminCompanyWhereUniqueInput> | null | undefined;
 };
 
 export type AdminCompanyWhereInput = {
-  AND?: InputMaybe<Array<AdminCompanyWhereInput>>;
-  NOT?: InputMaybe<Array<AdminCompanyWhereInput>>;
-  OR?: InputMaybe<Array<AdminCompanyWhereInput>>;
-  admin?: InputMaybe<AdminScalarRelationFilter>;
-  adminId?: InputMaybe<StringFilter>;
-  company?: InputMaybe<CompanyScalarRelationFilter>;
-  companyId?: InputMaybe<StringFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  role?: InputMaybe<CompanyRoleScalarRelationFilter>;
-  roleId?: InputMaybe<StringFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
+  AND?: Array<AdminCompanyWhereInput> | null | undefined;
+  NOT?: Array<AdminCompanyWhereInput> | null | undefined;
+  OR?: Array<AdminCompanyWhereInput> | null | undefined;
+  admin?: AdminScalarRelationFilter | null | undefined;
+  adminId?: StringFilter | null | undefined;
+  company?: CompanyScalarRelationFilter | null | undefined;
+  companyId?: StringFilter | null | undefined;
+  createdAt?: DateTimeFilter | null | undefined;
+  role?: CompanyRoleScalarRelationFilter | null | undefined;
+  roleId?: StringFilter | null | undefined;
+  updatedAt?: DateTimeFilter | null | undefined;
 };
 
 export type AdminCompanyWhereUniqueInput = {
-  admin?: InputMaybe<AdminScalarRelationFilter>;
-  adminCompanyIdx?: InputMaybe<AdminCompanyAdminCompanyIdxCompoundUniqueInput>;
-  adminId?: InputMaybe<StringFilter>;
-  company?: InputMaybe<CompanyScalarRelationFilter>;
-  companyId?: InputMaybe<StringFilter>;
-  role?: InputMaybe<CompanyRoleScalarRelationFilter>;
-  roleId?: InputMaybe<StringFilter>;
-};
-
-export type AdminCountAggregate = {
-  __typename?: 'AdminCountAggregate';
-  _all: Scalars['Int']['output'];
-  avatar: Scalars['Int']['output'];
-  createdAt: Scalars['Int']['output'];
-  email: Scalars['Int']['output'];
-  id: Scalars['Int']['output'];
-  name: Scalars['Int']['output'];
-  roleId: Scalars['Int']['output'];
-  status: Scalars['Int']['output'];
-  updatedAt: Scalars['Int']['output'];
+  admin?: AdminScalarRelationFilter | null | undefined;
+  adminCompanyIdx?: AdminCompanyAdminCompanyIdxCompoundUniqueInput | null | undefined;
+  adminId?: StringFilter | null | undefined;
+  company?: CompanyScalarRelationFilter | null | undefined;
+  companyId?: StringFilter | null | undefined;
+  role?: CompanyRoleScalarRelationFilter | null | undefined;
+  roleId?: StringFilter | null | undefined;
 };
 
 export type AdminCreateInput = {
-  avatar?: InputMaybe<Scalars['String']['input']>;
-  email: Scalars['String']['input'];
-  name: Scalars['String']['input'];
-  notificationRecipients?: InputMaybe<NotificationRecipientCreateNestedManyWithoutAdminInput>;
-  notifications?: InputMaybe<NotificationCreateNestedManyWithoutAdminInput>;
-  password: Scalars['String']['input'];
+  avatar?: string | null | undefined;
+  email: string;
+  name: string;
+  notificationRecipients?: NotificationRecipientCreateNestedManyWithoutAdminInput | null | undefined;
+  notifications?: NotificationCreateNestedManyWithoutAdminInput | null | undefined;
+  password: string;
   role: AdminRoleCreateNestedOneWithoutAdminsInput;
-  status?: InputMaybe<Status>;
+  status?: Status | null | undefined;
 };
 
 export type AdminCreateNestedManyWithoutRoleInput = {
-  connect?: InputMaybe<Array<AdminWhereUniqueInput>>;
-};
-
-export type AdminCreateNestedOneWithoutCompaniesInput = {
-  connect?: InputMaybe<AdminWhereUniqueInput>;
+  connect?: Array<AdminWhereUniqueInput> | null | undefined;
 };
 
 export type AdminListRelationFilter = {
-  every?: InputMaybe<AdminWhereInput>;
-  none?: InputMaybe<AdminWhereInput>;
-  some?: InputMaybe<AdminWhereInput>;
-};
-
-export type AdminMaxAggregate = {
-  __typename?: 'AdminMaxAggregate';
-  avatar?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  roleId?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Status>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-};
-
-export type AdminMinAggregate = {
-  __typename?: 'AdminMinAggregate';
-  avatar?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  roleId?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Status>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  every?: AdminWhereInput | null | undefined;
+  none?: AdminWhereInput | null | undefined;
+  some?: AdminWhereInput | null | undefined;
 };
 
 export type AdminNullableScalarRelationFilter = {
-  is?: InputMaybe<AdminWhereInput>;
-  isNot?: InputMaybe<AdminWhereInput>;
+  is?: AdminWhereInput | null | undefined;
+  isNot?: AdminWhereInput | null | undefined;
 };
 
 export type AdminOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
+  _count?: SortOrder | null | undefined;
 };
 
 export type AdminOrderByWithRelationInput = {
-  auths?: InputMaybe<AuthOrderByRelationAggregateInput>;
-  avatar?: InputMaybe<SortOrderInput>;
-  companies?: InputMaybe<AdminCompanyOrderByRelationAggregateInput>;
-  createdAt?: InputMaybe<SortOrder>;
-  email?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-  logs?: InputMaybe<RequestLogOrderByRelationAggregateInput>;
-  mediaFiles?: InputMaybe<MediaFileOrderByRelationAggregateInput>;
-  mediaFolders?: InputMaybe<MediaFolderOrderByRelationAggregateInput>;
-  name?: InputMaybe<SortOrder>;
-  notificationRecipients?: InputMaybe<NotificationRecipientOrderByRelationAggregateInput>;
-  notifications?: InputMaybe<NotificationOrderByRelationAggregateInput>;
-  role?: InputMaybe<AdminRoleOrderByWithRelationInput>;
-  roleId?: InputMaybe<SortOrder>;
-  status?: InputMaybe<SortOrder>;
-  updatedAt?: InputMaybe<SortOrder>;
-};
-
-export type AdminRole = {
-  __typename?: 'AdminRole';
-  admins?: Maybe<Array<Admin>>;
-  code: Scalars['String']['output'];
-  createdAt: Scalars['DateTime']['output'];
-  description?: Maybe<Scalars['String']['output']>;
-  id: Scalars['ID']['output'];
-  name: Scalars['String']['output'];
-  permissions?: Maybe<Array<Scalars['String']['output']>>;
-  status: Status;
-  updatedAt: Scalars['DateTime']['output'];
-};
-
-export type AdminRoleCountAggregate = {
-  __typename?: 'AdminRoleCountAggregate';
-  _all: Scalars['Int']['output'];
-  code: Scalars['Int']['output'];
-  createdAt: Scalars['Int']['output'];
-  description: Scalars['Int']['output'];
-  id: Scalars['Int']['output'];
-  name: Scalars['Int']['output'];
-  permissions: Scalars['Int']['output'];
-  status: Scalars['Int']['output'];
-  updatedAt: Scalars['Int']['output'];
+  auths?: AuthOrderByRelationAggregateInput | null | undefined;
+  avatar?: SortOrderInput | null | undefined;
+  companies?: AdminCompanyOrderByRelationAggregateInput | null | undefined;
+  createdAt?: SortOrder | null | undefined;
+  email?: SortOrder | null | undefined;
+  id?: SortOrder | null | undefined;
+  logs?: RequestLogOrderByRelationAggregateInput | null | undefined;
+  mediaFiles?: MediaFileOrderByRelationAggregateInput | null | undefined;
+  mediaFolders?: MediaFolderOrderByRelationAggregateInput | null | undefined;
+  name?: SortOrder | null | undefined;
+  notificationRecipients?: NotificationRecipientOrderByRelationAggregateInput | null | undefined;
+  notifications?: NotificationOrderByRelationAggregateInput | null | undefined;
+  role?: AdminRoleOrderByWithRelationInput | null | undefined;
+  roleId?: SortOrder | null | undefined;
+  status?: SortOrder | null | undefined;
+  updatedAt?: SortOrder | null | undefined;
 };
 
 export type AdminRoleCreateInput = {
-  admins?: InputMaybe<AdminCreateNestedManyWithoutRoleInput>;
-  code: Scalars['String']['input'];
-  description?: InputMaybe<Scalars['String']['input']>;
-  name: Scalars['String']['input'];
-  permissions?: InputMaybe<Array<Scalars['String']['input']>>;
-  status?: InputMaybe<Status>;
+  admins?: AdminCreateNestedManyWithoutRoleInput | null | undefined;
+  code: string;
+  description?: string | null | undefined;
+  name: string;
+  permissions?: Array<string> | null | undefined;
+  status?: Status | null | undefined;
 };
 
 export type AdminRoleCreateNestedOneWithoutAdminsInput = {
-  connect?: InputMaybe<AdminRoleWhereUniqueInput>;
-};
-
-export type AdminRoleMaxAggregate = {
-  __typename?: 'AdminRoleMaxAggregate';
-  code?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Status>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-};
-
-export type AdminRoleMinAggregate = {
-  __typename?: 'AdminRoleMinAggregate';
-  code?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Status>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  connect?: AdminRoleWhereUniqueInput | null | undefined;
 };
 
 export type AdminRoleOrderByWithRelationInput = {
-  admins?: InputMaybe<AdminOrderByRelationAggregateInput>;
-  code?: InputMaybe<SortOrder>;
-  createdAt?: InputMaybe<SortOrder>;
-  description?: InputMaybe<SortOrderInput>;
-  id?: InputMaybe<SortOrder>;
-  name?: InputMaybe<SortOrder>;
-  permissions?: InputMaybe<SortOrder>;
-  status?: InputMaybe<SortOrder>;
-  updatedAt?: InputMaybe<SortOrder>;
+  admins?: AdminOrderByRelationAggregateInput | null | undefined;
+  code?: SortOrder | null | undefined;
+  createdAt?: SortOrder | null | undefined;
+  description?: SortOrderInput | null | undefined;
+  id?: SortOrder | null | undefined;
+  name?: SortOrder | null | undefined;
+  permissions?: SortOrder | null | undefined;
+  status?: SortOrder | null | undefined;
+  updatedAt?: SortOrder | null | undefined;
 };
 
-export enum AdminRoleScalarFieldEnum {
-  Code = 'code',
-  CreatedAt = 'createdAt',
-  Description = 'description',
-  Id = 'id',
-  Name = 'name',
-  Permissions = 'permissions',
-  Status = 'status',
-  UpdatedAt = 'updatedAt'
-}
-
 export type AdminRoleScalarRelationFilter = {
-  is?: InputMaybe<AdminRoleWhereInput>;
-  isNot?: InputMaybe<AdminRoleWhereInput>;
+  is?: AdminRoleWhereInput | null | undefined;
+  isNot?: AdminRoleWhereInput | null | undefined;
 };
 
 export type AdminRoleUpdateInput = {
-  admins?: InputMaybe<AdminUpdateManyWithoutRoleNestedInput>;
-  code?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  permissions?: InputMaybe<Array<Scalars['String']['input']>>;
-  status?: InputMaybe<Status>;
+  admins?: AdminUpdateManyWithoutRoleNestedInput | null | undefined;
+  code?: string | null | undefined;
+  description?: string | null | undefined;
+  name?: string | null | undefined;
+  permissions?: Array<string> | null | undefined;
+  status?: Status | null | undefined;
 };
 
 export type AdminRoleUpdateOneRequiredWithoutAdminsNestedInput = {
-  connect?: InputMaybe<AdminRoleWhereUniqueInput>;
+  connect?: AdminRoleWhereUniqueInput | null | undefined;
 };
 
 export type AdminRoleWhereInput = {
-  AND?: InputMaybe<Array<AdminRoleWhereInput>>;
-  NOT?: InputMaybe<Array<AdminRoleWhereInput>>;
-  OR?: InputMaybe<Array<AdminRoleWhereInput>>;
-  admins?: InputMaybe<AdminListRelationFilter>;
-  code?: InputMaybe<StringFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  description?: InputMaybe<StringNullableFilter>;
-  id?: InputMaybe<StringFilter>;
-  name?: InputMaybe<StringFilter>;
-  permissions?: InputMaybe<StringNullableListFilter>;
-  status?: InputMaybe<EnumStatusFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
+  AND?: Array<AdminRoleWhereInput> | null | undefined;
+  NOT?: Array<AdminRoleWhereInput> | null | undefined;
+  OR?: Array<AdminRoleWhereInput> | null | undefined;
+  admins?: AdminListRelationFilter | null | undefined;
+  code?: StringFilter | null | undefined;
+  createdAt?: DateTimeFilter | null | undefined;
+  description?: StringNullableFilter | null | undefined;
+  id?: StringFilter | null | undefined;
+  name?: StringFilter | null | undefined;
+  permissions?: StringNullableListFilter | null | undefined;
+  status?: EnumStatusFilter | null | undefined;
+  updatedAt?: DateTimeFilter | null | undefined;
 };
 
 export type AdminRoleWhereUniqueInput = {
-  admins?: InputMaybe<AdminListRelationFilter>;
-  code?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<StringNullableFilter>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  permissions?: InputMaybe<StringNullableListFilter>;
-  status?: InputMaybe<EnumStatusFilter>;
+  admins?: AdminListRelationFilter | null | undefined;
+  code?: string | null | undefined;
+  description?: StringNullableFilter | null | undefined;
+  id?: string | null | undefined;
+  name?: string | null | undefined;
+  permissions?: StringNullableListFilter | null | undefined;
+  status?: EnumStatusFilter | null | undefined;
 };
 
-export enum AdminScalarFieldEnum {
-  Avatar = 'avatar',
-  CreatedAt = 'createdAt',
-  Email = 'email',
-  Id = 'id',
-  Name = 'name',
-  Password = 'password',
-  RoleId = 'roleId',
-  Status = 'status',
-  UpdatedAt = 'updatedAt'
-}
-
 export type AdminScalarRelationFilter = {
-  is?: InputMaybe<AdminWhereInput>;
-  isNot?: InputMaybe<AdminWhereInput>;
+  is?: AdminWhereInput | null | undefined;
+  isNot?: AdminWhereInput | null | undefined;
 };
 
 export type AdminUpdateInput = {
-  avatar?: InputMaybe<Scalars['String']['input']>;
-  email?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  notificationRecipients?: InputMaybe<NotificationRecipientUpdateManyWithoutAdminNestedInput>;
-  notifications?: InputMaybe<NotificationUpdateManyWithoutAdminNestedInput>;
-  password?: InputMaybe<Scalars['String']['input']>;
-  role?: InputMaybe<AdminRoleUpdateOneRequiredWithoutAdminsNestedInput>;
-  status?: InputMaybe<Status>;
+  avatar?: string | null | undefined;
+  email?: string | null | undefined;
+  name?: string | null | undefined;
+  notificationRecipients?: NotificationRecipientUpdateManyWithoutAdminNestedInput | null | undefined;
+  notifications?: NotificationUpdateManyWithoutAdminNestedInput | null | undefined;
+  password?: string | null | undefined;
+  role?: AdminRoleUpdateOneRequiredWithoutAdminsNestedInput | null | undefined;
+  status?: Status | null | undefined;
 };
 
 export type AdminUpdateManyWithoutRoleNestedInput = {
-  connect?: InputMaybe<Array<AdminWhereUniqueInput>>;
-  disconnect?: InputMaybe<Array<AdminWhereUniqueInput>>;
-};
-
-export type AdminUpdateOneRequiredWithoutCompaniesNestedInput = {
-  connect?: InputMaybe<AdminWhereUniqueInput>;
+  connect?: Array<AdminWhereUniqueInput> | null | undefined;
+  disconnect?: Array<AdminWhereUniqueInput> | null | undefined;
 };
 
 export type AdminWhereInput = {
-  AND?: InputMaybe<Array<AdminWhereInput>>;
-  NOT?: InputMaybe<Array<AdminWhereInput>>;
-  OR?: InputMaybe<Array<AdminWhereInput>>;
-  auths?: InputMaybe<AuthListRelationFilter>;
-  avatar?: InputMaybe<StringNullableFilter>;
-  companies?: InputMaybe<AdminCompanyListRelationFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  email?: InputMaybe<StringFilter>;
-  id?: InputMaybe<StringFilter>;
-  logs?: InputMaybe<RequestLogListRelationFilter>;
-  mediaFiles?: InputMaybe<MediaFileListRelationFilter>;
-  mediaFolders?: InputMaybe<MediaFolderListRelationFilter>;
-  name?: InputMaybe<StringFilter>;
-  notificationRecipients?: InputMaybe<NotificationRecipientListRelationFilter>;
-  notifications?: InputMaybe<NotificationListRelationFilter>;
-  role?: InputMaybe<AdminRoleScalarRelationFilter>;
-  roleId?: InputMaybe<StringFilter>;
-  status?: InputMaybe<EnumStatusFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
+  AND?: Array<AdminWhereInput> | null | undefined;
+  NOT?: Array<AdminWhereInput> | null | undefined;
+  OR?: Array<AdminWhereInput> | null | undefined;
+  auths?: AuthListRelationFilter | null | undefined;
+  avatar?: StringNullableFilter | null | undefined;
+  companies?: AdminCompanyListRelationFilter | null | undefined;
+  createdAt?: DateTimeFilter | null | undefined;
+  email?: StringFilter | null | undefined;
+  id?: StringFilter | null | undefined;
+  logs?: RequestLogListRelationFilter | null | undefined;
+  mediaFiles?: MediaFileListRelationFilter | null | undefined;
+  mediaFolders?: MediaFolderListRelationFilter | null | undefined;
+  name?: StringFilter | null | undefined;
+  notificationRecipients?: NotificationRecipientListRelationFilter | null | undefined;
+  notifications?: NotificationListRelationFilter | null | undefined;
+  role?: AdminRoleScalarRelationFilter | null | undefined;
+  roleId?: StringFilter | null | undefined;
+  status?: EnumStatusFilter | null | undefined;
+  updatedAt?: DateTimeFilter | null | undefined;
 };
 
 export type AdminWhereUniqueInput = {
-  avatar?: InputMaybe<StringNullableFilter>;
-  email?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<StringFilter>;
-  notificationRecipients?: InputMaybe<NotificationRecipientListRelationFilter>;
-  notifications?: InputMaybe<NotificationListRelationFilter>;
-  role?: InputMaybe<AdminRoleScalarRelationFilter>;
-  roleId?: InputMaybe<StringFilter>;
-  status?: InputMaybe<EnumStatusFilter>;
-};
-
-export type Auth = {
-  __typename?: 'Auth';
-  admin?: Maybe<Admin>;
-  adminId?: Maybe<Scalars['String']['output']>;
-  client: Client;
-  company?: Maybe<Company>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt: Scalars['DateTime']['output'];
-  device?: Maybe<Scalars['JSON']['output']>;
-  expiredAt: Scalars['DateTime']['output'];
-  id: Scalars['ID']['output'];
-  location?: Maybe<Scalars['JSON']['output']>;
-  member?: Maybe<Member>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  permissions: Array<Scalars['String']['output']>;
-  target: Target;
-  updatedAt: Scalars['DateTime']['output'];
-};
-
-export type AuthCountAggregate = {
-  __typename?: 'AuthCountAggregate';
-  _all: Scalars['Int']['output'];
-  adminId: Scalars['Int']['output'];
-  client: Scalars['Int']['output'];
-  companyId: Scalars['Int']['output'];
-  createdAt: Scalars['Int']['output'];
-  device: Scalars['Int']['output'];
-  expiredAt: Scalars['Int']['output'];
-  id: Scalars['Int']['output'];
-  location: Scalars['Int']['output'];
-  memberId: Scalars['Int']['output'];
-  target: Scalars['Int']['output'];
-  updatedAt: Scalars['Int']['output'];
+  avatar?: StringNullableFilter | null | undefined;
+  email?: string | null | undefined;
+  id?: string | null | undefined;
+  name?: StringFilter | null | undefined;
+  notificationRecipients?: NotificationRecipientListRelationFilter | null | undefined;
+  notifications?: NotificationListRelationFilter | null | undefined;
+  role?: AdminRoleScalarRelationFilter | null | undefined;
+  roleId?: StringFilter | null | undefined;
+  status?: EnumStatusFilter | null | undefined;
 };
 
 export type AuthCreateNestedManyWithoutCompanyInput = {
-  connect?: InputMaybe<Array<AuthWhereUniqueInput>>;
+  connect?: Array<AuthWhereUniqueInput> | null | undefined;
 };
 
 export type AuthListRelationFilter = {
-  every?: InputMaybe<AuthWhereInput>;
-  none?: InputMaybe<AuthWhereInput>;
-  some?: InputMaybe<AuthWhereInput>;
-};
-
-export type AuthMaxAggregate = {
-  __typename?: 'AuthMaxAggregate';
-  adminId?: Maybe<Scalars['String']['output']>;
-  client?: Maybe<Client>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  expiredAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  target?: Maybe<Target>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-};
-
-export type AuthMinAggregate = {
-  __typename?: 'AuthMinAggregate';
-  adminId?: Maybe<Scalars['String']['output']>;
-  client?: Maybe<Client>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  expiredAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  target?: Maybe<Target>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  every?: AuthWhereInput | null | undefined;
+  none?: AuthWhereInput | null | undefined;
+  some?: AuthWhereInput | null | undefined;
 };
 
 export type AuthOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
+  _count?: SortOrder | null | undefined;
 };
 
 export type AuthUpdateManyWithoutCompanyNestedInput = {
-  connect?: InputMaybe<Array<AuthWhereUniqueInput>>;
-  disconnect?: InputMaybe<Array<AuthWhereUniqueInput>>;
+  connect?: Array<AuthWhereUniqueInput> | null | undefined;
+  disconnect?: Array<AuthWhereUniqueInput> | null | undefined;
 };
 
 export type AuthWhereInput = {
-  AND?: InputMaybe<Array<AuthWhereInput>>;
-  NOT?: InputMaybe<Array<AuthWhereInput>>;
-  OR?: InputMaybe<Array<AuthWhereInput>>;
-  admin?: InputMaybe<AdminNullableScalarRelationFilter>;
-  adminId?: InputMaybe<StringNullableFilter>;
-  client?: InputMaybe<EnumClientFilter>;
-  company?: InputMaybe<CompanyNullableScalarRelationFilter>;
-  companyId?: InputMaybe<StringNullableFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  device?: InputMaybe<JsonNullableFilter>;
-  expiredAt?: InputMaybe<DateTimeFilter>;
-  fingerprint?: InputMaybe<StringNullableFilter>;
-  id?: InputMaybe<StringFilter>;
-  location?: InputMaybe<JsonNullableFilter>;
-  member?: InputMaybe<MemberNullableScalarRelationFilter>;
-  memberId?: InputMaybe<StringNullableFilter>;
-  target?: InputMaybe<EnumTargetFilter>;
-  token?: InputMaybe<StringFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
+  AND?: Array<AuthWhereInput> | null | undefined;
+  NOT?: Array<AuthWhereInput> | null | undefined;
+  OR?: Array<AuthWhereInput> | null | undefined;
+  admin?: AdminNullableScalarRelationFilter | null | undefined;
+  adminId?: StringNullableFilter | null | undefined;
+  client?: EnumClientFilter | null | undefined;
+  company?: CompanyNullableScalarRelationFilter | null | undefined;
+  companyId?: StringNullableFilter | null | undefined;
+  createdAt?: DateTimeFilter | null | undefined;
+  device?: JsonNullableFilter | null | undefined;
+  expiredAt?: DateTimeFilter | null | undefined;
+  fingerprint?: StringNullableFilter | null | undefined;
+  id?: StringFilter | null | undefined;
+  location?: JsonNullableFilter | null | undefined;
+  member?: MemberNullableScalarRelationFilter | null | undefined;
+  memberId?: StringNullableFilter | null | undefined;
+  target?: EnumTargetFilter | null | undefined;
+  token?: StringFilter | null | undefined;
+  updatedAt?: DateTimeFilter | null | undefined;
 };
 
 export type AuthWhereUniqueInput = {
-  admin?: InputMaybe<AdminNullableScalarRelationFilter>;
-  adminId?: InputMaybe<StringNullableFilter>;
-  client?: InputMaybe<EnumClientFilter>;
-  company?: InputMaybe<CompanyNullableScalarRelationFilter>;
-  companyId?: InputMaybe<StringNullableFilter>;
-  device?: InputMaybe<JsonNullableFilter>;
-  expiredAt?: InputMaybe<DateTimeFilter>;
-  fingerprint?: InputMaybe<StringNullableFilter>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  location?: InputMaybe<JsonNullableFilter>;
-  member?: InputMaybe<MemberNullableScalarRelationFilter>;
-  memberId?: InputMaybe<StringNullableFilter>;
-  target?: InputMaybe<EnumTargetFilter>;
-  token?: InputMaybe<StringFilter>;
+  admin?: AdminNullableScalarRelationFilter | null | undefined;
+  adminId?: StringNullableFilter | null | undefined;
+  client?: EnumClientFilter | null | undefined;
+  company?: CompanyNullableScalarRelationFilter | null | undefined;
+  companyId?: StringNullableFilter | null | undefined;
+  device?: JsonNullableFilter | null | undefined;
+  expiredAt?: DateTimeFilter | null | undefined;
+  fingerprint?: StringNullableFilter | null | undefined;
+  id?: string | null | undefined;
+  location?: JsonNullableFilter | null | undefined;
+  member?: MemberNullableScalarRelationFilter | null | undefined;
+  memberId?: StringNullableFilter | null | undefined;
+  target?: EnumTargetFilter | null | undefined;
+  token?: StringFilter | null | undefined;
 };
 
 export type BigIntFilter = {
-  equals?: InputMaybe<Scalars['String']['input']>;
-  gt?: InputMaybe<Scalars['String']['input']>;
-  gte?: InputMaybe<Scalars['String']['input']>;
-  in?: InputMaybe<Array<Scalars['String']['input']>>;
-  lt?: InputMaybe<Scalars['String']['input']>;
-  lte?: InputMaybe<Scalars['String']['input']>;
-  not?: InputMaybe<NestedBigIntFilter>;
-  notIn?: InputMaybe<Array<Scalars['String']['input']>>;
+  equals?: string | null | undefined;
+  gt?: string | null | undefined;
+  gte?: string | null | undefined;
+  in?: Array<string> | null | undefined;
+  lt?: string | null | undefined;
+  lte?: string | null | undefined;
+  not?: NestedBigIntFilter | null | undefined;
+  notIn?: Array<string> | null | undefined;
 };
 
 export type BoolFilter = {
-  equals?: InputMaybe<Scalars['Boolean']['input']>;
-  not?: InputMaybe<NestedBoolFilter>;
+  equals?: boolean | null | undefined;
+  not?: NestedBoolFilter | null | undefined;
 };
 
 export enum Client {
@@ -593,536 +304,282 @@ export enum Client {
   Member = 'Member'
 }
 
-export type Company = {
-  __typename?: 'Company';
-  alias?: Maybe<Scalars['String']['output']>;
-  code?: Maybe<Scalars['String']['output']>;
-  createdAt: Scalars['DateTime']['output'];
-  description?: Maybe<Scalars['String']['output']>;
-  id: Scalars['ID']['output'];
-  logo?: Maybe<Scalars['String']['output']>;
-  logoUrl?: Maybe<Scalars['String']['output']>;
-  name: Scalars['String']['output'];
-  notificationRecipients?: Maybe<Array<NotificationRecipient>>;
-  notifications?: Maybe<Array<Notification>>;
-  status: Status;
-  updatedAt: Scalars['DateTime']['output'];
-  websites?: Maybe<Array<Website>>;
-};
-
-export type CompanyCountAggregate = {
-  __typename?: 'CompanyCountAggregate';
-  _all: Scalars['Int']['output'];
-  alias: Scalars['Int']['output'];
-  code: Scalars['Int']['output'];
-  createdAt: Scalars['Int']['output'];
-  description: Scalars['Int']['output'];
-  id: Scalars['Int']['output'];
-  logo: Scalars['Int']['output'];
-  name: Scalars['Int']['output'];
-  status: Scalars['Int']['output'];
-  updatedAt: Scalars['Int']['output'];
-};
-
 export type CompanyCreateInput = {
-  admins?: InputMaybe<AdminCompanyCreateNestedManyWithoutCompanyInput>;
-  alias?: InputMaybe<Scalars['String']['input']>;
-  auths?: InputMaybe<AuthCreateNestedManyWithoutCompanyInput>;
-  code?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  logo?: InputMaybe<Scalars['String']['input']>;
-  logs?: InputMaybe<RequestLogCreateNestedManyWithoutCompanyInput>;
-  mediaFiles?: InputMaybe<MediaFileCreateNestedManyWithoutCompanyInput>;
-  mediaFolders?: InputMaybe<MediaFolderCreateNestedManyWithoutCompanyInput>;
-  members?: InputMaybe<CompanyMemberCreateNestedManyWithoutCompanyInput>;
-  name: Scalars['String']['input'];
-  notificationRecipients?: InputMaybe<NotificationRecipientCreateNestedManyWithoutCompanyInput>;
-  notifications?: InputMaybe<NotificationCreateNestedManyWithoutCompanyInput>;
-  roles?: InputMaybe<CompanyRoleCreateNestedManyWithoutCompanyInput>;
-  status?: InputMaybe<Status>;
-  websites?: InputMaybe<WebsiteCreateNestedManyWithoutCompanyInput>;
-};
-
-export type CompanyCreateNestedOneWithoutAdminsInput = {
-  connect?: InputMaybe<CompanyWhereUniqueInput>;
-};
-
-export type CompanyCreateNestedOneWithoutMembersInput = {
-  connect?: InputMaybe<CompanyWhereUniqueInput>;
+  admins?: AdminCompanyCreateNestedManyWithoutCompanyInput | null | undefined;
+  alias?: string | null | undefined;
+  auths?: AuthCreateNestedManyWithoutCompanyInput | null | undefined;
+  code?: string | null | undefined;
+  description?: string | null | undefined;
+  logo?: string | null | undefined;
+  logs?: RequestLogCreateNestedManyWithoutCompanyInput | null | undefined;
+  mediaFiles?: MediaFileCreateNestedManyWithoutCompanyInput | null | undefined;
+  mediaFolders?: MediaFolderCreateNestedManyWithoutCompanyInput | null | undefined;
+  members?: CompanyMemberCreateNestedManyWithoutCompanyInput | null | undefined;
+  name: string;
+  notificationRecipients?: NotificationRecipientCreateNestedManyWithoutCompanyInput | null | undefined;
+  notifications?: NotificationCreateNestedManyWithoutCompanyInput | null | undefined;
+  roles?: CompanyRoleCreateNestedManyWithoutCompanyInput | null | undefined;
+  status?: Status | null | undefined;
+  websites?: WebsiteCreateNestedManyWithoutCompanyInput | null | undefined;
 };
 
 export type CompanyCreateNestedOneWithoutRolesInput = {
-  connect?: InputMaybe<CompanyWhereUniqueInput>;
+  connect?: CompanyWhereUniqueInput | null | undefined;
 };
 
 export type CompanyCreateNestedOneWithoutWebsitesInput = {
-  connect?: InputMaybe<CompanyWhereUniqueInput>;
-};
-
-export type CompanyMaxAggregate = {
-  __typename?: 'CompanyMaxAggregate';
-  alias?: Maybe<Scalars['String']['output']>;
-  code?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  logo?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Status>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-};
-
-export type CompanyMember = {
-  __typename?: 'CompanyMember';
-  company: Company;
-  companyId: Scalars['String']['output'];
-  createdAt: Scalars['DateTime']['output'];
-  invitePassed: Scalars['Boolean']['output'];
-  member: Member;
-  memberId: Scalars['String']['output'];
-  role: CompanyRole;
-  roleId: Scalars['String']['output'];
-  status: Status;
-  updatedAt: Scalars['DateTime']['output'];
+  connect?: CompanyWhereUniqueInput | null | undefined;
 };
 
 export type CompanyMemberCompanyMemberIdxCompoundUniqueInput = {
-  companyId: Scalars['String']['input'];
-  memberId: Scalars['String']['input'];
-};
-
-export type CompanyMemberCountAggregate = {
-  __typename?: 'CompanyMemberCountAggregate';
-  _all: Scalars['Int']['output'];
-  companyId: Scalars['Int']['output'];
-  createdAt: Scalars['Int']['output'];
-  invitePassed: Scalars['Int']['output'];
-  memberId: Scalars['Int']['output'];
-  roleId: Scalars['Int']['output'];
-  status: Scalars['Int']['output'];
-  updatedAt: Scalars['Int']['output'];
-};
-
-export type CompanyMemberCreateInput = {
-  company: CompanyCreateNestedOneWithoutMembersInput;
-  invitePassed?: InputMaybe<Scalars['Boolean']['input']>;
-  member: MemberCreateNestedOneWithoutCompaniesInput;
-  role: CompanyRoleCreateNestedOneWithoutMembersInput;
-  status?: InputMaybe<Status>;
+  companyId: string;
+  memberId: string;
 };
 
 export type CompanyMemberCreateNestedManyWithoutCompanyInput = {
-  connect?: InputMaybe<Array<CompanyMemberWhereUniqueInput>>;
+  connect?: Array<CompanyMemberWhereUniqueInput> | null | undefined;
 };
 
 export type CompanyMemberListRelationFilter = {
-  every?: InputMaybe<CompanyMemberWhereInput>;
-  none?: InputMaybe<CompanyMemberWhereInput>;
-  some?: InputMaybe<CompanyMemberWhereInput>;
-};
-
-export type CompanyMemberMaxAggregate = {
-  __typename?: 'CompanyMemberMaxAggregate';
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  invitePassed?: Maybe<Scalars['Boolean']['output']>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  roleId?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Status>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-};
-
-export type CompanyMemberMinAggregate = {
-  __typename?: 'CompanyMemberMinAggregate';
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  invitePassed?: Maybe<Scalars['Boolean']['output']>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  roleId?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Status>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  every?: CompanyMemberWhereInput | null | undefined;
+  none?: CompanyMemberWhereInput | null | undefined;
+  some?: CompanyMemberWhereInput | null | undefined;
 };
 
 export type CompanyMemberOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
-};
-
-export type CompanyMemberOrderByWithRelationInput = {
-  company?: InputMaybe<CompanyOrderByWithRelationInput>;
-  companyId?: InputMaybe<SortOrder>;
-  createdAt?: InputMaybe<SortOrder>;
-  invitePassed?: InputMaybe<SortOrder>;
-  member?: InputMaybe<MemberOrderByWithRelationInput>;
-  memberId?: InputMaybe<SortOrder>;
-  role?: InputMaybe<CompanyRoleOrderByWithRelationInput>;
-  roleId?: InputMaybe<SortOrder>;
-  status?: InputMaybe<SortOrder>;
-  updatedAt?: InputMaybe<SortOrder>;
-};
-
-export enum CompanyMemberScalarFieldEnum {
-  CompanyId = 'companyId',
-  CreatedAt = 'createdAt',
-  InvitePassed = 'invitePassed',
-  MemberId = 'memberId',
-  RoleId = 'roleId',
-  Status = 'status',
-  UpdatedAt = 'updatedAt'
-}
-
-export type CompanyMemberUpdateInput = {
-  company?: InputMaybe<CompanyUpdateOneRequiredWithoutMembersNestedInput>;
-  invitePassed?: InputMaybe<Scalars['Boolean']['input']>;
-  member?: InputMaybe<MemberUpdateOneRequiredWithoutCompaniesNestedInput>;
-  role?: InputMaybe<CompanyRoleUpdateOneRequiredWithoutMembersNestedInput>;
-  status?: InputMaybe<Status>;
+  _count?: SortOrder | null | undefined;
 };
 
 export type CompanyMemberUpdateManyWithoutCompanyNestedInput = {
-  connect?: InputMaybe<Array<CompanyMemberWhereUniqueInput>>;
-  disconnect?: InputMaybe<Array<CompanyMemberWhereUniqueInput>>;
+  connect?: Array<CompanyMemberWhereUniqueInput> | null | undefined;
+  disconnect?: Array<CompanyMemberWhereUniqueInput> | null | undefined;
 };
 
 export type CompanyMemberWhereInput = {
-  AND?: InputMaybe<Array<CompanyMemberWhereInput>>;
-  NOT?: InputMaybe<Array<CompanyMemberWhereInput>>;
-  OR?: InputMaybe<Array<CompanyMemberWhereInput>>;
-  company?: InputMaybe<CompanyScalarRelationFilter>;
-  companyId?: InputMaybe<StringFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  invitePassed?: InputMaybe<BoolFilter>;
-  member?: InputMaybe<MemberScalarRelationFilter>;
-  memberId?: InputMaybe<StringFilter>;
-  role?: InputMaybe<CompanyRoleScalarRelationFilter>;
-  roleId?: InputMaybe<StringFilter>;
-  status?: InputMaybe<EnumStatusFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
+  AND?: Array<CompanyMemberWhereInput> | null | undefined;
+  NOT?: Array<CompanyMemberWhereInput> | null | undefined;
+  OR?: Array<CompanyMemberWhereInput> | null | undefined;
+  company?: CompanyScalarRelationFilter | null | undefined;
+  companyId?: StringFilter | null | undefined;
+  createdAt?: DateTimeFilter | null | undefined;
+  invitePassed?: BoolFilter | null | undefined;
+  member?: MemberScalarRelationFilter | null | undefined;
+  memberId?: StringFilter | null | undefined;
+  role?: CompanyRoleScalarRelationFilter | null | undefined;
+  roleId?: StringFilter | null | undefined;
+  status?: EnumStatusFilter | null | undefined;
+  updatedAt?: DateTimeFilter | null | undefined;
 };
 
 export type CompanyMemberWhereUniqueInput = {
-  company?: InputMaybe<CompanyScalarRelationFilter>;
-  companyId?: InputMaybe<StringFilter>;
-  companyMemberIdx?: InputMaybe<CompanyMemberCompanyMemberIdxCompoundUniqueInput>;
-  invitePassed?: InputMaybe<BoolFilter>;
-  member?: InputMaybe<MemberScalarRelationFilter>;
-  memberId?: InputMaybe<StringFilter>;
-  role?: InputMaybe<CompanyRoleScalarRelationFilter>;
-  roleId?: InputMaybe<StringFilter>;
-  status?: InputMaybe<EnumStatusFilter>;
-};
-
-export type CompanyMinAggregate = {
-  __typename?: 'CompanyMinAggregate';
-  alias?: Maybe<Scalars['String']['output']>;
-  code?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  logo?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Status>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  company?: CompanyScalarRelationFilter | null | undefined;
+  companyId?: StringFilter | null | undefined;
+  companyMemberIdx?: CompanyMemberCompanyMemberIdxCompoundUniqueInput | null | undefined;
+  invitePassed?: BoolFilter | null | undefined;
+  member?: MemberScalarRelationFilter | null | undefined;
+  memberId?: StringFilter | null | undefined;
+  role?: CompanyRoleScalarRelationFilter | null | undefined;
+  roleId?: StringFilter | null | undefined;
+  status?: EnumStatusFilter | null | undefined;
 };
 
 export type CompanyNullableScalarRelationFilter = {
-  is?: InputMaybe<CompanyWhereInput>;
-  isNot?: InputMaybe<CompanyWhereInput>;
+  is?: CompanyWhereInput | null | undefined;
+  isNot?: CompanyWhereInput | null | undefined;
 };
 
 export type CompanyOrderByWithRelationInput = {
-  admins?: InputMaybe<AdminCompanyOrderByRelationAggregateInput>;
-  alias?: InputMaybe<SortOrderInput>;
-  auths?: InputMaybe<AuthOrderByRelationAggregateInput>;
-  code?: InputMaybe<SortOrderInput>;
-  createdAt?: InputMaybe<SortOrder>;
-  description?: InputMaybe<SortOrderInput>;
-  id?: InputMaybe<SortOrder>;
-  logo?: InputMaybe<SortOrderInput>;
-  logs?: InputMaybe<RequestLogOrderByRelationAggregateInput>;
-  mediaFiles?: InputMaybe<MediaFileOrderByRelationAggregateInput>;
-  mediaFolders?: InputMaybe<MediaFolderOrderByRelationAggregateInput>;
-  members?: InputMaybe<CompanyMemberOrderByRelationAggregateInput>;
-  name?: InputMaybe<SortOrder>;
-  notificationRecipients?: InputMaybe<NotificationRecipientOrderByRelationAggregateInput>;
-  notifications?: InputMaybe<NotificationOrderByRelationAggregateInput>;
-  roles?: InputMaybe<CompanyRoleOrderByRelationAggregateInput>;
-  status?: InputMaybe<SortOrder>;
-  updatedAt?: InputMaybe<SortOrder>;
-  websites?: InputMaybe<WebsiteOrderByRelationAggregateInput>;
-};
-
-export type CompanyRole = {
-  __typename?: 'CompanyRole';
-  admins?: Maybe<Array<AdminCompany>>;
-  code: Scalars['String']['output'];
-  company?: Maybe<Company>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt: Scalars['DateTime']['output'];
-  description?: Maybe<Scalars['String']['output']>;
-  id: Scalars['ID']['output'];
-  members?: Maybe<Array<CompanyMember>>;
-  name: Scalars['String']['output'];
-  permissions?: Maybe<Array<Scalars['String']['output']>>;
-  status: Status;
-  updatedAt: Scalars['DateTime']['output'];
+  admins?: AdminCompanyOrderByRelationAggregateInput | null | undefined;
+  alias?: SortOrderInput | null | undefined;
+  auths?: AuthOrderByRelationAggregateInput | null | undefined;
+  code?: SortOrderInput | null | undefined;
+  createdAt?: SortOrder | null | undefined;
+  description?: SortOrderInput | null | undefined;
+  id?: SortOrder | null | undefined;
+  logo?: SortOrderInput | null | undefined;
+  logs?: RequestLogOrderByRelationAggregateInput | null | undefined;
+  mediaFiles?: MediaFileOrderByRelationAggregateInput | null | undefined;
+  mediaFolders?: MediaFolderOrderByRelationAggregateInput | null | undefined;
+  members?: CompanyMemberOrderByRelationAggregateInput | null | undefined;
+  name?: SortOrder | null | undefined;
+  notificationRecipients?: NotificationRecipientOrderByRelationAggregateInput | null | undefined;
+  notifications?: NotificationOrderByRelationAggregateInput | null | undefined;
+  roles?: CompanyRoleOrderByRelationAggregateInput | null | undefined;
+  status?: SortOrder | null | undefined;
+  updatedAt?: SortOrder | null | undefined;
+  websites?: WebsiteOrderByRelationAggregateInput | null | undefined;
 };
 
 export type CompanyRoleCompanyRoleIdxCompoundUniqueInput = {
-  code: Scalars['String']['input'];
-  companyId: Scalars['String']['input'];
-};
-
-export type CompanyRoleCountAggregate = {
-  __typename?: 'CompanyRoleCountAggregate';
-  _all: Scalars['Int']['output'];
-  code: Scalars['Int']['output'];
-  companyId: Scalars['Int']['output'];
-  createdAt: Scalars['Int']['output'];
-  description: Scalars['Int']['output'];
-  id: Scalars['Int']['output'];
-  name: Scalars['Int']['output'];
-  permissions: Scalars['Int']['output'];
-  status: Scalars['Int']['output'];
-  updatedAt: Scalars['Int']['output'];
+  code: string;
+  companyId: string;
 };
 
 export type CompanyRoleCreateInput = {
-  code: Scalars['String']['input'];
-  company?: InputMaybe<CompanyCreateNestedOneWithoutRolesInput>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  name: Scalars['String']['input'];
-  permissions?: InputMaybe<Array<Scalars['String']['input']>>;
-  status?: InputMaybe<Status>;
+  code: string;
+  company?: CompanyCreateNestedOneWithoutRolesInput | null | undefined;
+  description?: string | null | undefined;
+  name: string;
+  permissions?: Array<string> | null | undefined;
+  status?: Status | null | undefined;
 };
 
 export type CompanyRoleCreateNestedManyWithoutCompanyInput = {
-  connect?: InputMaybe<Array<CompanyRoleWhereUniqueInput>>;
-};
-
-export type CompanyRoleCreateNestedOneWithoutAdminsInput = {
-  connect?: InputMaybe<CompanyRoleWhereUniqueInput>;
-};
-
-export type CompanyRoleCreateNestedOneWithoutMembersInput = {
-  connect?: InputMaybe<CompanyRoleWhereUniqueInput>;
+  connect?: Array<CompanyRoleWhereUniqueInput> | null | undefined;
 };
 
 export type CompanyRoleListRelationFilter = {
-  every?: InputMaybe<CompanyRoleWhereInput>;
-  none?: InputMaybe<CompanyRoleWhereInput>;
-  some?: InputMaybe<CompanyRoleWhereInput>;
-};
-
-export type CompanyRoleMaxAggregate = {
-  __typename?: 'CompanyRoleMaxAggregate';
-  code?: Maybe<Scalars['String']['output']>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Status>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-};
-
-export type CompanyRoleMinAggregate = {
-  __typename?: 'CompanyRoleMinAggregate';
-  code?: Maybe<Scalars['String']['output']>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Status>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  every?: CompanyRoleWhereInput | null | undefined;
+  none?: CompanyRoleWhereInput | null | undefined;
+  some?: CompanyRoleWhereInput | null | undefined;
 };
 
 export type CompanyRoleOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
+  _count?: SortOrder | null | undefined;
 };
 
 export type CompanyRoleOrderByWithRelationInput = {
-  admins?: InputMaybe<AdminCompanyOrderByRelationAggregateInput>;
-  code?: InputMaybe<SortOrder>;
-  company?: InputMaybe<CompanyOrderByWithRelationInput>;
-  companyId?: InputMaybe<SortOrderInput>;
-  createdAt?: InputMaybe<SortOrder>;
-  description?: InputMaybe<SortOrderInput>;
-  id?: InputMaybe<SortOrder>;
-  members?: InputMaybe<CompanyMemberOrderByRelationAggregateInput>;
-  name?: InputMaybe<SortOrder>;
-  permissions?: InputMaybe<SortOrder>;
-  status?: InputMaybe<SortOrder>;
-  updatedAt?: InputMaybe<SortOrder>;
+  admins?: AdminCompanyOrderByRelationAggregateInput | null | undefined;
+  code?: SortOrder | null | undefined;
+  company?: CompanyOrderByWithRelationInput | null | undefined;
+  companyId?: SortOrderInput | null | undefined;
+  createdAt?: SortOrder | null | undefined;
+  description?: SortOrderInput | null | undefined;
+  id?: SortOrder | null | undefined;
+  members?: CompanyMemberOrderByRelationAggregateInput | null | undefined;
+  name?: SortOrder | null | undefined;
+  permissions?: SortOrder | null | undefined;
+  status?: SortOrder | null | undefined;
+  updatedAt?: SortOrder | null | undefined;
 };
 
-export enum CompanyRoleScalarFieldEnum {
-  Code = 'code',
-  CompanyId = 'companyId',
-  CreatedAt = 'createdAt',
-  Description = 'description',
-  Id = 'id',
-  Name = 'name',
-  Permissions = 'permissions',
-  Status = 'status',
-  UpdatedAt = 'updatedAt'
-}
-
 export type CompanyRoleScalarRelationFilter = {
-  is?: InputMaybe<CompanyRoleWhereInput>;
-  isNot?: InputMaybe<CompanyRoleWhereInput>;
+  is?: CompanyRoleWhereInput | null | undefined;
+  isNot?: CompanyRoleWhereInput | null | undefined;
 };
 
 export type CompanyRoleUpdateInput = {
-  code?: InputMaybe<Scalars['String']['input']>;
-  company?: InputMaybe<CompanyUpdateOneWithoutRolesNestedInput>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  permissions?: InputMaybe<Array<Scalars['String']['input']>>;
-  status?: InputMaybe<Status>;
+  code?: string | null | undefined;
+  company?: CompanyUpdateOneWithoutRolesNestedInput | null | undefined;
+  description?: string | null | undefined;
+  name?: string | null | undefined;
+  permissions?: Array<string> | null | undefined;
+  status?: Status | null | undefined;
 };
 
 export type CompanyRoleUpdateManyWithoutCompanyNestedInput = {
-  connect?: InputMaybe<Array<CompanyRoleWhereUniqueInput>>;
-  disconnect?: InputMaybe<Array<CompanyRoleWhereUniqueInput>>;
-};
-
-export type CompanyRoleUpdateOneRequiredWithoutAdminsNestedInput = {
-  connect?: InputMaybe<CompanyRoleWhereUniqueInput>;
-};
-
-export type CompanyRoleUpdateOneRequiredWithoutMembersNestedInput = {
-  connect?: InputMaybe<CompanyRoleWhereUniqueInput>;
+  connect?: Array<CompanyRoleWhereUniqueInput> | null | undefined;
+  disconnect?: Array<CompanyRoleWhereUniqueInput> | null | undefined;
 };
 
 export type CompanyRoleWhereInput = {
-  AND?: InputMaybe<Array<CompanyRoleWhereInput>>;
-  NOT?: InputMaybe<Array<CompanyRoleWhereInput>>;
-  OR?: InputMaybe<Array<CompanyRoleWhereInput>>;
-  admins?: InputMaybe<AdminCompanyListRelationFilter>;
-  code?: InputMaybe<StringFilter>;
-  company?: InputMaybe<CompanyNullableScalarRelationFilter>;
-  companyId?: InputMaybe<StringNullableFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  description?: InputMaybe<StringNullableFilter>;
-  id?: InputMaybe<StringFilter>;
-  members?: InputMaybe<CompanyMemberListRelationFilter>;
-  name?: InputMaybe<StringFilter>;
-  permissions?: InputMaybe<StringNullableListFilter>;
-  status?: InputMaybe<EnumStatusFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
+  AND?: Array<CompanyRoleWhereInput> | null | undefined;
+  NOT?: Array<CompanyRoleWhereInput> | null | undefined;
+  OR?: Array<CompanyRoleWhereInput> | null | undefined;
+  admins?: AdminCompanyListRelationFilter | null | undefined;
+  code?: StringFilter | null | undefined;
+  company?: CompanyNullableScalarRelationFilter | null | undefined;
+  companyId?: StringNullableFilter | null | undefined;
+  createdAt?: DateTimeFilter | null | undefined;
+  description?: StringNullableFilter | null | undefined;
+  id?: StringFilter | null | undefined;
+  members?: CompanyMemberListRelationFilter | null | undefined;
+  name?: StringFilter | null | undefined;
+  permissions?: StringNullableListFilter | null | undefined;
+  status?: EnumStatusFilter | null | undefined;
+  updatedAt?: DateTimeFilter | null | undefined;
 };
 
 export type CompanyRoleWhereUniqueInput = {
-  admins?: InputMaybe<AdminCompanyListRelationFilter>;
-  code?: InputMaybe<StringFilter>;
-  company?: InputMaybe<CompanyNullableScalarRelationFilter>;
-  companyId?: InputMaybe<StringNullableFilter>;
-  companyRoleIdx?: InputMaybe<CompanyRoleCompanyRoleIdxCompoundUniqueInput>;
-  description?: InputMaybe<StringNullableFilter>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  members?: InputMaybe<CompanyMemberListRelationFilter>;
-  name?: InputMaybe<StringFilter>;
-  permissions?: InputMaybe<StringNullableListFilter>;
-  status?: InputMaybe<EnumStatusFilter>;
+  admins?: AdminCompanyListRelationFilter | null | undefined;
+  code?: StringFilter | null | undefined;
+  company?: CompanyNullableScalarRelationFilter | null | undefined;
+  companyId?: StringNullableFilter | null | undefined;
+  companyRoleIdx?: CompanyRoleCompanyRoleIdxCompoundUniqueInput | null | undefined;
+  description?: StringNullableFilter | null | undefined;
+  id?: string | null | undefined;
+  members?: CompanyMemberListRelationFilter | null | undefined;
+  name?: StringFilter | null | undefined;
+  permissions?: StringNullableListFilter | null | undefined;
+  status?: EnumStatusFilter | null | undefined;
 };
 
-export enum CompanyScalarFieldEnum {
-  Alias = 'alias',
-  Code = 'code',
-  CreatedAt = 'createdAt',
-  Description = 'description',
-  Id = 'id',
-  Logo = 'logo',
-  Name = 'name',
-  Status = 'status',
-  UpdatedAt = 'updatedAt'
-}
-
 export type CompanyScalarRelationFilter = {
-  is?: InputMaybe<CompanyWhereInput>;
-  isNot?: InputMaybe<CompanyWhereInput>;
+  is?: CompanyWhereInput | null | undefined;
+  isNot?: CompanyWhereInput | null | undefined;
 };
 
 export type CompanyUpdateInput = {
-  admins?: InputMaybe<AdminCompanyUpdateManyWithoutCompanyNestedInput>;
-  alias?: InputMaybe<Scalars['String']['input']>;
-  auths?: InputMaybe<AuthUpdateManyWithoutCompanyNestedInput>;
-  code?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  logo?: InputMaybe<Scalars['String']['input']>;
-  logs?: InputMaybe<RequestLogUpdateManyWithoutCompanyNestedInput>;
-  mediaFiles?: InputMaybe<MediaFileUpdateManyWithoutCompanyNestedInput>;
-  mediaFolders?: InputMaybe<MediaFolderUpdateManyWithoutCompanyNestedInput>;
-  members?: InputMaybe<CompanyMemberUpdateManyWithoutCompanyNestedInput>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  notificationRecipients?: InputMaybe<NotificationRecipientUpdateManyWithoutCompanyNestedInput>;
-  notifications?: InputMaybe<NotificationUpdateManyWithoutCompanyNestedInput>;
-  roles?: InputMaybe<CompanyRoleUpdateManyWithoutCompanyNestedInput>;
-  status?: InputMaybe<Status>;
-  websites?: InputMaybe<WebsiteUpdateManyWithoutCompanyNestedInput>;
-};
-
-export type CompanyUpdateOneRequiredWithoutAdminsNestedInput = {
-  connect?: InputMaybe<CompanyWhereUniqueInput>;
-};
-
-export type CompanyUpdateOneRequiredWithoutMembersNestedInput = {
-  connect?: InputMaybe<CompanyWhereUniqueInput>;
+  admins?: AdminCompanyUpdateManyWithoutCompanyNestedInput | null | undefined;
+  alias?: string | null | undefined;
+  auths?: AuthUpdateManyWithoutCompanyNestedInput | null | undefined;
+  code?: string | null | undefined;
+  description?: string | null | undefined;
+  logo?: string | null | undefined;
+  logs?: RequestLogUpdateManyWithoutCompanyNestedInput | null | undefined;
+  mediaFiles?: MediaFileUpdateManyWithoutCompanyNestedInput | null | undefined;
+  mediaFolders?: MediaFolderUpdateManyWithoutCompanyNestedInput | null | undefined;
+  members?: CompanyMemberUpdateManyWithoutCompanyNestedInput | null | undefined;
+  name?: string | null | undefined;
+  notificationRecipients?: NotificationRecipientUpdateManyWithoutCompanyNestedInput | null | undefined;
+  notifications?: NotificationUpdateManyWithoutCompanyNestedInput | null | undefined;
+  roles?: CompanyRoleUpdateManyWithoutCompanyNestedInput | null | undefined;
+  status?: Status | null | undefined;
+  websites?: WebsiteUpdateManyWithoutCompanyNestedInput | null | undefined;
 };
 
 export type CompanyUpdateOneRequiredWithoutWebsitesNestedInput = {
-  connect?: InputMaybe<CompanyWhereUniqueInput>;
+  connect?: CompanyWhereUniqueInput | null | undefined;
 };
 
 export type CompanyUpdateOneWithoutRolesNestedInput = {
-  connect?: InputMaybe<CompanyWhereUniqueInput>;
-  disconnect?: InputMaybe<CompanyWhereInput>;
+  connect?: CompanyWhereUniqueInput | null | undefined;
+  disconnect?: CompanyWhereInput | null | undefined;
 };
 
 export type CompanyWhereInput = {
-  AND?: InputMaybe<Array<CompanyWhereInput>>;
-  NOT?: InputMaybe<Array<CompanyWhereInput>>;
-  OR?: InputMaybe<Array<CompanyWhereInput>>;
-  admins?: InputMaybe<AdminCompanyListRelationFilter>;
-  alias?: InputMaybe<StringNullableFilter>;
-  auths?: InputMaybe<AuthListRelationFilter>;
-  code?: InputMaybe<StringNullableFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  description?: InputMaybe<StringNullableFilter>;
-  id?: InputMaybe<StringFilter>;
-  logo?: InputMaybe<StringNullableFilter>;
-  logs?: InputMaybe<RequestLogListRelationFilter>;
-  mediaFiles?: InputMaybe<MediaFileListRelationFilter>;
-  mediaFolders?: InputMaybe<MediaFolderListRelationFilter>;
-  members?: InputMaybe<CompanyMemberListRelationFilter>;
-  name?: InputMaybe<StringFilter>;
-  notificationRecipients?: InputMaybe<NotificationRecipientListRelationFilter>;
-  notifications?: InputMaybe<NotificationListRelationFilter>;
-  roles?: InputMaybe<CompanyRoleListRelationFilter>;
-  status?: InputMaybe<EnumStatusFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
-  websites?: InputMaybe<WebsiteListRelationFilter>;
+  AND?: Array<CompanyWhereInput> | null | undefined;
+  NOT?: Array<CompanyWhereInput> | null | undefined;
+  OR?: Array<CompanyWhereInput> | null | undefined;
+  admins?: AdminCompanyListRelationFilter | null | undefined;
+  alias?: StringNullableFilter | null | undefined;
+  auths?: AuthListRelationFilter | null | undefined;
+  code?: StringNullableFilter | null | undefined;
+  createdAt?: DateTimeFilter | null | undefined;
+  description?: StringNullableFilter | null | undefined;
+  id?: StringFilter | null | undefined;
+  logo?: StringNullableFilter | null | undefined;
+  logs?: RequestLogListRelationFilter | null | undefined;
+  mediaFiles?: MediaFileListRelationFilter | null | undefined;
+  mediaFolders?: MediaFolderListRelationFilter | null | undefined;
+  members?: CompanyMemberListRelationFilter | null | undefined;
+  name?: StringFilter | null | undefined;
+  notificationRecipients?: NotificationRecipientListRelationFilter | null | undefined;
+  notifications?: NotificationListRelationFilter | null | undefined;
+  roles?: CompanyRoleListRelationFilter | null | undefined;
+  status?: EnumStatusFilter | null | undefined;
+  updatedAt?: DateTimeFilter | null | undefined;
+  websites?: WebsiteListRelationFilter | null | undefined;
 };
 
 export type CompanyWhereUniqueInput = {
-  admins?: InputMaybe<AdminCompanyListRelationFilter>;
-  alias?: InputMaybe<StringNullableFilter>;
-  auths?: InputMaybe<AuthListRelationFilter>;
-  code?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<StringNullableFilter>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  logo?: InputMaybe<StringNullableFilter>;
-  logs?: InputMaybe<RequestLogListRelationFilter>;
-  mediaFiles?: InputMaybe<MediaFileListRelationFilter>;
-  mediaFolders?: InputMaybe<MediaFolderListRelationFilter>;
-  members?: InputMaybe<CompanyMemberListRelationFilter>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  notificationRecipients?: InputMaybe<NotificationRecipientListRelationFilter>;
-  notifications?: InputMaybe<NotificationListRelationFilter>;
-  roles?: InputMaybe<CompanyRoleListRelationFilter>;
-  status?: InputMaybe<EnumStatusFilter>;
-  websites?: InputMaybe<WebsiteListRelationFilter>;
+  admins?: AdminCompanyListRelationFilter | null | undefined;
+  alias?: StringNullableFilter | null | undefined;
+  auths?: AuthListRelationFilter | null | undefined;
+  code?: string | null | undefined;
+  description?: StringNullableFilter | null | undefined;
+  id?: string | null | undefined;
+  logo?: StringNullableFilter | null | undefined;
+  logs?: RequestLogListRelationFilter | null | undefined;
+  mediaFiles?: MediaFileListRelationFilter | null | undefined;
+  mediaFolders?: MediaFolderListRelationFilter | null | undefined;
+  members?: CompanyMemberListRelationFilter | null | undefined;
+  name?: string | null | undefined;
+  notificationRecipients?: NotificationRecipientListRelationFilter | null | undefined;
+  notifications?: NotificationListRelationFilter | null | undefined;
+  roles?: CompanyRoleListRelationFilter | null | undefined;
+  status?: EnumStatusFilter | null | undefined;
+  websites?: WebsiteListRelationFilter | null | undefined;
 };
 
 export enum ContentDataType {
@@ -1131,593 +588,376 @@ export enum ContentDataType {
 }
 
 export type DateTimeFilter = {
-  equals?: InputMaybe<Scalars['DateTime']['input']>;
-  gt?: InputMaybe<Scalars['DateTime']['input']>;
-  gte?: InputMaybe<Scalars['DateTime']['input']>;
-  in?: InputMaybe<Array<Scalars['DateTime']['input']>>;
-  lt?: InputMaybe<Scalars['DateTime']['input']>;
-  lte?: InputMaybe<Scalars['DateTime']['input']>;
-  not?: InputMaybe<NestedDateTimeFilter>;
-  notIn?: InputMaybe<Array<Scalars['DateTime']['input']>>;
+  equals?: string | null | undefined;
+  gt?: string | null | undefined;
+  gte?: string | null | undefined;
+  in?: Array<string> | null | undefined;
+  lt?: string | null | undefined;
+  lte?: string | null | undefined;
+  not?: NestedDateTimeFilter | null | undefined;
+  notIn?: Array<string> | null | undefined;
 };
 
 export type DateTimeNullableFilter = {
-  equals?: InputMaybe<Scalars['DateTime']['input']>;
-  gt?: InputMaybe<Scalars['DateTime']['input']>;
-  gte?: InputMaybe<Scalars['DateTime']['input']>;
-  in?: InputMaybe<Array<Scalars['DateTime']['input']>>;
-  lt?: InputMaybe<Scalars['DateTime']['input']>;
-  lte?: InputMaybe<Scalars['DateTime']['input']>;
-  not?: InputMaybe<NestedDateTimeNullableFilter>;
-  notIn?: InputMaybe<Array<Scalars['DateTime']['input']>>;
+  equals?: string | null | undefined;
+  gt?: string | null | undefined;
+  gte?: string | null | undefined;
+  in?: Array<string> | null | undefined;
+  lt?: string | null | undefined;
+  lte?: string | null | undefined;
+  not?: NestedDateTimeNullableFilter | null | undefined;
+  notIn?: Array<string> | null | undefined;
 };
 
 export type EnumClientFilter = {
-  equals?: InputMaybe<Client>;
-  in?: InputMaybe<Array<Client>>;
-  not?: InputMaybe<NestedEnumClientFilter>;
-  notIn?: InputMaybe<Array<Client>>;
+  equals?: Client | null | undefined;
+  in?: Array<Client> | null | undefined;
+  not?: NestedEnumClientFilter | null | undefined;
+  notIn?: Array<Client> | null | undefined;
 };
 
 export type EnumClientNullableFilter = {
-  equals?: InputMaybe<Client>;
-  in?: InputMaybe<Array<Client>>;
-  not?: InputMaybe<NestedEnumClientNullableFilter>;
-  notIn?: InputMaybe<Array<Client>>;
+  equals?: Client | null | undefined;
+  in?: Array<Client> | null | undefined;
+  not?: NestedEnumClientNullableFilter | null | undefined;
+  notIn?: Array<Client> | null | undefined;
 };
 
 export type EnumMediaStoreFilter = {
-  equals?: InputMaybe<MediaStore>;
-  in?: InputMaybe<Array<MediaStore>>;
-  not?: InputMaybe<NestedEnumMediaStoreFilter>;
-  notIn?: InputMaybe<Array<MediaStore>>;
+  equals?: MediaStore | null | undefined;
+  in?: Array<MediaStore> | null | undefined;
+  not?: NestedEnumMediaStoreFilter | null | undefined;
+  notIn?: Array<MediaStore> | null | undefined;
 };
 
 export type EnumMediaTypeFilter = {
-  equals?: InputMaybe<MediaType>;
-  in?: InputMaybe<Array<MediaType>>;
-  not?: InputMaybe<NestedEnumMediaTypeFilter>;
-  notIn?: InputMaybe<Array<MediaType>>;
+  equals?: MediaType | null | undefined;
+  in?: Array<MediaType> | null | undefined;
+  not?: NestedEnumMediaTypeFilter | null | undefined;
+  notIn?: Array<MediaType> | null | undefined;
 };
 
 export type EnumMediaVisibilityFilter = {
-  equals?: InputMaybe<MediaVisibility>;
-  in?: InputMaybe<Array<MediaVisibility>>;
-  not?: InputMaybe<NestedEnumMediaVisibilityFilter>;
-  notIn?: InputMaybe<Array<MediaVisibility>>;
+  equals?: MediaVisibility | null | undefined;
+  in?: Array<MediaVisibility> | null | undefined;
+  not?: NestedEnumMediaVisibilityFilter | null | undefined;
+  notIn?: Array<MediaVisibility> | null | undefined;
 };
 
 export type EnumNotificationPrivacyFilter = {
-  equals?: InputMaybe<NotificationPrivacy>;
-  in?: InputMaybe<Array<NotificationPrivacy>>;
-  not?: InputMaybe<NestedEnumNotificationPrivacyFilter>;
-  notIn?: InputMaybe<Array<NotificationPrivacy>>;
+  equals?: NotificationPrivacy | null | undefined;
+  in?: Array<NotificationPrivacy> | null | undefined;
+  not?: NestedEnumNotificationPrivacyFilter | null | undefined;
+  notIn?: Array<NotificationPrivacy> | null | undefined;
 };
 
 export type EnumNotificationTargetFilter = {
-  equals?: InputMaybe<NotificationTarget>;
-  in?: InputMaybe<Array<NotificationTarget>>;
-  not?: InputMaybe<NestedEnumNotificationTargetFilter>;
-  notIn?: InputMaybe<Array<NotificationTarget>>;
+  equals?: NotificationTarget | null | undefined;
+  in?: Array<NotificationTarget> | null | undefined;
+  not?: NestedEnumNotificationTargetFilter | null | undefined;
+  notIn?: Array<NotificationTarget> | null | undefined;
 };
 
 export type EnumNotificationTypeFilter = {
-  equals?: InputMaybe<NotificationType>;
-  in?: InputMaybe<Array<NotificationType>>;
-  not?: InputMaybe<NestedEnumNotificationTypeFilter>;
-  notIn?: InputMaybe<Array<NotificationType>>;
+  equals?: NotificationType | null | undefined;
+  in?: Array<NotificationType> | null | undefined;
+  not?: NestedEnumNotificationTypeFilter | null | undefined;
+  notIn?: Array<NotificationType> | null | undefined;
 };
 
 export type EnumOwnerFilter = {
-  equals?: InputMaybe<Owner>;
-  in?: InputMaybe<Array<Owner>>;
-  not?: InputMaybe<NestedEnumOwnerFilter>;
-  notIn?: InputMaybe<Array<Owner>>;
+  equals?: Owner | null | undefined;
+  in?: Array<Owner> | null | undefined;
+  not?: NestedEnumOwnerFilter | null | undefined;
+  notIn?: Array<Owner> | null | undefined;
 };
 
 export type EnumRequestMethodNullableFilter = {
-  equals?: InputMaybe<RequestMethod>;
-  in?: InputMaybe<Array<RequestMethod>>;
-  not?: InputMaybe<NestedEnumRequestMethodNullableFilter>;
-  notIn?: InputMaybe<Array<RequestMethod>>;
+  equals?: RequestMethod | null | undefined;
+  in?: Array<RequestMethod> | null | undefined;
+  not?: NestedEnumRequestMethodNullableFilter | null | undefined;
+  notIn?: Array<RequestMethod> | null | undefined;
 };
 
 export type EnumStatusFilter = {
-  equals?: InputMaybe<Status>;
-  in?: InputMaybe<Array<Status>>;
-  not?: InputMaybe<NestedEnumStatusFilter>;
-  notIn?: InputMaybe<Array<Status>>;
+  equals?: Status | null | undefined;
+  in?: Array<Status> | null | undefined;
+  not?: NestedEnumStatusFilter | null | undefined;
+  notIn?: Array<Status> | null | undefined;
 };
 
 export type EnumTargetFilter = {
-  equals?: InputMaybe<Target>;
-  in?: InputMaybe<Array<Target>>;
-  not?: InputMaybe<NestedEnumTargetFilter>;
-  notIn?: InputMaybe<Array<Target>>;
+  equals?: Target | null | undefined;
+  in?: Array<Target> | null | undefined;
+  not?: NestedEnumTargetFilter | null | undefined;
+  notIn?: Array<Target> | null | undefined;
 };
 
 export type EnumTargetNullableFilter = {
-  equals?: InputMaybe<Target>;
-  in?: InputMaybe<Array<Target>>;
-  not?: InputMaybe<NestedEnumTargetNullableFilter>;
-  notIn?: InputMaybe<Array<Target>>;
+  equals?: Target | null | undefined;
+  in?: Array<Target> | null | undefined;
+  not?: NestedEnumTargetNullableFilter | null | undefined;
+  notIn?: Array<Target> | null | undefined;
 };
 
 export type EnumWebsiteCmsNullableFilter = {
-  equals?: InputMaybe<WebsiteCms>;
-  in?: InputMaybe<Array<WebsiteCms>>;
-  not?: InputMaybe<NestedEnumWebsiteCmsNullableFilter>;
-  notIn?: InputMaybe<Array<WebsiteCms>>;
+  equals?: WebsiteCms | null | undefined;
+  in?: Array<WebsiteCms> | null | undefined;
+  not?: NestedEnumWebsiteCmsNullableFilter | null | undefined;
+  notIn?: Array<WebsiteCms> | null | undefined;
 };
 
 export type IntFilter = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
-  gt?: InputMaybe<Scalars['Int']['input']>;
-  gte?: InputMaybe<Scalars['Int']['input']>;
-  in?: InputMaybe<Array<Scalars['Int']['input']>>;
-  lt?: InputMaybe<Scalars['Int']['input']>;
-  lte?: InputMaybe<Scalars['Int']['input']>;
-  not?: InputMaybe<NestedIntFilter>;
-  notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
+  equals?: number | null | undefined;
+  gt?: number | null | undefined;
+  gte?: number | null | undefined;
+  in?: Array<number> | null | undefined;
+  lt?: number | null | undefined;
+  lte?: number | null | undefined;
+  not?: NestedIntFilter | null | undefined;
+  notIn?: Array<number> | null | undefined;
 };
 
 export type IntNullableFilter = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
-  gt?: InputMaybe<Scalars['Int']['input']>;
-  gte?: InputMaybe<Scalars['Int']['input']>;
-  in?: InputMaybe<Array<Scalars['Int']['input']>>;
-  lt?: InputMaybe<Scalars['Int']['input']>;
-  lte?: InputMaybe<Scalars['Int']['input']>;
-  not?: InputMaybe<NestedIntNullableFilter>;
-  notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
+  equals?: number | null | undefined;
+  gt?: number | null | undefined;
+  gte?: number | null | undefined;
+  in?: Array<number> | null | undefined;
+  lt?: number | null | undefined;
+  lte?: number | null | undefined;
+  not?: NestedIntNullableFilter | null | undefined;
+  notIn?: Array<number> | null | undefined;
 };
 
 export type JsonFilter = {
-  array_contains?: InputMaybe<Scalars['JSON']['input']>;
-  array_ends_with?: InputMaybe<Scalars['JSON']['input']>;
-  array_starts_with?: InputMaybe<Scalars['JSON']['input']>;
-  equals?: InputMaybe<Scalars['JSON']['input']>;
-  gt?: InputMaybe<Scalars['JSON']['input']>;
-  gte?: InputMaybe<Scalars['JSON']['input']>;
-  lt?: InputMaybe<Scalars['JSON']['input']>;
-  lte?: InputMaybe<Scalars['JSON']['input']>;
-  mode?: InputMaybe<QueryMode>;
-  not?: InputMaybe<Scalars['JSON']['input']>;
-  path?: InputMaybe<Array<Scalars['String']['input']>>;
-  string_contains?: InputMaybe<Scalars['String']['input']>;
-  string_ends_with?: InputMaybe<Scalars['String']['input']>;
-  string_starts_with?: InputMaybe<Scalars['String']['input']>;
+  array_contains?: any;
+  array_ends_with?: any;
+  array_starts_with?: any;
+  equals?: any;
+  gt?: any;
+  gte?: any;
+  lt?: any;
+  lte?: any;
+  mode?: QueryMode | null | undefined;
+  not?: any;
+  path?: Array<string> | null | undefined;
+  string_contains?: string | null | undefined;
+  string_ends_with?: string | null | undefined;
+  string_starts_with?: string | null | undefined;
 };
 
 export type JsonNullableFilter = {
-  array_contains?: InputMaybe<Scalars['JSON']['input']>;
-  array_ends_with?: InputMaybe<Scalars['JSON']['input']>;
-  array_starts_with?: InputMaybe<Scalars['JSON']['input']>;
-  equals?: InputMaybe<Scalars['JSON']['input']>;
-  gt?: InputMaybe<Scalars['JSON']['input']>;
-  gte?: InputMaybe<Scalars['JSON']['input']>;
-  lt?: InputMaybe<Scalars['JSON']['input']>;
-  lte?: InputMaybe<Scalars['JSON']['input']>;
-  mode?: InputMaybe<QueryMode>;
-  not?: InputMaybe<Scalars['JSON']['input']>;
-  path?: InputMaybe<Array<Scalars['String']['input']>>;
-  string_contains?: InputMaybe<Scalars['String']['input']>;
-  string_ends_with?: InputMaybe<Scalars['String']['input']>;
-  string_starts_with?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type Login = {
-  __typename?: 'Login';
-  accessTimeout: Scalars['Float']['output'];
-  accessToken: Scalars['String']['output'];
-  accessType: Scalars['String']['output'];
-  target: Target;
+  array_contains?: any;
+  array_ends_with?: any;
+  array_starts_with?: any;
+  equals?: any;
+  gt?: any;
+  gte?: any;
+  lt?: any;
+  lte?: any;
+  mode?: QueryMode | null | undefined;
+  not?: any;
+  path?: Array<string> | null | undefined;
+  string_contains?: string | null | undefined;
+  string_ends_with?: string | null | undefined;
+  string_starts_with?: string | null | undefined;
 };
 
 export type LoginInput = {
-  account: Scalars['String']['input'];
-  companyId?: InputMaybe<Scalars['String']['input']>;
-  password: Scalars['String']['input'];
-  target?: InputMaybe<Target>;
-};
-
-export type MediaFile = {
-  __typename?: 'MediaFile';
-  admin?: Maybe<Admin>;
-  adminId?: Maybe<Scalars['String']['output']>;
-  company?: Maybe<Company>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt: Scalars['DateTime']['output'];
-  description?: Maybe<Scalars['String']['output']>;
-  duration?: Maybe<Scalars['Int']['output']>;
-  extension: Scalars['String']['output'];
-  fileHash: Scalars['String']['output'];
-  fileName: Scalars['String']['output'];
-  fileSize: Scalars['String']['output'];
-  folder: MediaFolder;
-  folderId: Scalars['String']['output'];
-  height?: Maybe<Scalars['Int']['output']>;
-  id: Scalars['ID']['output'];
-  mediaType: MediaType;
-  member?: Maybe<Member>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  metadata?: Maybe<Scalars['JSON']['output']>;
-  mimeType: Scalars['String']['output'];
-  owner: Owner;
-  status: Status;
-  store: MediaStore;
-  updatedAt: Scalars['DateTime']['output'];
-  url: Scalars['String']['output'];
-  visibility: MediaVisibility;
-  width?: Maybe<Scalars['Int']['output']>;
+  account: string;
+  companyId?: string | null | undefined;
+  password: string;
+  target?: Target | null | undefined;
 };
 
 export type MediaFileAdminFileIdxCompoundUniqueInput = {
-  adminId: Scalars['String']['input'];
-  fileName: Scalars['String']['input'];
-  folderId: Scalars['String']['input'];
-};
-
-export type MediaFileAvgAggregate = {
-  __typename?: 'MediaFileAvgAggregate';
-  duration?: Maybe<Scalars['Float']['output']>;
-  fileSize?: Maybe<Scalars['Float']['output']>;
-  height?: Maybe<Scalars['Float']['output']>;
-  width?: Maybe<Scalars['Float']['output']>;
+  adminId: string;
+  fileName: string;
+  folderId: string;
 };
 
 export type MediaFileCompanyFileIdxCompoundUniqueInput = {
-  companyId: Scalars['String']['input'];
-  fileName: Scalars['String']['input'];
-  folderId: Scalars['String']['input'];
-};
-
-export type MediaFileCountAggregate = {
-  __typename?: 'MediaFileCountAggregate';
-  _all: Scalars['Int']['output'];
-  adminId: Scalars['Int']['output'];
-  companyId: Scalars['Int']['output'];
-  createdAt: Scalars['Int']['output'];
-  description: Scalars['Int']['output'];
-  duration: Scalars['Int']['output'];
-  extension: Scalars['Int']['output'];
-  fileHash: Scalars['Int']['output'];
-  fileName: Scalars['Int']['output'];
-  fileSize: Scalars['Int']['output'];
-  folderId: Scalars['Int']['output'];
-  height: Scalars['Int']['output'];
-  id: Scalars['Int']['output'];
-  mediaType: Scalars['Int']['output'];
-  memberId: Scalars['Int']['output'];
-  metadata: Scalars['Int']['output'];
-  mimeType: Scalars['Int']['output'];
-  owner: Scalars['Int']['output'];
-  status: Scalars['Int']['output'];
-  store: Scalars['Int']['output'];
-  updatedAt: Scalars['Int']['output'];
-  visibility: Scalars['Int']['output'];
-  width: Scalars['Int']['output'];
+  companyId: string;
+  fileName: string;
+  folderId: string;
 };
 
 export type MediaFileCreateNestedManyWithoutCompanyInput = {
-  connect?: InputMaybe<Array<MediaFileWhereUniqueInput>>;
+  connect?: Array<MediaFileWhereUniqueInput> | null | undefined;
 };
 
 export type MediaFileListRelationFilter = {
-  every?: InputMaybe<MediaFileWhereInput>;
-  none?: InputMaybe<MediaFileWhereInput>;
-  some?: InputMaybe<MediaFileWhereInput>;
-};
-
-export type MediaFileMaxAggregate = {
-  __typename?: 'MediaFileMaxAggregate';
-  adminId?: Maybe<Scalars['String']['output']>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  duration?: Maybe<Scalars['Int']['output']>;
-  extension?: Maybe<Scalars['String']['output']>;
-  fileHash?: Maybe<Scalars['String']['output']>;
-  fileName?: Maybe<Scalars['String']['output']>;
-  fileSize?: Maybe<Scalars['String']['output']>;
-  folderId?: Maybe<Scalars['String']['output']>;
-  height?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  mediaType?: Maybe<MediaType>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  mimeType?: Maybe<Scalars['String']['output']>;
-  owner?: Maybe<Owner>;
-  status?: Maybe<Status>;
-  store?: Maybe<MediaStore>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  visibility?: Maybe<MediaVisibility>;
-  width?: Maybe<Scalars['Int']['output']>;
+  every?: MediaFileWhereInput | null | undefined;
+  none?: MediaFileWhereInput | null | undefined;
+  some?: MediaFileWhereInput | null | undefined;
 };
 
 export type MediaFileMemberFileIdxCompoundUniqueInput = {
-  fileName: Scalars['String']['input'];
-  folderId: Scalars['String']['input'];
-  memberId: Scalars['String']['input'];
-};
-
-export type MediaFileMinAggregate = {
-  __typename?: 'MediaFileMinAggregate';
-  adminId?: Maybe<Scalars['String']['output']>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  duration?: Maybe<Scalars['Int']['output']>;
-  extension?: Maybe<Scalars['String']['output']>;
-  fileHash?: Maybe<Scalars['String']['output']>;
-  fileName?: Maybe<Scalars['String']['output']>;
-  fileSize?: Maybe<Scalars['String']['output']>;
-  folderId?: Maybe<Scalars['String']['output']>;
-  height?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  mediaType?: Maybe<MediaType>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  mimeType?: Maybe<Scalars['String']['output']>;
-  owner?: Maybe<Owner>;
-  status?: Maybe<Status>;
-  store?: Maybe<MediaStore>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  visibility?: Maybe<MediaVisibility>;
-  width?: Maybe<Scalars['Int']['output']>;
+  fileName: string;
+  folderId: string;
+  memberId: string;
 };
 
 export type MediaFileOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
-};
-
-export type MediaFileSumAggregate = {
-  __typename?: 'MediaFileSumAggregate';
-  duration?: Maybe<Scalars['Int']['output']>;
-  fileSize?: Maybe<Scalars['String']['output']>;
-  height?: Maybe<Scalars['Int']['output']>;
-  width?: Maybe<Scalars['Int']['output']>;
+  _count?: SortOrder | null | undefined;
 };
 
 export type MediaFileUpdateManyWithoutCompanyNestedInput = {
-  connect?: InputMaybe<Array<MediaFileWhereUniqueInput>>;
-  disconnect?: InputMaybe<Array<MediaFileWhereUniqueInput>>;
+  connect?: Array<MediaFileWhereUniqueInput> | null | undefined;
+  disconnect?: Array<MediaFileWhereUniqueInput> | null | undefined;
 };
 
 export type MediaFileWhereInput = {
-  AND?: InputMaybe<Array<MediaFileWhereInput>>;
-  NOT?: InputMaybe<Array<MediaFileWhereInput>>;
-  OR?: InputMaybe<Array<MediaFileWhereInput>>;
-  admin?: InputMaybe<AdminNullableScalarRelationFilter>;
-  adminId?: InputMaybe<StringNullableFilter>;
-  company?: InputMaybe<CompanyNullableScalarRelationFilter>;
-  companyId?: InputMaybe<StringNullableFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  description?: InputMaybe<StringNullableFilter>;
-  duration?: InputMaybe<IntNullableFilter>;
-  extension?: InputMaybe<StringFilter>;
-  fileHash?: InputMaybe<StringFilter>;
-  fileName?: InputMaybe<StringFilter>;
-  fileSize?: InputMaybe<BigIntFilter>;
-  folder?: InputMaybe<MediaFolderScalarRelationFilter>;
-  folderId?: InputMaybe<StringFilter>;
-  height?: InputMaybe<IntNullableFilter>;
-  id?: InputMaybe<StringFilter>;
-  mediaType?: InputMaybe<EnumMediaTypeFilter>;
-  member?: InputMaybe<MemberNullableScalarRelationFilter>;
-  memberId?: InputMaybe<StringNullableFilter>;
-  metadata?: InputMaybe<JsonNullableFilter>;
-  mimeType?: InputMaybe<StringFilter>;
-  owner?: InputMaybe<EnumOwnerFilter>;
-  status?: InputMaybe<EnumStatusFilter>;
-  store?: InputMaybe<EnumMediaStoreFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
-  visibility?: InputMaybe<EnumMediaVisibilityFilter>;
-  width?: InputMaybe<IntNullableFilter>;
+  AND?: Array<MediaFileWhereInput> | null | undefined;
+  NOT?: Array<MediaFileWhereInput> | null | undefined;
+  OR?: Array<MediaFileWhereInput> | null | undefined;
+  admin?: AdminNullableScalarRelationFilter | null | undefined;
+  adminId?: StringNullableFilter | null | undefined;
+  company?: CompanyNullableScalarRelationFilter | null | undefined;
+  companyId?: StringNullableFilter | null | undefined;
+  createdAt?: DateTimeFilter | null | undefined;
+  description?: StringNullableFilter | null | undefined;
+  duration?: IntNullableFilter | null | undefined;
+  extension?: StringFilter | null | undefined;
+  fileHash?: StringFilter | null | undefined;
+  fileName?: StringFilter | null | undefined;
+  fileSize?: BigIntFilter | null | undefined;
+  folder?: MediaFolderScalarRelationFilter | null | undefined;
+  folderId?: StringFilter | null | undefined;
+  height?: IntNullableFilter | null | undefined;
+  id?: StringFilter | null | undefined;
+  mediaType?: EnumMediaTypeFilter | null | undefined;
+  member?: MemberNullableScalarRelationFilter | null | undefined;
+  memberId?: StringNullableFilter | null | undefined;
+  metadata?: JsonNullableFilter | null | undefined;
+  mimeType?: StringFilter | null | undefined;
+  owner?: EnumOwnerFilter | null | undefined;
+  status?: EnumStatusFilter | null | undefined;
+  store?: EnumMediaStoreFilter | null | undefined;
+  updatedAt?: DateTimeFilter | null | undefined;
+  visibility?: EnumMediaVisibilityFilter | null | undefined;
+  width?: IntNullableFilter | null | undefined;
 };
 
 export type MediaFileWhereUniqueInput = {
-  admin?: InputMaybe<AdminNullableScalarRelationFilter>;
-  adminFileIdx?: InputMaybe<MediaFileAdminFileIdxCompoundUniqueInput>;
-  adminId?: InputMaybe<StringNullableFilter>;
-  company?: InputMaybe<CompanyNullableScalarRelationFilter>;
-  companyFileIdx?: InputMaybe<MediaFileCompanyFileIdxCompoundUniqueInput>;
-  companyId?: InputMaybe<StringNullableFilter>;
-  description?: InputMaybe<StringNullableFilter>;
-  duration?: InputMaybe<IntNullableFilter>;
-  extension?: InputMaybe<StringFilter>;
-  fileHash?: InputMaybe<StringFilter>;
-  fileName?: InputMaybe<StringFilter>;
-  fileSize?: InputMaybe<BigIntFilter>;
-  folder?: InputMaybe<MediaFolderScalarRelationFilter>;
-  folderId?: InputMaybe<StringFilter>;
-  height?: InputMaybe<IntNullableFilter>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  mediaType?: InputMaybe<EnumMediaTypeFilter>;
-  member?: InputMaybe<MemberNullableScalarRelationFilter>;
-  memberFileIdx?: InputMaybe<MediaFileMemberFileIdxCompoundUniqueInput>;
-  memberId?: InputMaybe<StringNullableFilter>;
-  metadata?: InputMaybe<JsonNullableFilter>;
-  mimeType?: InputMaybe<StringFilter>;
-  owner?: InputMaybe<EnumOwnerFilter>;
-  status?: InputMaybe<EnumStatusFilter>;
-  store?: InputMaybe<EnumMediaStoreFilter>;
-  visibility?: InputMaybe<EnumMediaVisibilityFilter>;
-  width?: InputMaybe<IntNullableFilter>;
-};
-
-export type MediaFolder = {
-  __typename?: 'MediaFolder';
-  admin?: Maybe<Admin>;
-  adminId?: Maybe<Scalars['String']['output']>;
-  children?: Maybe<Array<MediaFolder>>;
-  company?: Maybe<Company>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt: Scalars['DateTime']['output'];
-  depth: Scalars['Int']['output'];
-  description?: Maybe<Scalars['String']['output']>;
-  files?: Maybe<Array<MediaFile>>;
-  id: Scalars['ID']['output'];
-  member?: Maybe<Member>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  name: Scalars['String']['output'];
-  owner: Owner;
-  parent?: Maybe<MediaFolder>;
-  parentId?: Maybe<Scalars['String']['output']>;
-  path: Scalars['String']['output'];
-  status: Status;
-  updatedAt: Scalars['DateTime']['output'];
+  admin?: AdminNullableScalarRelationFilter | null | undefined;
+  adminFileIdx?: MediaFileAdminFileIdxCompoundUniqueInput | null | undefined;
+  adminId?: StringNullableFilter | null | undefined;
+  company?: CompanyNullableScalarRelationFilter | null | undefined;
+  companyFileIdx?: MediaFileCompanyFileIdxCompoundUniqueInput | null | undefined;
+  companyId?: StringNullableFilter | null | undefined;
+  description?: StringNullableFilter | null | undefined;
+  duration?: IntNullableFilter | null | undefined;
+  extension?: StringFilter | null | undefined;
+  fileHash?: StringFilter | null | undefined;
+  fileName?: StringFilter | null | undefined;
+  fileSize?: BigIntFilter | null | undefined;
+  folder?: MediaFolderScalarRelationFilter | null | undefined;
+  folderId?: StringFilter | null | undefined;
+  height?: IntNullableFilter | null | undefined;
+  id?: string | null | undefined;
+  mediaType?: EnumMediaTypeFilter | null | undefined;
+  member?: MemberNullableScalarRelationFilter | null | undefined;
+  memberFileIdx?: MediaFileMemberFileIdxCompoundUniqueInput | null | undefined;
+  memberId?: StringNullableFilter | null | undefined;
+  metadata?: JsonNullableFilter | null | undefined;
+  mimeType?: StringFilter | null | undefined;
+  owner?: EnumOwnerFilter | null | undefined;
+  status?: EnumStatusFilter | null | undefined;
+  store?: EnumMediaStoreFilter | null | undefined;
+  visibility?: EnumMediaVisibilityFilter | null | undefined;
+  width?: IntNullableFilter | null | undefined;
 };
 
 export type MediaFolderAdminFolderPathIdxCompoundUniqueInput = {
-  adminId: Scalars['String']['input'];
-  path: Scalars['String']['input'];
-};
-
-export type MediaFolderAvgAggregate = {
-  __typename?: 'MediaFolderAvgAggregate';
-  depth?: Maybe<Scalars['Float']['output']>;
+  adminId: string;
+  path: string;
 };
 
 export type MediaFolderCompanyFolderPathIdxCompoundUniqueInput = {
-  companyId: Scalars['String']['input'];
-  path: Scalars['String']['input'];
-};
-
-export type MediaFolderCountAggregate = {
-  __typename?: 'MediaFolderCountAggregate';
-  _all: Scalars['Int']['output'];
-  adminId: Scalars['Int']['output'];
-  companyId: Scalars['Int']['output'];
-  createdAt: Scalars['Int']['output'];
-  depth: Scalars['Int']['output'];
-  description: Scalars['Int']['output'];
-  id: Scalars['Int']['output'];
-  memberId: Scalars['Int']['output'];
-  name: Scalars['Int']['output'];
-  owner: Scalars['Int']['output'];
-  parentId: Scalars['Int']['output'];
-  path: Scalars['Int']['output'];
-  status: Scalars['Int']['output'];
-  updatedAt: Scalars['Int']['output'];
+  companyId: string;
+  path: string;
 };
 
 export type MediaFolderCreateNestedManyWithoutCompanyInput = {
-  connect?: InputMaybe<Array<MediaFolderWhereUniqueInput>>;
+  connect?: Array<MediaFolderWhereUniqueInput> | null | undefined;
 };
 
 export type MediaFolderListRelationFilter = {
-  every?: InputMaybe<MediaFolderWhereInput>;
-  none?: InputMaybe<MediaFolderWhereInput>;
-  some?: InputMaybe<MediaFolderWhereInput>;
-};
-
-export type MediaFolderMaxAggregate = {
-  __typename?: 'MediaFolderMaxAggregate';
-  adminId?: Maybe<Scalars['String']['output']>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  depth?: Maybe<Scalars['Int']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  owner?: Maybe<Owner>;
-  parentId?: Maybe<Scalars['String']['output']>;
-  path?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Status>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  every?: MediaFolderWhereInput | null | undefined;
+  none?: MediaFolderWhereInput | null | undefined;
+  some?: MediaFolderWhereInput | null | undefined;
 };
 
 export type MediaFolderMemberFolderPathIdxCompoundUniqueInput = {
-  memberId: Scalars['String']['input'];
-  path: Scalars['String']['input'];
-};
-
-export type MediaFolderMinAggregate = {
-  __typename?: 'MediaFolderMinAggregate';
-  adminId?: Maybe<Scalars['String']['output']>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  depth?: Maybe<Scalars['Int']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  owner?: Maybe<Owner>;
-  parentId?: Maybe<Scalars['String']['output']>;
-  path?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Status>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  memberId: string;
+  path: string;
 };
 
 export type MediaFolderNullableScalarRelationFilter = {
-  is?: InputMaybe<MediaFolderWhereInput>;
-  isNot?: InputMaybe<MediaFolderWhereInput>;
+  is?: MediaFolderWhereInput | null | undefined;
+  isNot?: MediaFolderWhereInput | null | undefined;
 };
 
 export type MediaFolderOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
+  _count?: SortOrder | null | undefined;
 };
 
 export type MediaFolderScalarRelationFilter = {
-  is?: InputMaybe<MediaFolderWhereInput>;
-  isNot?: InputMaybe<MediaFolderWhereInput>;
-};
-
-export type MediaFolderSumAggregate = {
-  __typename?: 'MediaFolderSumAggregate';
-  depth?: Maybe<Scalars['Int']['output']>;
+  is?: MediaFolderWhereInput | null | undefined;
+  isNot?: MediaFolderWhereInput | null | undefined;
 };
 
 export type MediaFolderUpdateManyWithoutCompanyNestedInput = {
-  connect?: InputMaybe<Array<MediaFolderWhereUniqueInput>>;
-  disconnect?: InputMaybe<Array<MediaFolderWhereUniqueInput>>;
+  connect?: Array<MediaFolderWhereUniqueInput> | null | undefined;
+  disconnect?: Array<MediaFolderWhereUniqueInput> | null | undefined;
 };
 
 export type MediaFolderWhereInput = {
-  AND?: InputMaybe<Array<MediaFolderWhereInput>>;
-  NOT?: InputMaybe<Array<MediaFolderWhereInput>>;
-  OR?: InputMaybe<Array<MediaFolderWhereInput>>;
-  admin?: InputMaybe<AdminNullableScalarRelationFilter>;
-  adminId?: InputMaybe<StringNullableFilter>;
-  children?: InputMaybe<MediaFolderListRelationFilter>;
-  company?: InputMaybe<CompanyNullableScalarRelationFilter>;
-  companyId?: InputMaybe<StringNullableFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  depth?: InputMaybe<IntFilter>;
-  description?: InputMaybe<StringNullableFilter>;
-  files?: InputMaybe<MediaFileListRelationFilter>;
-  id?: InputMaybe<StringFilter>;
-  member?: InputMaybe<MemberNullableScalarRelationFilter>;
-  memberId?: InputMaybe<StringNullableFilter>;
-  name?: InputMaybe<StringFilter>;
-  owner?: InputMaybe<EnumOwnerFilter>;
-  parent?: InputMaybe<MediaFolderNullableScalarRelationFilter>;
-  parentId?: InputMaybe<StringNullableFilter>;
-  path?: InputMaybe<StringFilter>;
-  status?: InputMaybe<EnumStatusFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
+  AND?: Array<MediaFolderWhereInput> | null | undefined;
+  NOT?: Array<MediaFolderWhereInput> | null | undefined;
+  OR?: Array<MediaFolderWhereInput> | null | undefined;
+  admin?: AdminNullableScalarRelationFilter | null | undefined;
+  adminId?: StringNullableFilter | null | undefined;
+  children?: MediaFolderListRelationFilter | null | undefined;
+  company?: CompanyNullableScalarRelationFilter | null | undefined;
+  companyId?: StringNullableFilter | null | undefined;
+  createdAt?: DateTimeFilter | null | undefined;
+  depth?: IntFilter | null | undefined;
+  description?: StringNullableFilter | null | undefined;
+  files?: MediaFileListRelationFilter | null | undefined;
+  id?: StringFilter | null | undefined;
+  member?: MemberNullableScalarRelationFilter | null | undefined;
+  memberId?: StringNullableFilter | null | undefined;
+  name?: StringFilter | null | undefined;
+  owner?: EnumOwnerFilter | null | undefined;
+  parent?: MediaFolderNullableScalarRelationFilter | null | undefined;
+  parentId?: StringNullableFilter | null | undefined;
+  path?: StringFilter | null | undefined;
+  status?: EnumStatusFilter | null | undefined;
+  updatedAt?: DateTimeFilter | null | undefined;
 };
 
 export type MediaFolderWhereUniqueInput = {
-  admin?: InputMaybe<AdminNullableScalarRelationFilter>;
-  adminFolderPathIdx?: InputMaybe<MediaFolderAdminFolderPathIdxCompoundUniqueInput>;
-  adminId?: InputMaybe<StringNullableFilter>;
-  children?: InputMaybe<MediaFolderListRelationFilter>;
-  company?: InputMaybe<CompanyNullableScalarRelationFilter>;
-  companyFolderPathIdx?: InputMaybe<MediaFolderCompanyFolderPathIdxCompoundUniqueInput>;
-  companyId?: InputMaybe<StringNullableFilter>;
-  depth?: InputMaybe<IntFilter>;
-  description?: InputMaybe<StringNullableFilter>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  member?: InputMaybe<MemberNullableScalarRelationFilter>;
-  memberFolderPathIdx?: InputMaybe<MediaFolderMemberFolderPathIdxCompoundUniqueInput>;
-  memberId?: InputMaybe<StringNullableFilter>;
-  name?: InputMaybe<StringFilter>;
-  owner?: InputMaybe<EnumOwnerFilter>;
-  parent?: InputMaybe<MediaFolderNullableScalarRelationFilter>;
-  parentId?: InputMaybe<StringNullableFilter>;
-  path?: InputMaybe<StringFilter>;
-  status?: InputMaybe<EnumStatusFilter>;
+  admin?: AdminNullableScalarRelationFilter | null | undefined;
+  adminFolderPathIdx?: MediaFolderAdminFolderPathIdxCompoundUniqueInput | null | undefined;
+  adminId?: StringNullableFilter | null | undefined;
+  children?: MediaFolderListRelationFilter | null | undefined;
+  company?: CompanyNullableScalarRelationFilter | null | undefined;
+  companyFolderPathIdx?: MediaFolderCompanyFolderPathIdxCompoundUniqueInput | null | undefined;
+  companyId?: StringNullableFilter | null | undefined;
+  depth?: IntFilter | null | undefined;
+  description?: StringNullableFilter | null | undefined;
+  id?: string | null | undefined;
+  member?: MemberNullableScalarRelationFilter | null | undefined;
+  memberFolderPathIdx?: MediaFolderMemberFolderPathIdxCompoundUniqueInput | null | undefined;
+  memberId?: StringNullableFilter | null | undefined;
+  name?: StringFilter | null | undefined;
+  owner?: EnumOwnerFilter | null | undefined;
+  parent?: MediaFolderNullableScalarRelationFilter | null | undefined;
+  parentId?: StringNullableFilter | null | undefined;
+  path?: StringFilter | null | undefined;
+  status?: EnumStatusFilter | null | undefined;
 };
 
 export enum MediaStore {
@@ -1743,657 +983,279 @@ export enum MediaVisibility {
   Shared = 'Shared'
 }
 
-export type Member = {
-  __typename?: 'Member';
-  auths?: Maybe<Array<Auth>>;
-  avatar?: Maybe<Scalars['String']['output']>;
-  avatarUrl?: Maybe<Scalars['String']['output']>;
-  companies?: Maybe<Array<CompanyMember>>;
-  createdAt: Scalars['DateTime']['output'];
-  email: Scalars['String']['output'];
-  id: Scalars['ID']['output'];
-  logs?: Maybe<Array<RequestLog>>;
-  mediaFiles?: Maybe<Array<MediaFile>>;
-  mediaFolders?: Maybe<Array<MediaFolder>>;
-  name: Scalars['String']['output'];
-  notificationRecipients?: Maybe<Array<NotificationRecipient>>;
-  notifications?: Maybe<Array<Notification>>;
-  role: CompanyRole;
-  status: Status;
-  updatedAt: Scalars['DateTime']['output'];
-};
-
-export type MemberCountAggregate = {
-  __typename?: 'MemberCountAggregate';
-  _all: Scalars['Int']['output'];
-  avatar: Scalars['Int']['output'];
-  createdAt: Scalars['Int']['output'];
-  email: Scalars['Int']['output'];
-  id: Scalars['Int']['output'];
-  name: Scalars['Int']['output'];
-  status: Scalars['Int']['output'];
-  updatedAt: Scalars['Int']['output'];
-};
-
 export type MemberCreateInput = {
-  avatar?: InputMaybe<Scalars['String']['input']>;
-  email: Scalars['String']['input'];
-  name: Scalars['String']['input'];
-  notificationRecipients?: InputMaybe<NotificationRecipientCreateNestedManyWithoutMemberInput>;
-  notifications?: InputMaybe<NotificationCreateNestedManyWithoutMemberInput>;
-  password: Scalars['String']['input'];
-  status?: InputMaybe<Status>;
-};
-
-export type MemberCreateNestedOneWithoutCompaniesInput = {
-  connect?: InputMaybe<MemberWhereUniqueInput>;
-};
-
-export type MemberMaxAggregate = {
-  __typename?: 'MemberMaxAggregate';
-  avatar?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Status>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-};
-
-export type MemberMinAggregate = {
-  __typename?: 'MemberMinAggregate';
-  avatar?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<Status>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  avatar?: string | null | undefined;
+  email: string;
+  name: string;
+  notificationRecipients?: NotificationRecipientCreateNestedManyWithoutMemberInput | null | undefined;
+  notifications?: NotificationCreateNestedManyWithoutMemberInput | null | undefined;
+  password: string;
+  status?: Status | null | undefined;
 };
 
 export type MemberNullableScalarRelationFilter = {
-  is?: InputMaybe<MemberWhereInput>;
-  isNot?: InputMaybe<MemberWhereInput>;
+  is?: MemberWhereInput | null | undefined;
+  isNot?: MemberWhereInput | null | undefined;
 };
 
 export type MemberOrderByWithRelationInput = {
-  auths?: InputMaybe<AuthOrderByRelationAggregateInput>;
-  avatar?: InputMaybe<SortOrderInput>;
-  companies?: InputMaybe<CompanyMemberOrderByRelationAggregateInput>;
-  createdAt?: InputMaybe<SortOrder>;
-  email?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-  logs?: InputMaybe<RequestLogOrderByRelationAggregateInput>;
-  mediaFiles?: InputMaybe<MediaFileOrderByRelationAggregateInput>;
-  mediaFolders?: InputMaybe<MediaFolderOrderByRelationAggregateInput>;
-  name?: InputMaybe<SortOrder>;
-  notificationRecipients?: InputMaybe<NotificationRecipientOrderByRelationAggregateInput>;
-  notifications?: InputMaybe<NotificationOrderByRelationAggregateInput>;
-  status?: InputMaybe<SortOrder>;
-  updatedAt?: InputMaybe<SortOrder>;
+  auths?: AuthOrderByRelationAggregateInput | null | undefined;
+  avatar?: SortOrderInput | null | undefined;
+  companies?: CompanyMemberOrderByRelationAggregateInput | null | undefined;
+  createdAt?: SortOrder | null | undefined;
+  email?: SortOrder | null | undefined;
+  id?: SortOrder | null | undefined;
+  logs?: RequestLogOrderByRelationAggregateInput | null | undefined;
+  mediaFiles?: MediaFileOrderByRelationAggregateInput | null | undefined;
+  mediaFolders?: MediaFolderOrderByRelationAggregateInput | null | undefined;
+  name?: SortOrder | null | undefined;
+  notificationRecipients?: NotificationRecipientOrderByRelationAggregateInput | null | undefined;
+  notifications?: NotificationOrderByRelationAggregateInput | null | undefined;
+  status?: SortOrder | null | undefined;
+  updatedAt?: SortOrder | null | undefined;
 };
 
-export enum MemberScalarFieldEnum {
-  Avatar = 'avatar',
-  CreatedAt = 'createdAt',
-  Email = 'email',
-  Id = 'id',
-  Name = 'name',
-  Password = 'password',
-  Status = 'status',
-  UpdatedAt = 'updatedAt'
-}
-
 export type MemberScalarRelationFilter = {
-  is?: InputMaybe<MemberWhereInput>;
-  isNot?: InputMaybe<MemberWhereInput>;
+  is?: MemberWhereInput | null | undefined;
+  isNot?: MemberWhereInput | null | undefined;
 };
 
 export type MemberUpdateInput = {
-  avatar?: InputMaybe<Scalars['String']['input']>;
-  email?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  notificationRecipients?: InputMaybe<NotificationRecipientUpdateManyWithoutMemberNestedInput>;
-  notifications?: InputMaybe<NotificationUpdateManyWithoutMemberNestedInput>;
-  password?: InputMaybe<Scalars['String']['input']>;
-  status?: InputMaybe<Status>;
-};
-
-export type MemberUpdateOneRequiredWithoutCompaniesNestedInput = {
-  connect?: InputMaybe<MemberWhereUniqueInput>;
+  avatar?: string | null | undefined;
+  email?: string | null | undefined;
+  name?: string | null | undefined;
+  notificationRecipients?: NotificationRecipientUpdateManyWithoutMemberNestedInput | null | undefined;
+  notifications?: NotificationUpdateManyWithoutMemberNestedInput | null | undefined;
+  password?: string | null | undefined;
+  status?: Status | null | undefined;
 };
 
 export type MemberWhereInput = {
-  AND?: InputMaybe<Array<MemberWhereInput>>;
-  NOT?: InputMaybe<Array<MemberWhereInput>>;
-  OR?: InputMaybe<Array<MemberWhereInput>>;
-  auths?: InputMaybe<AuthListRelationFilter>;
-  avatar?: InputMaybe<StringNullableFilter>;
-  companies?: InputMaybe<CompanyMemberListRelationFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  email?: InputMaybe<StringFilter>;
-  id?: InputMaybe<StringFilter>;
-  logs?: InputMaybe<RequestLogListRelationFilter>;
-  mediaFiles?: InputMaybe<MediaFileListRelationFilter>;
-  mediaFolders?: InputMaybe<MediaFolderListRelationFilter>;
-  name?: InputMaybe<StringFilter>;
-  notificationRecipients?: InputMaybe<NotificationRecipientListRelationFilter>;
-  notifications?: InputMaybe<NotificationListRelationFilter>;
-  status?: InputMaybe<EnumStatusFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
-};
-
-export type MemberWhereUniqueInput = {
-  avatar?: InputMaybe<StringNullableFilter>;
-  email?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<StringFilter>;
-  notificationRecipients?: InputMaybe<NotificationRecipientListRelationFilter>;
-  notifications?: InputMaybe<NotificationListRelationFilter>;
-  status?: InputMaybe<EnumStatusFilter>;
-};
-
-export type Mutation = {
-  __typename?: 'Mutation';
-  createOneAdmin: Admin;
-  createOneAdminCompany: AdminCompany;
-  createOneAdminRole: AdminRole;
-  createOneCompany: Company;
-  createOneCompanyMember: CompanyMember;
-  createOneCompanyRole: CompanyRole;
-  createOneMember: Member;
-  createOneWebsite: Website;
-  deleteAdminCompany: Scalars['Boolean']['output'];
-  inviteMemberToCompany: Notification;
-  login: Login;
-  pushAllPagesToAnalyze: Scalars['Boolean']['output'];
-  pushPagesToAnalyze: Scalars['Boolean']['output'];
-  pushPagesToUpdate: Scalars['Boolean']['output'];
-  switchAuthCompany: Login;
-  updateOneAdmin: Admin;
-  updateOneAdminCompany: AdminCompany;
-  updateOneAdminRole: AdminRole;
-  updateOneCompany: Company;
-  updateOneCompanyMember: CompanyMember;
-  updateOneCompanyRole: CompanyRole;
-  updateOneMember: Member;
-  updateOneWebsite: Website;
-  updateSelfAdmin: Admin;
-  updateSelfCompany: Company;
-  updateSelfMember: Member;
-  uploadFile: MediaFile;
-};
-
-
-export type MutationCreateOneAdminArgs = {
-  data: AdminCreateInput;
-};
-
-
-export type MutationCreateOneAdminCompanyArgs = {
-  data: AdminCompanyCreateInput;
-};
-
-
-export type MutationCreateOneAdminRoleArgs = {
-  data: AdminRoleCreateInput;
-};
-
-
-export type MutationCreateOneCompanyArgs = {
-  data: CompanyCreateInput;
-};
-
-
-export type MutationCreateOneCompanyMemberArgs = {
-  data: CompanyMemberCreateInput;
-};
-
-
-export type MutationCreateOneCompanyRoleArgs = {
-  data: CompanyRoleCreateInput;
-};
-
-
-export type MutationCreateOneMemberArgs = {
-  data: MemberCreateInput;
-};
-
-
-export type MutationCreateOneWebsiteArgs = {
-  data: WebsiteCreateInput;
-};
-
-
-export type MutationDeleteAdminCompanyArgs = {
-  adminId: Scalars['String']['input'];
-  companyId: Scalars['String']['input'];
-};
-
-
-export type MutationInviteMemberToCompanyArgs = {
-  memberId: Scalars['String']['input'];
-  roleId: Scalars['String']['input'];
-};
-
-
-export type MutationLoginArgs = {
-  input: LoginInput;
-};
-
-
-export type MutationPushAllPagesToAnalyzeArgs = {
-  where: WebsiteWhereUniqueInput;
-};
-
-
-export type MutationPushPagesToAnalyzeArgs = {
-  urls: Array<Scalars['String']['input']>;
-  where: WebsiteWhereUniqueInput;
-};
-
-
-export type MutationPushPagesToUpdateArgs = {
-  urls: Array<Scalars['String']['input']>;
-  where: WebsiteWhereUniqueInput;
-};
-
-
-export type MutationSwitchAuthCompanyArgs = {
-  companyId?: InputMaybe<Scalars['String']['input']>;
-};
-
-
-export type MutationUpdateOneAdminArgs = {
-  data: AdminUpdateInput;
-  where: AdminWhereUniqueInput;
-};
-
-
-export type MutationUpdateOneAdminCompanyArgs = {
-  data: AdminCompanyUpdateInput;
-  where: AdminCompanyWhereUniqueInput;
-};
-
-
-export type MutationUpdateOneAdminRoleArgs = {
-  data: AdminRoleUpdateInput;
-  where: AdminRoleWhereUniqueInput;
-};
-
-
-export type MutationUpdateOneCompanyArgs = {
-  data: CompanyUpdateInput;
-  where: CompanyWhereUniqueInput;
-};
-
-
-export type MutationUpdateOneCompanyMemberArgs = {
-  data: CompanyMemberUpdateInput;
-  where: CompanyMemberWhereUniqueInput;
-};
-
-
-export type MutationUpdateOneCompanyRoleArgs = {
-  data: CompanyRoleUpdateInput;
-  where: CompanyRoleWhereUniqueInput;
-};
-
-
-export type MutationUpdateOneMemberArgs = {
-  data: MemberUpdateInput;
-  where: MemberWhereUniqueInput;
-};
-
-
-export type MutationUpdateOneWebsiteArgs = {
-  data: WebsiteUpdateInput;
-  where: WebsiteWhereUniqueInput;
-};
-
-
-export type MutationUpdateSelfAdminArgs = {
-  data: AdminUpdateInput;
-};
-
-
-export type MutationUpdateSelfCompanyArgs = {
-  data: CompanyUpdateInput;
-};
-
-
-export type MutationUpdateSelfMemberArgs = {
-  data: MemberUpdateInput;
-};
-
-
-export type MutationUploadFileArgs = {
-  file: Scalars['Upload']['input'];
-  folderPath: Scalars['String']['input'];
-  name?: InputMaybe<Scalars['String']['input']>;
+  AND?: Array<MemberWhereInput> | null | undefined;
+  NOT?: Array<MemberWhereInput> | null | undefined;
+  OR?: Array<MemberWhereInput> | null | undefined;
+  auths?: AuthListRelationFilter | null | undefined;
+  avatar?: StringNullableFilter | null | undefined;
+  companies?: CompanyMemberListRelationFilter | null | undefined;
+  createdAt?: DateTimeFilter | null | undefined;
+  email?: StringFilter | null | undefined;
+  id?: StringFilter | null | undefined;
+  logs?: RequestLogListRelationFilter | null | undefined;
+  mediaFiles?: MediaFileListRelationFilter | null | undefined;
+  mediaFolders?: MediaFolderListRelationFilter | null | undefined;
+  name?: StringFilter | null | undefined;
+  notificationRecipients?: NotificationRecipientListRelationFilter | null | undefined;
+  notifications?: NotificationListRelationFilter | null | undefined;
+  status?: EnumStatusFilter | null | undefined;
+  updatedAt?: DateTimeFilter | null | undefined;
 };
 
 export type NestedBigIntFilter = {
-  equals?: InputMaybe<Scalars['String']['input']>;
-  gt?: InputMaybe<Scalars['String']['input']>;
-  gte?: InputMaybe<Scalars['String']['input']>;
-  in?: InputMaybe<Array<Scalars['String']['input']>>;
-  lt?: InputMaybe<Scalars['String']['input']>;
-  lte?: InputMaybe<Scalars['String']['input']>;
-  not?: InputMaybe<NestedBigIntFilter>;
-  notIn?: InputMaybe<Array<Scalars['String']['input']>>;
+  equals?: string | null | undefined;
+  gt?: string | null | undefined;
+  gte?: string | null | undefined;
+  in?: Array<string> | null | undefined;
+  lt?: string | null | undefined;
+  lte?: string | null | undefined;
+  not?: NestedBigIntFilter | null | undefined;
+  notIn?: Array<string> | null | undefined;
 };
 
 export type NestedBoolFilter = {
-  equals?: InputMaybe<Scalars['Boolean']['input']>;
-  not?: InputMaybe<NestedBoolFilter>;
+  equals?: boolean | null | undefined;
+  not?: NestedBoolFilter | null | undefined;
 };
 
 export type NestedDateTimeFilter = {
-  equals?: InputMaybe<Scalars['DateTime']['input']>;
-  gt?: InputMaybe<Scalars['DateTime']['input']>;
-  gte?: InputMaybe<Scalars['DateTime']['input']>;
-  in?: InputMaybe<Array<Scalars['DateTime']['input']>>;
-  lt?: InputMaybe<Scalars['DateTime']['input']>;
-  lte?: InputMaybe<Scalars['DateTime']['input']>;
-  not?: InputMaybe<NestedDateTimeFilter>;
-  notIn?: InputMaybe<Array<Scalars['DateTime']['input']>>;
+  equals?: string | null | undefined;
+  gt?: string | null | undefined;
+  gte?: string | null | undefined;
+  in?: Array<string> | null | undefined;
+  lt?: string | null | undefined;
+  lte?: string | null | undefined;
+  not?: NestedDateTimeFilter | null | undefined;
+  notIn?: Array<string> | null | undefined;
 };
 
 export type NestedDateTimeNullableFilter = {
-  equals?: InputMaybe<Scalars['DateTime']['input']>;
-  gt?: InputMaybe<Scalars['DateTime']['input']>;
-  gte?: InputMaybe<Scalars['DateTime']['input']>;
-  in?: InputMaybe<Array<Scalars['DateTime']['input']>>;
-  lt?: InputMaybe<Scalars['DateTime']['input']>;
-  lte?: InputMaybe<Scalars['DateTime']['input']>;
-  not?: InputMaybe<NestedDateTimeNullableFilter>;
-  notIn?: InputMaybe<Array<Scalars['DateTime']['input']>>;
+  equals?: string | null | undefined;
+  gt?: string | null | undefined;
+  gte?: string | null | undefined;
+  in?: Array<string> | null | undefined;
+  lt?: string | null | undefined;
+  lte?: string | null | undefined;
+  not?: NestedDateTimeNullableFilter | null | undefined;
+  notIn?: Array<string> | null | undefined;
 };
 
 export type NestedEnumClientFilter = {
-  equals?: InputMaybe<Client>;
-  in?: InputMaybe<Array<Client>>;
-  not?: InputMaybe<NestedEnumClientFilter>;
-  notIn?: InputMaybe<Array<Client>>;
+  equals?: Client | null | undefined;
+  in?: Array<Client> | null | undefined;
+  not?: NestedEnumClientFilter | null | undefined;
+  notIn?: Array<Client> | null | undefined;
 };
 
 export type NestedEnumClientNullableFilter = {
-  equals?: InputMaybe<Client>;
-  in?: InputMaybe<Array<Client>>;
-  not?: InputMaybe<NestedEnumClientNullableFilter>;
-  notIn?: InputMaybe<Array<Client>>;
+  equals?: Client | null | undefined;
+  in?: Array<Client> | null | undefined;
+  not?: NestedEnumClientNullableFilter | null | undefined;
+  notIn?: Array<Client> | null | undefined;
 };
 
 export type NestedEnumMediaStoreFilter = {
-  equals?: InputMaybe<MediaStore>;
-  in?: InputMaybe<Array<MediaStore>>;
-  not?: InputMaybe<NestedEnumMediaStoreFilter>;
-  notIn?: InputMaybe<Array<MediaStore>>;
+  equals?: MediaStore | null | undefined;
+  in?: Array<MediaStore> | null | undefined;
+  not?: NestedEnumMediaStoreFilter | null | undefined;
+  notIn?: Array<MediaStore> | null | undefined;
 };
 
 export type NestedEnumMediaTypeFilter = {
-  equals?: InputMaybe<MediaType>;
-  in?: InputMaybe<Array<MediaType>>;
-  not?: InputMaybe<NestedEnumMediaTypeFilter>;
-  notIn?: InputMaybe<Array<MediaType>>;
+  equals?: MediaType | null | undefined;
+  in?: Array<MediaType> | null | undefined;
+  not?: NestedEnumMediaTypeFilter | null | undefined;
+  notIn?: Array<MediaType> | null | undefined;
 };
 
 export type NestedEnumMediaVisibilityFilter = {
-  equals?: InputMaybe<MediaVisibility>;
-  in?: InputMaybe<Array<MediaVisibility>>;
-  not?: InputMaybe<NestedEnumMediaVisibilityFilter>;
-  notIn?: InputMaybe<Array<MediaVisibility>>;
+  equals?: MediaVisibility | null | undefined;
+  in?: Array<MediaVisibility> | null | undefined;
+  not?: NestedEnumMediaVisibilityFilter | null | undefined;
+  notIn?: Array<MediaVisibility> | null | undefined;
 };
 
 export type NestedEnumNotificationPrivacyFilter = {
-  equals?: InputMaybe<NotificationPrivacy>;
-  in?: InputMaybe<Array<NotificationPrivacy>>;
-  not?: InputMaybe<NestedEnumNotificationPrivacyFilter>;
-  notIn?: InputMaybe<Array<NotificationPrivacy>>;
+  equals?: NotificationPrivacy | null | undefined;
+  in?: Array<NotificationPrivacy> | null | undefined;
+  not?: NestedEnumNotificationPrivacyFilter | null | undefined;
+  notIn?: Array<NotificationPrivacy> | null | undefined;
 };
 
 export type NestedEnumNotificationTargetFilter = {
-  equals?: InputMaybe<NotificationTarget>;
-  in?: InputMaybe<Array<NotificationTarget>>;
-  not?: InputMaybe<NestedEnumNotificationTargetFilter>;
-  notIn?: InputMaybe<Array<NotificationTarget>>;
+  equals?: NotificationTarget | null | undefined;
+  in?: Array<NotificationTarget> | null | undefined;
+  not?: NestedEnumNotificationTargetFilter | null | undefined;
+  notIn?: Array<NotificationTarget> | null | undefined;
 };
 
 export type NestedEnumNotificationTypeFilter = {
-  equals?: InputMaybe<NotificationType>;
-  in?: InputMaybe<Array<NotificationType>>;
-  not?: InputMaybe<NestedEnumNotificationTypeFilter>;
-  notIn?: InputMaybe<Array<NotificationType>>;
+  equals?: NotificationType | null | undefined;
+  in?: Array<NotificationType> | null | undefined;
+  not?: NestedEnumNotificationTypeFilter | null | undefined;
+  notIn?: Array<NotificationType> | null | undefined;
 };
 
 export type NestedEnumOwnerFilter = {
-  equals?: InputMaybe<Owner>;
-  in?: InputMaybe<Array<Owner>>;
-  not?: InputMaybe<NestedEnumOwnerFilter>;
-  notIn?: InputMaybe<Array<Owner>>;
+  equals?: Owner | null | undefined;
+  in?: Array<Owner> | null | undefined;
+  not?: NestedEnumOwnerFilter | null | undefined;
+  notIn?: Array<Owner> | null | undefined;
 };
 
 export type NestedEnumRequestMethodNullableFilter = {
-  equals?: InputMaybe<RequestMethod>;
-  in?: InputMaybe<Array<RequestMethod>>;
-  not?: InputMaybe<NestedEnumRequestMethodNullableFilter>;
-  notIn?: InputMaybe<Array<RequestMethod>>;
+  equals?: RequestMethod | null | undefined;
+  in?: Array<RequestMethod> | null | undefined;
+  not?: NestedEnumRequestMethodNullableFilter | null | undefined;
+  notIn?: Array<RequestMethod> | null | undefined;
 };
 
 export type NestedEnumStatusFilter = {
-  equals?: InputMaybe<Status>;
-  in?: InputMaybe<Array<Status>>;
-  not?: InputMaybe<NestedEnumStatusFilter>;
-  notIn?: InputMaybe<Array<Status>>;
+  equals?: Status | null | undefined;
+  in?: Array<Status> | null | undefined;
+  not?: NestedEnumStatusFilter | null | undefined;
+  notIn?: Array<Status> | null | undefined;
 };
 
 export type NestedEnumTargetFilter = {
-  equals?: InputMaybe<Target>;
-  in?: InputMaybe<Array<Target>>;
-  not?: InputMaybe<NestedEnumTargetFilter>;
-  notIn?: InputMaybe<Array<Target>>;
+  equals?: Target | null | undefined;
+  in?: Array<Target> | null | undefined;
+  not?: NestedEnumTargetFilter | null | undefined;
+  notIn?: Array<Target> | null | undefined;
 };
 
 export type NestedEnumTargetNullableFilter = {
-  equals?: InputMaybe<Target>;
-  in?: InputMaybe<Array<Target>>;
-  not?: InputMaybe<NestedEnumTargetNullableFilter>;
-  notIn?: InputMaybe<Array<Target>>;
+  equals?: Target | null | undefined;
+  in?: Array<Target> | null | undefined;
+  not?: NestedEnumTargetNullableFilter | null | undefined;
+  notIn?: Array<Target> | null | undefined;
 };
 
 export type NestedEnumWebsiteCmsNullableFilter = {
-  equals?: InputMaybe<WebsiteCms>;
-  in?: InputMaybe<Array<WebsiteCms>>;
-  not?: InputMaybe<NestedEnumWebsiteCmsNullableFilter>;
-  notIn?: InputMaybe<Array<WebsiteCms>>;
+  equals?: WebsiteCms | null | undefined;
+  in?: Array<WebsiteCms> | null | undefined;
+  not?: NestedEnumWebsiteCmsNullableFilter | null | undefined;
+  notIn?: Array<WebsiteCms> | null | undefined;
 };
 
 export type NestedIntFilter = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
-  gt?: InputMaybe<Scalars['Int']['input']>;
-  gte?: InputMaybe<Scalars['Int']['input']>;
-  in?: InputMaybe<Array<Scalars['Int']['input']>>;
-  lt?: InputMaybe<Scalars['Int']['input']>;
-  lte?: InputMaybe<Scalars['Int']['input']>;
-  not?: InputMaybe<NestedIntFilter>;
-  notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
+  equals?: number | null | undefined;
+  gt?: number | null | undefined;
+  gte?: number | null | undefined;
+  in?: Array<number> | null | undefined;
+  lt?: number | null | undefined;
+  lte?: number | null | undefined;
+  not?: NestedIntFilter | null | undefined;
+  notIn?: Array<number> | null | undefined;
 };
 
 export type NestedIntNullableFilter = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
-  gt?: InputMaybe<Scalars['Int']['input']>;
-  gte?: InputMaybe<Scalars['Int']['input']>;
-  in?: InputMaybe<Array<Scalars['Int']['input']>>;
-  lt?: InputMaybe<Scalars['Int']['input']>;
-  lte?: InputMaybe<Scalars['Int']['input']>;
-  not?: InputMaybe<NestedIntNullableFilter>;
-  notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
+  equals?: number | null | undefined;
+  gt?: number | null | undefined;
+  gte?: number | null | undefined;
+  in?: Array<number> | null | undefined;
+  lt?: number | null | undefined;
+  lte?: number | null | undefined;
+  not?: NestedIntNullableFilter | null | undefined;
+  notIn?: Array<number> | null | undefined;
 };
 
 export type NestedStringFilter = {
-  contains?: InputMaybe<Scalars['String']['input']>;
-  endsWith?: InputMaybe<Scalars['String']['input']>;
-  equals?: InputMaybe<Scalars['String']['input']>;
-  gt?: InputMaybe<Scalars['String']['input']>;
-  gte?: InputMaybe<Scalars['String']['input']>;
-  in?: InputMaybe<Array<Scalars['String']['input']>>;
-  lt?: InputMaybe<Scalars['String']['input']>;
-  lte?: InputMaybe<Scalars['String']['input']>;
-  not?: InputMaybe<NestedStringFilter>;
-  notIn?: InputMaybe<Array<Scalars['String']['input']>>;
-  startsWith?: InputMaybe<Scalars['String']['input']>;
+  contains?: string | null | undefined;
+  endsWith?: string | null | undefined;
+  equals?: string | null | undefined;
+  gt?: string | null | undefined;
+  gte?: string | null | undefined;
+  in?: Array<string> | null | undefined;
+  lt?: string | null | undefined;
+  lte?: string | null | undefined;
+  not?: NestedStringFilter | null | undefined;
+  notIn?: Array<string> | null | undefined;
+  startsWith?: string | null | undefined;
 };
 
 export type NestedStringNullableFilter = {
-  contains?: InputMaybe<Scalars['String']['input']>;
-  endsWith?: InputMaybe<Scalars['String']['input']>;
-  equals?: InputMaybe<Scalars['String']['input']>;
-  gt?: InputMaybe<Scalars['String']['input']>;
-  gte?: InputMaybe<Scalars['String']['input']>;
-  in?: InputMaybe<Array<Scalars['String']['input']>>;
-  lt?: InputMaybe<Scalars['String']['input']>;
-  lte?: InputMaybe<Scalars['String']['input']>;
-  not?: InputMaybe<NestedStringNullableFilter>;
-  notIn?: InputMaybe<Array<Scalars['String']['input']>>;
-  startsWith?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type Notification = {
-  __typename?: 'Notification';
-  admin?: Maybe<Admin>;
-  adminId?: Maybe<Scalars['String']['output']>;
-  category?: Maybe<Scalars['String']['output']>;
-  company?: Maybe<Company>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  content: Scalars['JSON']['output'];
-  createdAt: Scalars['DateTime']['output'];
-  id: Scalars['ID']['output'];
-  member?: Maybe<Member>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  options?: Maybe<Scalars['JSON']['output']>;
-  priority: Scalars['Int']['output'];
-  privacy: NotificationPrivacy;
-  receivers?: Maybe<Array<Scalars['String']['output']>>;
-  recipients?: Maybe<Array<NotificationRecipient>>;
-  sender: NotificationTarget;
-  senderId?: Maybe<Scalars['String']['output']>;
-  sentAt: Scalars['DateTime']['output'];
-  status: Status;
-  title?: Maybe<Scalars['JSON']['output']>;
-  type: NotificationType;
-  updatedAt: Scalars['DateTime']['output'];
-};
-
-export type NotificationAvgAggregate = {
-  __typename?: 'NotificationAvgAggregate';
-  priority?: Maybe<Scalars['Float']['output']>;
-};
-
-export type NotificationCountAggregate = {
-  __typename?: 'NotificationCountAggregate';
-  _all: Scalars['Int']['output'];
-  adminId: Scalars['Int']['output'];
-  category: Scalars['Int']['output'];
-  companyId: Scalars['Int']['output'];
-  content: Scalars['Int']['output'];
-  createdAt: Scalars['Int']['output'];
-  id: Scalars['Int']['output'];
-  memberId: Scalars['Int']['output'];
-  options: Scalars['Int']['output'];
-  priority: Scalars['Int']['output'];
-  privacy: Scalars['Int']['output'];
-  receivers: Scalars['Int']['output'];
-  sender: Scalars['Int']['output'];
-  senderId: Scalars['Int']['output'];
-  sentAt: Scalars['Int']['output'];
-  status: Scalars['Int']['output'];
-  title: Scalars['Int']['output'];
-  type: Scalars['Int']['output'];
-  updatedAt: Scalars['Int']['output'];
+  contains?: string | null | undefined;
+  endsWith?: string | null | undefined;
+  equals?: string | null | undefined;
+  gt?: string | null | undefined;
+  gte?: string | null | undefined;
+  in?: Array<string> | null | undefined;
+  lt?: string | null | undefined;
+  lte?: string | null | undefined;
+  not?: NestedStringNullableFilter | null | undefined;
+  notIn?: Array<string> | null | undefined;
+  startsWith?: string | null | undefined;
 };
 
 export type NotificationCreateNestedManyWithoutAdminInput = {
-  connect?: InputMaybe<Array<NotificationWhereUniqueInput>>;
+  connect?: Array<NotificationWhereUniqueInput> | null | undefined;
 };
 
 export type NotificationCreateNestedManyWithoutCompanyInput = {
-  connect?: InputMaybe<Array<NotificationWhereUniqueInput>>;
+  connect?: Array<NotificationWhereUniqueInput> | null | undefined;
 };
 
 export type NotificationCreateNestedManyWithoutMemberInput = {
-  connect?: InputMaybe<Array<NotificationWhereUniqueInput>>;
+  connect?: Array<NotificationWhereUniqueInput> | null | undefined;
 };
 
 export type NotificationListRelationFilter = {
-  every?: InputMaybe<NotificationWhereInput>;
-  none?: InputMaybe<NotificationWhereInput>;
-  some?: InputMaybe<NotificationWhereInput>;
-};
-
-export type NotificationMaxAggregate = {
-  __typename?: 'NotificationMaxAggregate';
-  adminId?: Maybe<Scalars['String']['output']>;
-  category?: Maybe<Scalars['String']['output']>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  priority?: Maybe<Scalars['Int']['output']>;
-  privacy?: Maybe<NotificationPrivacy>;
-  sender?: Maybe<NotificationTarget>;
-  senderId?: Maybe<Scalars['String']['output']>;
-  sentAt?: Maybe<Scalars['DateTime']['output']>;
-  status?: Maybe<Status>;
-  type?: Maybe<NotificationType>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-};
-
-export type NotificationMinAggregate = {
-  __typename?: 'NotificationMinAggregate';
-  adminId?: Maybe<Scalars['String']['output']>;
-  category?: Maybe<Scalars['String']['output']>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  priority?: Maybe<Scalars['Int']['output']>;
-  privacy?: Maybe<NotificationPrivacy>;
-  sender?: Maybe<NotificationTarget>;
-  senderId?: Maybe<Scalars['String']['output']>;
-  sentAt?: Maybe<Scalars['DateTime']['output']>;
-  status?: Maybe<Status>;
-  type?: Maybe<NotificationType>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  every?: NotificationWhereInput | null | undefined;
+  none?: NotificationWhereInput | null | undefined;
+  some?: NotificationWhereInput | null | undefined;
 };
 
 export type NotificationOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
-};
-
-export type NotificationOrderByWithRelationInput = {
-  admin?: InputMaybe<AdminOrderByWithRelationInput>;
-  adminId?: InputMaybe<SortOrderInput>;
-  category?: InputMaybe<SortOrderInput>;
-  company?: InputMaybe<CompanyOrderByWithRelationInput>;
-  companyId?: InputMaybe<SortOrderInput>;
-  content?: InputMaybe<SortOrder>;
-  createdAt?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-  member?: InputMaybe<MemberOrderByWithRelationInput>;
-  memberId?: InputMaybe<SortOrderInput>;
-  options?: InputMaybe<SortOrderInput>;
-  priority?: InputMaybe<SortOrder>;
-  privacy?: InputMaybe<SortOrder>;
-  receivers?: InputMaybe<SortOrder>;
-  recipients?: InputMaybe<NotificationRecipientOrderByRelationAggregateInput>;
-  sender?: InputMaybe<SortOrder>;
-  senderId?: InputMaybe<SortOrderInput>;
-  sentAt?: InputMaybe<SortOrder>;
-  status?: InputMaybe<SortOrder>;
-  title?: InputMaybe<SortOrderInput>;
-  type?: InputMaybe<SortOrder>;
-  updatedAt?: InputMaybe<SortOrder>;
+  _count?: SortOrder | null | undefined;
 };
 
 export enum NotificationPrivacy {
@@ -2401,245 +1263,98 @@ export enum NotificationPrivacy {
   Public = 'Public'
 }
 
-export type NotificationRecipient = {
-  __typename?: 'NotificationRecipient';
-  admin?: Maybe<Admin>;
-  adminId?: Maybe<Scalars['String']['output']>;
-  archivedAt?: Maybe<Scalars['DateTime']['output']>;
-  company?: Maybe<Company>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt: Scalars['DateTime']['output'];
-  deletedAt?: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['ID']['output'];
-  isArchived: Scalars['Boolean']['output'];
-  isDeleted: Scalars['Boolean']['output'];
-  isRead: Scalars['Boolean']['output'];
-  member?: Maybe<Member>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  notification: Notification;
-  notificationId: Scalars['String']['output'];
-  readAt?: Maybe<Scalars['DateTime']['output']>;
-  receiver: NotificationTarget;
-  receiverId: Scalars['String']['output'];
-  updatedAt: Scalars['DateTime']['output'];
-};
-
-export type NotificationRecipientCountAggregate = {
-  __typename?: 'NotificationRecipientCountAggregate';
-  _all: Scalars['Int']['output'];
-  adminId: Scalars['Int']['output'];
-  archivedAt: Scalars['Int']['output'];
-  companyId: Scalars['Int']['output'];
-  createdAt: Scalars['Int']['output'];
-  deletedAt: Scalars['Int']['output'];
-  id: Scalars['Int']['output'];
-  isArchived: Scalars['Int']['output'];
-  isDeleted: Scalars['Int']['output'];
-  isRead: Scalars['Int']['output'];
-  memberId: Scalars['Int']['output'];
-  notificationId: Scalars['Int']['output'];
-  readAt: Scalars['Int']['output'];
-  receiver: Scalars['Int']['output'];
-  receiverId: Scalars['Int']['output'];
-  updatedAt: Scalars['Int']['output'];
-};
-
 export type NotificationRecipientCreateNestedManyWithoutAdminInput = {
-  connect?: InputMaybe<Array<NotificationRecipientWhereUniqueInput>>;
+  connect?: Array<NotificationRecipientWhereUniqueInput> | null | undefined;
 };
 
 export type NotificationRecipientCreateNestedManyWithoutCompanyInput = {
-  connect?: InputMaybe<Array<NotificationRecipientWhereUniqueInput>>;
+  connect?: Array<NotificationRecipientWhereUniqueInput> | null | undefined;
 };
 
 export type NotificationRecipientCreateNestedManyWithoutMemberInput = {
-  connect?: InputMaybe<Array<NotificationRecipientWhereUniqueInput>>;
+  connect?: Array<NotificationRecipientWhereUniqueInput> | null | undefined;
 };
 
 export type NotificationRecipientListRelationFilter = {
-  every?: InputMaybe<NotificationRecipientWhereInput>;
-  none?: InputMaybe<NotificationRecipientWhereInput>;
-  some?: InputMaybe<NotificationRecipientWhereInput>;
-};
-
-export type NotificationRecipientMaxAggregate = {
-  __typename?: 'NotificationRecipientMaxAggregate';
-  adminId?: Maybe<Scalars['String']['output']>;
-  archivedAt?: Maybe<Scalars['DateTime']['output']>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  deletedAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  isArchived?: Maybe<Scalars['Boolean']['output']>;
-  isDeleted?: Maybe<Scalars['Boolean']['output']>;
-  isRead?: Maybe<Scalars['Boolean']['output']>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  notificationId?: Maybe<Scalars['String']['output']>;
-  readAt?: Maybe<Scalars['DateTime']['output']>;
-  receiver?: Maybe<NotificationTarget>;
-  receiverId?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-};
-
-export type NotificationRecipientMinAggregate = {
-  __typename?: 'NotificationRecipientMinAggregate';
-  adminId?: Maybe<Scalars['String']['output']>;
-  archivedAt?: Maybe<Scalars['DateTime']['output']>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  deletedAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  isArchived?: Maybe<Scalars['Boolean']['output']>;
-  isDeleted?: Maybe<Scalars['Boolean']['output']>;
-  isRead?: Maybe<Scalars['Boolean']['output']>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  notificationId?: Maybe<Scalars['String']['output']>;
-  readAt?: Maybe<Scalars['DateTime']['output']>;
-  receiver?: Maybe<NotificationTarget>;
-  receiverId?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  every?: NotificationRecipientWhereInput | null | undefined;
+  none?: NotificationRecipientWhereInput | null | undefined;
+  some?: NotificationRecipientWhereInput | null | undefined;
 };
 
 export type NotificationRecipientOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
-};
-
-export type NotificationRecipientOrderByWithRelationInput = {
-  admin?: InputMaybe<AdminOrderByWithRelationInput>;
-  adminId?: InputMaybe<SortOrderInput>;
-  archivedAt?: InputMaybe<SortOrderInput>;
-  company?: InputMaybe<CompanyOrderByWithRelationInput>;
-  companyId?: InputMaybe<SortOrderInput>;
-  createdAt?: InputMaybe<SortOrder>;
-  deletedAt?: InputMaybe<SortOrderInput>;
-  id?: InputMaybe<SortOrder>;
-  isArchived?: InputMaybe<SortOrder>;
-  isDeleted?: InputMaybe<SortOrder>;
-  isRead?: InputMaybe<SortOrder>;
-  member?: InputMaybe<MemberOrderByWithRelationInput>;
-  memberId?: InputMaybe<SortOrderInput>;
-  notification?: InputMaybe<NotificationOrderByWithRelationInput>;
-  notificationId?: InputMaybe<SortOrder>;
-  readAt?: InputMaybe<SortOrderInput>;
-  receiver?: InputMaybe<SortOrder>;
-  receiverId?: InputMaybe<SortOrder>;
-  updatedAt?: InputMaybe<SortOrder>;
+  _count?: SortOrder | null | undefined;
 };
 
 export type NotificationRecipientReceiverIdxCompoundUniqueInput = {
-  notificationId: Scalars['String']['input'];
+  notificationId: string;
   receiver: NotificationTarget;
-  receiverId: Scalars['String']['input'];
+  receiverId: string;
 };
 
-export enum NotificationRecipientScalarFieldEnum {
-  AdminId = 'adminId',
-  ArchivedAt = 'archivedAt',
-  CompanyId = 'companyId',
-  CreatedAt = 'createdAt',
-  DeletedAt = 'deletedAt',
-  Id = 'id',
-  IsArchived = 'isArchived',
-  IsDeleted = 'isDeleted',
-  IsRead = 'isRead',
-  MemberId = 'memberId',
-  NotificationId = 'notificationId',
-  ReadAt = 'readAt',
-  Receiver = 'receiver',
-  ReceiverId = 'receiverId',
-  UpdatedAt = 'updatedAt'
-}
-
 export type NotificationRecipientUpdateManyWithoutAdminNestedInput = {
-  connect?: InputMaybe<Array<NotificationRecipientWhereUniqueInput>>;
-  disconnect?: InputMaybe<Array<NotificationRecipientWhereUniqueInput>>;
+  connect?: Array<NotificationRecipientWhereUniqueInput> | null | undefined;
+  disconnect?: Array<NotificationRecipientWhereUniqueInput> | null | undefined;
 };
 
 export type NotificationRecipientUpdateManyWithoutCompanyNestedInput = {
-  connect?: InputMaybe<Array<NotificationRecipientWhereUniqueInput>>;
-  disconnect?: InputMaybe<Array<NotificationRecipientWhereUniqueInput>>;
+  connect?: Array<NotificationRecipientWhereUniqueInput> | null | undefined;
+  disconnect?: Array<NotificationRecipientWhereUniqueInput> | null | undefined;
 };
 
 export type NotificationRecipientUpdateManyWithoutMemberNestedInput = {
-  connect?: InputMaybe<Array<NotificationRecipientWhereUniqueInput>>;
-  disconnect?: InputMaybe<Array<NotificationRecipientWhereUniqueInput>>;
+  connect?: Array<NotificationRecipientWhereUniqueInput> | null | undefined;
+  disconnect?: Array<NotificationRecipientWhereUniqueInput> | null | undefined;
 };
 
 export type NotificationRecipientWhereInput = {
-  AND?: InputMaybe<Array<NotificationRecipientWhereInput>>;
-  NOT?: InputMaybe<Array<NotificationRecipientWhereInput>>;
-  OR?: InputMaybe<Array<NotificationRecipientWhereInput>>;
-  admin?: InputMaybe<AdminNullableScalarRelationFilter>;
-  adminId?: InputMaybe<StringNullableFilter>;
-  archivedAt?: InputMaybe<DateTimeNullableFilter>;
-  company?: InputMaybe<CompanyNullableScalarRelationFilter>;
-  companyId?: InputMaybe<StringNullableFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  deletedAt?: InputMaybe<DateTimeNullableFilter>;
-  id?: InputMaybe<StringFilter>;
-  isArchived?: InputMaybe<BoolFilter>;
-  isDeleted?: InputMaybe<BoolFilter>;
-  isRead?: InputMaybe<BoolFilter>;
-  member?: InputMaybe<MemberNullableScalarRelationFilter>;
-  memberId?: InputMaybe<StringNullableFilter>;
-  notification?: InputMaybe<NotificationScalarRelationFilter>;
-  notificationId?: InputMaybe<StringFilter>;
-  readAt?: InputMaybe<DateTimeNullableFilter>;
-  receiver?: InputMaybe<EnumNotificationTargetFilter>;
-  receiverId?: InputMaybe<StringFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
+  AND?: Array<NotificationRecipientWhereInput> | null | undefined;
+  NOT?: Array<NotificationRecipientWhereInput> | null | undefined;
+  OR?: Array<NotificationRecipientWhereInput> | null | undefined;
+  admin?: AdminNullableScalarRelationFilter | null | undefined;
+  adminId?: StringNullableFilter | null | undefined;
+  archivedAt?: DateTimeNullableFilter | null | undefined;
+  company?: CompanyNullableScalarRelationFilter | null | undefined;
+  companyId?: StringNullableFilter | null | undefined;
+  createdAt?: DateTimeFilter | null | undefined;
+  deletedAt?: DateTimeNullableFilter | null | undefined;
+  id?: StringFilter | null | undefined;
+  isArchived?: BoolFilter | null | undefined;
+  isDeleted?: BoolFilter | null | undefined;
+  isRead?: BoolFilter | null | undefined;
+  member?: MemberNullableScalarRelationFilter | null | undefined;
+  memberId?: StringNullableFilter | null | undefined;
+  notification?: NotificationScalarRelationFilter | null | undefined;
+  notificationId?: StringFilter | null | undefined;
+  readAt?: DateTimeNullableFilter | null | undefined;
+  receiver?: EnumNotificationTargetFilter | null | undefined;
+  receiverId?: StringFilter | null | undefined;
+  updatedAt?: DateTimeFilter | null | undefined;
 };
 
 export type NotificationRecipientWhereUniqueInput = {
-  admin?: InputMaybe<AdminNullableScalarRelationFilter>;
-  adminId?: InputMaybe<StringNullableFilter>;
-  archivedAt?: InputMaybe<DateTimeNullableFilter>;
-  company?: InputMaybe<CompanyNullableScalarRelationFilter>;
-  companyId?: InputMaybe<StringNullableFilter>;
-  deletedAt?: InputMaybe<DateTimeNullableFilter>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  isArchived?: InputMaybe<BoolFilter>;
-  isDeleted?: InputMaybe<BoolFilter>;
-  isRead?: InputMaybe<BoolFilter>;
-  member?: InputMaybe<MemberNullableScalarRelationFilter>;
-  memberId?: InputMaybe<StringNullableFilter>;
-  notification?: InputMaybe<NotificationScalarRelationFilter>;
-  notificationId?: InputMaybe<StringFilter>;
-  readAt?: InputMaybe<DateTimeNullableFilter>;
-  receiver?: InputMaybe<EnumNotificationTargetFilter>;
-  receiverId?: InputMaybe<StringFilter>;
-  receiverIdx?: InputMaybe<NotificationRecipientReceiverIdxCompoundUniqueInput>;
+  admin?: AdminNullableScalarRelationFilter | null | undefined;
+  adminId?: StringNullableFilter | null | undefined;
+  archivedAt?: DateTimeNullableFilter | null | undefined;
+  company?: CompanyNullableScalarRelationFilter | null | undefined;
+  companyId?: StringNullableFilter | null | undefined;
+  deletedAt?: DateTimeNullableFilter | null | undefined;
+  id?: string | null | undefined;
+  isArchived?: BoolFilter | null | undefined;
+  isDeleted?: BoolFilter | null | undefined;
+  isRead?: BoolFilter | null | undefined;
+  member?: MemberNullableScalarRelationFilter | null | undefined;
+  memberId?: StringNullableFilter | null | undefined;
+  notification?: NotificationScalarRelationFilter | null | undefined;
+  notificationId?: StringFilter | null | undefined;
+  readAt?: DateTimeNullableFilter | null | undefined;
+  receiver?: EnumNotificationTargetFilter | null | undefined;
+  receiverId?: StringFilter | null | undefined;
+  receiverIdx?: NotificationRecipientReceiverIdxCompoundUniqueInput | null | undefined;
 };
-
-export enum NotificationScalarFieldEnum {
-  AdminId = 'adminId',
-  Category = 'category',
-  CompanyId = 'companyId',
-  Content = 'content',
-  CreatedAt = 'createdAt',
-  Id = 'id',
-  MemberId = 'memberId',
-  Options = 'options',
-  Priority = 'priority',
-  Privacy = 'privacy',
-  Receivers = 'receivers',
-  Sender = 'sender',
-  SenderId = 'senderId',
-  SentAt = 'sentAt',
-  Status = 'status',
-  Title = 'title',
-  Type = 'type',
-  UpdatedAt = 'updatedAt'
-}
 
 export type NotificationScalarRelationFilter = {
-  is?: InputMaybe<NotificationWhereInput>;
-  isNot?: InputMaybe<NotificationWhereInput>;
-};
-
-export type NotificationSumAggregate = {
-  __typename?: 'NotificationSumAggregate';
-  priority?: Maybe<Scalars['Int']['output']>;
+  is?: NotificationWhereInput | null | undefined;
+  isNot?: NotificationWhereInput | null | undefined;
 };
 
 export enum NotificationTarget {
@@ -2657,69 +1372,69 @@ export enum NotificationType {
 }
 
 export type NotificationUpdateManyWithoutAdminNestedInput = {
-  connect?: InputMaybe<Array<NotificationWhereUniqueInput>>;
-  disconnect?: InputMaybe<Array<NotificationWhereUniqueInput>>;
+  connect?: Array<NotificationWhereUniqueInput> | null | undefined;
+  disconnect?: Array<NotificationWhereUniqueInput> | null | undefined;
 };
 
 export type NotificationUpdateManyWithoutCompanyNestedInput = {
-  connect?: InputMaybe<Array<NotificationWhereUniqueInput>>;
-  disconnect?: InputMaybe<Array<NotificationWhereUniqueInput>>;
+  connect?: Array<NotificationWhereUniqueInput> | null | undefined;
+  disconnect?: Array<NotificationWhereUniqueInput> | null | undefined;
 };
 
 export type NotificationUpdateManyWithoutMemberNestedInput = {
-  connect?: InputMaybe<Array<NotificationWhereUniqueInput>>;
-  disconnect?: InputMaybe<Array<NotificationWhereUniqueInput>>;
+  connect?: Array<NotificationWhereUniqueInput> | null | undefined;
+  disconnect?: Array<NotificationWhereUniqueInput> | null | undefined;
 };
 
 export type NotificationWhereInput = {
-  AND?: InputMaybe<Array<NotificationWhereInput>>;
-  NOT?: InputMaybe<Array<NotificationWhereInput>>;
-  OR?: InputMaybe<Array<NotificationWhereInput>>;
-  admin?: InputMaybe<AdminNullableScalarRelationFilter>;
-  adminId?: InputMaybe<StringNullableFilter>;
-  category?: InputMaybe<StringNullableFilter>;
-  company?: InputMaybe<CompanyNullableScalarRelationFilter>;
-  companyId?: InputMaybe<StringNullableFilter>;
-  content?: InputMaybe<JsonFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  id?: InputMaybe<StringFilter>;
-  member?: InputMaybe<MemberNullableScalarRelationFilter>;
-  memberId?: InputMaybe<StringNullableFilter>;
-  options?: InputMaybe<JsonNullableFilter>;
-  priority?: InputMaybe<IntFilter>;
-  privacy?: InputMaybe<EnumNotificationPrivacyFilter>;
-  receivers?: InputMaybe<StringNullableListFilter>;
-  recipients?: InputMaybe<NotificationRecipientListRelationFilter>;
-  sender?: InputMaybe<EnumNotificationTargetFilter>;
-  senderId?: InputMaybe<StringNullableFilter>;
-  sentAt?: InputMaybe<DateTimeFilter>;
-  status?: InputMaybe<EnumStatusFilter>;
-  title?: InputMaybe<JsonNullableFilter>;
-  type?: InputMaybe<EnumNotificationTypeFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
+  AND?: Array<NotificationWhereInput> | null | undefined;
+  NOT?: Array<NotificationWhereInput> | null | undefined;
+  OR?: Array<NotificationWhereInput> | null | undefined;
+  admin?: AdminNullableScalarRelationFilter | null | undefined;
+  adminId?: StringNullableFilter | null | undefined;
+  category?: StringNullableFilter | null | undefined;
+  company?: CompanyNullableScalarRelationFilter | null | undefined;
+  companyId?: StringNullableFilter | null | undefined;
+  content?: JsonFilter | null | undefined;
+  createdAt?: DateTimeFilter | null | undefined;
+  id?: StringFilter | null | undefined;
+  member?: MemberNullableScalarRelationFilter | null | undefined;
+  memberId?: StringNullableFilter | null | undefined;
+  options?: JsonNullableFilter | null | undefined;
+  priority?: IntFilter | null | undefined;
+  privacy?: EnumNotificationPrivacyFilter | null | undefined;
+  receivers?: StringNullableListFilter | null | undefined;
+  recipients?: NotificationRecipientListRelationFilter | null | undefined;
+  sender?: EnumNotificationTargetFilter | null | undefined;
+  senderId?: StringNullableFilter | null | undefined;
+  sentAt?: DateTimeFilter | null | undefined;
+  status?: EnumStatusFilter | null | undefined;
+  title?: JsonNullableFilter | null | undefined;
+  type?: EnumNotificationTypeFilter | null | undefined;
+  updatedAt?: DateTimeFilter | null | undefined;
 };
 
 export type NotificationWhereUniqueInput = {
-  admin?: InputMaybe<AdminNullableScalarRelationFilter>;
-  adminId?: InputMaybe<StringNullableFilter>;
-  category?: InputMaybe<StringNullableFilter>;
-  company?: InputMaybe<CompanyNullableScalarRelationFilter>;
-  companyId?: InputMaybe<StringNullableFilter>;
-  content?: InputMaybe<JsonFilter>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  member?: InputMaybe<MemberNullableScalarRelationFilter>;
-  memberId?: InputMaybe<StringNullableFilter>;
-  options?: InputMaybe<JsonNullableFilter>;
-  priority?: InputMaybe<IntFilter>;
-  privacy?: InputMaybe<EnumNotificationPrivacyFilter>;
-  receivers?: InputMaybe<StringNullableListFilter>;
-  recipients?: InputMaybe<NotificationRecipientListRelationFilter>;
-  sender?: InputMaybe<EnumNotificationTargetFilter>;
-  senderId?: InputMaybe<StringNullableFilter>;
-  sentAt?: InputMaybe<DateTimeFilter>;
-  status?: InputMaybe<EnumStatusFilter>;
-  title?: InputMaybe<JsonNullableFilter>;
-  type?: InputMaybe<EnumNotificationTypeFilter>;
+  admin?: AdminNullableScalarRelationFilter | null | undefined;
+  adminId?: StringNullableFilter | null | undefined;
+  category?: StringNullableFilter | null | undefined;
+  company?: CompanyNullableScalarRelationFilter | null | undefined;
+  companyId?: StringNullableFilter | null | undefined;
+  content?: JsonFilter | null | undefined;
+  id?: string | null | undefined;
+  member?: MemberNullableScalarRelationFilter | null | undefined;
+  memberId?: StringNullableFilter | null | undefined;
+  options?: JsonNullableFilter | null | undefined;
+  priority?: IntFilter | null | undefined;
+  privacy?: EnumNotificationPrivacyFilter | null | undefined;
+  receivers?: StringNullableListFilter | null | undefined;
+  recipients?: NotificationRecipientListRelationFilter | null | undefined;
+  sender?: EnumNotificationTargetFilter | null | undefined;
+  senderId?: StringNullableFilter | null | undefined;
+  sentAt?: DateTimeFilter | null | undefined;
+  status?: EnumStatusFilter | null | undefined;
+  title?: JsonNullableFilter | null | undefined;
+  type?: EnumNotificationTypeFilter | null | undefined;
 };
 
 export enum NullsOrder {
@@ -2733,592 +1448,93 @@ export enum Owner {
   Member = 'Member'
 }
 
-export type PaginatedAdmin = {
-  __typename?: 'PaginatedAdmin';
-  items?: Maybe<Array<Admin>>;
-  pagination?: Maybe<Pagination>;
-};
-
-export type PaginatedAdminCompany = {
-  __typename?: 'PaginatedAdminCompany';
-  items?: Maybe<Array<AdminCompany>>;
-  pagination?: Maybe<Pagination>;
-};
-
-export type PaginatedAdminRole = {
-  __typename?: 'PaginatedAdminRole';
-  items?: Maybe<Array<AdminRole>>;
-  pagination?: Maybe<Pagination>;
-};
-
-export type PaginatedCompany = {
-  __typename?: 'PaginatedCompany';
-  items?: Maybe<Array<Company>>;
-  pagination?: Maybe<Pagination>;
-};
-
-export type PaginatedCompanyMember = {
-  __typename?: 'PaginatedCompanyMember';
-  items?: Maybe<Array<CompanyMember>>;
-  pagination?: Maybe<Pagination>;
-};
-
-export type PaginatedCompanyRole = {
-  __typename?: 'PaginatedCompanyRole';
-  items?: Maybe<Array<CompanyRole>>;
-  pagination?: Maybe<Pagination>;
-};
-
-export type PaginatedMember = {
-  __typename?: 'PaginatedMember';
-  items?: Maybe<Array<Member>>;
-  pagination?: Maybe<Pagination>;
-};
-
-export type PaginatedNotification = {
-  __typename?: 'PaginatedNotification';
-  items?: Maybe<Array<Notification>>;
-  pagination?: Maybe<Pagination>;
-};
-
-export type PaginatedNotificationRecipient = {
-  __typename?: 'PaginatedNotificationRecipient';
-  items?: Maybe<Array<NotificationRecipient>>;
-  pagination?: Maybe<Pagination>;
-};
-
-export type PaginatedWebsite = {
-  __typename?: 'PaginatedWebsite';
-  items?: Maybe<Array<Website>>;
-  pagination?: Maybe<Pagination>;
-};
-
-export type Pagination = {
-  __typename?: 'Pagination';
-  page: Scalars['Int']['output'];
-  skip: Scalars['Int']['output'];
-  take: Scalars['Int']['output'];
-  totalCount: Scalars['Int']['output'];
-  totalPages: Scalars['Int']['output'];
-};
-
-export enum PermissionAlias {
-  CreateOneAdmin = 'CreateOneAdmin',
-  CreateOneAdminCompany = 'CreateOneAdminCompany',
-  CreateOneAdminRole = 'CreateOneAdminRole',
-  CreateOneCompany = 'CreateOneCompany',
-  CreateOneCompanyMember = 'CreateOneCompanyMember',
-  CreateOneCompanyRole = 'CreateOneCompanyRole',
-  CreateOneMember = 'CreateOneMember',
-  CreateOneWebsite = 'CreateOneWebsite',
-  DeleteAdminCompany = 'DeleteAdminCompany',
-  FindAdminByEmail = 'FindAdminByEmail',
-  FindAdminById = 'FindAdminById',
-  FindOneAdmin = 'FindOneAdmin',
-  FindOneAdminCompany = 'FindOneAdminCompany',
-  FindOneAdminRole = 'FindOneAdminRole',
-  FindOneCompany = 'FindOneCompany',
-  FindOneCompanyMember = 'FindOneCompanyMember',
-  FindOneCompanyRole = 'FindOneCompanyRole',
-  FindOneMember = 'FindOneMember',
-  FindOneWebsite = 'FindOneWebsite',
-  FindSelfAdmin = 'FindSelfAdmin',
-  FindSelfCompany = 'FindSelfCompany',
-  FindSelfMember = 'FindSelfMember',
-  InviteMemberToCompany = 'InviteMemberToCompany',
-  ListAdminRolePermission = 'ListAdminRolePermission',
-  ListCompanyRole = 'ListCompanyRole',
-  ListCompanyRolePermission = 'ListCompanyRolePermission',
-  ListSearchMembers = 'ListSearchMembers',
-  ListSelfNotifications = 'ListSelfNotifications',
-  ListWebsiteSeoPage = 'ListWebsiteSeoPage',
-  PaginateAdminCompanies = 'PaginateAdminCompanies',
-  PaginateAdminRoles = 'PaginateAdminRoles',
-  PaginateAdmins = 'PaginateAdmins',
-  PaginateCompanies = 'PaginateCompanies',
-  PaginateCompanyMembers = 'PaginateCompanyMembers',
-  PaginateCompanyRoles = 'PaginateCompanyRoles',
-  PaginateMembers = 'PaginateMembers',
-  PaginateNotificationRecipes = 'PaginateNotificationRecipes',
-  PaginateNotifications = 'PaginateNotifications',
-  PaginateWebsites = 'PaginateWebsites',
-  PushAllPagesToAnalyze = 'PushAllPagesToAnalyze',
-  PushPagesToAnalyze = 'PushPagesToAnalyze',
-  PushPagesToUpdate = 'PushPagesToUpdate',
-  UpdateOneAdmin = 'UpdateOneAdmin',
-  UpdateOneAdminCompany = 'UpdateOneAdminCompany',
-  UpdateOneAdminRole = 'UpdateOneAdminRole',
-  UpdateOneCompany = 'UpdateOneCompany',
-  UpdateOneCompanyMember = 'UpdateOneCompanyMember',
-  UpdateOneCompanyRole = 'UpdateOneCompanyRole',
-  UpdateOneMember = 'UpdateOneMember',
-  UpdateOneWebsite = 'UpdateOneWebsite',
-  UpdateSelfAdmin = 'UpdateSelfAdmin',
-  UpdateSelfCompany = 'UpdateSelfCompany',
-  UpdateSelfMember = 'UpdateSelfMember'
-}
-
-export type PermissionGroup = {
-  __typename?: 'PermissionGroup';
-  alias?: Maybe<Array<PermissionAlias>>;
-  allowSelect: Array<Scalars['String']['output']>;
-  allowUnselect: Array<Scalars['String']['output']>;
-  groups: Array<PermissionGroupItem>;
-};
-
-export type PermissionGroupItem = {
-  __typename?: 'PermissionGroupItem';
-  id: Scalars['String']['output'];
-  items: Array<PermissionGroupItem>;
-  label: Scalars['String']['output'];
-  name: Scalars['String']['output'];
-};
-
-export type PermissionItem = {
-  __typename?: 'PermissionItem';
-  action: Scalars['String']['output'];
-  actionLabel: Scalars['String']['output'];
-  clients: Array<Client>;
-  group: Scalars['String']['output'];
-  name: Scalars['String']['output'];
-  subject: Scalars['String']['output'];
-  subjectLabel: Scalars['String']['output'];
-};
-
-export type Query = {
-  __typename?: 'Query';
-  authInfo: Auth;
-  findAdminByEmail: Admin;
-  findAdminById: Admin;
-  findOneAdmin: Admin;
-  findOneAdminCompany: AdminCompany;
-  findOneAdminRole: AdminRole;
-  findOneCompany: Company;
-  findOneCompanyMember: CompanyMember;
-  findOneCompanyRole: CompanyRole;
-  findOneMember: Member;
-  findOneWebsite: Website;
-  findSelfAdmin: Admin;
-  findSelfCompany: Company;
-  findSelfMember: Member;
-  healthCheck: Scalars['String']['output'];
-  helloWorld: Scalars['String']['output'];
-  listAdminRolePermission: PermissionGroup;
-  listCompanyRole: PaginatedCompanyRole;
-  listCompanyRolePermission: PermissionGroup;
-  listMediaFiles: Array<MediaFile>;
-  listSearchMembers: PaginatedMember;
-  listSelfNotifications: Array<Notification>;
-  listWebsiteSeoPage: Array<WebsiteSeoPage>;
-  logout: Scalars['Boolean']['output'];
-  paginateAdminCompanies: PaginatedAdminCompany;
-  paginateAdminRoles: PaginatedAdminRole;
-  paginateAdmins: PaginatedAdmin;
-  paginateCompanies: PaginatedCompany;
-  paginateCompanyMembers: PaginatedCompanyMember;
-  paginateCompanyRoles: PaginatedCompanyRole;
-  paginateMembers: PaginatedMember;
-  paginateNotificationRecipes: PaginatedNotificationRecipient;
-  paginateNotifications: PaginatedNotification;
-  paginateWebsites: PaginatedWebsite;
-  refresh: Login;
-  translations: Scalars['JSONObject']['output'];
-};
-
-
-export type QueryFindAdminByEmailArgs = {
-  email: Scalars['String']['input'];
-};
-
-
-export type QueryFindAdminByIdArgs = {
-  id: Scalars['String']['input'];
-};
-
-
-export type QueryFindOneAdminArgs = {
-  where: AdminWhereUniqueInput;
-};
-
-
-export type QueryFindOneAdminCompanyArgs = {
-  where: AdminCompanyWhereUniqueInput;
-};
-
-
-export type QueryFindOneAdminRoleArgs = {
-  where: AdminRoleWhereUniqueInput;
-};
-
-
-export type QueryFindOneCompanyArgs = {
-  where: CompanyWhereUniqueInput;
-};
-
-
-export type QueryFindOneCompanyMemberArgs = {
-  where: CompanyMemberWhereUniqueInput;
-};
-
-
-export type QueryFindOneCompanyRoleArgs = {
-  where: CompanyRoleWhereUniqueInput;
-};
-
-
-export type QueryFindOneMemberArgs = {
-  where: MemberWhereUniqueInput;
-};
-
-
-export type QueryFindOneWebsiteArgs = {
-  where: WebsiteWhereUniqueInput;
-};
-
-
-export type QueryListAdminRolePermissionArgs = {
-  where?: InputMaybe<AdminRoleWhereUniqueInput>;
-};
-
-
-export type QueryListCompanyRoleArgs = {
-  where?: InputMaybe<CompanyRoleWhereInput>;
-};
-
-
-export type QueryListCompanyRolePermissionArgs = {
-  where?: InputMaybe<CompanyRoleWhereUniqueInput>;
-};
-
-
-export type QueryListMediaFilesArgs = {
-  fileIds: Array<Scalars['String']['input']>;
-};
-
-
-export type QueryListSearchMembersArgs = {
-  keyword?: InputMaybe<Scalars['String']['input']>;
-};
-
-
-export type QueryListWebsiteSeoPageArgs = {
-  where: WebsiteWhereUniqueInput;
-};
-
-
-export type QueryPaginateAdminCompaniesArgs = {
-  cursor?: InputMaybe<AdminCompanyWhereUniqueInput>;
-  distinct?: InputMaybe<Array<AdminCompanyScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<AdminCompanyOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<AdminCompanyWhereInput>;
-};
-
-
-export type QueryPaginateAdminRolesArgs = {
-  cursor?: InputMaybe<AdminRoleWhereUniqueInput>;
-  distinct?: InputMaybe<Array<AdminRoleScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<AdminRoleOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<AdminRoleWhereInput>;
-};
-
-
-export type QueryPaginateAdminsArgs = {
-  cursor?: InputMaybe<AdminWhereUniqueInput>;
-  distinct?: InputMaybe<Array<AdminScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<AdminOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<AdminWhereInput>;
-};
-
-
-export type QueryPaginateCompaniesArgs = {
-  cursor?: InputMaybe<CompanyWhereUniqueInput>;
-  distinct?: InputMaybe<Array<CompanyScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<CompanyOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<CompanyWhereInput>;
-};
-
-
-export type QueryPaginateCompanyMembersArgs = {
-  cursor?: InputMaybe<CompanyMemberWhereUniqueInput>;
-  distinct?: InputMaybe<Array<CompanyMemberScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<CompanyMemberOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<CompanyMemberWhereInput>;
-};
-
-
-export type QueryPaginateCompanyRolesArgs = {
-  cursor?: InputMaybe<CompanyRoleWhereUniqueInput>;
-  distinct?: InputMaybe<Array<CompanyRoleScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<CompanyRoleOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<CompanyRoleWhereInput>;
-};
-
-
-export type QueryPaginateMembersArgs = {
-  cursor?: InputMaybe<MemberWhereUniqueInput>;
-  distinct?: InputMaybe<Array<MemberScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<MemberOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<MemberWhereInput>;
-};
-
-
-export type QueryPaginateNotificationRecipesArgs = {
-  cursor?: InputMaybe<NotificationRecipientWhereUniqueInput>;
-  distinct?: InputMaybe<Array<NotificationRecipientScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<NotificationRecipientOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<NotificationRecipientWhereInput>;
-};
-
-
-export type QueryPaginateNotificationsArgs = {
-  cursor?: InputMaybe<NotificationWhereUniqueInput>;
-  distinct?: InputMaybe<Array<NotificationScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<NotificationOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<NotificationWhereInput>;
-};
-
-
-export type QueryPaginateWebsitesArgs = {
-  cursor?: InputMaybe<WebsiteWhereUniqueInput>;
-  distinct?: InputMaybe<Array<WebsiteScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<WebsiteOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<WebsiteWhereInput>;
-};
-
-
-export type QueryTranslationsArgs = {
-  scopes: Array<Scalars['String']['input']>;
-};
-
 export enum QueryMode {
   Default = 'default',
   Insensitive = 'insensitive'
 }
 
-export type RequestLog = {
-  __typename?: 'RequestLog';
-  action?: Maybe<Scalars['String']['output']>;
-  admin?: Maybe<Admin>;
-  adminId?: Maybe<Scalars['String']['output']>;
-  afterAt?: Maybe<Scalars['DateTime']['output']>;
-  beforeAt: Scalars['DateTime']['output'];
-  body?: Maybe<Scalars['JSON']['output']>;
-  client?: Maybe<Client>;
-  company?: Maybe<Company>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt: Scalars['DateTime']['output'];
-  device?: Maybe<Scalars['JSON']['output']>;
-  duration: Scalars['String']['output'];
-  fingerprint?: Maybe<Scalars['String']['output']>;
-  headers?: Maybe<Scalars['JSON']['output']>;
-  id: Scalars['ID']['output'];
-  ip?: Maybe<Scalars['String']['output']>;
-  language?: Maybe<Scalars['String']['output']>;
-  location?: Maybe<Scalars['JSON']['output']>;
-  member?: Maybe<Member>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  message?: Maybe<Scalars['String']['output']>;
-  method?: Maybe<RequestMethod>;
-  params?: Maybe<Scalars['JSON']['output']>;
-  query?: Maybe<Scalars['JSON']['output']>;
-  recordAt: Scalars['DateTime']['output'];
-  route?: Maybe<Scalars['String']['output']>;
-  subject?: Maybe<Scalars['String']['output']>;
-  target?: Maybe<Target>;
-  updatedAt: Scalars['DateTime']['output'];
-};
-
-export type RequestLogAvgAggregate = {
-  __typename?: 'RequestLogAvgAggregate';
-  duration?: Maybe<Scalars['Float']['output']>;
-};
-
-export type RequestLogCountAggregate = {
-  __typename?: 'RequestLogCountAggregate';
-  _all: Scalars['Int']['output'];
-  action: Scalars['Int']['output'];
-  adminId: Scalars['Int']['output'];
-  afterAt: Scalars['Int']['output'];
-  beforeAt: Scalars['Int']['output'];
-  body: Scalars['Int']['output'];
-  client: Scalars['Int']['output'];
-  companyId: Scalars['Int']['output'];
-  createdAt: Scalars['Int']['output'];
-  device: Scalars['Int']['output'];
-  duration: Scalars['Int']['output'];
-  fingerprint: Scalars['Int']['output'];
-  headers: Scalars['Int']['output'];
-  id: Scalars['Int']['output'];
-  ip: Scalars['Int']['output'];
-  language: Scalars['Int']['output'];
-  location: Scalars['Int']['output'];
-  memberId: Scalars['Int']['output'];
-  message: Scalars['Int']['output'];
-  method: Scalars['Int']['output'];
-  params: Scalars['Int']['output'];
-  query: Scalars['Int']['output'];
-  recordAt: Scalars['Int']['output'];
-  route: Scalars['Int']['output'];
-  subject: Scalars['Int']['output'];
-  target: Scalars['Int']['output'];
-  updatedAt: Scalars['Int']['output'];
-};
-
 export type RequestLogCreateNestedManyWithoutCompanyInput = {
-  connect?: InputMaybe<Array<RequestLogWhereUniqueInput>>;
+  connect?: Array<RequestLogWhereUniqueInput> | null | undefined;
 };
 
 export type RequestLogListRelationFilter = {
-  every?: InputMaybe<RequestLogWhereInput>;
-  none?: InputMaybe<RequestLogWhereInput>;
-  some?: InputMaybe<RequestLogWhereInput>;
-};
-
-export type RequestLogMaxAggregate = {
-  __typename?: 'RequestLogMaxAggregate';
-  action?: Maybe<Scalars['String']['output']>;
-  adminId?: Maybe<Scalars['String']['output']>;
-  afterAt?: Maybe<Scalars['DateTime']['output']>;
-  beforeAt?: Maybe<Scalars['DateTime']['output']>;
-  client?: Maybe<Client>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  duration?: Maybe<Scalars['String']['output']>;
-  fingerprint?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  ip?: Maybe<Scalars['String']['output']>;
-  language?: Maybe<Scalars['String']['output']>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  message?: Maybe<Scalars['String']['output']>;
-  method?: Maybe<RequestMethod>;
-  recordAt?: Maybe<Scalars['DateTime']['output']>;
-  route?: Maybe<Scalars['String']['output']>;
-  subject?: Maybe<Scalars['String']['output']>;
-  target?: Maybe<Target>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-};
-
-export type RequestLogMinAggregate = {
-  __typename?: 'RequestLogMinAggregate';
-  action?: Maybe<Scalars['String']['output']>;
-  adminId?: Maybe<Scalars['String']['output']>;
-  afterAt?: Maybe<Scalars['DateTime']['output']>;
-  beforeAt?: Maybe<Scalars['DateTime']['output']>;
-  client?: Maybe<Client>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  duration?: Maybe<Scalars['String']['output']>;
-  fingerprint?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  ip?: Maybe<Scalars['String']['output']>;
-  language?: Maybe<Scalars['String']['output']>;
-  memberId?: Maybe<Scalars['String']['output']>;
-  message?: Maybe<Scalars['String']['output']>;
-  method?: Maybe<RequestMethod>;
-  recordAt?: Maybe<Scalars['DateTime']['output']>;
-  route?: Maybe<Scalars['String']['output']>;
-  subject?: Maybe<Scalars['String']['output']>;
-  target?: Maybe<Target>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  every?: RequestLogWhereInput | null | undefined;
+  none?: RequestLogWhereInput | null | undefined;
+  some?: RequestLogWhereInput | null | undefined;
 };
 
 export type RequestLogOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
-};
-
-export type RequestLogSumAggregate = {
-  __typename?: 'RequestLogSumAggregate';
-  duration?: Maybe<Scalars['String']['output']>;
+  _count?: SortOrder | null | undefined;
 };
 
 export type RequestLogUpdateManyWithoutCompanyNestedInput = {
-  connect?: InputMaybe<Array<RequestLogWhereUniqueInput>>;
-  disconnect?: InputMaybe<Array<RequestLogWhereUniqueInput>>;
+  connect?: Array<RequestLogWhereUniqueInput> | null | undefined;
+  disconnect?: Array<RequestLogWhereUniqueInput> | null | undefined;
 };
 
 export type RequestLogWhereInput = {
-  AND?: InputMaybe<Array<RequestLogWhereInput>>;
-  NOT?: InputMaybe<Array<RequestLogWhereInput>>;
-  OR?: InputMaybe<Array<RequestLogWhereInput>>;
-  action?: InputMaybe<StringNullableFilter>;
-  admin?: InputMaybe<AdminNullableScalarRelationFilter>;
-  adminId?: InputMaybe<StringNullableFilter>;
-  afterAt?: InputMaybe<DateTimeNullableFilter>;
-  beforeAt?: InputMaybe<DateTimeFilter>;
-  body?: InputMaybe<JsonNullableFilter>;
-  client?: InputMaybe<EnumClientNullableFilter>;
-  company?: InputMaybe<CompanyNullableScalarRelationFilter>;
-  companyId?: InputMaybe<StringNullableFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  device?: InputMaybe<JsonNullableFilter>;
-  duration?: InputMaybe<BigIntFilter>;
-  fingerprint?: InputMaybe<StringNullableFilter>;
-  headers?: InputMaybe<JsonNullableFilter>;
-  id?: InputMaybe<StringFilter>;
-  ip?: InputMaybe<StringNullableFilter>;
-  language?: InputMaybe<StringNullableFilter>;
-  location?: InputMaybe<JsonNullableFilter>;
-  member?: InputMaybe<MemberNullableScalarRelationFilter>;
-  memberId?: InputMaybe<StringNullableFilter>;
-  message?: InputMaybe<StringNullableFilter>;
-  method?: InputMaybe<EnumRequestMethodNullableFilter>;
-  params?: InputMaybe<JsonNullableFilter>;
-  query?: InputMaybe<JsonNullableFilter>;
-  recordAt?: InputMaybe<DateTimeFilter>;
-  route?: InputMaybe<StringNullableFilter>;
-  subject?: InputMaybe<StringNullableFilter>;
-  target?: InputMaybe<EnumTargetNullableFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
+  AND?: Array<RequestLogWhereInput> | null | undefined;
+  NOT?: Array<RequestLogWhereInput> | null | undefined;
+  OR?: Array<RequestLogWhereInput> | null | undefined;
+  action?: StringNullableFilter | null | undefined;
+  admin?: AdminNullableScalarRelationFilter | null | undefined;
+  adminId?: StringNullableFilter | null | undefined;
+  afterAt?: DateTimeNullableFilter | null | undefined;
+  beforeAt?: DateTimeFilter | null | undefined;
+  body?: JsonNullableFilter | null | undefined;
+  client?: EnumClientNullableFilter | null | undefined;
+  company?: CompanyNullableScalarRelationFilter | null | undefined;
+  companyId?: StringNullableFilter | null | undefined;
+  createdAt?: DateTimeFilter | null | undefined;
+  device?: JsonNullableFilter | null | undefined;
+  duration?: BigIntFilter | null | undefined;
+  fingerprint?: StringNullableFilter | null | undefined;
+  headers?: JsonNullableFilter | null | undefined;
+  id?: StringFilter | null | undefined;
+  ip?: StringNullableFilter | null | undefined;
+  language?: StringNullableFilter | null | undefined;
+  location?: JsonNullableFilter | null | undefined;
+  member?: MemberNullableScalarRelationFilter | null | undefined;
+  memberId?: StringNullableFilter | null | undefined;
+  message?: StringNullableFilter | null | undefined;
+  method?: EnumRequestMethodNullableFilter | null | undefined;
+  params?: JsonNullableFilter | null | undefined;
+  query?: JsonNullableFilter | null | undefined;
+  recordAt?: DateTimeFilter | null | undefined;
+  route?: StringNullableFilter | null | undefined;
+  subject?: StringNullableFilter | null | undefined;
+  target?: EnumTargetNullableFilter | null | undefined;
+  updatedAt?: DateTimeFilter | null | undefined;
 };
 
 export type RequestLogWhereUniqueInput = {
-  action?: InputMaybe<StringNullableFilter>;
-  admin?: InputMaybe<AdminNullableScalarRelationFilter>;
-  adminId?: InputMaybe<StringNullableFilter>;
-  afterAt?: InputMaybe<DateTimeNullableFilter>;
-  beforeAt?: InputMaybe<DateTimeFilter>;
-  body?: InputMaybe<JsonNullableFilter>;
-  client?: InputMaybe<EnumClientNullableFilter>;
-  company?: InputMaybe<CompanyNullableScalarRelationFilter>;
-  companyId?: InputMaybe<StringNullableFilter>;
-  device?: InputMaybe<JsonNullableFilter>;
-  duration?: InputMaybe<BigIntFilter>;
-  fingerprint?: InputMaybe<StringNullableFilter>;
-  headers?: InputMaybe<JsonNullableFilter>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  ip?: InputMaybe<StringNullableFilter>;
-  language?: InputMaybe<StringNullableFilter>;
-  location?: InputMaybe<JsonNullableFilter>;
-  member?: InputMaybe<MemberNullableScalarRelationFilter>;
-  memberId?: InputMaybe<StringNullableFilter>;
-  message?: InputMaybe<StringNullableFilter>;
-  method?: InputMaybe<EnumRequestMethodNullableFilter>;
-  params?: InputMaybe<JsonNullableFilter>;
-  query?: InputMaybe<JsonNullableFilter>;
-  recordAt?: InputMaybe<DateTimeFilter>;
-  route?: InputMaybe<StringNullableFilter>;
-  subject?: InputMaybe<StringNullableFilter>;
-  target?: InputMaybe<EnumTargetNullableFilter>;
+  action?: StringNullableFilter | null | undefined;
+  admin?: AdminNullableScalarRelationFilter | null | undefined;
+  adminId?: StringNullableFilter | null | undefined;
+  afterAt?: DateTimeNullableFilter | null | undefined;
+  beforeAt?: DateTimeFilter | null | undefined;
+  body?: JsonNullableFilter | null | undefined;
+  client?: EnumClientNullableFilter | null | undefined;
+  company?: CompanyNullableScalarRelationFilter | null | undefined;
+  companyId?: StringNullableFilter | null | undefined;
+  device?: JsonNullableFilter | null | undefined;
+  duration?: BigIntFilter | null | undefined;
+  fingerprint?: StringNullableFilter | null | undefined;
+  headers?: JsonNullableFilter | null | undefined;
+  id?: string | null | undefined;
+  ip?: StringNullableFilter | null | undefined;
+  language?: StringNullableFilter | null | undefined;
+  location?: JsonNullableFilter | null | undefined;
+  member?: MemberNullableScalarRelationFilter | null | undefined;
+  memberId?: StringNullableFilter | null | undefined;
+  message?: StringNullableFilter | null | undefined;
+  method?: EnumRequestMethodNullableFilter | null | undefined;
+  params?: JsonNullableFilter | null | undefined;
+  query?: JsonNullableFilter | null | undefined;
+  recordAt?: DateTimeFilter | null | undefined;
+  route?: StringNullableFilter | null | undefined;
+  subject?: StringNullableFilter | null | undefined;
+  target?: EnumTargetNullableFilter | null | undefined;
 };
 
 export enum RequestMethod {
@@ -3355,7 +1571,7 @@ export enum SortOrder {
 }
 
 export type SortOrderInput = {
-  nulls?: InputMaybe<NullsOrder>;
+  nulls?: NullsOrder | null | undefined;
   sort: SortOrder;
 };
 
@@ -3365,41 +1581,41 @@ export enum Status {
 }
 
 export type StringFilter = {
-  contains?: InputMaybe<Scalars['String']['input']>;
-  endsWith?: InputMaybe<Scalars['String']['input']>;
-  equals?: InputMaybe<Scalars['String']['input']>;
-  gt?: InputMaybe<Scalars['String']['input']>;
-  gte?: InputMaybe<Scalars['String']['input']>;
-  in?: InputMaybe<Array<Scalars['String']['input']>>;
-  lt?: InputMaybe<Scalars['String']['input']>;
-  lte?: InputMaybe<Scalars['String']['input']>;
-  mode?: InputMaybe<QueryMode>;
-  not?: InputMaybe<NestedStringFilter>;
-  notIn?: InputMaybe<Array<Scalars['String']['input']>>;
-  startsWith?: InputMaybe<Scalars['String']['input']>;
+  contains?: string | null | undefined;
+  endsWith?: string | null | undefined;
+  equals?: string | null | undefined;
+  gt?: string | null | undefined;
+  gte?: string | null | undefined;
+  in?: Array<string> | null | undefined;
+  lt?: string | null | undefined;
+  lte?: string | null | undefined;
+  mode?: QueryMode | null | undefined;
+  not?: NestedStringFilter | null | undefined;
+  notIn?: Array<string> | null | undefined;
+  startsWith?: string | null | undefined;
 };
 
 export type StringNullableFilter = {
-  contains?: InputMaybe<Scalars['String']['input']>;
-  endsWith?: InputMaybe<Scalars['String']['input']>;
-  equals?: InputMaybe<Scalars['String']['input']>;
-  gt?: InputMaybe<Scalars['String']['input']>;
-  gte?: InputMaybe<Scalars['String']['input']>;
-  in?: InputMaybe<Array<Scalars['String']['input']>>;
-  lt?: InputMaybe<Scalars['String']['input']>;
-  lte?: InputMaybe<Scalars['String']['input']>;
-  mode?: InputMaybe<QueryMode>;
-  not?: InputMaybe<NestedStringNullableFilter>;
-  notIn?: InputMaybe<Array<Scalars['String']['input']>>;
-  startsWith?: InputMaybe<Scalars['String']['input']>;
+  contains?: string | null | undefined;
+  endsWith?: string | null | undefined;
+  equals?: string | null | undefined;
+  gt?: string | null | undefined;
+  gte?: string | null | undefined;
+  in?: Array<string> | null | undefined;
+  lt?: string | null | undefined;
+  lte?: string | null | undefined;
+  mode?: QueryMode | null | undefined;
+  not?: NestedStringNullableFilter | null | undefined;
+  notIn?: Array<string> | null | undefined;
+  startsWith?: string | null | undefined;
 };
 
 export type StringNullableListFilter = {
-  equals?: InputMaybe<Array<Scalars['String']['input']>>;
-  has?: InputMaybe<Scalars['String']['input']>;
-  hasEvery?: InputMaybe<Array<Scalars['String']['input']>>;
-  hasSome?: InputMaybe<Array<Scalars['String']['input']>>;
-  isEmpty?: InputMaybe<Scalars['Boolean']['input']>;
+  equals?: Array<string> | null | undefined;
+  has?: string | null | undefined;
+  hasEvery?: Array<string> | null | undefined;
+  hasSome?: Array<string> | null | undefined;
+  isEmpty?: boolean | null | undefined;
 };
 
 export enum Target {
@@ -3407,654 +1623,432 @@ export enum Target {
   Member = 'Member'
 }
 
-export type Website = {
-  __typename?: 'Website';
-  cms?: Maybe<WebsiteCms>;
-  cmsApiToken?: Maybe<Scalars['String']['output']>;
-  cmsApiUrl?: Maybe<Scalars['String']['output']>;
-  cmsConfig?: Maybe<Scalars['JSON']['output']>;
-  company: Company;
-  companyId: Scalars['String']['output'];
-  createdAt: Scalars['DateTime']['output'];
-  description?: Maybe<Scalars['String']['output']>;
-  hasCmsApiToken: Scalars['Boolean']['output'];
-  id: Scalars['ID']['output'];
-  industryBackground?: Maybe<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
-  updatedAt: Scalars['DateTime']['output'];
-};
-
 export enum WebsiteCms {
   Directus = 'Directus',
   Strapi = 'Strapi',
   WordPress = 'WordPress'
 }
 
-export type WebsiteCountAggregate = {
-  __typename?: 'WebsiteCountAggregate';
-  _all: Scalars['Int']['output'];
-  cms: Scalars['Int']['output'];
-  cmsApiToken: Scalars['Int']['output'];
-  cmsApiUrl: Scalars['Int']['output'];
-  cmsConfig: Scalars['Int']['output'];
-  companyId: Scalars['Int']['output'];
-  createdAt: Scalars['Int']['output'];
-  description: Scalars['Int']['output'];
-  id: Scalars['Int']['output'];
-  industryBackground: Scalars['Int']['output'];
-  title: Scalars['Int']['output'];
-  updatedAt: Scalars['Int']['output'];
-};
-
 export type WebsiteCreateInput = {
-  cms?: InputMaybe<WebsiteCms>;
-  cmsApiToken?: InputMaybe<Scalars['String']['input']>;
-  cmsApiUrl?: InputMaybe<Scalars['String']['input']>;
-  cmsConfig?: InputMaybe<Scalars['JSON']['input']>;
+  cms?: WebsiteCms | null | undefined;
+  cmsApiToken?: string | null | undefined;
+  cmsApiUrl?: string | null | undefined;
+  cmsConfig?: any;
   company: CompanyCreateNestedOneWithoutWebsitesInput;
-  description?: InputMaybe<Scalars['String']['input']>;
-  industryBackground?: InputMaybe<Scalars['String']['input']>;
-  title: Scalars['String']['input'];
+  description?: string | null | undefined;
+  industryBackground?: string | null | undefined;
+  title: string;
 };
 
 export type WebsiteCreateNestedManyWithoutCompanyInput = {
-  connect?: InputMaybe<Array<WebsiteWhereUniqueInput>>;
+  connect?: Array<WebsiteWhereUniqueInput> | null | undefined;
 };
 
 export type WebsiteListRelationFilter = {
-  every?: InputMaybe<WebsiteWhereInput>;
-  none?: InputMaybe<WebsiteWhereInput>;
-  some?: InputMaybe<WebsiteWhereInput>;
-};
-
-export type WebsiteMaxAggregate = {
-  __typename?: 'WebsiteMaxAggregate';
-  cms?: Maybe<WebsiteCms>;
-  cmsApiToken?: Maybe<Scalars['String']['output']>;
-  cmsApiUrl?: Maybe<Scalars['String']['output']>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  industryBackground?: Maybe<Scalars['String']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-};
-
-export type WebsiteMinAggregate = {
-  __typename?: 'WebsiteMinAggregate';
-  cms?: Maybe<WebsiteCms>;
-  cmsApiToken?: Maybe<Scalars['String']['output']>;
-  cmsApiUrl?: Maybe<Scalars['String']['output']>;
-  companyId?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  industryBackground?: Maybe<Scalars['String']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  every?: WebsiteWhereInput | null | undefined;
+  none?: WebsiteWhereInput | null | undefined;
+  some?: WebsiteWhereInput | null | undefined;
 };
 
 export type WebsiteOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
+  _count?: SortOrder | null | undefined;
 };
 
 export type WebsiteOrderByWithRelationInput = {
-  cms?: InputMaybe<SortOrderInput>;
-  cmsApiToken?: InputMaybe<SortOrderInput>;
-  cmsApiUrl?: InputMaybe<SortOrderInput>;
-  cmsConfig?: InputMaybe<SortOrderInput>;
-  company?: InputMaybe<CompanyOrderByWithRelationInput>;
-  companyId?: InputMaybe<SortOrder>;
-  createdAt?: InputMaybe<SortOrder>;
-  description?: InputMaybe<SortOrderInput>;
-  id?: InputMaybe<SortOrder>;
-  industryBackground?: InputMaybe<SortOrderInput>;
-  title?: InputMaybe<SortOrder>;
-  updatedAt?: InputMaybe<SortOrder>;
-};
-
-export enum WebsiteScalarFieldEnum {
-  Cms = 'cms',
-  CmsApiToken = 'cmsApiToken',
-  CmsApiUrl = 'cmsApiUrl',
-  CmsConfig = 'cmsConfig',
-  CompanyId = 'companyId',
-  CreatedAt = 'createdAt',
-  Description = 'description',
-  Id = 'id',
-  IndustryBackground = 'industryBackground',
-  Title = 'title',
-  UpdatedAt = 'updatedAt'
-}
-
-export type WebsiteSeoPage = {
-  __typename?: 'WebsiteSeoPage';
-  apiId: Scalars['String']['output'];
-  contentType: ContentDataType;
-  document: Scalars['String']['output'];
-  documentId: Scalars['String']['output'];
-  documentTitle: Scalars['String']['output'];
-  id: Scalars['Float']['output'];
-  isItem: Scalars['Boolean']['output'];
-  locale: Scalars['String']['output'];
-  md5: Scalars['String']['output'];
-  /** SEO 得分 (0-100) */
-  score?: Maybe<Scalars['Int']['output']>;
-  status: SeoAnalysisStatus;
-  title: Scalars['String']['output'];
-  url: Scalars['String']['output'];
+  cms?: SortOrderInput | null | undefined;
+  cmsApiToken?: SortOrderInput | null | undefined;
+  cmsApiUrl?: SortOrderInput | null | undefined;
+  cmsConfig?: SortOrderInput | null | undefined;
+  company?: CompanyOrderByWithRelationInput | null | undefined;
+  companyId?: SortOrder | null | undefined;
+  createdAt?: SortOrder | null | undefined;
+  description?: SortOrderInput | null | undefined;
+  id?: SortOrder | null | undefined;
+  industryBackground?: SortOrderInput | null | undefined;
+  title?: SortOrder | null | undefined;
+  updatedAt?: SortOrder | null | undefined;
 };
 
 export type WebsiteUpdateInput = {
-  cms?: InputMaybe<WebsiteCms>;
-  cmsApiToken?: InputMaybe<Scalars['String']['input']>;
-  cmsApiUrl?: InputMaybe<Scalars['String']['input']>;
-  cmsConfig?: InputMaybe<Scalars['JSON']['input']>;
-  company?: InputMaybe<CompanyUpdateOneRequiredWithoutWebsitesNestedInput>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  industryBackground?: InputMaybe<Scalars['String']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
+  cms?: WebsiteCms | null | undefined;
+  cmsApiToken?: string | null | undefined;
+  cmsApiUrl?: string | null | undefined;
+  cmsConfig?: any;
+  company?: CompanyUpdateOneRequiredWithoutWebsitesNestedInput | null | undefined;
+  description?: string | null | undefined;
+  industryBackground?: string | null | undefined;
+  title?: string | null | undefined;
 };
 
 export type WebsiteUpdateManyWithoutCompanyNestedInput = {
-  connect?: InputMaybe<Array<WebsiteWhereUniqueInput>>;
-  disconnect?: InputMaybe<Array<WebsiteWhereUniqueInput>>;
+  connect?: Array<WebsiteWhereUniqueInput> | null | undefined;
+  disconnect?: Array<WebsiteWhereUniqueInput> | null | undefined;
 };
 
 export type WebsiteWhereInput = {
-  AND?: InputMaybe<Array<WebsiteWhereInput>>;
-  NOT?: InputMaybe<Array<WebsiteWhereInput>>;
-  OR?: InputMaybe<Array<WebsiteWhereInput>>;
-  cms?: InputMaybe<EnumWebsiteCmsNullableFilter>;
-  cmsApiToken?: InputMaybe<StringNullableFilter>;
-  cmsApiUrl?: InputMaybe<StringNullableFilter>;
-  cmsConfig?: InputMaybe<JsonNullableFilter>;
-  company?: InputMaybe<CompanyScalarRelationFilter>;
-  companyId?: InputMaybe<StringFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  description?: InputMaybe<StringNullableFilter>;
-  id?: InputMaybe<StringFilter>;
-  industryBackground?: InputMaybe<StringNullableFilter>;
-  title?: InputMaybe<StringFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
+  AND?: Array<WebsiteWhereInput> | null | undefined;
+  NOT?: Array<WebsiteWhereInput> | null | undefined;
+  OR?: Array<WebsiteWhereInput> | null | undefined;
+  cms?: EnumWebsiteCmsNullableFilter | null | undefined;
+  cmsApiToken?: StringNullableFilter | null | undefined;
+  cmsApiUrl?: StringNullableFilter | null | undefined;
+  cmsConfig?: JsonNullableFilter | null | undefined;
+  company?: CompanyScalarRelationFilter | null | undefined;
+  companyId?: StringFilter | null | undefined;
+  createdAt?: DateTimeFilter | null | undefined;
+  description?: StringNullableFilter | null | undefined;
+  id?: StringFilter | null | undefined;
+  industryBackground?: StringNullableFilter | null | undefined;
+  title?: StringFilter | null | undefined;
+  updatedAt?: DateTimeFilter | null | undefined;
 };
 
 export type WebsiteWhereUniqueInput = {
-  cms?: InputMaybe<EnumWebsiteCmsNullableFilter>;
-  cmsApiToken?: InputMaybe<StringNullableFilter>;
-  cmsApiUrl?: InputMaybe<StringNullableFilter>;
-  cmsConfig?: InputMaybe<JsonNullableFilter>;
-  company?: InputMaybe<CompanyScalarRelationFilter>;
-  companyId?: InputMaybe<StringFilter>;
-  description?: InputMaybe<StringNullableFilter>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  industryBackground?: InputMaybe<StringNullableFilter>;
-  title?: InputMaybe<StringFilter>;
+  cms?: EnumWebsiteCmsNullableFilter | null | undefined;
+  cmsApiToken?: StringNullableFilter | null | undefined;
+  cmsApiUrl?: StringNullableFilter | null | undefined;
+  cmsConfig?: JsonNullableFilter | null | undefined;
+  company?: CompanyScalarRelationFilter | null | undefined;
+  companyId?: StringFilter | null | undefined;
+  description?: StringNullableFilter | null | undefined;
+  id?: string | null | undefined;
+  industryBackground?: StringNullableFilter | null | undefined;
+  title?: StringFilter | null | undefined;
 };
 
-export type PaginationFragment = { __typename?: 'Pagination', take: number, skip: number, page: number, totalPages: number, totalCount: number } & { ' $fragmentName'?: 'PaginationFragment' };
+export type PaginationFragment = { take: number, skip: number, page: number, totalPages: number, totalCount: number };
 
-export type AdminFragment = { __typename?: 'Admin', id: string, createdAt: any, updatedAt: any, status: Status, name: string, email: string, roleId: string, avatar?: string | null, avatarUrl?: string | null } & { ' $fragmentName'?: 'AdminFragment' };
+export type AdminFragment = { id: string, createdAt: string, updatedAt: string, status: Status, name: string, email: string, roleId: string, avatar: string | null, avatarUrl: string | null };
 
-export type AdminRoleFragment = { __typename?: 'AdminRole', id: string, createdAt: any, updatedAt: any, status: Status, name: string, description?: string | null, code: string, permissions?: Array<string> | null } & { ' $fragmentName'?: 'AdminRoleFragment' };
+export type AdminRoleFragment = { id: string, createdAt: string, updatedAt: string, status: Status, name: string, description: string | null, code: string, permissions: Array<string> | null };
 
-export type CompanyFragment = { __typename?: 'Company', id: string, createdAt: any, updatedAt: any, status: Status, name: string, alias?: string | null, code?: string | null, description?: string | null, logo?: string | null, logoUrl?: string | null } & { ' $fragmentName'?: 'CompanyFragment' };
+export type CompanyFragment = { id: string, createdAt: string, updatedAt: string, status: Status, name: string, alias: string | null, code: string | null, description: string | null, logo: string | null, logoUrl: string | null };
 
-export type CompanyRoleFragment = { __typename?: 'CompanyRole', id: string, createdAt: any, updatedAt: any, status: Status, name: string, description?: string | null, code: string, permissions?: Array<string> | null, companyId?: string | null } & { ' $fragmentName'?: 'CompanyRoleFragment' };
+export type CompanyRoleFragment = { id: string, createdAt: string, updatedAt: string, status: Status, name: string, description: string | null, code: string, permissions: Array<string> | null, companyId: string | null };
 
-export type MemberFragment = { __typename?: 'Member', id: string, createdAt: any, updatedAt: any, status: Status, name: string, email: string, avatar?: string | null, avatarUrl?: string | null } & { ' $fragmentName'?: 'MemberFragment' };
+export type MemberFragment = { id: string, createdAt: string, updatedAt: string, status: Status, name: string, email: string, avatar: string | null, avatarUrl: string | null };
 
-export type LoginFragment = { __typename?: 'Login', target: Target, accessType: string, accessToken: string, accessTimeout: number } & { ' $fragmentName'?: 'LoginFragment' };
+export type LoginFragment = { target: Target, accessType: string, accessToken: string, accessTimeout: number };
 
-export type PermissionItemFragment = { __typename?: 'PermissionItem', name: string, subject: string, subjectLabel: string, group: string, action: string, actionLabel: string } & { ' $fragmentName'?: 'PermissionItemFragment' };
+export type PermissionItemFragment = { name: string, subject: string, subjectLabel: string, group: string, action: string, actionLabel: string };
 
-export type PermissionGroupItemFragment = { __typename?: 'PermissionGroupItem', id: string, name: string, label: string, items: Array<{ __typename?: 'PermissionGroupItem', id: string, name: string, label: string, items: Array<{ __typename?: 'PermissionGroupItem', id: string, name: string, label: string }> }> } & { ' $fragmentName'?: 'PermissionGroupItemFragment' };
+export type PermissionGroupItemFragment = { id: string, name: string, label: string, items: Array<{ id: string, name: string, label: string, items: Array<{ id: string, name: string, label: string }> }> };
 
-export type MediaFileFragment = { __typename?: 'MediaFile', id: string, createdAt: any, updatedAt: any, status: Status, store: MediaStore, mediaType: MediaType, mimeType: string, fileName: string, fileHash: string, fileSize: string, width?: number | null, height?: number | null, duration?: number | null, metadata?: any | null, description?: string | null, extension: string, folderId: string, owner: Owner, adminId?: string | null, memberId?: string | null, companyId?: string | null, visibility: MediaVisibility, url: string } & { ' $fragmentName'?: 'MediaFileFragment' };
+export type MediaFileFragment = { id: string, createdAt: string, updatedAt: string, status: Status, store: MediaStore, mediaType: MediaType, mimeType: string, fileName: string, fileHash: string, fileSize: string, width: number | null, height: number | null, duration: number | null, metadata: any, description: string | null, extension: string, folderId: string, owner: Owner, adminId: string | null, memberId: string | null, companyId: string | null, visibility: MediaVisibility, url: string };
 
-export type WebsiteFragment = { __typename?: 'Website', cms?: WebsiteCms | null, cmsApiToken?: string | null, cmsApiUrl?: string | null, cmsConfig?: any | null, companyId: string, createdAt: any, description?: string | null, hasCmsApiToken: boolean, industryBackground?: string | null, id: string, title: string, updatedAt: any } & { ' $fragmentName'?: 'WebsiteFragment' };
+export type WebsiteFragment = { cms: WebsiteCms | null, cmsApiToken: string | null, cmsApiUrl: string | null, cmsConfig: any, companyId: string, createdAt: string, description: string | null, hasCmsApiToken: boolean, industryBackground: string | null, id: string, title: string, updatedAt: string };
 
 export type PaginateAdminRolesQueryVariables = Exact<{
-  take?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<AdminRoleWhereInput>;
-  orderBy?: InputMaybe<Array<AdminRoleOrderByWithRelationInput> | AdminRoleOrderByWithRelationInput>;
+  take?: number | null | undefined;
+  skip?: number | null | undefined;
+  where?: AdminRoleWhereInput | null | undefined;
+  orderBy?: Array<AdminRoleOrderByWithRelationInput> | AdminRoleOrderByWithRelationInput | null | undefined;
 }>;
 
 
-export type PaginateAdminRolesQuery = { __typename?: 'Query', paginateAdminRoles: { __typename?: 'PaginatedAdminRole', items?: Array<(
-      { __typename?: 'AdminRole' }
-      & { ' $fragmentRefs'?: { 'AdminRoleFragment': AdminRoleFragment } }
-    )> | null, pagination?: (
-      { __typename?: 'Pagination' }
-      & { ' $fragmentRefs'?: { 'PaginationFragment': PaginationFragment } }
-    ) | null } };
+export type PaginateAdminRolesQuery = { paginateAdminRoles: { items: Array<{ id: string, createdAt: string, updatedAt: string, status: Status, name: string, description: string | null, code: string, permissions: Array<string> | null }> | null, pagination: { take: number, skip: number, page: number, totalPages: number, totalCount: number } | null } };
 
 export type FindOneAdminRoleQueryVariables = Exact<{
-  id: Scalars['String']['input'];
+  id: string;
 }>;
 
 
-export type FindOneAdminRoleQuery = { __typename?: 'Query', findOneAdminRole: (
-    { __typename?: 'AdminRole' }
-    & { ' $fragmentRefs'?: { 'AdminRoleFragment': AdminRoleFragment } }
-  ) };
+export type FindOneAdminRoleQuery = { findOneAdminRole: { id: string, createdAt: string, updatedAt: string, status: Status, name: string, description: string | null, code: string, permissions: Array<string> | null } };
 
 export type CreateOneAdminRoleMutationVariables = Exact<{
   data: AdminRoleCreateInput;
 }>;
 
 
-export type CreateOneAdminRoleMutation = { __typename?: 'Mutation', createOneAdminRole: (
-    { __typename?: 'AdminRole' }
-    & { ' $fragmentRefs'?: { 'AdminRoleFragment': AdminRoleFragment } }
-  ) };
+export type CreateOneAdminRoleMutation = { createOneAdminRole: { id: string, createdAt: string, updatedAt: string, status: Status, name: string, description: string | null, code: string, permissions: Array<string> | null } };
 
 export type UpdateOneAdminRoleMutationVariables = Exact<{
-  id: Scalars['String']['input'];
+  id: string;
   data: AdminRoleUpdateInput;
 }>;
 
 
-export type UpdateOneAdminRoleMutation = { __typename?: 'Mutation', updateOneAdminRole: (
-    { __typename?: 'AdminRole' }
-    & { ' $fragmentRefs'?: { 'AdminRoleFragment': AdminRoleFragment } }
-  ) };
+export type UpdateOneAdminRoleMutation = { updateOneAdminRole: { id: string, createdAt: string, updatedAt: string, status: Status, name: string, description: string | null, code: string, permissions: Array<string> | null } };
 
 export type ListAdminRolePermissionQueryVariables = Exact<{
-  where?: InputMaybe<AdminRoleWhereUniqueInput>;
+  where?: AdminRoleWhereUniqueInput | null | undefined;
 }>;
 
 
-export type ListAdminRolePermissionQuery = { __typename?: 'Query', listAdminRolePermission: { __typename?: 'PermissionGroup', allowUnselect: Array<string>, allowSelect: Array<string>, groups: Array<(
-      { __typename?: 'PermissionGroupItem' }
-      & { ' $fragmentRefs'?: { 'PermissionGroupItemFragment': PermissionGroupItemFragment } }
-    )> } };
+export type ListAdminRolePermissionQuery = { listAdminRolePermission: { allowUnselect: Array<string>, allowSelect: Array<string>, groups: Array<{ id: string, name: string, label: string, items: Array<{ id: string, name: string, label: string, items: Array<{ id: string, name: string, label: string }> }> }> } };
 
 export type PaginateAdminsQueryVariables = Exact<{
-  take?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<AdminWhereInput>;
-  orderBy?: InputMaybe<Array<AdminOrderByWithRelationInput> | AdminOrderByWithRelationInput>;
+  take?: number | null | undefined;
+  skip?: number | null | undefined;
+  where?: AdminWhereInput | null | undefined;
+  orderBy?: Array<AdminOrderByWithRelationInput> | AdminOrderByWithRelationInput | null | undefined;
 }>;
 
 
-export type PaginateAdminsQuery = { __typename?: 'Query', paginateAdmins: { __typename?: 'PaginatedAdmin', items?: Array<(
-      { __typename?: 'Admin' }
-      & { ' $fragmentRefs'?: { 'AdminFragment': AdminFragment } }
-    )> | null, pagination?: (
-      { __typename?: 'Pagination' }
-      & { ' $fragmentRefs'?: { 'PaginationFragment': PaginationFragment } }
-    ) | null } };
+export type PaginateAdminsQuery = { paginateAdmins: { items: Array<{ id: string, createdAt: string, updatedAt: string, status: Status, name: string, email: string, roleId: string, avatar: string | null, avatarUrl: string | null }> | null, pagination: { take: number, skip: number, page: number, totalPages: number, totalCount: number } | null } };
 
 export type FindOneAdminQueryVariables = Exact<{
-  id: Scalars['String']['input'];
+  id: string;
 }>;
 
 
-export type FindOneAdminQuery = { __typename?: 'Query', findOneAdmin: (
-    { __typename?: 'Admin' }
-    & { ' $fragmentRefs'?: { 'AdminFragment': AdminFragment } }
-  ) };
+export type FindOneAdminQuery = { findOneAdmin: { id: string, createdAt: string, updatedAt: string, status: Status, name: string, email: string, roleId: string, avatar: string | null, avatarUrl: string | null } };
 
 export type CreateOneAdminMutationVariables = Exact<{
   data: AdminCreateInput;
 }>;
 
 
-export type CreateOneAdminMutation = { __typename?: 'Mutation', createOneAdmin: (
-    { __typename?: 'Admin' }
-    & { ' $fragmentRefs'?: { 'AdminFragment': AdminFragment } }
-  ) };
+export type CreateOneAdminMutation = { createOneAdmin: { id: string, createdAt: string, updatedAt: string, status: Status, name: string, email: string, roleId: string, avatar: string | null, avatarUrl: string | null } };
 
 export type UpdateOneAdminMutationVariables = Exact<{
-  id: Scalars['String']['input'];
+  id: string;
   data: AdminUpdateInput;
 }>;
 
 
-export type UpdateOneAdminMutation = { __typename?: 'Mutation', updateOneAdmin: (
-    { __typename?: 'Admin' }
-    & { ' $fragmentRefs'?: { 'AdminFragment': AdminFragment } }
-  ) };
+export type UpdateOneAdminMutation = { updateOneAdmin: { id: string, createdAt: string, updatedAt: string, status: Status, name: string, email: string, roleId: string, avatar: string | null, avatarUrl: string | null } };
 
 export type LogoutQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LogoutQuery = { __typename?: 'Query', logout: boolean };
+export type LogoutQuery = { logout: boolean };
 
 export type RefreshQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RefreshQuery = { __typename?: 'Query', refresh: (
-    { __typename?: 'Login' }
-    & { ' $fragmentRefs'?: { 'LoginFragment': LoginFragment } }
-  ) };
+export type RefreshQuery = { refresh: { target: Target, accessType: string, accessToken: string, accessTimeout: number } };
 
 export type LoginMutationVariables = Exact<{
   input: LoginInput;
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: (
-    { __typename?: 'Login' }
-    & { ' $fragmentRefs'?: { 'LoginFragment': LoginFragment } }
-  ) };
+export type LoginMutation = { login: { target: Target, accessType: string, accessToken: string, accessTimeout: number } };
 
 export type SwitchAuthCompanyMutationVariables = Exact<{
-  companyId?: InputMaybe<Scalars['String']['input']>;
+  companyId?: string | null | undefined;
 }>;
 
 
-export type SwitchAuthCompanyMutation = { __typename?: 'Mutation', switchAuthCompany: (
-    { __typename?: 'Login' }
-    & { ' $fragmentRefs'?: { 'LoginFragment': LoginFragment } }
-  ) };
+export type SwitchAuthCompanyMutation = { switchAuthCompany: { target: Target, accessType: string, accessToken: string, accessTimeout: number } };
 
 export type AuthInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AuthInfoQuery = { __typename?: 'Query', authInfo: { __typename?: 'Auth', id: string, createdAt: any, updatedAt: any, expiredAt: any, adminId?: string | null, memberId?: string | null, companyId?: string | null, device?: any | null, location?: any | null, target: Target, client: Client, permissions: Array<string>, admin?: (
-      { __typename?: 'Admin' }
-      & { ' $fragmentRefs'?: { 'AdminFragment': AdminFragment } }
-    ) | null, member?: (
-      { __typename?: 'Member' }
-      & { ' $fragmentRefs'?: { 'MemberFragment': MemberFragment } }
-    ) | null, company?: (
-      { __typename?: 'Company' }
-      & { ' $fragmentRefs'?: { 'CompanyFragment': CompanyFragment } }
-    ) | null } };
+export type AuthInfoQuery = { authInfo: { id: string, createdAt: string, updatedAt: string, expiredAt: string, adminId: string | null, memberId: string | null, companyId: string | null, device: any, location: any, target: Target, client: Client, permissions: Array<string>, admin: { id: string, createdAt: string, updatedAt: string, status: Status, name: string, email: string, roleId: string, avatar: string | null, avatarUrl: string | null } | null, member: { id: string, createdAt: string, updatedAt: string, status: Status, name: string, email: string, avatar: string | null, avatarUrl: string | null } | null, company: { id: string, createdAt: string, updatedAt: string, status: Status, name: string, alias: string | null, code: string | null, description: string | null, logo: string | null, logoUrl: string | null } | null } };
 
 export type TranslationsQueryVariables = Exact<{
-  scopes: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  scopes: Array<string> | string;
 }>;
 
 
-export type TranslationsQuery = { __typename?: 'Query', translations: any };
+export type TranslationsQuery = { translations: any };
 
 export type HealthCheckQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HealthCheckQuery = { __typename?: 'Query', healthCheck: string };
+export type HealthCheckQuery = { healthCheck: string };
 
 export type InviteMemberToCompanyMutationVariables = Exact<{
-  memberId: Scalars['String']['input'];
-  roleId: Scalars['String']['input'];
+  memberId: string;
+  roleId: string;
 }>;
 
 
-export type InviteMemberToCompanyMutation = { __typename?: 'Mutation', inviteMemberToCompany: { __typename?: 'Notification', id: string, createdAt: any, updatedAt: any, sentAt: any, title?: any | null, content: any, options?: any | null, status: Status, priority: number, category?: string | null, senderId?: string | null, sender: NotificationTarget, receivers?: Array<string> | null, privacy: NotificationPrivacy, type: NotificationType, adminId?: string | null, memberId?: string | null, companyId?: string | null } };
+export type InviteMemberToCompanyMutation = { inviteMemberToCompany: { id: string, createdAt: string, updatedAt: string, sentAt: string, title: any, content: any, options: any, status: Status, priority: number, category: string | null, senderId: string | null, sender: NotificationTarget, receivers: Array<string> | null, privacy: NotificationPrivacy, type: NotificationType, adminId: string | null, memberId: string | null, companyId: string | null } };
 
 export type PaginateCompanyRolesQueryVariables = Exact<{
-  take?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<CompanyRoleWhereInput>;
-  orderBy?: InputMaybe<Array<CompanyRoleOrderByWithRelationInput> | CompanyRoleOrderByWithRelationInput>;
+  take?: number | null | undefined;
+  skip?: number | null | undefined;
+  where?: CompanyRoleWhereInput | null | undefined;
+  orderBy?: Array<CompanyRoleOrderByWithRelationInput> | CompanyRoleOrderByWithRelationInput | null | undefined;
 }>;
 
 
-export type PaginateCompanyRolesQuery = { __typename?: 'Query', paginateCompanyRoles: { __typename?: 'PaginatedCompanyRole', items?: Array<(
-      { __typename?: 'CompanyRole', company?: (
-        { __typename?: 'Company' }
-        & { ' $fragmentRefs'?: { 'CompanyFragment': CompanyFragment } }
-      ) | null }
-      & { ' $fragmentRefs'?: { 'CompanyRoleFragment': CompanyRoleFragment } }
-    )> | null, pagination?: (
-      { __typename?: 'Pagination' }
-      & { ' $fragmentRefs'?: { 'PaginationFragment': PaginationFragment } }
-    ) | null } };
+export type PaginateCompanyRolesQuery = { paginateCompanyRoles: { items: Array<{ id: string, createdAt: string, updatedAt: string, status: Status, name: string, description: string | null, code: string, permissions: Array<string> | null, companyId: string | null, company: { id: string, createdAt: string, updatedAt: string, status: Status, name: string, alias: string | null, code: string | null, description: string | null, logo: string | null, logoUrl: string | null } | null }> | null, pagination: { take: number, skip: number, page: number, totalPages: number, totalCount: number } | null } };
 
 export type FindOneCompanyRoleQueryVariables = Exact<{
-  id: Scalars['String']['input'];
+  id: string;
 }>;
 
 
-export type FindOneCompanyRoleQuery = { __typename?: 'Query', findOneCompanyRole: (
-    { __typename?: 'CompanyRole' }
-    & { ' $fragmentRefs'?: { 'CompanyRoleFragment': CompanyRoleFragment } }
-  ) };
+export type FindOneCompanyRoleQuery = { findOneCompanyRole: { id: string, createdAt: string, updatedAt: string, status: Status, name: string, description: string | null, code: string, permissions: Array<string> | null, companyId: string | null } };
 
 export type CreateOneCompanyRoleMutationVariables = Exact<{
   data: CompanyRoleCreateInput;
 }>;
 
 
-export type CreateOneCompanyRoleMutation = { __typename?: 'Mutation', createOneCompanyRole: (
-    { __typename?: 'CompanyRole' }
-    & { ' $fragmentRefs'?: { 'CompanyRoleFragment': CompanyRoleFragment } }
-  ) };
+export type CreateOneCompanyRoleMutation = { createOneCompanyRole: { id: string, createdAt: string, updatedAt: string, status: Status, name: string, description: string | null, code: string, permissions: Array<string> | null, companyId: string | null } };
 
 export type UpdateOneCompanyRoleMutationVariables = Exact<{
-  id: Scalars['String']['input'];
+  id: string;
   data: CompanyRoleUpdateInput;
 }>;
 
 
-export type UpdateOneCompanyRoleMutation = { __typename?: 'Mutation', updateOneCompanyRole: (
-    { __typename?: 'CompanyRole' }
-    & { ' $fragmentRefs'?: { 'CompanyRoleFragment': CompanyRoleFragment } }
-  ) };
+export type UpdateOneCompanyRoleMutation = { updateOneCompanyRole: { id: string, createdAt: string, updatedAt: string, status: Status, name: string, description: string | null, code: string, permissions: Array<string> | null, companyId: string | null } };
 
 export type ListCompanyRolePermissionQueryVariables = Exact<{
-  where?: InputMaybe<CompanyRoleWhereUniqueInput>;
+  where?: CompanyRoleWhereUniqueInput | null | undefined;
 }>;
 
 
-export type ListCompanyRolePermissionQuery = { __typename?: 'Query', listCompanyRolePermission: { __typename?: 'PermissionGroup', allowUnselect: Array<string>, allowSelect: Array<string>, groups: Array<(
-      { __typename?: 'PermissionGroupItem' }
-      & { ' $fragmentRefs'?: { 'PermissionGroupItemFragment': PermissionGroupItemFragment } }
-    )> } };
+export type ListCompanyRolePermissionQuery = { listCompanyRolePermission: { allowUnselect: Array<string>, allowSelect: Array<string>, groups: Array<{ id: string, name: string, label: string, items: Array<{ id: string, name: string, label: string, items: Array<{ id: string, name: string, label: string }> }> }> } };
 
 export type PaginateCompaniesQueryVariables = Exact<{
-  take?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<CompanyWhereInput>;
-  orderBy?: InputMaybe<Array<CompanyOrderByWithRelationInput> | CompanyOrderByWithRelationInput>;
+  take?: number | null | undefined;
+  skip?: number | null | undefined;
+  where?: CompanyWhereInput | null | undefined;
+  orderBy?: Array<CompanyOrderByWithRelationInput> | CompanyOrderByWithRelationInput | null | undefined;
 }>;
 
 
-export type PaginateCompaniesQuery = { __typename?: 'Query', paginateCompanies: { __typename?: 'PaginatedCompany', items?: Array<(
-      { __typename?: 'Company' }
-      & { ' $fragmentRefs'?: { 'CompanyFragment': CompanyFragment } }
-    )> | null, pagination?: (
-      { __typename?: 'Pagination' }
-      & { ' $fragmentRefs'?: { 'PaginationFragment': PaginationFragment } }
-    ) | null } };
+export type PaginateCompaniesQuery = { paginateCompanies: { items: Array<{ id: string, createdAt: string, updatedAt: string, status: Status, name: string, alias: string | null, code: string | null, description: string | null, logo: string | null, logoUrl: string | null }> | null, pagination: { take: number, skip: number, page: number, totalPages: number, totalCount: number } | null } };
 
 export type FindOneCompanyQueryVariables = Exact<{
-  id: Scalars['String']['input'];
+  id: string;
 }>;
 
 
-export type FindOneCompanyQuery = { __typename?: 'Query', findOneCompany: (
-    { __typename?: 'Company' }
-    & { ' $fragmentRefs'?: { 'CompanyFragment': CompanyFragment } }
-  ) };
+export type FindOneCompanyQuery = { findOneCompany: { id: string, createdAt: string, updatedAt: string, status: Status, name: string, alias: string | null, code: string | null, description: string | null, logo: string | null, logoUrl: string | null } };
 
 export type CreateOneCompanyMutationVariables = Exact<{
   data: CompanyCreateInput;
 }>;
 
 
-export type CreateOneCompanyMutation = { __typename?: 'Mutation', createOneCompany: (
-    { __typename?: 'Company' }
-    & { ' $fragmentRefs'?: { 'CompanyFragment': CompanyFragment } }
-  ) };
+export type CreateOneCompanyMutation = { createOneCompany: { id: string, createdAt: string, updatedAt: string, status: Status, name: string, alias: string | null, code: string | null, description: string | null, logo: string | null, logoUrl: string | null } };
 
 export type UpdateOneCompanyMutationVariables = Exact<{
-  id: Scalars['String']['input'];
+  id: string;
   data: CompanyUpdateInput;
 }>;
 
 
-export type UpdateOneCompanyMutation = { __typename?: 'Mutation', updateOneCompany: (
-    { __typename?: 'Company' }
-    & { ' $fragmentRefs'?: { 'CompanyFragment': CompanyFragment } }
-  ) };
+export type UpdateOneCompanyMutation = { updateOneCompany: { id: string, createdAt: string, updatedAt: string, status: Status, name: string, alias: string | null, code: string | null, description: string | null, logo: string | null, logoUrl: string | null } };
 
 export type UploadFileMutationVariables = Exact<{
-  file: Scalars['Upload']['input'];
-  folderPath: Scalars['String']['input'];
+  file: any;
+  folderPath: string;
 }>;
 
 
-export type UploadFileMutation = { __typename?: 'Mutation', uploadFile: (
-    { __typename?: 'MediaFile' }
-    & { ' $fragmentRefs'?: { 'MediaFileFragment': MediaFileFragment } }
-  ) };
+export type UploadFileMutation = { uploadFile: { id: string, createdAt: string, updatedAt: string, status: Status, store: MediaStore, mediaType: MediaType, mimeType: string, fileName: string, fileHash: string, fileSize: string, width: number | null, height: number | null, duration: number | null, metadata: any, description: string | null, extension: string, folderId: string, owner: Owner, adminId: string | null, memberId: string | null, companyId: string | null, visibility: MediaVisibility, url: string } };
 
 export type ListMediaFilesQueryVariables = Exact<{
-  fileIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  fileIds: Array<string> | string;
 }>;
 
 
-export type ListMediaFilesQuery = { __typename?: 'Query', listMediaFiles: Array<(
-    { __typename?: 'MediaFile' }
-    & { ' $fragmentRefs'?: { 'MediaFileFragment': MediaFileFragment } }
-  )> };
+export type ListMediaFilesQuery = { listMediaFiles: Array<{ id: string, createdAt: string, updatedAt: string, status: Status, store: MediaStore, mediaType: MediaType, mimeType: string, fileName: string, fileHash: string, fileSize: string, width: number | null, height: number | null, duration: number | null, metadata: any, description: string | null, extension: string, folderId: string, owner: Owner, adminId: string | null, memberId: string | null, companyId: string | null, visibility: MediaVisibility, url: string }> };
 
 export type PaginateMembersQueryVariables = Exact<{
-  take?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<MemberWhereInput>;
-  orderBy?: InputMaybe<Array<MemberOrderByWithRelationInput> | MemberOrderByWithRelationInput>;
+  take?: number | null | undefined;
+  skip?: number | null | undefined;
+  where?: MemberWhereInput | null | undefined;
+  orderBy?: Array<MemberOrderByWithRelationInput> | MemberOrderByWithRelationInput | null | undefined;
 }>;
 
 
-export type PaginateMembersQuery = { __typename?: 'Query', paginateMembers: { __typename?: 'PaginatedMember', items?: Array<(
-      { __typename?: 'Member' }
-      & { ' $fragmentRefs'?: { 'MemberFragment': MemberFragment } }
-    )> | null, pagination?: (
-      { __typename?: 'Pagination' }
-      & { ' $fragmentRefs'?: { 'PaginationFragment': PaginationFragment } }
-    ) | null } };
+export type PaginateMembersQuery = { paginateMembers: { items: Array<{ id: string, createdAt: string, updatedAt: string, status: Status, name: string, email: string, avatar: string | null, avatarUrl: string | null }> | null, pagination: { take: number, skip: number, page: number, totalPages: number, totalCount: number } | null } };
 
 export type ListSearchMembersQueryVariables = Exact<{
-  keyword?: InputMaybe<Scalars['String']['input']>;
+  keyword?: string | null | undefined;
 }>;
 
 
-export type ListSearchMembersQuery = { __typename?: 'Query', listSearchMembers: { __typename?: 'PaginatedMember', items?: Array<(
-      { __typename?: 'Member', companies?: Array<{ __typename?: 'CompanyMember', companyId: string }> | null }
-      & { ' $fragmentRefs'?: { 'MemberFragment': MemberFragment } }
-    )> | null, pagination?: (
-      { __typename?: 'Pagination' }
-      & { ' $fragmentRefs'?: { 'PaginationFragment': PaginationFragment } }
-    ) | null } };
+export type ListSearchMembersQuery = { listSearchMembers: { items: Array<{ id: string, createdAt: string, updatedAt: string, status: Status, name: string, email: string, avatar: string | null, avatarUrl: string | null, companies: Array<{ companyId: string }> | null }> | null, pagination: { take: number, skip: number, page: number, totalPages: number, totalCount: number } | null } };
 
 export type FindOneMemberQueryVariables = Exact<{
-  id: Scalars['String']['input'];
+  id: string;
 }>;
 
 
-export type FindOneMemberQuery = { __typename?: 'Query', findOneMember: (
-    { __typename?: 'Member' }
-    & { ' $fragmentRefs'?: { 'MemberFragment': MemberFragment } }
-  ) };
+export type FindOneMemberQuery = { findOneMember: { id: string, createdAt: string, updatedAt: string, status: Status, name: string, email: string, avatar: string | null, avatarUrl: string | null } };
 
 export type CreateOneMemberMutationVariables = Exact<{
   data: MemberCreateInput;
 }>;
 
 
-export type CreateOneMemberMutation = { __typename?: 'Mutation', createOneMember: (
-    { __typename?: 'Member' }
-    & { ' $fragmentRefs'?: { 'MemberFragment': MemberFragment } }
-  ) };
+export type CreateOneMemberMutation = { createOneMember: { id: string, createdAt: string, updatedAt: string, status: Status, name: string, email: string, avatar: string | null, avatarUrl: string | null } };
 
 export type UpdateOneMemberMutationVariables = Exact<{
-  id: Scalars['String']['input'];
+  id: string;
   data: MemberUpdateInput;
 }>;
 
 
-export type UpdateOneMemberMutation = { __typename?: 'Mutation', updateOneMember: (
-    { __typename?: 'Member' }
-    & { ' $fragmentRefs'?: { 'MemberFragment': MemberFragment } }
-  ) };
+export type UpdateOneMemberMutation = { updateOneMember: { id: string, createdAt: string, updatedAt: string, status: Status, name: string, email: string, avatar: string | null, avatarUrl: string | null } };
 
 export type ListSelfNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ListSelfNotificationsQuery = { __typename?: 'Query', listSelfNotifications: Array<{ __typename?: 'Notification', id: string, createdAt: any, updatedAt: any, sentAt: any, title?: any | null, content: any, options?: any | null, status: Status, priority: number, category?: string | null, senderId?: string | null, sender: NotificationTarget, receivers?: Array<string> | null, privacy: NotificationPrivacy, adminId?: string | null, memberId?: string | null, companyId?: string | null, type: NotificationType }> };
+export type ListSelfNotificationsQuery = { listSelfNotifications: Array<{ id: string, createdAt: string, updatedAt: string, sentAt: string, title: any, content: any, options: any, status: Status, priority: number, category: string | null, senderId: string | null, sender: NotificationTarget, receivers: Array<string> | null, privacy: NotificationPrivacy, adminId: string | null, memberId: string | null, companyId: string | null, type: NotificationType }> };
 
 export type PaginateWebsitesQueryVariables = Exact<{
-  take?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<WebsiteWhereInput>;
-  orderBy?: InputMaybe<Array<WebsiteOrderByWithRelationInput> | WebsiteOrderByWithRelationInput>;
+  take?: number | null | undefined;
+  skip?: number | null | undefined;
+  where?: WebsiteWhereInput | null | undefined;
+  orderBy?: Array<WebsiteOrderByWithRelationInput> | WebsiteOrderByWithRelationInput | null | undefined;
 }>;
 
 
-export type PaginateWebsitesQuery = { __typename?: 'Query', paginateWebsites: { __typename?: 'PaginatedWebsite', items?: Array<(
-      { __typename?: 'Website' }
-      & { ' $fragmentRefs'?: { 'WebsiteFragment': WebsiteFragment } }
-    )> | null, pagination?: (
-      { __typename?: 'Pagination' }
-      & { ' $fragmentRefs'?: { 'PaginationFragment': PaginationFragment } }
-    ) | null } };
+export type PaginateWebsitesQuery = { paginateWebsites: { items: Array<{ cms: WebsiteCms | null, cmsApiToken: string | null, cmsApiUrl: string | null, cmsConfig: any, companyId: string, createdAt: string, description: string | null, hasCmsApiToken: boolean, industryBackground: string | null, id: string, title: string, updatedAt: string }> | null, pagination: { take: number, skip: number, page: number, totalPages: number, totalCount: number } | null } };
 
 export type FindOneWebsiteQueryVariables = Exact<{
-  id: Scalars['String']['input'];
+  id: string;
 }>;
 
 
-export type FindOneWebsiteQuery = { __typename?: 'Query', findOneWebsite: (
-    { __typename?: 'Website' }
-    & { ' $fragmentRefs'?: { 'WebsiteFragment': WebsiteFragment } }
-  ) };
+export type FindOneWebsiteQuery = { findOneWebsite: { cms: WebsiteCms | null, cmsApiToken: string | null, cmsApiUrl: string | null, cmsConfig: any, companyId: string, createdAt: string, description: string | null, hasCmsApiToken: boolean, industryBackground: string | null, id: string, title: string, updatedAt: string } };
 
 export type CreateOneWebsiteMutationVariables = Exact<{
   data: WebsiteCreateInput;
 }>;
 
 
-export type CreateOneWebsiteMutation = { __typename?: 'Mutation', createOneWebsite: (
-    { __typename?: 'Website' }
-    & { ' $fragmentRefs'?: { 'WebsiteFragment': WebsiteFragment } }
-  ) };
+export type CreateOneWebsiteMutation = { createOneWebsite: { cms: WebsiteCms | null, cmsApiToken: string | null, cmsApiUrl: string | null, cmsConfig: any, companyId: string, createdAt: string, description: string | null, hasCmsApiToken: boolean, industryBackground: string | null, id: string, title: string, updatedAt: string } };
 
 export type UpdateOneWebsiteMutationVariables = Exact<{
-  id: Scalars['String']['input'];
+  id: string;
   data: WebsiteUpdateInput;
 }>;
 
 
-export type UpdateOneWebsiteMutation = { __typename?: 'Mutation', updateOneWebsite: (
-    { __typename?: 'Website' }
-    & { ' $fragmentRefs'?: { 'WebsiteFragment': WebsiteFragment } }
-  ) };
+export type UpdateOneWebsiteMutation = { updateOneWebsite: { cms: WebsiteCms | null, cmsApiToken: string | null, cmsApiUrl: string | null, cmsConfig: any, companyId: string, createdAt: string, description: string | null, hasCmsApiToken: boolean, industryBackground: string | null, id: string, title: string, updatedAt: string } };
 
 export type ListWebsiteSeoPageQueryVariables = Exact<{
-  id: Scalars['String']['input'];
+  id: string;
 }>;
 
 
-export type ListWebsiteSeoPageQuery = { __typename?: 'Query', listWebsiteSeoPage: Array<{ __typename?: 'WebsiteSeoPage', apiId: string, contentType: ContentDataType, document: string, documentId: string, documentTitle: string, id: number, title: string, url: string, md5: string, score?: number | null, status: SeoAnalysisStatus }> };
+export type ListWebsiteSeoPageQuery = { listWebsiteSeoPage: Array<{ apiId: string, contentType: ContentDataType, document: string, documentId: string, documentTitle: string, id: number, title: string, url: string, md5: string, score: number | null, status: SeoAnalysisStatus }> };
 
 export type PushAllPagesToAnalyzeMutationVariables = Exact<{
-  id: Scalars['String']['input'];
+  id: string;
 }>;
 
 
-export type PushAllPagesToAnalyzeMutation = { __typename?: 'Mutation', pushAllPagesToAnalyze: boolean };
+export type PushAllPagesToAnalyzeMutation = { pushAllPagesToAnalyze: boolean };
 
 export type PushPagesToAnalyzeMutationVariables = Exact<{
-  id: Scalars['String']['input'];
-  urls: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  id: string;
+  urls: Array<string> | string;
 }>;
 
 
-export type PushPagesToAnalyzeMutation = { __typename?: 'Mutation', pushPagesToAnalyze: boolean };
+export type PushPagesToAnalyzeMutation = { pushPagesToAnalyze: boolean };
 
 export type PushPagesToUpdateMutationVariables = Exact<{
-  id: Scalars['String']['input'];
-  urls: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  id: string;
+  urls: Array<string> | string;
 }>;
 
 
-export type PushPagesToUpdateMutation = { __typename?: 'Mutation', pushPagesToUpdate: boolean };
+export type PushPagesToUpdateMutation = { pushPagesToUpdate: boolean };
 
 export const PaginationFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Pagination"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"take"}},{"kind":"Field","name":{"kind":"Name","value":"skip"}},{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"totalPages"}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]} as unknown as DocumentNode<PaginationFragment, unknown>;
 export const AdminFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Admin"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Admin"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"roleId"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"avatarUrl"}}]}}]} as unknown as DocumentNode<AdminFragment, unknown>;

@@ -18,12 +18,18 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { Upload } from 'src/components/FormInputs';
 import { FormPageAction, FormPageErrors } from 'src/components/FormPage';
-import { CreateOneMemberDocument, Status, UpdateOneMemberDocument, Member, MemberCreateInput } from 'src/graphql';
+import {
+  CreateOneMemberDocument,
+  Status,
+  UpdateOneMemberDocument,
+  MemberFragment,
+  MemberCreateInput,
+} from 'src/graphql';
 import { useParseApolloErrors } from 'src/hooks';
 import { validates } from 'src/utils/validates';
 
 export type MemberFormProps = {
-  item?: Member;
+  item?: MemberFragment;
 };
 
 export type MemberFormValues = MemberCreateInput & {
@@ -95,7 +101,7 @@ export const MemberForm: React.FC<MemberFormProps> = ({ item }) => {
         variables: { id: item.id, data },
       })
         .then(({ data }) => {
-          const member = data?.updateOneMember as Member;
+          const member = data?.updateOneMember as MemberFragment;
           notifications.show({
             color: 'green',
             title: t('pages:success_notification'),
@@ -109,7 +115,7 @@ export const MemberForm: React.FC<MemberFormProps> = ({ item }) => {
         variables: { data },
       })
         .then(({ data }) => {
-          const member = data?.createOneMember as Member;
+          const member = data?.createOneMember as MemberFragment;
           notifications.show({
             color: 'green',
             title: t('pages:success_notification'),

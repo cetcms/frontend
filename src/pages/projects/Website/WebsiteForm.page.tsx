@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client/react';
 import { Group, LoadingOverlay } from '@mantine/core';
 import React from 'react';
 import { useSearchParams } from 'react-router';
-import { FindOneWebsiteDocument, Website } from 'src/graphql';
+import { FindOneWebsiteDocument } from 'src/graphql';
 import { PagePermissionOption } from 'src/store';
 
 import { WebsiteForm } from './Website.form';
@@ -21,7 +21,7 @@ export const WebsiteFormPage: React.FC & PagePermissionOption = () => {
 
   return (
     <Group p="md" justify="start">
-      <WebsiteForm item={data?.findOneWebsite as Website} />
+      <WebsiteForm item={data?.findOneWebsite} />
     </Group>
   );
 };

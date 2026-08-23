@@ -22,7 +22,7 @@ import { FormPageAction, FormPageErrors } from 'src/components/FormPage';
 import {
   CreateOneWebsiteDocument,
   UpdateOneWebsiteDocument,
-  Website,
+  WebsiteFragment,
   WebsiteCreateInput,
   WebsiteCms,
 } from 'src/graphql';
@@ -30,7 +30,7 @@ import { useParseApolloErrors } from 'src/hooks';
 import { useAuthStore } from 'src/store';
 
 export type WebsiteFormProps = {
-  item?: Website;
+  item?: WebsiteFragment;
 };
 
 export type WebsiteFormValues = Omit<WebsiteCreateInput, 'company'> & {
@@ -69,7 +69,7 @@ export const WebsiteForm: React.FC<WebsiteFormProps> = ({ item }) => {
     const { hasErrors } = form.validate();
     if (hasErrors) return;
 
-    const data: any = {
+    const data: Omit<WebsiteCreateInput, 'company'> = {
       title: form.values.title,
       description: form.values.description || undefined,
       cms: form.values.cms || undefined,
@@ -84,7 +84,7 @@ export const WebsiteForm: React.FC<WebsiteFormProps> = ({ item }) => {
         variables: { id: item.id, data },
       })
         .then(({ data }) => {
-          const website = data?.updateOneWebsite as Website;
+          const website = data?.updateOneWebsite as WebsiteFragment;
           notifications.show({
             color: 'green',
             title: t('pages:success_notification'),
@@ -108,7 +108,7 @@ export const WebsiteForm: React.FC<WebsiteFormProps> = ({ item }) => {
         },
       })
         .then(({ data }) => {
-          const website = data?.createOneWebsite as Website;
+          const website = data?.createOneWebsite as WebsiteFragment;
           notifications.show({
             color: 'green',
             title: t('pages:success_notification'),

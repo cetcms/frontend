@@ -14,11 +14,11 @@ import { IconX, IconSearch } from '@tabler/icons-react';
 import { useDebounce } from 'ahooks';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ListSearchMembersDocument, FindOneMemberDocument, Member } from 'src/graphql';
+import { ListSearchMembersDocument, FindOneMemberDocument, MemberFragment } from 'src/graphql';
 
 export type PublicMemberSearchProps = Omit<TextInputProps, 'onChange'> & {
   value?: string | null;
-  onChange?: (value: string | null, option?: { value: string; label: string; member: Member }) => void;
+  onChange?: (value: string | null, option?: { value: string; label: string; member: MemberFragment }) => void;
   placeholder?: string;
   allowDeselect?: boolean;
   disabled?: boolean;
@@ -45,7 +45,7 @@ export const PublicMemberSearch: React.FC<PublicMemberSearchProps> = ({
     variables: { id: value ?? '' },
   });
 
-  const items = (data?.listSearchMembers?.items ?? []) as Member[];
+  const items = data?.listSearchMembers?.items ?? [];
 
   useEffect(() => {
     if (debouncedKeyword) {
@@ -57,9 +57,11 @@ export const PublicMemberSearch: React.FC<PublicMemberSearchProps> = ({
   }, [debouncedKeyword, searchMembers]);
 
   // 从受控 value 派生当前选中的成员：优先查询详情，其次从搜索结果中兜底
-  const fetchedMember = (findData?.findOneMember as Member | null | undefined) ?? null;
-  const selected: Member | null = value
-    ? (fetchedMember?.id === value ? fetchedMember : (items.find((i) => i.id === value) ?? null))
+  const fetchedMember = findData?.findOneMember ?? null;
+  const selected: MemberFragment | null = value
+    ? fetchedMember?.id === value
+      ? fetchedMember
+      : (items.find((i) => i.id === value) ?? null)
     : null;
 
   const inputValue = keyword || (selected ? selected.name : '');

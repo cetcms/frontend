@@ -2,7 +2,7 @@ import { Card } from '@mantine/core';
 import { DataTableProps as MDataTableProps, DataTable as MDataTable, DataTableColumn } from 'mantine-datatable';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pagination, PaginationFragment } from 'src/graphql';
+import { PaginationFragment } from 'src/graphql';
 
 import { FilterFieldConfig } from '../DataFilter';
 
@@ -18,7 +18,7 @@ export type RequestParams = {
 };
 
 export type DataTableProps = {
-  pagination?: Pagination | PaginationFragment;
+  pagination?: PaginationFragment;
   loading?: boolean;
   addRoutePath?: string;
   editRoute?: ActionColumnProps['editRoute'];

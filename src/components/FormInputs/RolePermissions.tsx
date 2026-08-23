@@ -13,7 +13,14 @@ import {
 } from '@mantine/core';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PermissionGroupItem } from 'src/graphql';
+import { PermissionGroupItemFragment } from 'src/graphql';
+
+type PermissionNode = {
+  id: string;
+  name: string;
+  label: string;
+  items?: PermissionNode[];
+};
 
 export type RolePermissionsProps = InputWrapperProps & {
   value?: string[];
@@ -21,7 +28,7 @@ export type RolePermissionsProps = InputWrapperProps & {
   disabled?: boolean; // 组件级禁用
   allowSelect?: string[]; // 允许选中的action
   allowUnselect?: string[]; // 允许取消选中的action
-  permissions?: PermissionGroupItem[];
+  permissions?: PermissionGroupItemFragment[];
   loading?: boolean;
 };
 
@@ -66,7 +73,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
     onChange?.(newCheckedValues);
   };
 
-  const handleSubjectChange = (subjectNode: PermissionGroupItem, checked: boolean) => {
+  const handleSubjectChange = (subjectNode: PermissionNode, checked: boolean) => {
     // 如果组件被禁用，则不处理变化
     if (disabled) {
       return;
@@ -99,7 +106,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
     onChange?.(newCheckedValues);
   };
 
-  const handleModuleChange = (moduleNode: PermissionGroupItem, checked: boolean) => {
+  const handleModuleChange = (moduleNode: PermissionNode, checked: boolean) => {
     // 如果组件被禁用，则不处理变化
     if (disabled) {
       return;
@@ -141,7 +148,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
   };
 
   // 检查是否所有可操作的子项都被选中
-  const isAllChildrenChecked = (node: PermissionGroupItem): boolean => {
+  const isAllChildrenChecked = (node: PermissionNode): boolean => {
     if (!node.items || node.items.length === 0) {
       // 叶子节点，直接返回选中状态
       return checkedValues.includes(node.name);
@@ -159,7 +166,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
   };
 
   // 检查是否有可操作的子项被选中
-  const isSomeChildrenChecked = (node: PermissionGroupItem): boolean => {
+  const isSomeChildrenChecked = (node: PermissionNode): boolean => {
     if (!node.items || node.items.length === 0) {
       // 叶子节点，直接返回选中状态
       return checkedValues.includes(node.name);
@@ -177,7 +184,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
   };
 
   // 检查主题级别是否所有子项都被禁用选中
-  const isAllChildrenDisabledSelect = (node: PermissionGroupItem): boolean => {
+  const isAllChildrenDisabledSelect = (node: PermissionNode): boolean => {
     if (!node.items || node.items.length === 0) {
       return false; // 叶子节点不适用
     }
@@ -200,7 +207,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
   };
 
   // 检查主题级别是否所有子项都被禁用取消选中
-  const isAllChildrenDisabledUnselect = (node: PermissionGroupItem): boolean => {
+  const isAllChildrenDisabledUnselect = (node: PermissionNode): boolean => {
     if (!node.items || node.items.length === 0) {
       return false; // 叶子节点不适用
     }
@@ -223,7 +230,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
   };
 
   // 检查是否所有子项都实际禁用（无法更改状态）
-  const isAllChildrenActuallyDisabled = (node: PermissionGroupItem): boolean => {
+  const isAllChildrenActuallyDisabled = (node: PermissionNode): boolean => {
     if (!node.items || node.items.length === 0) {
       return false; // 叶子节点不适用
     }
@@ -248,7 +255,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
   };
 
   // 检查模块级别是否所有子项都被禁用选中
-  const isAllModuleChildrenDisabledSelect = (node: PermissionGroupItem): boolean => {
+  const isAllModuleChildrenDisabledSelect = (node: PermissionNode): boolean => {
     if (!node.items || node.items.length === 0) {
       return false; // 叶子节点不适用
     }
@@ -260,7 +267,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
   };
 
   // 检查模块级别是否所有子项都被禁用取消选中
-  const isAllModuleChildrenDisabledUnselect = (node: PermissionGroupItem): boolean => {
+  const isAllModuleChildrenDisabledUnselect = (node: PermissionNode): boolean => {
     if (!node.items || node.items.length === 0) {
       return false; // 叶子节点不适用
     }
@@ -272,7 +279,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
   };
 
   // 检查模块级别是否所有子项都实际禁用
-  const isAllModuleChildrenActuallyDisabled = (node: PermissionGroupItem): boolean => {
+  const isAllModuleChildrenActuallyDisabled = (node: PermissionNode): boolean => {
     if (!node.items || node.items.length === 0) {
       return false; // 叶子节点不适用
     }
@@ -283,7 +290,7 @@ export const RolePermissions: React.FC<RolePermissionsProps> = ({
     });
   };
 
-  const renderTree = (nodes: PermissionGroupItem[]) => {
+  const renderTree = (nodes: PermissionNode[]) => {
     return nodes.map((node) => {
       // 如果是操作级别（没有子节点）
       if (!node.items || node.items.length === 0) {

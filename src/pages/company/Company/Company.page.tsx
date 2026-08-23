@@ -4,7 +4,7 @@ import { IconLogin2 } from '@tabler/icons-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DataTable, IconButton } from 'src/components';
-import { Company, PaginateCompaniesDocument, PaginationFragment, PermissionAlias, Status } from 'src/graphql';
+import { CompanyFragment, PaginateCompaniesDocument, PaginationFragment, PermissionAlias, Status } from 'src/graphql';
 import { useSwitchAuthCompany } from 'src/hooks';
 import { PagePermissionOption, useAuthStore } from 'src/store';
 
@@ -69,7 +69,7 @@ export const CompanyPage: React.FC & PagePermissionOption = () => {
           textAlign: 'center',
           width: 200,
           render: (item) => {
-            const company = item as Company;
+            const company = item as CompanyFragment;
             return (
               <Center>
                 <IconButton

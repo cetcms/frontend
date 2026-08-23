@@ -20,8 +20,8 @@ export const MemberPage: React.FC & PagePermissionOption = () => {
 
   // 权限检查
   const { checkPermission, isCompany } = useAuthStore();
-  const hasCreate = checkPermission(PermissionAlias.CreateOneCompany);
-  const hasEdit = checkPermission(PermissionAlias.UpdateOneCompany);
+  const hasCreate = checkPermission(PermissionAlias.CreateOneMember);
+  const hasEdit = checkPermission(PermissionAlias.UpdateOneMember);
   return (
     <DataTable
       editRoute={hasEdit ? { path: '/member/edit', paramFields: { id: 'id' } } : undefined}
@@ -44,7 +44,7 @@ export const MemberPage: React.FC & PagePermissionOption = () => {
         },
         {
           accessor: 'avatarUrl',
-          title: t('Member.email'),
+          title: t('Member.avatar'),
           type: 'image',
           hiddenFilter: true,
         },

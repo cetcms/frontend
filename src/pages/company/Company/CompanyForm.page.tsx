@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client/react';
 import { Group, LoadingOverlay } from '@mantine/core';
 import React from 'react';
 import { useSearchParams } from 'react-router';
-import { Company, FindOneCompanyDocument, PermissionAlias } from 'src/graphql';
+import { FindOneCompanyDocument, PermissionAlias } from 'src/graphql';
 import { PagePermissionOption, useAuthStore } from 'src/store';
 
 import { CompanyForm } from './Company.form';
@@ -21,7 +21,7 @@ export const CompanyFormPage: React.FC & PagePermissionOption = () => {
   }
   return (
     <Group p="md" justify="start">
-      <CompanyForm item={data?.findOneCompany as Company} />
+      <CompanyForm item={data?.findOneCompany} />
     </Group>
   );
 };

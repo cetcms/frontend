@@ -5,10 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router';
 import { DataTable } from 'src/components';
 import { filterLocalData } from 'src/components/DataFilter/utils';
-import { ListWebsiteSeoPageDocument, PermissionAlias, SeoAnalysisStatus, WebsiteSeoPage } from 'src/graphql';
+import { ListWebsiteSeoPageDocument, ListWebsiteSeoPageQuery, PermissionAlias, SeoAnalysisStatus } from 'src/graphql';
 import { PagePermissionOption, useAuthStore } from 'src/store';
 
 import { PushAllPagesToAnalyze, PushPagesToAnalyze, PushPagesToUpdate } from './components';
+
+type WebsiteSeoPage = ListWebsiteSeoPageQuery['listWebsiteSeoPage'][number];
 
 const PAGE_SIZE = 10;
 const POLLING_INTERVAL = 5000; // 5秒轮询一次
@@ -32,7 +34,9 @@ export const WebsitePagesPage: React.FC & PagePermissionOption = () => {
 
   // 判断是否有页面正在分析中
   const hasAnalyzingPages = useMemo(() => {
-    return items.some((item) => item.status === 'Analyzing' || item.status === 'Queued');
+    return items.some(
+      (item) => item.status === SeoAnalysisStatus.Analyzing || item.status === SeoAnalysisStatus.Queued
+    );
   }, [items]);
 
   // 根据分析状态控制轮询

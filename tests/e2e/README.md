@@ -215,7 +215,7 @@ test('可能失败的测试', async ({ page }) => {
 
 ## 配置说明
 
-配置文件位于 [`playwright.config.ts`](../../playwright.config.ts)
+配置文件位于 [`playwright.config.mjs`](../../playwright.config.mjs)
 
 主要配置项：
 - `testDir`: 测试目录路径

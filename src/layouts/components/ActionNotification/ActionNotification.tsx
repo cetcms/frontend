@@ -4,9 +4,11 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconBell } from '@tabler/icons-react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ListSelfNotificationsDocument, Notification } from 'src/graphql';
+import { ListSelfNotificationsDocument, ListSelfNotificationsQuery } from 'src/graphql';
 import { useDate } from 'src/hooks/useDate';
 import { localeOutput } from 'src/i18n';
+
+type Notification = ListSelfNotificationsQuery['listSelfNotifications'][number];
 
 interface ActionNotificationProps {
   notifications?: Notification[];

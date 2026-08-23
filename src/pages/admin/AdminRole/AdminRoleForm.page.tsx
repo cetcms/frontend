@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client/react';
 import { Group, LoadingOverlay } from '@mantine/core';
 import { useSearchParams } from 'react-router';
-import { AdminRole, FindOneAdminRoleDocument } from 'src/graphql';
+import { FindOneAdminRoleDocument } from 'src/graphql';
 
 import { AdminRoleForm } from './AdminRole.form';
 
@@ -18,7 +18,7 @@ export const AdminRoleFormPage = () => {
   }
   return (
     <Group p="md" justify="start">
-      <AdminRoleForm item={data?.findOneAdminRole as AdminRole} />
+      <AdminRoleForm item={data?.findOneAdminRole} />
     </Group>
   );
 };

@@ -18,12 +18,12 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { AdminRoleSelect, Upload } from 'src/components/FormInputs';
 import { FormPageAction, FormPageErrors } from 'src/components/FormPage';
-import { Admin, AdminCreateInput, CreateOneAdminDocument, Status, UpdateOneAdminDocument } from 'src/graphql';
+import { AdminFragment, AdminCreateInput, CreateOneAdminDocument, Status, UpdateOneAdminDocument } from 'src/graphql';
 import { useParseApolloErrors } from 'src/hooks';
 import { validates } from 'src/utils/validates';
 
 export type AdminFormProps = {
-  item?: Admin;
+  item?: AdminFragment;
 };
 
 export type AdminFormValues = AdminCreateInput & {
@@ -98,7 +98,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
         variables: { id: item.id, data },
       })
         .then(({ data }) => {
-          const admin = data?.updateOneAdmin as Admin;
+          const admin = data?.updateOneAdmin as AdminFragment;
           notifications.show({
             color: 'green',
             title: t('pages:success_notification'),
@@ -112,7 +112,7 @@ export const AdminForm: React.FC<AdminFormProps> = ({ item }) => {
         variables: { data },
       })
         .then(({ data }) => {
-          const admin = data?.createOneAdmin as Admin;
+          const admin = data?.createOneAdmin as AdminFragment;
           notifications.show({
             color: 'green',
             title: t('pages:success_notification'),

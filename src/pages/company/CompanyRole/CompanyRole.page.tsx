@@ -4,14 +4,15 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DataTable } from 'src/components';
 import {
-  AdminRole,
-  CompanyRole,
   PaginateCompanyRolesDocument,
+  PaginateCompanyRolesQuery,
   PaginationFragment,
   PermissionAlias,
   Status,
 } from 'src/graphql';
 import { PagePermissionOption, useAuthStore } from 'src/store';
+
+type CompanyRoleItem = NonNullable<NonNullable<PaginateCompanyRolesQuery['paginateCompanyRoles']>['items']>[number];
 
 export const CompanyRolePage: React.FC & PagePermissionOption = () => {
   const { t } = useTranslation(['models', 'pages']);
@@ -32,7 +33,7 @@ export const CompanyRolePage: React.FC & PagePermissionOption = () => {
   return (
     <DataTable
       editRoute={hasEdit ? { path: '/company/role/edit', paramFields: { id: 'id' } } : undefined}
-      editDisabled={(item: CompanyRole) => !item.companyId && !isAdmin}
+      editDisabled={(item: CompanyRoleItem) => !item.companyId && !isAdmin}
       addRoutePath={hasCreate ? '/company/role/add' : undefined}
       onChangeRequest={(params) => {
         refetch({
@@ -66,7 +67,7 @@ export const CompanyRolePage: React.FC & PagePermissionOption = () => {
           type: 'string',
           textAlign: 'center',
           render: (_item) => {
-            const item: CompanyRole = _item as any;
+            const item = _item as CompanyRoleItem;
             if (!item?.company) {
               return (
                 <Badge variant="light" color="red">
@@ -82,12 +83,12 @@ export const CompanyRolePage: React.FC & PagePermissionOption = () => {
         },
         {
           accessor: 'permissions',
-          title: t('AdminRole.permissions'),
+          title: t('CompanyRole.permissions'),
           type: 'array',
           textAlign: 'center',
           width: '120px',
           render(_item) {
-            const item: AdminRole = _item as any;
+            const item = _item as CompanyRoleItem;
             return (
               <Badge variant="light">
                 {item.permissions?.length || 0} {t('pages:items')}

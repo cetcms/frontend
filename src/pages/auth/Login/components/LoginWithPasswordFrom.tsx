@@ -7,7 +7,7 @@ import { IconX } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router';
 import { Captcha } from 'src/components';
-import { Login, LoginDocument, Target } from 'src/graphql';
+import { LoginFragment, LoginDocument, Target } from 'src/graphql';
 import { useParseApolloErrors } from 'src/hooks';
 import { useAuthStore } from 'src/store';
 
@@ -61,7 +61,7 @@ export const LoginWithPasswordForm = () => {
             title: t('auth:notification.login_success_title'),
             message: t('auth:notification.login_success_message'),
           });
-          setLogin(data.login as Login);
+          setLogin(data.login as LoginFragment);
           location.reload();
         }
       })
